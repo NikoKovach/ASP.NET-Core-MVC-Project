@@ -1,0 +1,5 @@
+{
+         "ConnectionStrings": {
+                           "DefaultConnection": "Server=KOVACHACER\\SQLEXPRESS;Database=Payroll;Integrated Security=SSPI;TrustServerCertificate=True;"
+         }
+}
