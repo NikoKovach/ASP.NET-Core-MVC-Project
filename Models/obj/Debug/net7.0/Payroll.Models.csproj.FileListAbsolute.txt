@@ -1,0 +1,11 @@
+D:\SoftUni Courses\A Exercises\AA Git Projects\Payroll-RPV-Web\Models\bin\Debug\net7.0\Payroll.Models.deps.json
+D:\SoftUni Courses\A Exercises\AA Git Projects\Payroll-RPV-Web\Models\bin\Debug\net7.0\Payroll.Models.dll
+D:\SoftUni Courses\A Exercises\AA Git Projects\Payroll-RPV-Web\Models\bin\Debug\net7.0\Payroll.Models.pdb
+D:\SoftUni Courses\A Exercises\AA Git Projects\Payroll-RPV-Web\Models\obj\Debug\net7.0\Payroll.Models.GeneratedMSBuildEditorConfig.editorconfig
+D:\SoftUni Courses\A Exercises\AA Git Projects\Payroll-RPV-Web\Models\obj\Debug\net7.0\Payroll.Models.AssemblyInfoInputs.cache
+D:\SoftUni Courses\A Exercises\AA Git Projects\Payroll-RPV-Web\Models\obj\Debug\net7.0\Payroll.Models.AssemblyInfo.cs
+D:\SoftUni Courses\A Exercises\AA Git Projects\Payroll-RPV-Web\Models\obj\Debug\net7.0\Payroll.Models.csproj.CoreCompileInputs.cache
+D:\SoftUni Courses\A Exercises\AA Git Projects\Payroll-RPV-Web\Models\obj\Debug\net7.0\Payroll.Models.dll
+D:\SoftUni Courses\A Exercises\AA Git Projects\Payroll-RPV-Web\Models\obj\Debug\net7.0\refint\Payroll.Models.dll
+D:\SoftUni Courses\A Exercises\AA Git Projects\Payroll-RPV-Web\Models\obj\Debug\net7.0\Payroll.Models.pdb
+D:\SoftUni Courses\A Exercises\AA Git Projects\Payroll-RPV-Web\Models\obj\Debug\net7.0\ref\Payroll.Models.dll
