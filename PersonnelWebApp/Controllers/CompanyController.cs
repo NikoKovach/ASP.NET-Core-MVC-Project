@@ -9,7 +9,7 @@ namespace PersonnelWebApp.Controllers
                return View();
           }
 
-          public IActionResult Contact_us()
+          public IActionResult Details()
           {
                return View();
           }

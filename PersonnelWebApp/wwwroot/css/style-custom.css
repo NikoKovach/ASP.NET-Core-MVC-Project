@@ -1,0 +1,122 @@
+
+/* header section start */
+
+/*.header_section {
+    width: 100%;
+    float: left;
+    height: auto;
+    background-size: 100%;
+    padding: 0px 0px 20px 0px;
+    background-image: url(../images/For_Test/map-banner-bg.png);
+}
+
+.menu_main {
+    -ms-flex-direction: column;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+}
+.menu_main ul {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    display: inline-flex;
+}
+.menu_main li {
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 18px;
+    text-transform: uppercase;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #080808;
+    border-radius: 40px;
+}
+
+.menu_main li a {
+    color: #080808;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.menu_main li a:hover{
+    color:#ffffff;*/ /*R-255 G-0 B-198  ; current - #ffffff*/ /*background-color: #b60213;*/
+    /*background-color:#b60213;
+}
+
+.menu_main li.active a{
+    color: #ffffff;
+    background-color:deeppink;
+}
+
+.menu_main li a:hover img{
+    filter: invert(100%);
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #ff00ff;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 10px;
+    width:85%;
+  }
+
+.dropdown-content ul{
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    display:grid;
+}
+
+  
+.dropdown-content li {
+    padding-left: 1px;
+    padding-right: 1px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: #080808;
+    border-radius: 40px;
+    width:auto;
+}
+
+.dropdown-content li a{
+    color: #080808;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+  
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+  
+.dropdown:hover .dropdown-content {
+  display: block;
+  margin-top: 10px;
+}
+
+.header_main {
+    width: 100%;
+    background-image: url(../images/header-bg.png);
+    background-size: 100%;
+    padding: 10px 0px 37px 0px;
+}*/
+
+/* header section end */
+
+
+
+
+
+
+
+
+

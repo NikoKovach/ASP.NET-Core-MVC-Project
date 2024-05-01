@@ -101,18 +101,11 @@
             </div>
          </div>
 
-          @if ( (bool)ViewData[ "ShowBanner" ] == true )
-          {
-               <partial name="_BannerLayout.cshtml" />
-          }
+          <!-- banner section start -->
+          @RenderBody()
+          <!-- banner section end -->
      </div>
      <!-- header section end -->
-
-     <!-- background bg start -->
-     <div class="background_bg">
-          @RenderBody()
-     </div>
-     <!-- background bg end -->
 
      <!-- footer section start -->
      <div class="footer_section layout_padding">
