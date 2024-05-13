@@ -11,7 +11,7 @@ namespace Payroll.Services.Services.CompanyServices
           /// <summary>
           /// TODO : FOR TESTING
           /// </summary>
-     public class GetCompanyService : IGetCompany,IGetEntities<CompanyDto>
+     public class GetCompanyService : ICompany,IGetCompany,IGetEntities<CompanyDto>
      {
           private PayrollContext context;
           private IMapper mapper;

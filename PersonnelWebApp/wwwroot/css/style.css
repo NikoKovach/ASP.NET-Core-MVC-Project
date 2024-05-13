@@ -260,7 +260,34 @@ button {
     text-transform: uppercase;
     color: #fff;
 }
-.navbar-nav { align-items: center; }
+/**************************************************/
+
+.navbar-nav .nav-item.dropdown:hover .dropdown-content {
+    display: block;
+    margin-top: -10px;
+    max-width:30%;
+    border-radius:20px;
+}
+
+.navbar-nav .dropdown-content a:hover {
+    background-color: #ff0000;
+}
+
+.navbar-nav .dropdown-menu{
+    border-radius:20px;
+}
+
+.navbar-nav .dropdown-content li{
+    margin:auto;
+    /*background-color:#ff0000*/
+    /*margin-left:40px;
+    margin-right:20px;*/
+}
+/**************************************************/
+.navbar-nav {
+         align-items: center;
+}
+
 .btn:not(:disabled):not(.disabled) {
     cursor: pointer;
     border-radius: 20px;
@@ -312,7 +339,7 @@ button {
 }
 
 .menu_main li a:hover{
-    color:#ffffff; /*R-255 G-0 B-198  ; current - #ffffff*/ /*background-color: #b60213;*/
+    color:#ffffff; 
     background-color:#ff00c6;
 }
 
@@ -745,11 +772,18 @@ h1.watchs_taital::after {
     font-size: 16px;
     color: #989999;
     border: 0px !important;
-    background-color: #ffffff !important;
+    background-color: #ffffff !important; /*!important*/
     padding: 10px 10px 10px 10px;
     margin-top: 20px;
     border-radius: 30px;
 }
+
+/*.company .mail_text {*/
+         /*font-size: 10px;
+         color: crimson;*/
+         /*background-color: darkorange;
+}*/
+
 input.mail_text::placeholder {
     color: #696868;
 }

@@ -1,116 +1,62 @@
+/*--------------------------------------------------------------------- File Name: style.css ---------------------------------------------------------------------*/
 
-/* header section start */
+/*--------------------------------------------------------------------- import Fonts ---------------------------------------------------------------------*/
 
-/*.header_section {
-    width: 100%;
-    float: left;
-    height: auto;
-    background-size: 100%;
-    padding: 0px 0px 20px 0px;
-    background-image: url(../images/For_Test/map-banner-bg.png);
+@import url('https://fonts.googleapis.com/css?family=Rajdhani:300,400,500,600,700');
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+
+@font-face {
+         font-family: "Righteous";
+         src: url("../fonts/BalooChettan-Regular.ttf");
+         src: url("../fonts/BalooChettan-Regular.ttf");
+}
+/*****---------------------------------------- 1) font-family: 'Rajdhani', sans-serif;
+ 2) font-family: 'Poppins', sans-serif;
+ ----------------------------------------*****/
+
+
+/*--------------------------------------------------------------------- import Files ---------------------------------------------------------------------*/
+
+/*@import url(animate.min.css);
+@import url(normalize.css);
+@import url(icomoon.css);
+@import url(css/font-awesome.min.css);
+@import url(meanmenu.css);
+@import url(owl.carousel.min.css);
+@import url(swiper.min.css);
+@import url(slick.css);
+@import url(jquery.fancybox.min.css);
+@import url(jquery-ui.css);
+@import url(nice-select.css);
+*/
+/*--------------------------------------------------------------------- skeleton ---------------------------------------------------------------------*/
+.company {
+    padding-top: 20px;
 }
 
-.menu_main {
-    -ms-flex-direction: column;
-    flex-direction: column;
-    padding-left: 0;
-    margin-bottom: 0;
-    list-style: none;
-    width: 100%;
-    text-align: center;
-    margin: 0 auto;
-}
-.menu_main ul {
-    margin: 0px;
-    padding: 0px;
-    list-style: none;
-    display: inline-flex;
-}
-.menu_main li {
-    float: left;
-    padding-left: 10px;
-    padding-right: 10px;
-    font-size: 18px;
-    text-transform: uppercase;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    color: #080808;
-    border-radius: 40px;
+.company h1 {
+    padding-left:30px;
+    font-size: 30px;
+         /*padding-bottom:0px;*/
 }
 
-.menu_main li a {
-    color: #080808;
-    padding: 10px 20px;
-    border-radius: 10px;
+div.company .mail_text {
+   font-size: 12px;
+   margin-top: 1px;
+   margin-bottom: 10px;
+         /*background-color:#00ff21;*/
 }
 
-.menu_main li a:hover{
-    color:#ffffff;*/ /*R-255 G-0 B-198  ; current - #ffffff*/ /*background-color: #b60213;*/
-    /*background-color:#b60213;
+div.company label {
+   margin-bottom: .1rem;
+   padding-left: 20px;
 }
 
-.menu_main li.active a{
-    color: #ffffff;
-    background-color:deeppink;
+div.company .send_bt{
+         margin-top: 20px;
+         margin-bottom: 5px;
 }
 
-.menu_main li a:hover img{
-    filter: invert(100%);
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #ff00ff;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    border-radius: 10px;
-    width:85%;
-  }
-
-.dropdown-content ul{
-    margin: 0px;
-    padding: 0px;
-    list-style: none;
-    display:grid;
-}
-
-  
-.dropdown-content li {
-    padding-left: 1px;
-    padding-right: 1px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-size: 18px;
-    text-transform: uppercase;
-    color: #080808;
-    border-radius: 40px;
-    width:auto;
-}
-
-.dropdown-content li a{
-    color: #080808;
-    padding: 10px 20px;
-    border-radius: 10px;
-}
-  
-.dropdown-content a:hover {
-    background-color: #ddd;
-}
-  
-.dropdown:hover .dropdown-content {
-  display: block;
-  margin-top: 10px;
-}
-
-.header_main {
-    width: 100%;
-    background-image: url(../images/header-bg.png);
-    background-size: 100%;
-    padding: 10px 0px 37px 0px;
-}*/
-
-/* header section end */
 
 
 

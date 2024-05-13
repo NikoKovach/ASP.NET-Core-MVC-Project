@@ -1,0 +1,98 @@
+﻿@model Payroll.ModelsDto.CompanyDto
+
+@{
+    ViewData["Title"] = "Create Company";
+    ViewData[ "ShowBanner" ] = false;
+}
+
+<div class="about_section layout_padding company">
+     <div class="container">
+          <h1 class="watchs_taital">Create Company</h1>
+     </div>
+     <div class="contact_section_2">
+          <div class="container-fluid">
+               <div class="row">
+                    <div class="col-md-6">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="mail_section_1">
+                               <div class="form-group">
+                                 <label asp-for="Name" class="control-label">Company Name</label>
+                                 <input asp-for="Name" type="text" class="form-control mail_text" placeholder="Company Name" />
+                                 <span asp-validation-for="Name" 
+                                    class="text-danger"></span>
+                               </div>
+                               <div class="form-group">
+                                  <label asp-for="CompanyHeadquarter" class="control-label">Company Headquarter</label>
+                                  <input asp-for="CompanyHeadquarter" type="text" class="form-control mail_text" placeholder="Company Headquarter" />
+                                  <span asp-validation-for="CompanyHeadquarter" 
+                                    class="text-danger"></span>
+                               </div>
+                               <div class="form-group">
+                                  <label asp-for="AddressOfManagement" class="control-label">Address Of Management</label>
+                                  <input asp-for="AddressOfManagement" type="text" class="form-control mail_text" placeholder="Address Of Management" />
+                                  <span asp-validation-for="AddressOfManagement" 
+                                    class="text-danger"></span>
+                               </div>
+                               <div class="form-group">
+                                  <label asp-for="UniqueIdentifier" class="control-label">Unique identification number</label>
+                                  <input asp-for="UniqueIdentifier" type="text" class="form-control mail_text" placeholder="Unique identification number" />
+                                  <span asp-validation-for="UniqueIdentifier" 
+                                    class="text-danger"></span>
+                               </div>
+                               <div class="form-group">
+                                  <label asp-for="VATRegNumber" class="control-label">VAT registration number</label>
+                                  <input asp-for="VATRegNumber" type="text" class="form-control mail_text" placeholder="VAT registration number" />
+                                  @* <span asp-validation-for="CompanyHeadquarter" 
+                                    class="text-danger"></span> *@
+                               </div>
+                               <div class="form-group send_bt">
+                                   <a href="#"  type="submit" value="Create">Create</a>
+                                   @* <a href="#" input type="submit" value="Create">Create</a> *@
+                               </div>
+                            </div>
+                        </form>
+                         
+                    </div>
+                    <div class="col-md-6 padding_right_0">
+                         <div class="map_section">
+                              <img src="/images/map-img.png">
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
+
+@* <h4>Create Company</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                    <label asp-for="CompanyHeadquarter" class="control-label"></label>
+                    <input asp-for="CompanyHeadquarter" class="form-control" />
+                    <span asp-validation-for="CompanyHeadquarter" class="text-danger"></span>
+            </div>
+
+            <hr class="text-black-50"/>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} *@

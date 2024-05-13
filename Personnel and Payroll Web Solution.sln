@@ -3,7 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonnelWebApp", "PersonnelWebApp\PersonnelWebApp.csproj", "{007C1A44-5195-4486-897C-36864EE23A36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonnelWebApp", "PersonnelWebApp\PersonnelWebApp.csproj", "{007C1A44-5195-4486-897C-36864EE23A36}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payroll.Models", "Models\Payroll.Models.csproj", "{F4042251-A53E-459E-BFD2-F5D7B7F92D79}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payroll.Data", "Payroll.Data\Payroll.Data.csproj", "{DCFE5685-62DA-4370-91BD-FE072091988E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payroll.Services", "Payroll.Services\Payroll.Services.csproj", "{E80906D9-173D-4F6E-AE08-EE832649BDF6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payroll.ModelsDto", "Payroll.ModelsDto\Payroll.ModelsDto.csproj", "{568ADC95-0424-46D2-A270-245F02873C63}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payroll.Mapper", "Payroll.Mapper\Payroll.Mapper.csproj", "{D16B465A-483D-4898-9378-CD8442A11D9F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +25,26 @@ Global
 		{007C1A44-5195-4486-897C-36864EE23A36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{007C1A44-5195-4486-897C-36864EE23A36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{007C1A44-5195-4486-897C-36864EE23A36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4042251-A53E-459E-BFD2-F5D7B7F92D79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4042251-A53E-459E-BFD2-F5D7B7F92D79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4042251-A53E-459E-BFD2-F5D7B7F92D79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4042251-A53E-459E-BFD2-F5D7B7F92D79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCFE5685-62DA-4370-91BD-FE072091988E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCFE5685-62DA-4370-91BD-FE072091988E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCFE5685-62DA-4370-91BD-FE072091988E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCFE5685-62DA-4370-91BD-FE072091988E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E80906D9-173D-4F6E-AE08-EE832649BDF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E80906D9-173D-4F6E-AE08-EE832649BDF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E80906D9-173D-4F6E-AE08-EE832649BDF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E80906D9-173D-4F6E-AE08-EE832649BDF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{568ADC95-0424-46D2-A270-245F02873C63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{568ADC95-0424-46D2-A270-245F02873C63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{568ADC95-0424-46D2-A270-245F02873C63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{568ADC95-0424-46D2-A270-245F02873C63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D16B465A-483D-4898-9378-CD8442A11D9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D16B465A-483D-4898-9378-CD8442A11D9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D16B465A-483D-4898-9378-CD8442A11D9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D16B465A-483D-4898-9378-CD8442A11D9F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
