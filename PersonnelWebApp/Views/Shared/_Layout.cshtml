@@ -67,20 +67,34 @@
                                   <div class="dropdown-content">
                                       <ul class="dropdown-menu dropdown-menu-end">
                                           <li>
-                                              <a asp-area="" asp-controller="Company" 
-                                              asp-action="About">About</a>
+                                              <a asp-area="" asp-controller="Companies" 
+                                            asp-action="AllActual">
+                                                 Active Companies
+                                              </a>
                                           </li>
                                           <li>
-                                              <a asp-area="" asp-controller="Company" 
-                                              asp-action="Details">Details</a>
+                                              <a asp-area="" asp-controller="Companies" 
+                                              asp-action="Details">
+                                                 Details
+                                              </a>
                                           </li>
                                           <li>
-                                              <a asp-area="" asp-controller="Company" 
-                                              asp-action="Create">Create</a>
+                                              <a asp-area="" asp-controller="Companies" 
+                                              asp-action="Create">
+                                                  Create Company
+                                              </a>
                                           </li>
                                           <li>
-                                              <a asp-area="" asp-controller="Company" 
-                                              asp-action="AllActual">Active Companies</a>
+                                              <a asp-area="" asp-controller="Companies" 
+                                              asp-action="Update">
+                                                  Update Company
+                                              </a>
+                                          </li>
+                                          <li>
+                                              <a asp-area="" asp-controller="Companies" 
+                                                  asp-action="About">
+                                                  About
+                                              </a>
                                           </li>
                                       </ul>
                                   </div>
@@ -102,7 +116,9 @@
                 <div class="menu_main">
                    <ul>
                        <li class="active">
-                          <a asp-area="" asp-controller="Home" asp-action="Index">Home</a> 
+                          <a asp-area="" asp-controller="Home" asp-action="Index">
+                               Home
+                          </a> 
                        </li>
                        <li>
                           <a href="#">Personnel staff</a>
@@ -115,24 +131,40 @@
                           <div class="dropdown-content">
                               <ul>
                                   <li>
-                                     <a asp-area="" asp-controller="Company" 
-                                              asp-action="About">About
-                                     </a>
+                                      <div class="read_bt">
+                                           <a asp-area="" asp-controller="Companies" 
+                                            asp-action="AllActual">
+                                               Active Companies
+                                           </a>
+                                      </div>   
                                   </li>
                                   <li>
-                                     <a asp-area="" asp-controller="Company" 
+                                      <div class="read_bt">
+                                          <a asp-area="" asp-controller="Companies" 
                                               asp-action="Details">Details
-                                     </a>
+                                          </a>
+                                      </div>       
                                   </li>
                                   <li>
-                                     <a asp-area="" asp-controller="Company" 
-                                              asp-action="Create">Create
-                                     </a>
+                                      <div class="read_bt">
+                                          <a asp-area="" asp-controller="Companies" 
+                                              asp-action="Create">Create Company
+                                          </a>        
+                                      </div>  
                                   </li>
                                   <li>
-                                      <a asp-area="" asp-controller="Company" 
-                                           asp-action="AllActual">Active Companies
-                                     </a>
+                                      <div class="read_bt">
+                                          <a asp-area="" asp-controller="Companies" 
+                                              asp-action="Update">Update Company
+                                          </a>        
+                                      </div>  
+                                  </li>
+                                  <li>
+                                     <div class="read_bt">
+                                          <a asp-area="" asp-controller="Companies" 
+                                              asp-action="About">About
+                                          </a>
+                                      </div>  
                                   </li>
                               </ul>
                           </div>
@@ -206,6 +238,7 @@
      <script src="/js/bootstrap.bundle.min.js"></script>
      <script src="/js/jquery-3.0.0.min.js"></script>
      <script src="/js/plugin.js"></script>
+     <script src="/js/jquery.validate.js"></script>
      <!-- sidebar -->
      <script src="/js/jquery.mCustomScrollbar.concat.min.js"></script>
      <script src="/js/custom.js"></script>

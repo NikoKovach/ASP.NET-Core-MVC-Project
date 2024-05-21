@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-
+using Microsoft.EntityFrameworkCore;
 using Payroll.Data;
 using Payroll.ModelsDto;
 using Payroll.Services.Services.ServiceContracts;
@@ -11,12 +11,12 @@ namespace Payroll.Services.Services.CompanyServices
           /// <summary>
           /// TODO : FOR TESTING
           /// </summary>
-     public class GetCompanyService : ICompany,IGetCompany,IGetEntities<CompanyDto>
+     public class CompanyService : ICompany,IGetCompany,IGetEntities<CompanyDto>
      {
           private PayrollContext context;
           private IMapper mapper;
 
-          public GetCompanyService( PayrollContext payrollContext, IMapper autoMapper ) : this(payrollContext)
+          public CompanyService( PayrollContext payrollContext, IMapper autoMapper ) : this(payrollContext)
           {
                ArgumentNullConfirmation( autoMapper,nameof(autoMapper ), 
                     GetClassName(this) ,GetClassFullName(this ));
@@ -24,7 +24,7 @@ namespace Payroll.Services.Services.CompanyServices
                this.mapper = autoMapper;
           }
 
-          public GetCompanyService( PayrollContext payrollContext )
+          public CompanyService( PayrollContext payrollContext )
           {
                ArgumentNullConfirmation( payrollContext,nameof(payrollContext ),
                     GetClassName(this) ,GetClassFullName( this));
@@ -32,36 +32,36 @@ namespace Payroll.Services.Services.CompanyServices
                context = payrollContext;
           }
 
-          public virtual ICollection<CompanyDto> GetAllEntities()
+          public virtual async Task<ICollection<CompanyDto>> GetAllEntitiesAsync()
           {
-               var companiesList = context.Companies
+               var companiesList = await context.Companies
                                    .ProjectTo<CompanyDto>(this.mapper.ConfigurationProvider)
                                    .OrderBy( c => c.Name )
                                    .ThenBy( c => c.Id )
-                                   .ToList();
+                                   .ToListAsync();
 
                return companiesList;
           }
 
-          public virtual ICollection<CompanyDto> GetAllValidEntities()
+          public virtual async Task<ICollection<CompanyDto>> GetAllValidEntitiesAsync()
           {
-               var companiesList = context.Companies
+               var companiesList = await context.Companies
                                       .Where( x => x.HasBeenDeleted == false )
                                       .ProjectTo<CompanyDto>( this.mapper.ConfigurationProvider )
                                       .OrderBy( c => c.Name )
                                       .ThenBy( c => c.Id )
-                                      .ToList();
+                                      .ToListAsync();
 
                return companiesList;
           }
 
-          public CompanyDto GetActiveCompanyByUniqueId( string companyUniqueId )
+          public async Task<CompanyDto> GetActiveCompanyByUniqueIdAsync( string companyUniqueId )
           {
-               CompanyDto? company = context.Companies
+               CompanyDto? company = await context.Companies
                                    .Where( x => x.HasBeenDeleted == false 
                                     && x.UniqueIdentifier.Equals( companyUniqueId) )
                                    .ProjectTo<CompanyDto>( this.mapper.ConfigurationProvider )
-                                   .FirstOrDefault();
+                                   .FirstOrDefaultAsync();
 
                return company;
           }    

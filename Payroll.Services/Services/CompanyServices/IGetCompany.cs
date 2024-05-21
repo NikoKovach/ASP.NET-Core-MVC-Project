@@ -6,6 +6,6 @@ namespace Payroll.Services.Services.CompanyServices
 {
      public interface IGetCompany : IGetEntities<CompanyDto>
      {
-          CompanyDto GetActiveCompanyByUniqueId( string companyUniqueId );
+          Task<CompanyDto> GetActiveCompanyByUniqueIdAsync( string companyUniqueId );
      }
 }

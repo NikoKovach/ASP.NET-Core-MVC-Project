@@ -36,9 +36,11 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Payroll.ModelsDto\Payroll.ModelsDto.csproj" />
     <ProjectReference Include="..\Payroll.Services\Payroll.Services.csproj" />
   </ItemGroup>
 

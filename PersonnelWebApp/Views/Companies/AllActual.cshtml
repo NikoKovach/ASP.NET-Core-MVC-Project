@@ -1,0 +1,58 @@
+﻿@model IList<Payroll.ModelsDto.CompanyDto>
+
+@{
+     ViewData[ "Title" ] = "All Actual Companies";
+     ViewData[ "ShowBanner" ] = false;
+     ViewData["CompanyId"] = string.Empty;
+}
+
+<div class="company all">
+   <div class="container">
+      <h1>All Actual Companies</h1>
+   </div>
+   <div class="table table-responsive-sm">
+      <table class="table table-striped">
+         <thead class="thead-light">
+            <tr>
+            <tr>
+               <th scope="col">#</th>
+               <th scope="col">Name</th>
+               <th scope="col">Company ID</th>
+               <th scope="col">VAT Number</th>
+               <th scope="col">Headquarter</th>
+               <th scope="col">Address Of Management</th>
+               <th scope="col">CEO's name </th>
+               <th scope="col">Is Active</th>
+            </tr>
+         </thead>
+         <tbody>
+            @for ( var i = 0; i < Model.Count(); i++ )
+            {
+               bool activeStatus = (Model[ i ].HasBeenDeleted == false) ? true : false;
+
+               var x = @i + 1;
+               ViewData["CompanyId"] = Model[i].UniqueIdentifier;
+               <tr class="company-table-row">
+                  <div class="dropdown-content">
+                     <p>@Model[ i ].UniqueIdentifier</p>
+                  </div>
+                  <td>@x </td>
+                  <td class="dropdown">@Model[ i ].Name
+                     <div class="dropdown-content">
+                        <p>@Model[ i ].UniqueIdentifier</p>
+                     </div>
+                  </td>
+                  <td>@Model[ i ].UniqueIdentifier</td>
+                  <td>@Model[ i ].VATRegNumber</td>
+                  <td>@Model[ i ].CompanyHeadquarter</td>
+                  <td>@Model[ i ].AddressOfManagement</td>
+                  <td>@Model[ i ].RepresentedBy</td>
+                  <td>@activeStatus</td>
+               </tr>     
+            }
+           </tbody>
+      </table>
+   </div>
+</div>
+
+@* class="about_section layout_padding company" *@

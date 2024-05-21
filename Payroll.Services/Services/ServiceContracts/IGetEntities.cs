@@ -3,9 +3,9 @@ namespace Payroll.Services.Services.ServiceContracts
 {
      public interface IGetEntities<TEntityView>
      {
-          ICollection<TEntityView> GetAllEntities();
+          Task<ICollection<TEntityView>> GetAllEntitiesAsync();
 
-          ICollection<TEntityView> GetAllValidEntities();
+          Task<ICollection<TEntityView>> GetAllValidEntitiesAsync();
           
      }
 }

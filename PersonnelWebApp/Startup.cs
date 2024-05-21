@@ -3,7 +3,11 @@ namespace PersonnelWebApp
      using AutoMapper;
      using Microsoft.EntityFrameworkCore;
      using Payroll.Data;
+     using Payroll.Models;
+     using Payroll.ModelsDto;
+     using Payroll.Services.Services;
      using Payroll.Services.Services.CompanyServices;
+     using Payroll.Services.Services.ServiceContracts;
      using System.Reflection;
 
      public class Startup
@@ -26,7 +30,11 @@ namespace PersonnelWebApp
                services.AddDbContext<PayrollContext>( options => options
                                                   .UseSqlServer( connString ) );
 
-               services.AddScoped<ICompany, GetCompanyService>();
+               //services.AddScoped<ICreateUpdateEntity<CompanyDto, Company>,CreateUpdateEntityService<CompanyDto, Company>>();
+
+               services.AddScoped<ICompany, CompanyService>();
+
+               services.AddScoped<IAddUpdateEntity, AddUpdateEntity>();
 
                services.AddAutoMapper(Assembly.Load("Payroll.Mapper"));
 

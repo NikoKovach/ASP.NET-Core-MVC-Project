@@ -15,6 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payroll.ModelsDto", "Payrol
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payroll.Mapper", "Payroll.Mapper\Payroll.Mapper.csproj", "{D16B465A-483D-4898-9378-CD8442A11D9F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPersonnel", "TestPersonnel\TestPersonnel.csproj", "{2D67923F-2FCA-489F-8D09-11D42837DC31}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7296813D-3227-4386-9515-CA5FD2971892}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +52,10 @@ Global
 		{D16B465A-483D-4898-9378-CD8442A11D9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D16B465A-483D-4898-9378-CD8442A11D9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D16B465A-483D-4898-9378-CD8442A11D9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D67923F-2FCA-489F-8D09-11D42837DC31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D67923F-2FCA-489F-8D09-11D42837DC31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D67923F-2FCA-489F-8D09-11D42837DC31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D67923F-2FCA-489F-8D09-11D42837DC31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

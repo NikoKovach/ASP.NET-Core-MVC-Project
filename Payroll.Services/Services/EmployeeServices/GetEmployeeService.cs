@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 
 using Payroll.Data;
-using Payroll.Mapper.CustomMap;
 using Payroll.Mapper.CustomMap.Contracts;
 using Payroll.ModelsDto.EmployeeDtos;
 using Payroll.Services.Services.AuthenticServices;
@@ -39,21 +38,24 @@ namespace Payroll.Services.Services.EmployeeServices
                context = payrollContext;   
           }
           
-          public ICollection<GetEmployeeDto> GetAllEntities()
+          public Task<ICollection<GetEmployeeDto>> GetAllEntitiesAsync()
           {
-               ICollection<GetEmployeeDto> empDtoList = this.empMaker.EmployeeDtosMaker( this.context );
-               
-               return empDtoList;
+               //ICollection<GetEmployeeDto> empDtoList = this.empMaker
+               //     .EmployeeDtosMaker( this.context );
+
+               //return empDtoList;
+               throw  new NotImplementedException();
           }
 
-          public ICollection<GetEmployeeDto> GetAllValidEntities()
+          public Task<ICollection<GetEmployeeDto>> GetAllValidEntitiesAsync()
           {
-               ICollection<GetEmployeeDto> allEmployees = GetAllEntities();
+               //ICollection<GetEmployeeDto> allEmployees = GetAllEntitiesAsync();
 
-               ICollection<GetEmployeeDto> validEmployees = allEmployees
-                    .Where( x => x.IsActual == true ).ToList();
+               //ICollection<GetEmployeeDto> validEmployees = allEmployees
+               //     .Where( x => x.IsActual == true ).ToList();
                
-               return validEmployees;
+               //return validEmployees;
+               throw  new NotImplementedException();
           }
 
           public ICollection<GetEmployeeDto> GetEmployeeByName( string name )
