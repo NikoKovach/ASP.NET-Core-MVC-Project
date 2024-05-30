@@ -100,8 +100,9 @@
 div.company .mail_text {
    font-size: 12px;
    margin-top: 1px;
-   /*margin-bottom: 10px;*/
+   height:38px;
    float:none;
+   color:#000000;
 }
 
 div.company label {
@@ -171,20 +172,26 @@ div.all {
     color: #f1f0ef;            
 }
 
-.table-striped tbody tr:nth-of-type(odd) {
-     background-color: rgb(47, 45, 45);
-}
-
-.table-striped tbody tr:hover {
-   background-color: rgb(13, 32, 129);
-}
+/*.table tr{
+	border: solid darkblue 5px;
+	border-collapse:collapse;
+	border-radius: 25px;
+}*/
+/****************************************************************/
 
 td.dropdown p {
-   color:darkblue;
+	color:darkblue;
 }
 
+div.modify-company {
+	width: 140px;
+}
 
-
+div.send_bt.modify-company button {
+	max-width: 125px;
+	padding: 10px 1px;
+	background-color: #ff00c6;
+}
 
 
 

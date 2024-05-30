@@ -5,75 +5,101 @@
     ViewData[ "ShowBanner" ] = false;
 }
 
-<h1>Details</h1>
+<div class="about_section layout_padding company">
+	<div class="container">
+		<h1 class="watchs_taital">Company Details</h1>
+	</div>
+	<div class="contact_section_2">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-6">
+					<form asp-action="Edit">
+						<div class="mail_section_1">
+							<div class="form-group">
+								<label asp-for="Name" class="control-label">
+								</label>
+								<label class="form-control mail_text">
+									@Model.Name
+								</label>
+							</div>
+							<div class="form-group company-name">
+								<label asp-for="UniqueIdentifier"
+									  class="control-label"></label>
+								<label class="form-control mail_text">
+									@Model.UniqueIdentifier
+								</label>
+							</div>
+							<div class="form-group">
+								<label asp-for="VATRegNumber"
+									  class="control-label"></label>
+								<label class="form-control mail_text">
+									@Model.VATRegNumber
+								</label>
+							</div>
+							 <div class="form-group">
+								<label asp-for="CompanyHeadquarter" 
+								class="control-label"></label>
+								<label class="form-control mail_text">
+									@Model.CompanyHeadquarter
+								</label>
+							</div>
+							<div class="form-group">
+								<label asp-for="AddressOfManagement" 
+								class="control-label"></label>
+								<label class="form-control mail_text">
+									@Model.AddressOfManagement
+								</label>
+							</div>
+							<div class="form-group">
+								<label asp-for="RepresentedBy" 
+								class="control-label"></label>
+								<label class="form-control mail_text">
+									@Model.RepresentedBy
+								</label>
+							</div>
+							 <div class="form-group">
+								<label asp-for="RepresentativeIdNumber" 
+								class="control-label"></label>
+								<label class="form-control mail_text">
+									@Model.RepresentativeIdNumber
+								</label>
+							</div>
+							<div class="form-group">
+								<label asp-for="CompanyCaseNumber" 
+								class="control-label">
+								</label>
+								<label class="form-control mail_text">
+									@Model.CompanyCaseNumber
+								</label>
+							</div>
+							<div class="form-group">
+								<label asp-for="HasBeenDeleted"
+									  class="control-label"></label>
+								<label class="form-control mail_text">
+									@Model.HasBeenDeleted
+								</label>
+							</div>
+							<div class="send_bt modify-company">
+								<button asp-area="" asp-controller="Companies"
+								asp-action="AllActual">
+									Back to List
+								</button>
+							</div>
+							<div class="form-group send_bt modify-company">
+								<button id="edit-company" type="submit" 
+								asp-action="Edit">Edit</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="col-md-6 padding_right_0">
+					<div class="map_section">
+						<img src="/images/map-img-2.png">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-<div>
-    <h4>CompanyDto</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CompanyHeadquarter)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CompanyHeadquarter)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AddressOfManagement)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AddressOfManagement)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UniqueIdentifier)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UniqueIdentifier)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VATRegNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VATRegNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RepresentedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RepresentedBy)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RepresentativeIdNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RepresentativeIdNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CompanyCaseNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CompanyCaseNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.HasBeenDeleted)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.HasBeenDeleted)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
-</div>
+

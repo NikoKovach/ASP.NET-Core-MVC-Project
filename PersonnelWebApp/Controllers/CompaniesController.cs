@@ -23,13 +23,6 @@ namespace PersonnelWebApp.Controllers
                return View(await getService.GetAllValidEntitiesAsync());
           }
 
-          public async Task<IActionResult> Details(string uniqueIdentifier)
-          {
-               CompanyDto company = await getService.GetActiveCompanyByUniqueIdAsync( uniqueIdentifier );
-
-               return View(company);
-          }
-
           public IActionResult Create()
           { 
                
@@ -51,8 +44,7 @@ namespace PersonnelWebApp.Controllers
                     }
                     catch ( Exception ex )
                     {
-
-                         return View("Error");
+                         return View("Error",ex.Message);
                     }
                     
                }
@@ -60,12 +52,71 @@ namespace PersonnelWebApp.Controllers
                return View(nameof(Create));
           }
 
-          public IActionResult Update()
+		[HttpPost]
+		public async Task<IActionResult> Edit(string uniqueIdentifier)
           { 
-               return View();
+			if ( string.IsNullOrWhiteSpace(uniqueIdentifier) )
+			{
+				//TODO : Later N.Kostov's course
+				return RedirectToAction("Error","Home");
+			}
+
+               CompanyDto company = await getService.GetActiveCompanyByUniqueIdAsync( uniqueIdentifier );
+
+			if ( company == null)
+			{
+				//TODO : Later N.Kostov's course
+				return RedirectToAction("Error","Home");
+			}
+
+               return View(company);
           }
-          public async Task<IActionResult> About()
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> EditCompany(CompanyDto modelDto)
           { 
+               if ( ModelState.IsValid)
+               {
+                    try
+                    {
+                         await addUpdateService
+                               .UpdateEntityAsync<Company,CompanyDto>(modelDto);
+
+                         return RedirectToAction(nameof(AllActual));
+                    }
+                    catch ( Exception ex )
+                    {
+					return RedirectToAction("Error","Home",ex.Message);
+                         //TODO : Later N.Kostov's course
+                    }                  
+               }
+
+               return View(nameof(Edit),modelDto);
+          }
+
+		[HttpPost]
+		public async Task<IActionResult> Details(string uniqueIdentifier)
+          {
+			if ( string.IsNullOrWhiteSpace(uniqueIdentifier) )
+			{
+				//TODO : Later N.Kostov's course
+				return RedirectToAction("Error","Home");
+			}
+
+               CompanyDto company = await getService.GetActiveCompanyByUniqueIdAsync( uniqueIdentifier );
+
+			if ( company == null)
+			{
+				//TODO : Later N.Kostov's course
+				return RedirectToAction("Error","Home");
+			}
+
+               return View(company);
+          }
+
+          public IActionResult About_Us()
+          {
                return View();
           }
      }

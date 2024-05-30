@@ -7,7 +7,7 @@ namespace Payroll.ModelsDto
      {
           public int Id { get; set; }
 
-          [Display(Name ="Company Name")]
+          [Display(Name ="Company Name",ShortName ="J Name")]
           [Required(ErrorMessage = "Pleace, enter company name !")]
           [StringLength(200,MinimumLength = 3,ErrorMessage ="Text with lenght between 3 and 200 characters!")]
           public string Name { get; set; }
@@ -45,7 +45,7 @@ namespace Payroll.ModelsDto
 
           public ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
 
-          //[Display(Name="Active Status")]
-          public bool HasBeenDeleted { get; set; }
+		[Display( Name = "Has Been Deleted" )]
+		public bool HasBeenDeleted { get; set; }
      }
 }

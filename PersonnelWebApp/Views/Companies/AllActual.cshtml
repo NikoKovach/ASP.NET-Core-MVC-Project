@@ -1,9 +1,8 @@
 ﻿@model IList<Payroll.ModelsDto.CompanyDto>
 
 @{
-     ViewData[ "Title" ] = "All Actual Companies";
-     ViewData[ "ShowBanner" ] = false;
-     ViewData["CompanyId"] = string.Empty;
+    ViewData[ "Title" ] = "All Actual Companies";
+    ViewData[ "ShowBanner" ] = false;
 }
 
 <div class="company all">
@@ -11,9 +10,8 @@
       <h1>All Actual Companies</h1>
    </div>
    <div class="table table-responsive-sm">
-      <table class="table table-striped">
-         <thead class="thead-light">
-            <tr>
+      <table id="companiesTable"> @*class="table"*@
+         <thead>  @* class="thead-dark" *@
             <tr>
                <th scope="col">#</th>
                <th scope="col">Name</th>
@@ -25,23 +23,15 @@
                <th scope="col">Is Active</th>
             </tr>
          </thead>
-         <tbody>
+         <tbody id="tbody">
             @for ( var i = 0; i < Model.Count(); i++ )
             {
                bool activeStatus = (Model[ i ].HasBeenDeleted == false) ? true : false;
 
                var x = @i + 1;
-               ViewData["CompanyId"] = Model[i].UniqueIdentifier;
                <tr class="company-table-row">
-                  <div class="dropdown-content">
-                     <p>@Model[ i ].UniqueIdentifier</p>
-                  </div>
                   <td>@x </td>
-                  <td class="dropdown">@Model[ i ].Name
-                     <div class="dropdown-content">
-                        <p>@Model[ i ].UniqueIdentifier</p>
-                     </div>
-                  </td>
+                  <td>@Model[ i ].Name</td>
                   <td>@Model[ i ].UniqueIdentifier</td>
                   <td>@Model[ i ].VATRegNumber</td>
                   <td>@Model[ i ].CompanyHeadquarter</td>
@@ -50,9 +40,26 @@
                   <td>@activeStatus</td>
                </tr>     
             }
-           </tbody>
+         </tbody>
       </table>
-   </div>
+
+	 <form action="Edit" method="post">
+	     <div class="form-group">
+	 		<input type="hidden" id="entityId" 
+				 name="uniqueIdentifier" class="formcontrol"/>
+	     </div>
+		<div class="form-group send_bt modify-company">
+	 		<button type="submit" asp-action="Details">Details</button>
+	     </div>
+	 	<div class="form-group send_bt modify-company">
+	   	    <button id="edit-company" type="submit" asp-action="Edit" >Edit</button>
+	     </div>	 
+	 </form>
+   </div>	
 </div>
 
-@* class="about_section layout_padding company" *@
+
+@* type="hidden" 
+
+name="uniqueIdentifier"
+*@
