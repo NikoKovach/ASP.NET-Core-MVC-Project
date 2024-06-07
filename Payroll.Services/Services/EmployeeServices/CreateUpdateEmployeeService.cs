@@ -8,7 +8,7 @@ using Payroll.ModelsDto.EmployeeDtos.PersonDtos;
 
 namespace Payroll.Services.Services.EmployeeServices
 {
-     public class CreateUpdateEmployeeService : CreateUpdateEntityService<EmployeeDto, Employee>
+     public class CreateUpdateEmployeeService : AddUpdateEntity
      {
           /// <summary>
           /// TODO : FOR TESTING
@@ -19,49 +19,49 @@ namespace Payroll.Services.Services.EmployeeServices
           {
           }
 
-          public override Employee CreateObject( EmployeeDto empDto )
-          {
-               Gender? gender = SetGender( empDto.Person.GenderType );
+          //public override Employee CreateObject<Employee,EmployeeDto>( EmployeeDto empDto )
+          //{
+          //     Gender? gender = SetGender( empDto.Person.GenderType );
                
-               Employee emp = this.Mapper.Map<Employee>(empDto);
+          //     Employee emp = this.Mapper.Map<Employee>(empDto);
 
-               emp.Person.Gender = gender;
-               emp.Person.GenderId = gender.Id;
+          //     emp.Person.Gender = gender;
+          //     emp.Person.GenderId = gender.Id;
 
-               return emp;
-          }
+          //     return emp;
+          //}
 
-          public override bool UpdateRecord( Employee emp )
-          {
-               try
-               {
-                    var updatedEntity = this.Context.Entry( emp );
-                    var personEntity  = this.Context.Entry( emp.Person );
+          //public override async Task<bool> UpdateRecordAsync<Employee>( Employee emp )
+          //{
+          //     try
+          //     {
+          //          var updatedEntity = this.Context.Entry( emp );
+          //          var personEntity  = this.Context.Entry( emp.Person );
 
-                    if (updatedEntity.State == EntityState.Detached)
-                    {
-                         DbSet<Employee> empDbSet = this.Context.Set<Employee>();
-                         empDbSet.Attach(emp);
-                    }
+          //          if (updatedEntity.State == EntityState.Detached)
+          //          {
+          //               DbSet<Employee> empDbSet = this.Context.Set<Employee>();
+          //               empDbSet.Attach(emp);
+          //          }
 
-                    if (personEntity.State == EntityState.Detached)
-                    {
-                         DbSet<Models.Person> empDbSet = this.Context.Set<Models.Person>();
-                         empDbSet.Attach(emp.Person);
-                    }
+          //          if (personEntity.State == EntityState.Detached)
+          //          {
+          //               DbSet<Models.Person> empDbSet = this.Context.Set<Models.Person>();
+          //               empDbSet.Attach(emp.Person);
+          //          }
 
-                    updatedEntity.State = EntityState.Modified;
-                    personEntity.State = EntityState.Modified;
+          //          updatedEntity.State = EntityState.Modified;
+          //          personEntity.State = EntityState.Modified;
 
-                    this.Context.SaveChanges();
+          //          this.Context.SaveChanges();
 
-                    return true;
-               }
-               catch (Exception)
-               {
-                    return false;
-               }
-          }
+          //          return true;
+          //     }
+          //     catch (Exception)
+          //     {
+          //          return false;
+          //     }
+          //}
 
           private Gender? SetGender( string genderType )
           {
@@ -83,49 +83,9 @@ namespace Payroll.Services.Services.EmployeeServices
 
                return gender;
           }
-
      }
 }
 /*
-          private Person? CreatePerson( PersonDto? personDto )
-          {
-               if ( personDto == null )
-               {
-                    return null;
-               }
-
-               Gender? gender = SetGender( personDto.GenderType );
-
-               Person newPerson = this.Mapper.Map<Person>( personDto );
-
-               newPerson.Gender = gender;
-
-               return newPerson;
-          }
-               //Employee emp = new Employee
-               //{
-               //     Id = view.Id,
-               //     IsActual = view.IsActual,
-               //     NumberFromTheList = view.NumberFromTheList,
-               //     Person = person,
-               //     CompanyId = view.CompanyId,
-               //     EmpContractId = view.EmpContractId
-               //};
-
-               //Person newPerson = new Person
-               //{
-               //     Id = personDto.Id,
-               //     FirstName = personDto.FirstName,
-               //     MiddleName = personDto.MiddleName,
-               //     LastName = personDto.LastName,
-               //     GenderId = genderId,
-               //     EGN = personDto.EGN,
-               //     PhotoFilePath = personDto.PhotoFilePath,
-               //     CurrentAddress = personDto.CurrentAddress,
-               //     PermanentAddress = personDto.PermanentAddress,
-               //     HasBeenDeleted = personDto.HasBeenDeleted
-               //};
-               //newPerson.GenderId = gender.Id;
  
  */
                

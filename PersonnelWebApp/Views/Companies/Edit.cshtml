@@ -1,8 +1,7 @@
-﻿@model Payroll.ModelsDto.CompanyDto
+﻿@model CompanyDto
 
 @{
     ViewData["Title"] = "Edit";
-    ViewData[ "ShowBanner" ] = false;
 }
 
 <div class="about_section layout_padding company">
@@ -18,14 +17,18 @@
 						class="text-danger"></div>
 						<div class="mail_section_1">
 							<div class="form-group">
-								<label asp-for="Id" class="control-label"></label>
-								<input asp-for="Id" class="form-control"/> 
+								<label asp-for="Id" class="control-label">
+								</label>
+								<input type="text" asp-for="Id" 
+								class="form-control" value="@Model.Id"/> 
 								<span asp-validation-for="Id" 
 								class="text-danger"></span>
 							</div>
 							<div class="form-group">
-								<label asp-for="Name" class="control-label"></label>
-								<input asp-for="Name" class="form-control" />
+								<label asp-for="Name" class="control-label">
+								</label>
+								<input asp-for="Name" class="form-control" 
+								placeholder="Required"/>
 								<span asp-validation-for="Name"
 								class="text-danger"></span>
 							</div>
@@ -33,7 +36,8 @@
 								<label asp-for="CompanyHeadquarter"
 									  class="control-label"></label>
 								<input asp-for="CompanyHeadquarter"
-									  class="form-control" />
+									  class="form-control"
+									  placeholder="Required"/>
 								<span asp-validation-for="CompanyHeadquarter"
 									 class="text-danger"></span>
 							</div>
@@ -49,7 +53,7 @@
 								<label asp-for="UniqueIdentifier"
 									  class="control-label"></label>
 								<input asp-for="UniqueIdentifier"
-									  class="form-control" />
+								class="form-control" placeholder="Required"/>
 								<span asp-validation-for="UniqueIdentifier"
 									 class="text-danger"></span>
 							</div>
@@ -65,7 +69,7 @@
 								<label asp-for="RepresentedBy"
 									  class="control-label"></label>
 								<input asp-for="RepresentedBy" 
-								class="form-control"/>
+								class="form-control" placeholder="Required"/>
 								<span asp-validation-for="RepresentedBy"
 									 class="text-danger"></span>
 							</div>
@@ -81,18 +85,20 @@
 								<label asp-for="CompanyCaseNumber"
 									  class="control-label"></label>
 								<input asp-for="CompanyCaseNumber"
-									  class="form-control" />
+									  class="form-control"/>
 								<span asp-validation-for="CompanyCaseNumber"
 									 class="text-danger"></span>
 							</div>
 							<div class="form-group">
 								<label asp-for="HasBeenDeleted"
 									  class="control-label"></label>
-								<select class="form-control"
-								name="HasBeenDeleted">
-									<option value="False">False</option>
-									<option value="True">True</option>
-								</select>
+								<input type="text" name="HasBeenDeleted"
+									class="form-control" list="browsers" 
+									value="@Model.HasBeenDeleted.ToString()" />
+								<datalist id="browsers">
+									<option>True</option>
+									<option>False</option>
+								</datalist>
 								<span asp-validation-for="HasBeenDeleted"
 									 class="text-danger"></span>
 							</div>
@@ -116,6 +122,8 @@
 					</div>
 				</div>
 			</div>
+
+			
 		</div>
 	</div>
 </div>
@@ -128,5 +136,11 @@
 	<option>True</option>
 	<option>False</option>
 </datalist> 
-								
+<div class="send_bt modify-company sunrise">
+				<button asp-controller="Companies"
+					   asp-action="About">
+					About
+				</button>
+			</div> 	
+			name="Id" 
 *@

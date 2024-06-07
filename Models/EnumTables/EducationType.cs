@@ -12,5 +12,9 @@ namespace Payroll.Models.EnumTables
           public ICollection<Diploma> Diplomas { get; set; } = new HashSet<Diploma>();
 
           public bool HasBeenDeleted { get; set; }
+
+		public DateTime? DeletionDate { get; set; }
+
+		public DeductionElement? DeductionElement { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Payroll.Data;
 
@@ -11,9 +12,11 @@ using Payroll.Data;
 namespace Payroll.Data.Migrations
 {
     [DbContext(typeof(PayrollContext))]
-    partial class PayrollContextModelSnapshot : ModelSnapshot
+    [Migration("20240531222329_MakeDeletionDatePropertyNullable")]
+    partial class MakeDeletionDatePropertyNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -429,21 +432,16 @@ namespace Payroll.Data.Migrations
                     b.Property<int?>("EmpContractId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsPresent")
+                    b.Property<bool>("IsActual")
                         .HasColumnType("bit");
 
                     b.Property<string>("NumberFromTheList")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("PersonId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
-
-                    b.HasIndex("PersonId");
 
                     b.ToTable("Employees");
                 });
@@ -1079,10 +1077,16 @@ namespace Payroll.Data.Migrations
                     b.Property<int?>("CurrentAddressId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("DeletionDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("EGN")
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
+
+                    b.Property<int?>("EmployeeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -1091,6 +1095,9 @@ namespace Payroll.Data.Migrations
 
                     b.Property<int?>("GenderId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("HasBeenDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -1110,6 +1117,10 @@ namespace Payroll.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CurrentAddressId");
+
+                    b.HasIndex("EmployeeId")
+                        .IsUnique()
+                        .HasFilter("[EmployeeId] IS NOT NULL");
 
                     b.HasIndex("GenderId");
 
@@ -1462,14 +1473,7 @@ namespace Payroll.Data.Migrations
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("Payroll.Models.Person", "Person")
-                        .WithMany("Employees")
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.Navigation("Company");
-
-                    b.Navigation("Person");
                 });
 
             modelBuilder.Entity("Payroll.Models.EmploymentContract", b =>
@@ -1624,6 +1628,11 @@ namespace Payroll.Data.Migrations
                         .HasForeignKey("CurrentAddressId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("Payroll.Models.Employee", "Employee")
+                        .WithOne("Person")
+                        .HasForeignKey("Payroll.Models.Person", "EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Payroll.Models.EnumTables.Gender", "Gender")
                         .WithMany("Persons")
                         .HasForeignKey("GenderId")
@@ -1635,6 +1644,8 @@ namespace Payroll.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("CurrentAddress");
+
+                    b.Navigation("Employee");
 
                     b.Navigation("Gender");
 
@@ -1741,6 +1752,8 @@ namespace Payroll.Data.Migrations
 
                     b.Navigation("MonthlySalaryStatements");
 
+                    b.Navigation("Person");
+
                     b.Navigation("TemporaryDisabilities");
 
                     b.Navigation("Vacations");
@@ -1814,8 +1827,6 @@ namespace Payroll.Data.Migrations
                     b.Navigation("ContactInfoList");
 
                     b.Navigation("Diplomas");
-
-                    b.Navigation("Employees");
 
                     b.Navigation("IdDocuments");
                 });

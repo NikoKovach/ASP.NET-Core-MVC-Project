@@ -14,8 +14,12 @@ namespace Payroll.Models.EnumTables
           [StringLength(200,MinimumLength =3)]
           public string Name { get; set; }
 
-          public bool? HasBeenDeleted { get; set; }
+		public IncomeElement? IncomeElement { get; set; }
 
-          public IncomeElement? IncomeElement { get; set; }
+		public DeductionElement? DeductionElement { get; set; }
+
+          public bool HasBeenDeleted { get; set; }
+
+		public DateTime? DeletionDate { get; set; }	
      }
 }

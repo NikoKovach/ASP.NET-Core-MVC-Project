@@ -15,5 +15,7 @@ namespace Payroll.Models.EnumTables
           public TemporaryDisability? TemporaryDisability { get; set; }
 
           public bool HasBeenDeleted { get; set; }
+
+		public DateTime? DeletionDate { get; set; }
      }
 }

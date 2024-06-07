@@ -18,5 +18,7 @@ namespace Payroll.Models
           public ICollection<Annex> Annexes { get; set; } = new HashSet<Annex>();
 
           public bool HasBeenDeleted { get; set; }
+
+		public DateTime? DeletionDate { get; set; }
      }
 }

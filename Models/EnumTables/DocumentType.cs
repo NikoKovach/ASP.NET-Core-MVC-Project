@@ -13,5 +13,9 @@ namespace Payroll.Models.EnumTables
           public ICollection<IdDocument> IdDocuments { get; set; } = new HashSet<IdDocument>();
 
           public bool HasBeenDeleted { get; set; }
+
+		public DateTime? DeletionDate { get; set; }
+
+		public DeductionElement? DeductionElement { get; set; }
     }
 }

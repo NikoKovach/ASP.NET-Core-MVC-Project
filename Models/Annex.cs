@@ -77,5 +77,7 @@ namespace Payroll.Models
           public EmploymentContract? EmpContract { get; set; }
 
           public bool HasBeenDeleted { get; set; }
+
+		public DateTime? DeletionDate { get; set; }
      }
 }

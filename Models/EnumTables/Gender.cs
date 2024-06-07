@@ -15,6 +15,5 @@ namespace Payroll.Models.EnumTables
           public ICollection<Person> Persons { get; set; } = new HashSet<Person>();
 
           public ICollection<TemporaryDisability> TemporaryDisabilities { get; set; } = new HashSet<TemporaryDisability>();
-
     }
 }

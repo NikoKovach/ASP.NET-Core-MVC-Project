@@ -42,5 +42,7 @@ namespace Payroll.Models
           public Person? Person { get; set; }
 
           public bool HasBeenDeleted { get; set; }
+
+		public DateTime? DeletionDate { get; set; }
      }
 }

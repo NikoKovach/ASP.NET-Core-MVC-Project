@@ -9,10 +9,7 @@ namespace Payroll.Mapper.AutoMapper.MapperProfiles
      {
           public EmployeeProfile()
           {
-               CreateMap<Employee, EmployeeDto>().ReverseMap();
-               CreateMap<Person, PersonDto>()
-               .ForMember<string>(m => m.GenderType,o => o.MapFrom(s => s.Gender.Type))
-               .ReverseMap();
+               CreateMap<Employee, CreateEmployeeDto>().ReverseMap();
           }
      }
 }

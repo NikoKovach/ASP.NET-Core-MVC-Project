@@ -28,10 +28,11 @@ namespace Payroll.Services.Services.EmployeeServices.PersonServices
                context = payrollContext;
           }
           
+		//ForChange
           public ICollection<IdDocumentDto> GetAllEntitiesByEmployeeId( int employeeId )
           {
                var documentDtoList = this.context.IdDocuments
-                    .Where(x => x.Person.Employee.Id == employeeId)
+                    .Where(x => x.Person.Id == employeeId)
                     .ProjectTo<IdDocumentDto>(this.mapper.ConfigurationProvider)
                     .ToList();
 

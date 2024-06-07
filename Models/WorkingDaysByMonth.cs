@@ -23,7 +23,5 @@ namespace Payroll.Models
           public ushort Year { get; set; }
 
           public byte WorkDays { get; set; }
-
-
      }
 }

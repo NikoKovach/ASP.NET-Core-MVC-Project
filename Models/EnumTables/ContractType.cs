@@ -13,5 +13,7 @@ namespace Payroll.Models.EnumTables
           public ICollection<EmploymentContract> EmploymentContracts { get; set; } = new HashSet<EmploymentContract>();
 
           public bool HasBeenDeleted { get; set; }
+
+		public DateTime? DeletionDate { get; set; }
     }
 }

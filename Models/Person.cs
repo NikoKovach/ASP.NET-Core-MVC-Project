@@ -27,6 +27,8 @@ namespace Payroll.Models
           [MaxLength(10)]
           public string EGN { get; set; }
 
+		public string? PhotoFilePath { get; set; }
+
 
           [ForeignKey("Gender")]
           public int? GenderId { get; set; }
@@ -42,19 +44,13 @@ namespace Payroll.Models
           public int? CurrentAddressId { get; set; }
           public  Address? CurrentAddress { get; set; }
 
-          public string? PhotoFilePath { get; set; }
-
-          [ForeignKey("Employee")]
-          public int? EmployeeId { get; set; }
-          public Employee? Employee { get; set; }
+		public ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
 
           public ICollection<ContactInfo> ContactInfoList { get; set; } = new HashSet<ContactInfo>();
 
           public ICollection<IdDocument> IdDocuments { get; set; } = new HashSet<IdDocument>();
 
           public ICollection<Diploma>? Diplomas { get; set; } = new HashSet<Diploma>();
-
-          public bool HasBeenDeleted { get; set; }
 
      }
 }

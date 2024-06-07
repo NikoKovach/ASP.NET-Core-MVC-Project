@@ -14,8 +14,10 @@ namespace Payroll.Models.EnumTables
           [StringLength(200,MinimumLength =3)]
           public string Name { get; set; }
 
+		public DeductionElement? DeductionElement { get; set; }
+
           public bool? HasBeenDeleted { get; set; }
 
-          public DeductionElement? DeductionElement { get; set; }
+		public DateTime? DeletionDate { get; set; }
      }
 }

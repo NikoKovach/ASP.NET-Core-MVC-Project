@@ -8,13 +8,14 @@ namespace Payroll.Models
           [Key]
           public int Id { get; set; }
 
-          public bool IsActual { get; set; }
+          public bool IsPresent { get; set; }
 
           [StringLength(50,MinimumLength = 3)]
           public string? NumberFromTheList { get; set; }
 
-          //public int? PersonId { get; set; }
-          public Person? Person { get; set; }
+		[ForeignKey("Person")]
+		public int? PersonId { get; set; }
+		public Person? Person { get; set; }
 
           public int? EmpContractId { get; set; }
           public EmploymentContract? EmploymentContract { get; set; }

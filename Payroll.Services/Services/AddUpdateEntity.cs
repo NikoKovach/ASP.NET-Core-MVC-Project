@@ -22,6 +22,10 @@ namespace Payroll.Services.Services
                this.mapper = autoMapper;
           }
 
+		public PayrollContext Context  => this.context; 
+
+          public IMapper Mapper  => this.mapper ;
+
           public AddUpdateEntity(PayrollContext payrollContext)
           {
                ArgumentNullConfirmation( payrollContext,nameof(payrollContext ),GetClassName() ,GetClassFullName( ));
@@ -29,7 +33,9 @@ namespace Payroll.Services.Services
                this.context = payrollContext;
           }
 
-          public async Task AddEntityAsync<TEntity,TSource>( TSource entityDto )
+          public async Task AddEntityAsync<TEntity,TSource>( TSource entityDto ) 
+			where TEntity:class
+			where TSource :class
           {
                ArgumentNullConfirmation<TSource>( entityDto, nameof( entityDto ), nameof( AddEntityAsync ), GetClassFullName() );
 
@@ -46,6 +52,8 @@ namespace Payroll.Services.Services
           }
 
           public async Task UpdateEntityAsync<TEntity,TSource>( TSource entityDto )
+			where TEntity:class
+			where TSource :class
           {
                ArgumentNullConfirmation( entityDto, nameof( entityDto ), nameof( UpdateEntityAsync ), GetClassFullName() );
 
@@ -60,6 +68,7 @@ namespace Payroll.Services.Services
           }
 
           public virtual async Task<bool> AddRecordAsync<TEntity>(TEntity entity)
+			where TEntity:class
           {
                try
                {
@@ -77,6 +86,7 @@ namespace Payroll.Services.Services
           }
 
           public virtual async Task<bool> UpdateRecordAsync<TEntity>( TEntity entity )
+			where TEntity:class
           {
                try
                {
@@ -106,6 +116,8 @@ namespace Payroll.Services.Services
           }
 
           public virtual TEntity CreateObject<TEntity,TSource>(TSource view)
+			where TEntity:class
+			where TSource :class
           {
                TEntity entity = mapper.Map<TEntity>(view);
 

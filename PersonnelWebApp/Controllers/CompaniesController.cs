@@ -80,6 +80,11 @@ namespace PersonnelWebApp.Controllers
                {
                     try
                     {
+					if ( modelDto.HasBeenDeleted == true )
+					{
+						modelDto.DeletionDate = DateTime.UtcNow;
+					}
+
                          await addUpdateService
                                .UpdateEntityAsync<Company,CompanyDto>(modelDto);
 
@@ -117,7 +122,7 @@ namespace PersonnelWebApp.Controllers
 
           public IActionResult About_Us()
           {
-               return View();
+               return View("About");
           }
      }
 }

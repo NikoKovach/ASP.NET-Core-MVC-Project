@@ -22,7 +22,7 @@ namespace Payroll.Mapper.CustomMap
                .Select( x => new GetEmployeeDto
                {
                     EmployeeId = x.Id,
-                    IsActual = x.IsActual,
+                    //IsActual = x.IsActual,
                     NumberFromTheList = x.NumberFromTheList,
                     PersonId = x.Person.Id,
                     FirstName = x.Person.FirstName,
@@ -37,7 +37,7 @@ namespace Payroll.Mapper.CustomMap
                .ThenBy(x => x.LastName)
                .ToList();
 
-               AddAdditionalInfo( empDtoList, db );
+               //AddAdditionalInfo( empDtoList, db );
 
                //db.ChangeTracker.Clear();
 
@@ -98,19 +98,19 @@ namespace Payroll.Mapper.CustomMap
           
 
  //***************************************************************************************
-          private void AddAdditionalInfo( List<GetEmployeeDto> empList, PayrollContext db )
-          {
-               foreach ( var item in empList )
-               {
-                    GetContacts( item, db );
-                    item.PermanentAddress = GetAddress( item.EmployeeId, db,AddressType.Permanent.ToString());
-                    item.CurrentAddress = GetAddress( item.EmployeeId, db,AddressType.Present.ToString() );
-                    item.GetJobTitle( db, item.EmployeeId )
-                        .GetDocumentName( db, item.EmployeeId )
-                        .GetDocumentNumber( db, item.EmployeeId )
-                        .GetDepartmentName( db, item.EmployeeId );
-               }
-          }
+          //private void AddAdditionalInfo( List<GetEmployeeDto> empList, PayrollContext db )
+          //{
+          //     foreach ( var item in empList )
+          //     {
+          //          GetContacts( item, db );
+          //          item.PermanentAddress = GetAddress( item.EmployeeId, db,AddressType.Permanent.ToString());
+          //          item.CurrentAddress = GetAddress( item.EmployeeId, db,AddressType.Present.ToString() );
+          //          item.GetJobTitle( db, item.EmployeeId )
+          //              .GetDocumentName( db, item.EmployeeId )
+          //              .GetDocumentNumber( db, item.EmployeeId )
+          //              .GetDepartmentName( db, item.EmployeeId );
+          //     }
+          //}
 
           private void GetContacts( GetEmployeeDto empDto, PayrollContext db )
           {
@@ -137,68 +137,68 @@ namespace Payroll.Mapper.CustomMap
                empDto.WebSite = contactDto.WebSite;
           }
 
-          private string? GetAddress( int empId, PayrollContext db,string addressType )//Address address
-          {
-               //TODO : Refactoring
-               List<string> itemsList = new List<string>();
+          //private string? GetAddress( int empId, PayrollContext db,string addressType )//Address address
+          //{
+          //     //TODO : Refactoring
+          //     List<string> itemsList = new List<string>();
 
-               int? addressId = GetAddressId( empId, db,addressType );
+          //     int? addressId = GetAddressId( empId, db,addressType );
 
-               Address? address = db.Addresses
-                    .Where( x => x.Id == addressId )
-                    .FirstOrDefault();
+          //     Address? address = db.Addresses
+          //          .Where( x => x.Id == addressId )
+          //          .FirstOrDefault();
 
-               if ( address == null )
-               {
-                    return string.Empty;
-               }
-               //*****************************************************************************
-               PropertyInfo[] arrProperties = address.GetType().GetProperties();
+          //     if ( address == null )
+          //     {
+          //          return string.Empty;
+          //     }
+          //     //*****************************************************************************
+          //     PropertyInfo[] arrProperties = address.GetType().GetProperties();
 
-               foreach ( var item in arrProperties )
-               {
-                    if ( item.Name == "Id" || item.Name == "PersonPermanentAddresses" ||
-                         item.Name == "PersonCurrentAddresesses" || item.Name == "HasBeenDeleted" )
-                    {
-                         continue;
-                    }
-                    IDictionary<string, string> addressPrefix = new AddressTranslate().GetAddressPrefix();
+          //     foreach ( var item in arrProperties )
+          //     {
+          //          if ( item.Name == "Id" || item.Name == "PersonPermanentAddresses" ||
+          //               item.Name == "PersonCurrentAddresesses" || item.Name == "HasBeenDeleted" )
+          //          {
+          //               continue;
+          //          }
+          //          IDictionary<string, string> addressPrefix = new AddressTranslate().GetAddressPrefix();
 
-                    object? value = item.GetValue( address );
+          //          object? value = item.GetValue( address );
 
-                    if ( value == null )
-                    {
-                         continue;
-                    }
+          //          if ( value == null )
+          //          {
+          //               continue;
+          //          }
 
-                    itemsList.Add( addressPrefix[ item.Name ] + value.ToString() );
-               }
+          //          itemsList.Add( addressPrefix[ item.Name ] + value.ToString() );
+          //     }
 
-               //var addressText = string.Join( " ,", itemsList );
-               return string.Join( " ,", itemsList );
-          }
+          //     //var addressText = string.Join( " ,", itemsList );
+          //     return string.Join( " ,", itemsList );
+          //}
 
-          private int? GetAddressId( int empId, PayrollContext db,string addressType )
-          {
-               int? addressId = 0;
+          //private int? GetAddressId( int empId, PayrollContext db,string addressType )
+          //{
+          //     int? addressId = 0;
 
-               if ( addressType == "Permanent" )
-               {
-                    addressId = db.Persons
-                    .Where( x => x.EmployeeId == empId )
-                    .Select( x => x.PermanentAddressId )
-                    .FirstOrDefault();
-               }
-               else if ( addressType == "Present" )
-               {
-                    addressId = db.Persons
-                    .Where( x => x.EmployeeId == empId )
-                    .Select( x => x.CurrentAddressId )
-                    .FirstOrDefault();
-               }
+          //     if ( addressType == "Permanent" )
+          //     {
+          //          addressId = db.Persons
+          //          .Where( x => x.EmployeeId == empId )
+          //          .Select( x => x.PermanentAddressId )
+          //          .FirstOrDefault();
+          //     }
+          //     else if ( addressType == "Present" )
+          //     {
+          //          addressId = db.Persons
+          //          .Where( x => x.EmployeeId == empId )
+          //          .Select( x => x.CurrentAddressId )
+          //          .FirstOrDefault();
+          //     }
 
-               return addressId;
-          }
+          //     return addressId;
+          //}
 
           private string GetLastName( string[] arrName )
           {

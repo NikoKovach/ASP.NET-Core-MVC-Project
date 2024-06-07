@@ -1,8 +1,7 @@
-﻿@model IList<Payroll.ModelsDto.CompanyDto>
+﻿@model IList<CompanyDto>
 
 @{
     ViewData[ "Title" ] = "All Actual Companies";
-    ViewData[ "ShowBanner" ] = false;
 }
 
 <div class="company all">
@@ -53,13 +52,7 @@
 	     </div>
 	 	<div class="form-group send_bt modify-company">
 	   	    <button id="edit-company" type="submit" asp-action="Edit" >Edit</button>
-	     </div>	 
+	     </div>
 	 </form>
    </div>	
 </div>
-
-
-@* type="hidden" 
-
-name="uniqueIdentifier"
-*@

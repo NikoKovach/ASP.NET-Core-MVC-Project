@@ -23,7 +23,7 @@ namespace Payroll.Data.ModelConfiguration
                       .HasForeignKey(f => f.CurrentAddressId)
                       .OnDelete(DeleteBehavior.Restrict);
                //###############################################
-               builder.HasOne(p => p.Employee)
+               builder.HasMany(p => p.Employees)
                       .WithOne(e => e.Person)
                       .OnDelete(DeleteBehavior.Restrict);
 

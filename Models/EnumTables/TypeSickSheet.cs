@@ -13,5 +13,7 @@ namespace Payroll.Models
           public ICollection<TemporaryDisability> TemporaryDisabilities { get; set; }
 
           public bool HasBeenDeleted { get; set; }
+
+		public DateTime? DeletionDate { get; set; }
      }
 }

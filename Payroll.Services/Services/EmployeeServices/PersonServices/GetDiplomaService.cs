@@ -28,10 +28,11 @@ namespace Payroll.Services.Services.EmployeeServices.PersonServices
                context = payrollContext;
           }
 
+		//For Change
           public ICollection<DiplomaDto> GetAllEntitiesByEmployeeId(int employeeId)
           {
                var diplomaDtoList = context.Diplomas
-                    .Where(x => x.Person.Employee.Id == employeeId)
+                    .Where(x => x.Person.Id == employeeId)
                     .ProjectTo<DiplomaDto>(mapper.ConfigurationProvider)
                     .OrderBy(x => x.PersonId)
                     .ThenBy(x => x.EducationTypeName)

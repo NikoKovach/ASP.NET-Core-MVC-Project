@@ -24,6 +24,8 @@ namespace Payroll.Models
           [Column(TypeName ="date")]
           public DateTime? AddedOnDate { get; set; }
 
-          public bool? HasBeenDeleted { get; set; }
+          public bool HasBeenDeleted { get; set; }
+
+		public DateTime? DeletionDate { get; set; }
      }
 }

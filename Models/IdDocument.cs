@@ -58,5 +58,6 @@ namespace Payroll.Models
 
           public bool HasBeenDeleted { get; set; }
 
+		public DateTime? DeletionDate { get; set; }
      }
 }

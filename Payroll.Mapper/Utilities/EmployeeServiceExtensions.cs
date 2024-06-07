@@ -22,31 +22,31 @@ namespace Payroll.Mapper.Utilities
                return e;
           }
 
-          public static GetEmployeeDto? GetDocumentName(this GetEmployeeDto e, PayrollContext db, int empId)
-          {
+          //public static GetEmployeeDto? GetDocumentName(this GetEmployeeDto e, PayrollContext db, int empId)
+          //{
 
-               string? documentName = db.IdDocuments
-                   .Where(x => x.Person.EmployeeId == empId && x.IsValid == true)
-                   .Select(x => x.DocumentType.DocumentName)
-                   .FirstOrDefault();
+          //     string? documentName = db.IdDocuments
+          //         .Where(x => x.EmployeeId == empId && x.IsValid == true)
+          //         .Select(x => x.DocumentType.DocumentName)
+          //         .FirstOrDefault();
 
-               e.DocumentName = documentName;
+          //     e.DocumentName = documentName;
 
-               return e;
-          }
+          //     return e;
+          //}
 
-          public static GetEmployeeDto? GetDocumentNumber(this GetEmployeeDto e, PayrollContext db, int empId)
-          {
+          //public static GetEmployeeDto? GetDocumentNumber(this GetEmployeeDto e, PayrollContext db, int empId)
+          //{
 
-               string? documentNumber = db.IdDocuments
-                    .Where(x => x.Person.EmployeeId == empId && x.IsValid == true)
-                    .Select(x => x.DocumentNumber)
-                    .FirstOrDefault();
+          //     string? documentNumber = db.IdDocuments
+          //          .Where(x => x.Person.EmployeeId == empId && x.IsValid == true)
+          //          .Select(x => x.DocumentNumber)
+          //          .FirstOrDefault();
 
-               e.DocumentNumber = documentNumber;
+          //     e.DocumentNumber = documentNumber;
 
-               return e;
-          }
+          //     return e;
+          //}
 
           public static GetEmployeeDto? GetDepartmentName(this GetEmployeeDto e, PayrollContext db, int empId)
           {

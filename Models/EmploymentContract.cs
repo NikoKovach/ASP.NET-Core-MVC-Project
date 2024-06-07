@@ -121,5 +121,7 @@ namespace Payroll.Models
           public ICollection<Annex> SupplementaryAgreements { get; set; } = new HashSet<Annex>();
 
           public bool HasBeenDeleted { get; set; }
+
+		public DateTime? DeletionDate { get; set; }
      }
 }

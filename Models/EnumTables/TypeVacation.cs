@@ -14,5 +14,7 @@ namespace Payroll.Models
           public ICollection<Vacation> Vacations { get; set; } = new HashSet<Vacation>();
 
           public bool HasBeenDeleted { get; set; }
+
+		public DateTime? DeletionDate { get; set; }
      }
 }

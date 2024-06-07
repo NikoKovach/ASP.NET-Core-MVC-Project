@@ -22,9 +22,7 @@ namespace Payroll.Models
 
           public bool? HasBeenDeleted { get; set; }
 
-          //public byte? DaysOrHours { get; set; }
-
-          //public decimal? Amount { get; set; }
+          public DateTime? DeletionDate { get; set; }
 
      }
 }

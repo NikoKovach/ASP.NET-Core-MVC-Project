@@ -163,10 +163,7 @@
             </div>
          </div>
 
-          @if ( (bool)ViewData[ "ShowBanner" ] == true )
-          {
-               <partial name="_BannerLayout.cshtml" />
-          }
+		@RenderSection( "HomeIndex",false )
      </div>
      <!-- header section end -->
 

@@ -24,6 +24,8 @@ namespace Payroll.Models
 
           public bool HasBeenDeleted { get; set; }
 
+		public DateTime? DeletionDate { get; set; }
+
           public ICollection<WorkingDaysByMonth> WorkingDaysByMonths { get; set; } = new HashSet<WorkingDaysByMonth>();
 
      }

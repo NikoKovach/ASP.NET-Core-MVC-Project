@@ -82,7 +82,9 @@ namespace Payroll.Models
           [StringLength(200)]
           public string? Reason { get; set; }
 
-          public IReadOnlyCollection<ModeOfTreatment> ModeOfTreatments { get; set; } = new HashSet<ModeOfTreatment>();
+          public ICollection<ModeOfTreatment> ModeOfTreatments { get; set; } = new HashSet<ModeOfTreatment>();
+
+		public ICollection<WorkingDaysByMonth> WorkingDaysByMonths { get; set; } = new HashSet<WorkingDaysByMonth>();
 
           /// <summary>
           /// To appear for examination on a date
@@ -92,6 +94,6 @@ namespace Payroll.Models
 
           public bool HasBeenDeleted { get; set; }
 
-          public ICollection<WorkingDaysByMonth> WorkingDaysByMonths { get; set; } = new HashSet<WorkingDaysByMonth>();
+		public DateTime? DeletionDate { get; set; }
      }
 }

@@ -8,7 +8,7 @@ namespace Payroll.ModelsDto
           public int Id { get; set; }
 
           [Display(Name ="Company Name",ShortName ="J Name")]
-          [Required(ErrorMessage = "Pleace, enter company name !")]
+          [Required(ErrorMessage = "The field is required.")]
           [StringLength(200,MinimumLength = 3,ErrorMessage ="Text with lenght between 3 and 200 characters!")]
           public string Name { get; set; }
 
@@ -21,7 +21,7 @@ namespace Payroll.ModelsDto
           [StringLength(200,MinimumLength = 3)]
           public string? AddressOfManagement { get; set; }
 
-          [Display(Name="Unique Identifier")]
+          [Display(Name="Unique Identifier Number")]
           [Required(ErrorMessage ="The field is required.")]
           [StringLength(20,MinimumLength = 5)]
           public string UniqueIdentifier { get; set; }
@@ -32,7 +32,7 @@ namespace Payroll.ModelsDto
 
           [Display(Name="CEO Name")]
           [Required(ErrorMessage ="The field is required.")]
-          [StringLength(150,MinimumLength = 5)]
+          [StringLength(150,MinimumLength = 3)]
           public string RepresentedBy { get; set; }
 
           [Display(Name="CEO Id Number")]
@@ -47,5 +47,8 @@ namespace Payroll.ModelsDto
 
 		[Display( Name = "Has Been Deleted" )]
 		public bool HasBeenDeleted { get; set; }
+
+		[Display(Name="Deletion Date")]
+		public DateTime? DeletionDate { get; set; }
      }
 }

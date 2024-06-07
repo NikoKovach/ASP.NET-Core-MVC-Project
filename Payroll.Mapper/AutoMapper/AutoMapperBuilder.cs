@@ -10,12 +10,13 @@ namespace Payroll.Mapper.AutoMapper
                var mapperProfiles = new List<Profile>() 
                { 
                     new CompanyProfile(),
+				new PersonProfile(),
                     new EmployeeProfile(),
-                    new DiplomaProfile(),
-                    new ContactInfoProfile(),
-                    new AddressProfile(),
-                    new IdDocumentProfile(),
-                    new EducationTypeProfile(),
+                    //new DiplomaProfile(),
+                    //new ContactInfoProfile(),
+                    //new AddressProfile(),
+                    //new IdDocumentProfile(),
+                    //new EducationTypeProfile(),
                };
                
                var config = new MapperConfiguration( cfg => cfg.AddProfiles(mapperProfiles));

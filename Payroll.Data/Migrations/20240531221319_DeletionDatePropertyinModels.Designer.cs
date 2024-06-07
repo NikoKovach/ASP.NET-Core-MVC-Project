@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Payroll.Data;
 
@@ -11,9 +12,11 @@ using Payroll.Data;
 namespace Payroll.Data.Migrations
 {
     [DbContext(typeof(PayrollContext))]
-    partial class PayrollContextModelSnapshot : ModelSnapshot
+    [Migration("20240531221319_DeletionDatePropertyinModels")]
+    partial class DeletionDatePropertyinModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,7 +50,7 @@ namespace Payroll.Data.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<DateTime?>("DeletionDate")
+                    b.Property<DateTime>("DeletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Entrance")
@@ -110,7 +113,7 @@ namespace Payroll.Data.Migrations
                     b.Property<byte?>("DayWorkTime")
                         .HasColumnType("tinyint");
 
-                    b.Property<DateTime?>("DeletionDate")
+                    b.Property<DateTime>("DeletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("DepartmentId")
@@ -188,7 +191,7 @@ namespace Payroll.Data.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<DateTime?>("DeletionDate")
+                    b.Property<DateTime>("DeletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("HasBeenDeleted")
@@ -230,7 +233,7 @@ namespace Payroll.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("DeletionDate")
+                    b.Property<DateTime>("DeletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("E_MailAddress1")
@@ -280,7 +283,7 @@ namespace Payroll.Data.Migrations
                     b.Property<int?>("DeductionTypeId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DeletionDate")
+                    b.Property<DateTime>("DeletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("EmployeeId")
@@ -346,7 +349,7 @@ namespace Payroll.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentID"));
 
-                    b.Property<DateTime?>("DeletionDate")
+                    b.Property<DateTime>("DeletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("HasBeenDeleted")
@@ -373,7 +376,7 @@ namespace Payroll.Data.Migrations
                     b.Property<DateTime?>("DateOfIssue")
                         .HasColumnType("date");
 
-                    b.Property<DateTime?>("DeletionDate")
+                    b.Property<DateTime>("DeletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DiplomaRegNumber")
@@ -429,21 +432,16 @@ namespace Payroll.Data.Migrations
                     b.Property<int?>("EmpContractId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsPresent")
+                    b.Property<bool>("IsActual")
                         .HasColumnType("bit");
 
                     b.Property<string>("NumberFromTheList")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("PersonId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
-
-                    b.HasIndex("PersonId");
 
                     b.ToTable("Employees");
                 });
@@ -473,7 +471,7 @@ namespace Payroll.Data.Migrations
                     b.Property<DateTime?>("DateOfReceipt")
                         .HasColumnType("date");
 
-                    b.Property<DateTime?>("DeletionDate")
+                    b.Property<DateTime>("DeletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("DeparmentId")
@@ -580,7 +578,7 @@ namespace Payroll.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("DeletionDate")
+                    b.Property<DateTime>("DeletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("HasBeenDeleted")
@@ -606,7 +604,7 @@ namespace Payroll.Data.Migrations
                     b.Property<int>("Code")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DeletionDate")
+                    b.Property<DateTime>("DeletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool?>("HasBeenDeleted")
@@ -633,9 +631,6 @@ namespace Payroll.Data.Migrations
                     b.Property<int?>("DeductionElementId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DeletionDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("DocumentName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -660,9 +655,6 @@ namespace Payroll.Data.Migrations
 
                     b.Property<int?>("DeductionElementId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime?>("DeletionDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<bool>("HasBeenDeleted")
                         .HasColumnType("bit");
@@ -710,10 +702,7 @@ namespace Payroll.Data.Migrations
                     b.Property<int?>("DeductionElementId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DeletionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("HasBeenDeleted")
+                    b.Property<bool?>("HasBeenDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -740,7 +729,7 @@ namespace Payroll.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("DeletionDate")
+                    b.Property<DateTime>("DeletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("HasBeenDeleted")
@@ -759,7 +748,7 @@ namespace Payroll.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("DeletionDate")
+                    b.Property<DateTime>("DeletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("HasBeenDeleted")
@@ -796,7 +785,7 @@ namespace Payroll.Data.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<DateTime?>("DeletionDate")
+                    b.Property<DateTime>("DeletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Entance")
@@ -855,7 +844,7 @@ namespace Payroll.Data.Migrations
                     b.Property<DateTime>("DateOfIssue")
                         .HasColumnType("date");
 
-                    b.Property<DateTime?>("DeletionDate")
+                    b.Property<DateTime>("DeletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DocumentNumber")
@@ -918,7 +907,7 @@ namespace Payroll.Data.Migrations
                     b.Property<byte?>("Days")
                         .HasColumnType("tinyint");
 
-                    b.Property<DateTime?>("DeletionDate")
+                    b.Property<DateTime>("DeletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("EmployeeId")
@@ -1079,10 +1068,16 @@ namespace Payroll.Data.Migrations
                     b.Property<int?>("CurrentAddressId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("DeletionDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("EGN")
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
+
+                    b.Property<int?>("EmployeeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -1091,6 +1086,9 @@ namespace Payroll.Data.Migrations
 
                     b.Property<int?>("GenderId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("HasBeenDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -1110,6 +1108,10 @@ namespace Payroll.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CurrentAddressId");
+
+                    b.HasIndex("EmployeeId")
+                        .IsUnique()
+                        .HasFilter("[EmployeeId] IS NOT NULL");
 
                     b.HasIndex("GenderId");
 
@@ -1197,7 +1199,7 @@ namespace Payroll.Data.Migrations
                     b.Property<string>("DaysInAWord")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("DeletionDate")
+                    b.Property<DateTime>("DeletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Diagnosis")
@@ -1271,7 +1273,7 @@ namespace Payroll.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("DeletionDate")
+                    b.Property<DateTime>("DeletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("HasBeenDeleted")
@@ -1295,7 +1297,7 @@ namespace Payroll.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("DeletionDate")
+                    b.Property<DateTime>("DeletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("HasBeenDeleted")
@@ -1322,7 +1324,7 @@ namespace Payroll.Data.Migrations
                     b.Property<int>("CountOfWorkDays")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DeletionDate")
+                    b.Property<DateTime>("DeletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("EmployeeId")
@@ -1462,14 +1464,7 @@ namespace Payroll.Data.Migrations
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("Payroll.Models.Person", "Person")
-                        .WithMany("Employees")
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.Navigation("Company");
-
-                    b.Navigation("Person");
                 });
 
             modelBuilder.Entity("Payroll.Models.EmploymentContract", b =>
@@ -1624,6 +1619,11 @@ namespace Payroll.Data.Migrations
                         .HasForeignKey("CurrentAddressId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("Payroll.Models.Employee", "Employee")
+                        .WithOne("Person")
+                        .HasForeignKey("Payroll.Models.Person", "EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Payroll.Models.EnumTables.Gender", "Gender")
                         .WithMany("Persons")
                         .HasForeignKey("GenderId")
@@ -1635,6 +1635,8 @@ namespace Payroll.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("CurrentAddress");
+
+                    b.Navigation("Employee");
 
                     b.Navigation("Gender");
 
@@ -1741,6 +1743,8 @@ namespace Payroll.Data.Migrations
 
                     b.Navigation("MonthlySalaryStatements");
 
+                    b.Navigation("Person");
+
                     b.Navigation("TemporaryDisabilities");
 
                     b.Navigation("Vacations");
@@ -1814,8 +1818,6 @@ namespace Payroll.Data.Migrations
                     b.Navigation("ContactInfoList");
 
                     b.Navigation("Diplomas");
-
-                    b.Navigation("Employees");
 
                     b.Navigation("IdDocuments");
                 });
