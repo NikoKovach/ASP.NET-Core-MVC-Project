@@ -396,3 +396,10 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/TestPersonnel/WebConsoleAppPersonnel.csproj
+/TestPersonnel/Address.cs
+/TestPersonnel/AddressDto.cs
+/TestPersonnel/Employee.cs
+/TestPersonnel/EmployeeDto.cs
+/TestPersonnel/Program.cs
+/TestPersonnel/SecondProgram.cs
