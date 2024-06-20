@@ -8,10 +8,10 @@ using static Payroll.Services.AuthenticServices.EntityConfirmation;
 
 namespace Payroll.Services.Services.CompanyServices
 {
-          /// <summary>
-          /// TODO : FOR TESTING
-          /// </summary>
-     public class CompanyService : ICompany,IGetCompany,IGetEntities<CompanyDto>
+	/// <summary>
+     /// TODO : FOR TESTING
+     /// </summary>
+     public class CompanyService : ICompany,IGetCompany
      {
           private PayrollContext context;
           private IMapper mapper;

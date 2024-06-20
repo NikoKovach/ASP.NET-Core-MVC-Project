@@ -1,7 +1,4 @@
-﻿using Payroll.Models;
-using Payroll.ModelsDto.EmployeeDtos.PersonDtos;
-
-namespace Payroll.ModelsDto.EmployeeDtos
+﻿namespace Payroll.ModelsDto.EmployeeDtos
 {
      public class CreateEmployeeDto
      {

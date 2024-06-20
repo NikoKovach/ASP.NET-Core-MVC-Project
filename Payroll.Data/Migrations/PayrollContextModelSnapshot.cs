@@ -98,6 +98,9 @@ namespace Payroll.Data.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<int?>("ContractTypeId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CountedFromDate")
                         .HasColumnType("date");
 
@@ -159,6 +162,8 @@ namespace Payroll.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ContractTypeId");
 
                     b.HasIndex("DepartmentId");
 
@@ -467,7 +472,7 @@ namespace Payroll.Data.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("ContractTypeId")
+                    b.Property<int?>("ContractTypeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DateOfReceipt")
@@ -1384,6 +1389,11 @@ namespace Payroll.Data.Migrations
 
             modelBuilder.Entity("Payroll.Models.Annex", b =>
                 {
+                    b.HasOne("Payroll.Models.EnumTables.ContractType", "ContractType")
+                        .WithMany("Annexes")
+                        .HasForeignKey("ContractTypeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Payroll.Models.Department", "Department")
                         .WithMany("Annexes")
                         .HasForeignKey("DepartmentId")
@@ -1393,6 +1403,8 @@ namespace Payroll.Data.Migrations
                         .WithMany("SupplementaryAgreements")
                         .HasForeignKey("EmpContractId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ContractType");
 
                     b.Navigation("Department");
 
@@ -1477,8 +1489,7 @@ namespace Payroll.Data.Migrations
                     b.HasOne("Payroll.Models.EnumTables.ContractType", "ContractType")
                         .WithMany("EmploymentContracts")
                         .HasForeignKey("ContractTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Payroll.Models.Department", "Department")
                         .WithMany("EmploymentContracts")
@@ -1753,6 +1764,8 @@ namespace Payroll.Data.Migrations
 
             modelBuilder.Entity("Payroll.Models.EnumTables.ContractType", b =>
                 {
+                    b.Navigation("Annexes");
+
                     b.Navigation("EmploymentContracts");
                 });
 

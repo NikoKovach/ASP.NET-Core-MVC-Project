@@ -3,11 +3,13 @@ namespace PersonnelWebApp
      using AutoMapper;
      using Microsoft.EntityFrameworkCore;
      using Payroll.Data;
-     using Payroll.Models;
+	using Payroll.Mapper.CustomMap;
+	using Payroll.Models;
      using Payroll.ModelsDto;
      using Payroll.Services.Services;
      using Payroll.Services.Services.CompanyServices;
-     using Payroll.Services.Services.ServiceContracts;
+	using Payroll.Services.Services.EmployeeServices;
+	using Payroll.Services.Services.ServiceContracts;
      using System.Reflection;
 
      public class Startup
@@ -34,9 +36,16 @@ namespace PersonnelWebApp
 
 			services.AddAutoMapper(Assembly.Load(mapperAssembly));
 
+			services.AddScoped<IAddUpdateEntity, AddUpdateEntity>();
+
                services.AddScoped<ICompany, CompanyService>();
 
-               services.AddScoped<IAddUpdateEntity, AddUpdateEntity>();
+			services.AddTransient<IEmployeeService, EmployeeService>();
+
+			services.AddTransient<IGetEmployeeMapping,GetEmployeeMapping>();
+			
+			services.AddTransient<IAllValidEntities<SearchCompanyDto>,
+								ComponentSearchCompany>();
 
  //*********** End Personel modifications  ************       
 

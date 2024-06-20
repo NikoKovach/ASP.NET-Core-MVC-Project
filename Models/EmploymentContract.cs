@@ -21,8 +21,8 @@ namespace Payroll.Models
 
 
           [ForeignKey("ContractType")]
-          public int ContractTypeId { get; set; }
-          public ContractType ContractType { get; set; }
+          public int? ContractTypeId { get; set; }
+          public ContractType? ContractType { get; set; }
 
 
           [StringLength(20,MinimumLength = 1)]

@@ -16,9 +16,3 @@ namespace Payroll.Mapper.AutoMapper.MapperProfiles
           }
      }
 }
-
-//.ForMember( m => m.Gender.Type, o => o.MapFrom( s => s.GenderType ) );
-
-               //CreateMap<Person, PersonIdDto>()
-               //     .ForMember( m => m.GenderType, o => o.MapFrom( s => s.Gender.Type ) )
-               //     .ReverseMap();

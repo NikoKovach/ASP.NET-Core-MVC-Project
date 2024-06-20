@@ -20,7 +20,15 @@ namespace PersonnelWebApp.Controllers
 
           public async Task<IActionResult> AllActual()
           {
-               return View(await getService.GetAllValidEntitiesAsync());
+			ICollection<CompanyDto> companyList = 
+				await getService.GetAllValidEntitiesAsync();
+
+			if ( companyList == null )
+			{
+				return NotFound(companyList);
+			}
+
+               return View(companyList);
           }
 
           public IActionResult Create()
@@ -58,7 +66,9 @@ namespace PersonnelWebApp.Controllers
 			if ( string.IsNullOrWhiteSpace(uniqueIdentifier) )
 			{
 				//TODO : Later N.Kostov's course
-				return RedirectToAction("Error","Home");
+				//return RedirectToAction("Error","Home");
+
+				throw new ArgumentNullException();
 			}
 
                CompanyDto company = await getService.GetActiveCompanyByUniqueIdAsync( uniqueIdentifier );
@@ -66,7 +76,7 @@ namespace PersonnelWebApp.Controllers
 			if ( company == null)
 			{
 				//TODO : Later N.Kostov's course
-				return RedirectToAction("Error","Home");
+				return RedirectToAction( "Error", "Home" );
 			}
 
                return View(company);

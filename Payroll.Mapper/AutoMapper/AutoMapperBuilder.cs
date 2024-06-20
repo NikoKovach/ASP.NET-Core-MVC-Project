@@ -11,7 +11,7 @@ namespace Payroll.Mapper.AutoMapper
                { 
                     new CompanyProfile(),
 				new PersonProfile(),
-                    new EmployeeProfile(),
+				new EmployeeProfile(),
                     //new DiplomaProfile(),
                     //new ContactInfoProfile(),
                     //new AddressProfile(),

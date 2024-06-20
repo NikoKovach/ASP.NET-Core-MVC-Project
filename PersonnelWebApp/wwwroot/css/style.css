@@ -336,12 +336,12 @@ button {
 
 .menu_main li a:hover{
     color:#ffffff; 
-    background-color:#ff00c6;
+    background-color:#b60213;
 }
 
 .menu_main li.active a{
     color: #ffffff;
-    background-color:#ff00c6;
+    background-color:#b60213;
 }
 
 .menu_main li a:hover img{
@@ -399,7 +399,7 @@ button {
     float: left;
     font-size: 16px;
     color: #ffffff;
-    background-color: #ff00c6;
+    background-color: #b60213;
     text-align: center;
     padding: 10px 0px;
     border-radius: 30px;

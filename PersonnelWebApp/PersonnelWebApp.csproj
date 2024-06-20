@@ -45,4 +45,8 @@
     <ProjectReference Include="..\Payroll.Services\Payroll.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="AppFolder\" />
+  </ItemGroup>
+
 </Project>

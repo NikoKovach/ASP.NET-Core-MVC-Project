@@ -1,51 +1,44 @@
-﻿namespace Payroll.ModelsDto.EmployeeDtos
+﻿
+using System.ComponentModel.DataAnnotations;
+
+namespace Payroll.ModelsDto.EmployeeDtos
 {
-     public class GetEmployeeDto
-     {
-          public int EmployeeId { get; set; }
+	public class GetEmployeeDto
+	{
+		public int Id { get; set; }
 
-          public int PersonId { get; set; }
+		[Display(Name = "Company")]
+		public int? CompanyId { get; set; }
 
-          public bool IsActual { get; set; }
+		[Display(Name = "Number From The List")]
+		public string? NumberFromTheList { get; set; }
 
-          public string FirstName { get; set; }
+		[Display(Name = "Is Active")]
+          public bool IsPresent { get; set; }
 
-          public string? MiddleName { get; set; }
+		public PersonEmpDto? PersonDto { get; set; }
 
-          public string LastName { get; set; }
+		public ContactsEmpDto? ContactInfo { get; set; }
 
-          public string EGN { get; set; }
+		public IdDocumentEmpDto? IdCardPassport { get; set; }
 
-          public string? GenderType { get; set; }
+		//*******************************************************
+		public ContractEmpDto? ContractInfo { get; set; }
+		
+		[Display(Name = "Permanent Address")]
+		public string? PermanentAddress { get; set; }
+		//Calculate Field - <vc:VCName companyId="" empId=""></vc:VCName>
 
-          public string? PermanentAddress { get; set; }
+		[Display(Name = "Current Address")]
+		public string? CurrentAddress { get; set; }
+		//Calculate Field - <vc:VCName companyId="" empId=""></vc:VCName>
 
-          public string? CurrentAddress { get; set; }
+		[Display(Name = "Work Experience")]
+		public string? WorkExperience { get; set; } 
+		//Calculate Field - <vc:VCName companyId="" empId=""></vc:VCName>
 
-          public string? PhotoFilePath { get; set; }
-
-          public string? PhoneNumberOne { get; set; }
-
-          public string? PhoneNumberTwo { get; set; }
-
-          public string? E_MailAddress1 { get; set; }
-
-          public string? WebSite { get; set; }
-
-          public string? DocumentName { get; set; }
-
-          public string? DocumentNumber { get; set; }      
-
-          public string? NumberFromTheList { get; set; }
-
-          public string? JobTitle { get; set; }
-
-          public string? DepartmentName { get; set; }
-
-          public string? WorkExperience { get; set; }
-
-          public string? SpecialtyWorkExperience  { get; set; }
-
-          public bool HasBeenDeleted { get; set; }
-     }
+		[Display(Name = "Specialty Work Experience")]
+          public string? SpecialtyWorkExperience  { get; set; } 
+		//Calculate Field - <vc:VCName companyId="" empId=""></vc:VCName>
+	}
 }

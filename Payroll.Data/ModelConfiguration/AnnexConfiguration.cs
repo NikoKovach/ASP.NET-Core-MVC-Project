@@ -12,6 +12,11 @@ namespace Payroll.Data.ModelConfiguration
                       .WithMany(d => d.Annexes)
                       .HasForeignKey(f => f.DepartmentId)
                       .OnDelete(DeleteBehavior.Restrict);
+
+			builder.HasOne(c => c.ContractType)
+                      .WithMany(a => a.Annexes)
+                      .HasForeignKey(f => f.ContractTypeId)
+                      .OnDelete(DeleteBehavior.Restrict);
           }
      }
 }

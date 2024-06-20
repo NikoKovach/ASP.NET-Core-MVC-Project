@@ -1,10 +1,8 @@
-﻿
-using Payroll.ModelsDto;
-using Payroll.Services.Services.ServiceContracts;
+﻿using Payroll.ModelsDto;
 
 namespace Payroll.Services.Services.CompanyServices
 {
-     public interface IGetCompany : IGetEntities<CompanyDto>
+     public interface IGetCompany
      {
           Task<CompanyDto> GetActiveCompanyByUniqueIdAsync( string companyUniqueId );
      }

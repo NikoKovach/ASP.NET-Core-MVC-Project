@@ -5,12 +5,7 @@ using Payroll.Models;
 using Payroll.ModelsDto.EmployeeDtos;
 using Payroll.ModelsDto.EmployeeDtos.PersonDtos;
 using Payroll.Services.Services;
-using Payroll.Services.Services.ServiceContracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Test.Payroll
 {
@@ -83,7 +78,6 @@ namespace Test.Payroll
 			Assert.That( personDto, Is.InstanceOf<PersonDto>() );
 
 			Assert.That( personDto.EGN, Is.EqualTo( person.EGN ) );
-
 		}
 
 		[Test]
@@ -136,6 +130,57 @@ namespace Test.Payroll
 				Assert.That( employee.NumberFromTheList,
 					Is.EqualTo( employeeDto.NumberFromTheList ) );
 			} );
+		}
+
+
+		[TestCaseSource(nameof(GetPersonsLists))]  
+		public void MapCollectionOfPersonToCollectionOfPersonDto(List<Person> persons)
+		{
+			List<PersonDto> personDtoList = this.service
+				.CreateObject<List<PersonDto> ,List<Person> >( persons );
+
+			Assert.That( personDtoList, Is.InstanceOf<List<PersonDto>>() );
+
+			Assert.That( personDtoList[0].EGN, Is.EqualTo( persons[0].EGN ) );
+		}
+
+		private static IEnumerable<List<Person>> GetPersonsLists()
+		{
+			List<Person> persons = new List<Person>() 
+			{ 
+				new Person
+				{
+					Id			= 17,
+					FirstName		= "Dara",
+					MiddleName	= "Smith",
+					LastName		= "Bergendorf",
+					EGN			= "7703102225",
+					GenderId		= 7,
+					PhotoFilePath	= "/css/someFile.css"
+				},
+				new Person
+				{
+					Id			= 18,
+					FirstName		= "Todor",
+					MiddleName	= "T.",
+					LastName		= "Todorov",
+					EGN			= "7777777777",
+					GenderId		= 8,
+					PhotoFilePath	= "/css/someFile.css"
+				},
+				new Person
+				{
+					Id			= 19,
+					FirstName		= "Denko",
+					MiddleName	= "S.",
+					LastName		= "Denkov",
+					EGN			= "8888888888",
+					GenderId		= 8,
+					PhotoFilePath	= "/css/someFile.css"
+				},
+			};
+
+			return [persons];
 		}
 	}
 }

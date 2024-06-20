@@ -7,7 +7,7 @@ namespace Payroll.ModelsDto
      {
           public int Id { get; set; }
 
-          [Display(Name ="Company Name",ShortName ="J Name")]
+          [Display(Name ="Company Name")]
           [Required(ErrorMessage = "The field is required.")]
           [StringLength(200,MinimumLength = 3,ErrorMessage ="Text with lenght between 3 and 200 characters!")]
           public string Name { get; set; }

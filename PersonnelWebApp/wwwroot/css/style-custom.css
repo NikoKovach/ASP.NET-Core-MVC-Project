@@ -60,7 +60,7 @@
   
 .dropdown-content div.read_bt a:hover {
     color:#ffffff;
-    background-color:#ff00c6;
+    background-color:#b60213;
  }
 
 .dropdown-content div.read_bt a {
@@ -190,11 +190,12 @@ div.modify-company {
 div.send_bt.modify-company button {
 	max-width: 125px;
 	padding: 10px 1px;
-	background-color: #ff00c6;
+	background-color: #b60213;
 }
 
 /*div.sunrise.modify-company button {
 	background-color: aqua;
+	button background-color = new #a40514 or #b60213 #b60213;; old - pink - #ff00c6
 }*/
 
 

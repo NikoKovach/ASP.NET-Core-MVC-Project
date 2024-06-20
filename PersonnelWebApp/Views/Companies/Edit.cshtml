@@ -1,4 +1,5 @@
-﻿@model CompanyDto
+﻿@using Payroll.ModelsDto
+@model CompanyDto
 
 @{
     ViewData["Title"] = "Edit";
@@ -101,8 +102,7 @@
 								</datalist>
 								<span asp-validation-for="HasBeenDeleted"
 									 class="text-danger"></span>
-							</div>
-
+							</div>							
 							<div class="send_bt modify-company">
 								<button asp-controller="Companies" 
 									asp-action="EditCompany" type="submit">Save
@@ -128,19 +128,6 @@
 	</div>
 </div>
 
-
-
-@* <input asp-for="HasBeenDeleted"
-	class="form-control" type="text" list="boolList"/>
-<datalist id="boolList">
-	<option>True</option>
-	<option>False</option>
-</datalist> 
-<div class="send_bt modify-company sunrise">
-				<button asp-controller="Companies"
-					   asp-action="About">
-					About
-				</button>
-			</div> 	
-			name="Id" 
-*@
+@* @section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+} *@

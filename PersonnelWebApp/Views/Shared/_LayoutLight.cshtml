@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<title>@ViewData["Title"]</title>
+
+	<link rel="stylesheet" href="~/simple/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/simple/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/simple/DemoWebAppWithoutAccountsNet6.styles.css" asp-append-version="true"/>
+	<link rel="stylesheet" href="~/simple/css/myCustom.css"/>
+
+</head>
+<body>
+	<!-- header section start -->
+	<header>
+		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+			<div class="container-fluid">
+				<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Payroll System</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+					   aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+					<ul class="navbar-nav flex-grow-1">
+						<li class="nav-item">
+							<a class="nav-link text-dark" asp-area="" 
+							asp-controller="Home" asp-action="Index">
+								Home
+							</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="btn dropdown-toggle"
+							   data-bs-toggle="dropdown">
+								Personnel staff
+							</a>
+							<div class="dropdown-menu">
+								<ul>
+									<li>
+										<a class="dropdown-item text-dark" 
+										asp-area=""
+										asp-controller=""
+										asp-action="">
+											Employees
+										</a>
+									</li>
+									<li>
+										<a class="dropdown-item text-dark"
+										asp-area=""
+										asp-controller=""
+										asp-action="">
+											Personnel
+										</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-dark" asp-area="" 
+							asp-controller="" asp-action="">
+								Payroll
+							</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="btn dropdown-toggle" 
+							data-bs-toggle="dropdown">
+								Company
+							</a>
+							<div class="dropdown-menu">
+								<ul>
+									<li>
+										<a class="dropdown-item text-dark"
+										   asp-area="" 
+										   asp-controller="Companies"
+										   asp-action="AllActual">
+											Active Companies
+										</a>
+									</li>
+									<li>
+										<a class="dropdown-item text-dark"
+										   asp-area=""
+										   asp-controller="Companies"
+										   asp-action="Create">
+											Create Company
+										</a>
+									</li>
+									<li>
+										<a class="dropdown-item text-dark"
+										   asp-area=""
+										   asp-controller="Companies"
+										   asp-action="About_Us">
+											About Us
+										</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<a href="#">
+								<img src="/images/search-icon.png">
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+
+	<!-- header section end -->
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+
+	<script src="~/simple/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/simple/js/site.js" asp-append-version="true"></script>
+
+	<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+	<script>
+	   // Fallback to loading jQuery from a local path if the CDN is unavailable
+	   (window.jQuery || document.write(
+			'<script src="~/simple/lib/jquery/dist/jquery-3.7.1.js"><\/script>'));
+	</script>
+
+	<script src="~/simple/js/my_jquery_functions.js"></script>
+
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+
+@* <div class="header_section">
+	<div class="header_main">
+
+		<div class="container-fluid">
+			<div class="logo">
+				<a asp-area="" asp-controller="Home" asp-action="Index"><img src="/images/logo555.png"></a>
+			</div>
+			<div class="menu_main">
+				<ul>
+					<li class="active">
+						<a asp-area="" asp-controller="Home" asp-action="Index">
+							Home
+						</a>
+					</li>
+					<li>
+						<a href="#">Personnel staff</a>
+					</li>
+					<li>
+						<a href="#">Payroll</a>
+					</li>
+					<li class="dropdown">
+						<a href="#">Company</a>
+						<div class="dropdown-content">
+							<ul>
+								<li>
+									<div class="read_bt">
+										<a asp-area=""
+										   asp-controller="Companies"
+										   asp-action="AllActual">
+											Active Companies
+										</a>
+									</div>
+								</li>
+								<li>
+									<div class="read_bt">
+										<a asp-area=""
+										   asp-controller="Companies"
+										   asp-action="Create">
+											Create Company
+										</a>
+									</div>
+								</li>
+								<li>
+									<div class="read_bt">
+										<a asp-area=""
+										   asp-controller="Companies"
+										   asp-action="About_Us">
+											About Us
+										</a>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<a href="#"><img src="/images/search-icon.png"></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	@RenderSection( "HomeIndex", false )
+</div> *@

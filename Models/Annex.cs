@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Payroll.Models.EnumTables;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-using Payroll.Models.EnumTables;
 
 namespace Payroll.Models
 {
@@ -75,6 +74,11 @@ namespace Payroll.Models
 
           public int? EmpContractId { get; set; }
           public EmploymentContract? EmpContract { get; set; }
+
+
+		[ForeignKey("ContractType")]
+          public int? ContractTypeId { get; set; }
+          public ContractType? ContractType { get; set; }
 
           public bool HasBeenDeleted { get; set; }
 

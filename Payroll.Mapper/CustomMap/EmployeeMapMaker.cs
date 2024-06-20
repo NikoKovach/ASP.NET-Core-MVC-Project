@@ -9,60 +9,60 @@ using System.Reflection;
 
 namespace Payroll.Mapper.CustomMap
 {
-     public class EmployeeMapMaker : IEmployeeMapMaker
+     public class EmployeeMapMaker 
      {
           //public Func<PayrollContext, IEnumerable<GetEmployeeDto>> CreateMap = delegate ( PayrollContext db )
           //{
           //     throw new NotImplementedException();
           //};
 
-          public ICollection<GetEmployeeDto> EmployeeDtosMaker( PayrollContext db )
-          {
-               List<GetEmployeeDto> empDtoList = db.Employees
-               .Select( x => new GetEmployeeDto
-               {
-                    EmployeeId = x.Id,
-                    //IsActual = x.IsActual,
-                    NumberFromTheList = x.NumberFromTheList,
-                    PersonId = x.Person.Id,
-                    FirstName = x.Person.FirstName,
-                    MiddleName = x.Person.MiddleName,
-                    LastName = x.Person.LastName,
-                    EGN = x.Person.EGN,
-                    GenderType = x.Person.Gender.Type,
-                    PhotoFilePath = x.Person.PhotoFilePath,
-               }
-                      )
-               .OrderBy(x => x.FirstName)
-               .ThenBy(x => x.LastName)
-               .ToList();
+          //public ICollection<GetEmployeeDto> EmployeeDtosMaker( PayrollContext db )
+          //{
+          //     List<GetEmployeeDto> empDtoList = db.Employees
+          //     .Select( x => new GetEmployeeDto
+          //     {
+          //          EmployeeId = x.Id,
+          //          //IsActual = x.IsActual,
+          //          NumberFromTheList = x.NumberFromTheList,
+          //          PersonId = x.Person.Id,
+          //          FirstName = x.Person.FirstName,
+          //          MiddleName = x.Person.MiddleName,
+          //          LastName = x.Person.LastName,
+          //          EGN = x.Person.EGN,
+          //          GenderType = x.Person.Gender.Type,
+          //          PhotoFilePath = x.Person.PhotoFilePath,
+          //     }
+          //            )
+          //     .OrderBy(x => x.FirstName)
+          //     .ThenBy(x => x.LastName)
+          //     .ToList();
 
                //AddAdditionalInfo( empDtoList, db );
 
                //db.ChangeTracker.Clear();
 
-               return empDtoList;
-          }
+               //return empDtoList;
+          //}
 
-          public ICollection<GetEmployeeDto> EmployeeDtosMaker( PayrollContext db,string name )
-          {
+          //public ICollection<GetEmployeeDto> EmployeeDtosMaker( PayrollContext db,string name )
+          //{
 
-               string[] arrName = name.Split(' ',StringSplitOptions.RemoveEmptyEntries);
+          //     string[] arrName = name.Split(' ',StringSplitOptions.RemoveEmptyEntries);
 
-               string firstName = arrName[0];
-               string middleName = GetMiddleName( arrName );
-               string lastName = GetLastName( arrName );
+          //     string firstName = arrName[0];
+          //     string middleName = GetMiddleName( arrName );
+          //     string lastName = GetLastName( arrName );
 
-               List<GetEmployeeDto> employeeDto = db.Employees
-                                         .Where(x => x.Person.FirstName == firstName ||                                          x.Person.MiddleName == lastName ||                                          x.Person.LastName == lastName)
-                                         .Select(x =>  new GetEmployeeDto ())
-                                         .OrderBy(x => x.FirstName)
-                                         .ThenBy(x => x.MiddleName)
-                                         .ThenBy(x => x.LastName)
-                                         .ToList();
+          //     List<GetEmployeeDto> employeeDto = db.Employees
+          //                               .Where(x => x.Person.FirstName == firstName ||                                          x.Person.MiddleName == lastName ||                                          x.Person.LastName == lastName)
+          //                               .Select(x =>  new GetEmployeeDto ())
+          //                               .OrderBy(x => x.FirstName)
+          //                               .ThenBy(x => x.MiddleName)
+          //                               .ThenBy(x => x.LastName)
+          //                               .ToList();
 
-               return employeeDto;
-          }
+          //     return employeeDto;
+          //}
 
           public GetEmployeeDto? SingleEmployeeDtoMaker( PayrollContext db,int empId )
           {
@@ -112,30 +112,30 @@ namespace Payroll.Mapper.CustomMap
           //     }
           //}
 
-          private void GetContacts( GetEmployeeDto empDto, PayrollContext db )
-          {
-               var contactDto = db.ContactInfos
-                    .Where( x => x.PersonId == empDto.PersonId && x.HasBeenDeleted == false )
-                    .Select( x => new ContactInfoDto
-                    {
-                         PhoneNumberOne = x.PhoneNumberOne,
-                         PhoneNumberTwo = x.PhoneNumberTwo,
-                         E_MailAddress1 = x.E_MailAddress1,
-                         WebSite = x.WebSite,
-                    }
-                           )
-                    .FirstOrDefault();
+          //private void GetContacts( GetEmployeeDto empDto, PayrollContext db )
+          //{
+          //     var contactDto = db.ContactInfos
+          //          .Where( x => x.PersonId == empDto.PersonId && x.HasBeenDeleted == false )
+          //          .Select( x => new ContactInfoDto
+          //          {
+          //               PhoneNumberOne = x.PhoneNumberOne,
+          //               PhoneNumberTwo = x.PhoneNumberTwo,
+          //               E_MailAddress1 = x.E_MailAddress1,
+          //               WebSite = x.WebSite,
+          //          }
+          //                 )
+          //          .FirstOrDefault();
 
-               if ( contactDto == null )
-               {
-                    return;
-               }
+          //     if ( contactDto == null )
+          //     {
+          //          return;
+          //     }
 
-               empDto.PhoneNumberOne = contactDto.PhoneNumberOne;
-               empDto.PhoneNumberTwo = contactDto.PhoneNumberTwo;
-               empDto.E_MailAddress1 = contactDto.E_MailAddress1;
-               empDto.WebSite = contactDto.WebSite;
-          }
+          //     empDto.PhoneNumberOne = contactDto.PhoneNumberOne;
+          //     empDto.PhoneNumberTwo = contactDto.PhoneNumberTwo;
+          //     empDto.E_MailAddress1 = contactDto.E_MailAddress1;
+          //     empDto.WebSite = contactDto.WebSite;
+          //}
 
           //private string? GetAddress( int empId, PayrollContext db,string addressType )//Address address
           //{

@@ -1,4 +1,5 @@
-﻿@model CompanyDto
+﻿@using Payroll.ModelsDto
+@model CompanyDto
 
 @{
     ViewData["Title"] = "Details";
@@ -27,6 +28,9 @@
 								<label class="form-control mail_text">
 									@Model.UniqueIdentifier
 								</label>
+								<input asp-for="UniqueIdentifier" 
+									type="hidden" name="uniqueIdentifier" 
+									class="form-control" />
 							</div>
 							<div class="form-group">
 								<label asp-for="VATRegNumber"
@@ -86,7 +90,9 @@
 							</div>
 							<div class="form-group send_bt modify-company">
 								<button id="edit-company" type="submit" 
-								asp-action="Edit">Edit</button>
+								asp-controller="Companies" asp-action="Edit">
+									Edit
+								</button>
 							</div>
 						</div>
 					</form>

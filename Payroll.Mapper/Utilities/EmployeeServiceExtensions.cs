@@ -6,21 +6,21 @@ namespace Payroll.Mapper.Utilities
 {
      public static class EmployeeServiceExtensions
      {
-          public static GetEmployeeDto? GetJobTitle(this GetEmployeeDto e, PayrollContext db, int empId)
-          {
-               if (AnnexesCount(db, empId) > 0)
-               {
-                    e.JobTitle = GetAnnexJobTitle(db, empId);
-                    return e;
-               }
+          //public static GetEmployeeDto? GetJobTitle(this GetEmployeeDto e, PayrollContext db, int empId)
+          //{
+          //     if (AnnexesCount(db, empId) > 0)
+          //     {
+          //          e.JobTitle = GetAnnexJobTitle(db, empId);
+          //          return e;
+          //     }
 
-               e.JobTitle = db.EmploymentContracts
-                              .Where(x => x.EmployeeId == empId && x.IsActive == true)
-                              .Select(x => x.JobTitle)
-                              .FirstOrDefault();
+          //     e.JobTitle = db.EmploymentContracts
+          //                    .Where(x => x.EmployeeId == empId && x.IsActive == true)
+          //                    .Select(x => x.JobTitle)
+          //                    .FirstOrDefault();
 
-               return e;
-          }
+          //     return e;
+          //}
 
           //public static GetEmployeeDto? GetDocumentName(this GetEmployeeDto e, PayrollContext db, int empId)
           //{
@@ -48,22 +48,22 @@ namespace Payroll.Mapper.Utilities
           //     return e;
           //}
 
-          public static GetEmployeeDto? GetDepartmentName(this GetEmployeeDto e, PayrollContext db, int empId)
-          {
-               if (AnnexesCount(db, empId) > 0)
-               {
-                    e.DepartmentName = GetAnnexDepartmentName(db, empId);
+          //public static GetEmployeeDto? GetDepartmentName(this GetEmployeeDto e, PayrollContext db, int empId)
+          //{
+          //     if (AnnexesCount(db, empId) > 0)
+          //     {
+          //          e.DepartmentName = GetAnnexDepartmentName(db, empId);
 
-                    return e;
-               }
+          //          return e;
+          //     }
 
-               e.DepartmentName = db.EmploymentContracts
-                    .Where(x => x.EmployeeId == empId && x.IsActive == true)
-                    .Select(x => x.Department.Name)
-                    .FirstOrDefault();
+          //     e.DepartmentName = db.EmploymentContracts
+          //          .Where(x => x.EmployeeId == empId && x.IsActive == true)
+          //          .Select(x => x.Department.Name)
+          //          .FirstOrDefault();
 
-               return e;
-          }
+          //     return e;
+          //}
 
  //*************************************************************************
           private static int AnnexesCount(PayrollContext db, int empId)
