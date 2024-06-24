@@ -1,6 +1,6 @@
 ﻿namespace Payroll.ModelsDto.EmployeeDtos
 {
-     public class CreateEmployeeDto
+     public class EmployeeDto
      {
           public int Id { get; set; }
 

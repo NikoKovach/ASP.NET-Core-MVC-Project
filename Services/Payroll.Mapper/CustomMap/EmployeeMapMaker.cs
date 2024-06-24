@@ -4,7 +4,6 @@ using Payroll.Mapper.Utilities;
 using Payroll.Models;
 using Payroll.Models.EnumTables;
 using Payroll.ModelsDto.EmployeeDtos;
-using Payroll.ModelsDto.EmployeeDtos.PersonDtos;
 using System.Reflection;
 
 namespace Payroll.Mapper.CustomMap

@@ -2,7 +2,7 @@
 
 namespace Payroll.Services.Services.ServiceContracts
 {
-	public interface IEmployeeService :IGetEmployees
+	public interface IEmployee :IGetEmployees,IAddUpdate<EmployeeDto>
 	{
 	}
 }

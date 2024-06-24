@@ -2,24 +2,93 @@
 @model GetEmployeeDto
 
 
-<div class="row col-md-12">
+<div>
+	<section id="employee-section" class="col-md-9">
+		<div class="row">	
+			<div class="col-md-3">
+				<label asp-for="@Model.NumberFromTheList"></label>
+				<input class="text-center" value="@Model.NumberFromTheList" />
+			</div>
+			<div class="col-md-3">
+				<label asp-for="@Model.IsPresent"></label>
+				<input class="text-center" value="@Model.IsPresent.ToString()" />
+			</div>
+			<div class="col-md-3">
+				<label asp-for="@Model.Id"></label>
+				<input class="text-center" value="@Model.Id" />
+			</div>
+		</div>	
+	</section>
 
-	<div class="col-md-2">
-		<label asp-for="@Model.Id"></label>
-		<input class="text-center" value="@Model.Id" />
-	</div>
-	<div class="col-md-2">
-		<label asp-for="@Model.PersonDto.FirstName"></label>
-		<input class="text-center" value="@Model.PersonDto.FirstName" />
-	</div>
-	<div class="col-md-2">
-		<label asp-for="@Model.PersonDto.LastName"></label>
-		<input class="text-center" value="@Model.PersonDto.LastName" />
-	</div>
+	<section id="person-section">
+		<div class="person row col-md-12">
+			<div class="col-md-4">
+				<img />
+			</div>
+			<div class="col-md-8">
+				<div>
+					<div class="row">
+						<div class="col-md-4">
+							<label>Name</label>
+							<input class="text-center"
+								  value="@Model.PersonDto.FirstName  @Model.PersonDto.MiddleName @Model.PersonDto.LastName" />
+						</div>
+						<div class="col-md-4">
+							<label asp-for="@Model.PersonDto.GenderType"></label>
+							<input class="text-center" value="@Model.PersonDto.GenderType" />
+						</div>
+						<div class="col-md-4">
+							<label asp-for="@Model.PersonDto.EGN"></label>
+							<input class="text-center" value="@Model.PersonDto.EGN" />
+						</div>
+					</div>
+				</div>
+				<div>
+					<div class="row">
+						<div class="col-md-3">
+							<label asp-for="@Model.ContactInfo.PhoneNumberOne">
+							</label>
+							<input class="text-center"
+								  value="@Model.ContactInfo.PhoneNumberOne" />
+						</div>
+						<div class="col-md-3">
+							<label asp-for="@Model.ContactInfo.PhoneNumberTwo">
+							</label>
+							<input class="text-center"
+							value="@Model.ContactInfo.PhoneNumberTwo" />
+						</div>
+						<div class="col-md-3">
+							<label asp-for="@Model.ContactInfo.E_MailAddress1"></label>
+							<input class="text-center" 
+							value="@Model.ContactInfo.E_MailAddress1" />
+						</div>
+						<div class="col-md-3">
+							<label asp-for="@Model.ContactInfo.WebSite"></label>
+							<input class="text-center"
+							value="@Model.ContactInfo.WebSite" />
+						</div>
+					</div>
+				</div>
+				<div>
+					<div class="row">
+						<div class="col-md-4">
+							<label asp-for="@Model.IdCardPassport.DocumentName">
+							</label>
+							<input class="text-center"
+							value="@Model.IdCardPassport.DocumentName" />
+						</div>
+						<div class="col-md-4">
+							<label asp-for="@Model.IdCardPassport.DocumentNumber">
+							</label>
+							<input class="text-center"
+							value="@Model.IdCardPassport.DocumentNumber" />
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+	</section>
 
-	<div class="col-md-2">
-		<label asp-for="@Model.IsPresent"></label>
-		<input class="text-center" value="@Model.IsPresent.ToString()" />
-	</div>
+
 
 </div>

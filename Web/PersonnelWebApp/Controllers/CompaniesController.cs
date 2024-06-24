@@ -1,27 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Payroll.Models;
 using Payroll.ModelsDto;
 using Payroll.Services.Services.CompanyServices;
-using Payroll.Services.Services.ServiceContracts;
 
 namespace PersonnelWebApp.Controllers
 {
      public class CompaniesController : Controller
      {
-          private ICompany getService;
-          private IAddUpdateEntity addUpdateService;
+          private ICompany service;
+          //private IAddUpdateEntity addUpdateService;
 
-          public CompaniesController(ICompany companyService,
-               IAddUpdateEntity modifiedService)
+          public CompaniesController(ICompany companyService)
           {
-               getService = companyService;
-               addUpdateService = modifiedService;
+               service = companyService;
+               //addUpdateService = modifiedService;
           }
 
           public async Task<IActionResult> AllActual()
           {
 			ICollection<CompanyDto> companyList = 
-				await getService.GetAllValidEntitiesAsync();
+				await service.GetAllValidCompaniesAsync();
 
 			if ( companyList == null )
 			{
@@ -45,8 +42,7 @@ namespace PersonnelWebApp.Controllers
                {
                     try
                     {
-                         await addUpdateService
-                               .AddEntityAsync<Company,CompanyDto>(modelDto);
+                         await service.AddAsync(modelDto);
 
                          return RedirectToAction(nameof(AllActual));
                     }
@@ -71,7 +67,7 @@ namespace PersonnelWebApp.Controllers
 				throw new ArgumentNullException();
 			}
 
-               CompanyDto company = await getService.GetActiveCompanyByUniqueIdAsync( uniqueIdentifier );
+               CompanyDto company = await service.GetActiveCompanyByUniqueIdAsync( uniqueIdentifier );
 
 			if ( company == null)
 			{
@@ -95,8 +91,7 @@ namespace PersonnelWebApp.Controllers
 						modelDto.DeletionDate = DateTime.UtcNow;
 					}
 
-                         await addUpdateService
-                               .UpdateEntityAsync<Company,CompanyDto>(modelDto);
+                         await service.UpdateAsync(modelDto);
 
                          return RedirectToAction(nameof(AllActual));
                     }
@@ -119,7 +114,7 @@ namespace PersonnelWebApp.Controllers
 				return RedirectToAction("Error","Home");
 			}
 
-               CompanyDto company = await getService.GetActiveCompanyByUniqueIdAsync( uniqueIdentifier );
+               CompanyDto company = await service.GetActiveCompanyByUniqueIdAsync( uniqueIdentifier );
 
 			if ( company == null)
 			{

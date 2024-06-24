@@ -1,73 +1,57 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Payroll.Data;
+using Payroll.Data.Common;
 using Payroll.Mapper.CustomMap;
 using Payroll.ModelsDto.EmployeeDtos;
 using Payroll.Services.Services.ServiceContracts;
 using System.Diagnostics;
-using static Payroll.Services.AuthenticServices.EntityConfirmation;
 
 namespace Payroll.Services.Services.EmployeeServices
 {
-     public class EmployeeService : IEmployeeService   
+     public class EmployeeService : AddUpdateEntity,IEmployee  
      {
-          /// <summary>
-          /// TODO : FOR TESTING
-          /// </summary>
-          /// 
-
-          private PayrollContext dbContext;
+          //private PayrollContext dbContext;
 		private IGetEmployeeMapping customMapper;
 
           public EmployeeService( PayrollContext payrollContext, 
-			IGetEmployeeMapping customMapper)
+			IGetEmployeeMapping customMapper) : base(payrollContext)
           {
-               ArgumentNullConfirmation( payrollContext,nameof(payrollContext ),
-                                         GetClassName(this) ,GetClassFullName( this));
-
-               this.dbContext = payrollContext;
+               EntityConfirmation.ArgumentNullConfirmation( payrollContext,
+				nameof(payrollContext ),EntityConfirmation.GetClassName(this) ,
+				EntityConfirmation.GetClassFullName( this));
 
 			this.customMapper = customMapper;
           }
 
-		public async Task<IList<GetEmployeeDto>> GetAllEmployeesAsync
-		( int companyId ) 
+		public IQueryable<GetEmployeeDto> AllEmployees( int companyId )
 		{
-			//Stopwatch stopWatch = new Stopwatch();
-			//stopWatch.Start();
+			IQueryable<GetEmployeeDto>? allEmpList = 
+				this.customMapper.MapAllEmployeesQueryable(this.Context,companyId);
 
-			IList<GetEmployeeDto> empList = await this.customMapper
-				.MapAllEmployeesAsync(this.dbContext,companyId);
-
-			//Console.WriteLine(stopWatch.ElapsedMilliseconds);
-
-			await GetContractInfoFromAnnexesAsync( dbContext, empList );
-
-			//Console.WriteLine(stopWatch.ElapsedMilliseconds);
-			//stopWatch.Stop();
-			return empList;
-		}
-
-		public async Task<IList<GetEmployeeDto>> GetAllPresentEmployeesAsync( int companyId )
-		{
-			IList<GetEmployeeDto> empList = await this.customMapper
-				.MapPresentEmployeesAsync(this.dbContext,companyId);
-
-			await GetContractInfoFromAnnexesAsync(dbContext,empList);
-
-			return empList;
+			return  allEmpList;
 		}
 
 		public IQueryable<GetEmployeeDto> AllPresentEmployees( int companyId )
 		{
-			IQueryable<GetEmployeeDto>? empList = this.customMapper.MapPresentEmployeesQueryable(dbContext,companyId);
+			IQueryable<GetEmployeeDto>? empList = 
+				this.customMapper.MapPresentEmployeesQueryable(this.Context,companyId);
 
 			return  empList;
 		}
 
-		private async Task GetContractInfoFromAnnexesAsync( PayrollContext dbContext,
-											IList<GetEmployeeDto> empList )
+		public Task AddAsync( EmployeeDto viewModel )
 		{
+			throw new NotImplementedException();
+		}
 
+		public Task UpdateAsync( EmployeeDto viewModel )
+		{
+			throw new NotImplementedException();
+		}
+
+		private async Task GetContractInfoFromAnnexesAsync
+			( PayrollContext dbContext,IList<GetEmployeeDto> empList )
+		{
 			foreach ( var employee in empList )
 			{
 				var annexes = await dbContext.Employees

@@ -1,0 +1,75 @@
+﻿<div class="menu_main navbar-collapse collapse d-sm-inline-flex justify-content-between">
+	<ul>
+		<li class="active">
+			<a asp-area="" asp-controller="Home"
+			   asp-action="Index">
+				Home
+			</a>
+		</li>
+		<li class="dropdown">
+			<a href="#">Personnel staff</a>
+			<div class="dropdown-content">
+				<ul>
+					<li>
+						<div class="read_bt">
+							<a asp-area=""
+							   asp-controller=""
+							   asp-action="">
+								Employees
+							</a>
+						</div>
+					</li>
+					<li>
+						<div class="read_bt">
+							<a asp-area=""
+							   asp-controller=""
+							   asp-action="">
+								Personnel
+							</a>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</li>
+		<li>
+			<a href="#">Payroll</a>
+		</li>
+		<li class="dropdown">
+			<a href="#">Company</a>
+			<div class="dropdown-content">
+				<ul>
+					<li>
+						<div class="read_bt">
+							<a asp-area=""
+							   asp-controller="Companies"
+							   asp-action="AllActual">
+								Active Companies
+							</a>
+						</div>
+					</li>
+					<li>
+						<div class="read_bt">
+							<a asp-area=""
+							   asp-controller="Companies"
+							   asp-action="Create">
+								Create Company
+							</a>
+						</div>
+					</li>
+					<li>
+						<div class="read_bt">
+							<a asp-area=""
+							   asp-controller="Companies"
+							   asp-action="About_Us">
+								About Us
+							</a>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</li>
+		<li>
+			<a href="#"><img src="/images/search-icon.png"></a>
+		</li>
+	</ul>
+</div>

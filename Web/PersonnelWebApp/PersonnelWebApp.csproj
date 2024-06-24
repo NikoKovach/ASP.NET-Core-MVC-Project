@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Shared\_MobileMenuPartial.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Shared\_MobileMenuPartial.cshtml" />
     <None Include="wwwroot\css\.DS_Store" />
     <None Include="wwwroot\css\bootstrap-grid.css.map" />
     <None Include="wwwroot\css\bootstrap-grid.min.css.map" />
@@ -45,8 +50,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Data\Payroll.Data.Common\Payroll.Data.Common.csproj" />
     <ProjectReference Include="..\..\Services\Payroll.Services\Payroll.Services.csproj" />
     <ProjectReference Include="..\Payroll.ModelsDto\Payroll.ModelsDto.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Shared\_MobileMenuPartial.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Shared\_MobileMenuPartial.cshtml" />
   </ItemGroup>
 
 

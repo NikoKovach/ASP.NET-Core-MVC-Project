@@ -1,10 +1,8 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Microsoft.EntityFrameworkCore;
-using Payroll.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Payroll.Data.Common;
+using Payroll.Mapper.AutoMapper;
+using Payroll.Models;
 using Payroll.ModelsDto;
-using Payroll.Services.Services.ServiceContracts;
-using static Payroll.Services.AuthenticServices.EntityConfirmation;
 
 namespace Payroll.Services.Services.CompanyServices
 {
@@ -13,57 +11,78 @@ namespace Payroll.Services.Services.CompanyServices
      /// </summary>
      public class CompanyService : ICompany,IGetCompany
      {
-          private PayrollContext context;
-          private IMapper mapper;
-
-          public CompanyService( PayrollContext payrollContext, IMapper autoMapper ) : this(payrollContext)
+		private IMapEntity mapEntity;
+		private IRepository<Company> repository;
+		public CompanyService( IRepository<Company> repository,IMapEntity customMapper ) 
           {
-               ArgumentNullConfirmation( autoMapper,nameof(autoMapper ), 
-                    GetClassName(this) ,GetClassFullName(this ));
+			//        EntityConfirmation.ArgumentNullConfirmation
+			//( autoMapper,nameof(autoMapper ),
+			//  EntityConfirmation.GetClassName(this) ,
+			//  EntityConfirmation.GetClassFullName(this )
+			//);
 
-               this.mapper = autoMapper;
+			EntityConfirmation.ArgumentNullConfirmation
+							( customMapper, nameof( customMapper ),
+							  EntityConfirmation.GetClassName( this ),
+							  EntityConfirmation.GetClassFullName( this )
+							);
+
+			mapEntity = customMapper;
+
+			this.repository = repository;
           }
 
-          public CompanyService( PayrollContext payrollContext )
+          public virtual async Task<ICollection<CompanyDto>> GetAllCompaniesAsync()
           {
-               ArgumentNullConfirmation( payrollContext,nameof(payrollContext ),
-                    GetClassName(this) ,GetClassFullName( this));
+			var companiesList = await this.mapEntity
+							.ProjectTo<Company, CompanyDto>(this.repository.DbSet)
+							.OrderBy( c => c.Name )
+							.ThenBy( c => c.Id )
+							.ToListAsync();
 
-               context = payrollContext;
+			return companiesList;
           }
 
-          public virtual async Task<ICollection<CompanyDto>> GetAllEntitiesAsync()
+		public virtual async Task<ICollection<CompanyDto>> GetAllValidCompaniesAsync()
           {
-               var companiesList = await context.Companies
-                                   .ProjectTo<CompanyDto>(this.mapper.ConfigurationProvider)
-                                   .OrderBy( c => c.Name )
-                                   .ThenBy( c => c.Id )
-                                   .ToListAsync();
-
+			var companiesList = await this.mapEntity
+						.ProjectTo<Company, CompanyDto>(this.repository.DbSet)
+						.Where( x => x.HasBeenDeleted == false )
+						.OrderBy( c => c.Name )
+						.ThenBy( c => c.Id )
+						.ToListAsync();
+			
                return companiesList;
           }
 
-          public virtual async Task<ICollection<CompanyDto>> GetAllValidEntitiesAsync()
+		public async Task<CompanyDto> GetActiveCompanyByUniqueIdAsync
+			( string companyUniqueId )
           {
-               var companiesList = await context.Companies
-                                      .Where( x => x.HasBeenDeleted == false )
-                                      .ProjectTo<CompanyDto>( this.mapper.ConfigurationProvider )
-                                      .OrderBy( c => c.Name )
-                                      .ThenBy( c => c.Id )
-                                      .ToListAsync();
-
-               return companiesList;
-          }
-
-          public async Task<CompanyDto> GetActiveCompanyByUniqueIdAsync( string companyUniqueId )
-          {
-               CompanyDto? company = await context.Companies
-                                   .Where( x => x.HasBeenDeleted == false 
+			CompanyDto? company = await this.mapEntity
+				.ProjectTo<Company,CompanyDto>(this.repository.DbSet)
+				.Where( x => x.HasBeenDeleted == false 
                                     && x.UniqueIdentifier.Equals( companyUniqueId) )
-                                   .ProjectTo<CompanyDto>( this.mapper.ConfigurationProvider )
-                                   .FirstOrDefaultAsync();
+				.FirstOrDefaultAsync();
 
                return company;
-          }    
-     }
+          }
+
+		public async Task AddAsync( CompanyDto viewModel )
+		{
+			var company = this.mapEntity.Map<CompanyDto,Company>(viewModel);
+
+			await this.repository.AddAsync( company );
+
+			await this.repository.SaveChangesAsync();
+		}
+
+		public async Task UpdateAsync(CompanyDto viewModel)
+		{
+			var company = this.mapEntity.Map<CompanyDto,Company>(viewModel);
+
+			this.repository.Update( company );
+
+			await this.repository.SaveChangesAsync();
+		}
+	}
 }

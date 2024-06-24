@@ -1,8 +1,6 @@
 ﻿using NUnit.Framework;
 using Payroll.Data;
-using Payroll.Services.Services.CompanyServices;
-using static Payroll.Services.AuthenticServices.EntityConfirmation;
-using static Payroll.Services.Utilities.Messages.ExceptionMessages;
+using Payroll.Data.Common;
 
 namespace Payroll.Services.Test
 {
@@ -26,7 +24,9 @@ namespace Payroll.Services.Test
                string? className = " Name of Class";
                PayrollContext db = null;
 
-               Assert.Throws<ArgumentNullException>( () => ArgumentNullConfirmation<PayrollContext>(db,paramName, methodName,className) );
+               Assert.Throws<ArgumentNullException>( () =>
+				EntityConfirmation.ArgumentNullConfirmation<PayrollContext>
+				(db,paramName, methodName,className) );
           }
 
           [Test]
@@ -37,7 +37,8 @@ namespace Payroll.Services.Test
                string? className = " Name of Class";
                PayrollContext db = new PayrollContext();
 
-               Assert.DoesNotThrow(() => ArgumentNullConfirmation<PayrollContext>(db,paramName, methodName,className));
+               Assert.DoesNotThrow(() => EntityConfirmation.ArgumentNullConfirmation
+									(db,paramName, methodName,className));
           }
 
           [Test]
@@ -48,7 +49,11 @@ namespace Payroll.Services.Test
                string? className = " Name of Class";
                PayrollContext db = null;
 
-               Assert.Throws<InvalidOperationException>(() => EntityNullConfirmation<PayrollContext>(db,paramName, methodName,className));
+               Assert.Throws<InvalidOperationException>
+			(
+				() => EntityConfirmation.EntityNullConfirmation<PayrollContext>(db,
+				paramName, methodName,className)
+			);
           }
 
           [Test]
@@ -59,7 +64,9 @@ namespace Payroll.Services.Test
                string? className = " Name of Class";
                PayrollContext db = new PayrollContext();
 
-               Assert.DoesNotThrow(() => EntityNullConfirmation<PayrollContext>(db,paramName, methodName,className));
+               Assert.DoesNotThrow(() => EntityConfirmation.EntityNullConfirmation
+									(db,paramName, methodName,className)
+							);
           }
      }
 }

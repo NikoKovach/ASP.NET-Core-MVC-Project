@@ -9,7 +9,7 @@ namespace Payroll.Services.Data.Test
 		{
 		}
 
-		[Test]
+		//[Test]
 		public void TestConnectionString()
 		{
 

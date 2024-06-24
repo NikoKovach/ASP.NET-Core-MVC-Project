@@ -1,5 +1,4 @@
-﻿using Payroll.Data;
-using static Payroll.Services.Utilities.Messages.ExceptionMessages;
+﻿using static Payroll.Services.Utilities.Messages.ExceptionMessages;
 
 namespace Payroll.Services.AuthenticServices
 {
@@ -30,13 +29,5 @@ namespace Payroll.Services.AuthenticServices
           {
                return obj.GetType().FullName;
           }
-
-          //public  static void EntityIdIsActual<TEntity>( PayrollContext db, int id )
-          //{
-          //     throw new NotImplementedException();
-          //     //TODO :: Как с рефлекшън да бъде имплементиран класа!!!
-          //     //TODO :: Как с рефлекшън да бъде имплементиран класа EntityConfirmation!!!
-          //    //с цел да се покаже,че съществува или не запис в таблица с това 'Id' -> 
-          //}
      }
 }

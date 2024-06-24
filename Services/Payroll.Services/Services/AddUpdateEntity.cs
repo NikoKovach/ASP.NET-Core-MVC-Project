@@ -1,137 +1,87 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-
+﻿using Microsoft.EntityFrameworkCore;
 using Payroll.Data;
 using Payroll.Services.Services.ServiceContracts;
 
 using static Payroll.Services.Utilities.Messages.ExceptionMessages;
-using static Payroll.Services.AuthenticServices.EntityConfirmation;
 
 namespace Payroll.Services.Services
 {
-     public class AddUpdateEntity: IAddUpdateEntity
-        
-     {
-          private PayrollContext context;
-          private IMapper mapper;
+	public class AddUpdateEntity : IAddUpdateEntity
+	{
+		private PayrollContext context;
 
-          public AddUpdateEntity(PayrollContext payrollContext, IMapper autoMapper) : this(payrollContext)
-          {
-               ArgumentNullConfirmation( autoMapper,nameof(autoMapper ), GetClassName() ,GetClassFullName( ));
+		public AddUpdateEntity( PayrollContext payrollContext )
+		{
+			//ArgumentNullConfirmation( payrollContext, nameof( payrollContext ), GetClassName(), GetClassFullName() );
 
-               this.mapper = autoMapper;
-          }
+			this.context = payrollContext;
+		}
 
-		public PayrollContext Context  => this.context; 
+		public PayrollContext Context => this.context;
 
-          public IMapper Mapper  => this.mapper ;
+		public virtual async Task AddEntityAsync<TEntity>( TEntity entity )
+			where TEntity : class
+		{
+			//ArgumentNullConfirmation( entity, nameof( entity ), nameof( AddEntityAsync ), GetClassFullName() );
 
-          public AddUpdateEntity(PayrollContext payrollContext)
-          {
-               ArgumentNullConfirmation( payrollContext,nameof(payrollContext ),GetClassName() ,GetClassFullName( ));
+			try
+			{
+				await this.context.AddAsync( entity );
+			}
+			catch ( Exception)
+			{
+				throw new InvalidOperationException( AddOrUpdateError );
+			}
+		}
 
-               this.context = payrollContext;
-          }
+		public virtual void UpdateEntity<TEntity>( TEntity modifyEntity )
+			where TEntity : class
+		{
+			//ArgumentNullConfirmation( modifyEntity, nameof( modifyEntity ), nameof( UpdateEntity ), GetClassFullName() );
 
-          public async Task AddEntityAsync<TEntity,TSource>( TSource entityDto ) 
-			where TEntity:class
-			where TSource :class
-          {
-               ArgumentNullConfirmation<TSource>( entityDto, nameof( entityDto ), nameof( AddEntityAsync ), GetClassFullName() );
+			try
+			{
+				var updatedEntity = context.Entry( modifyEntity );
 
-               TEntity entity = CreateObject<TEntity,TSource>(entityDto);
+				if ( updatedEntity.State != EntityState.Detached )
+				{
+					updatedEntity.State = EntityState.Detached;
+				}
 
-               string entityName = entity.GetType().Name;
+				if ( updatedEntity.State == EntityState.Detached )
+				{
+					context.Attach( modifyEntity );
+				}
 
-               EntityNullConfirmation<TEntity>( entity,entityName,nameof(AddEntityAsync),GetClassFullName() );
+				updatedEntity.State = EntityState.Modified;
 
-               if ( await AddRecordAsync( entity ) == false )
-               {
-                    throw new InvalidOperationException( AddOrUpdateError );
-               }
-          }
+			}
+			catch ( Exception)
+			{
+				throw new InvalidOperationException( AddOrUpdateError );
+			}
+		}
 
-          public async Task UpdateEntityAsync<TEntity,TSource>( TSource entityDto )
-			where TEntity:class
-			where TSource :class
-          {
-               ArgumentNullConfirmation( entityDto, nameof( entityDto ), nameof( UpdateEntityAsync ), GetClassFullName() );
+		public async Task SaveAsync()
+		{
+			try
+			{
+				await this.context.SaveChangesAsync();
+			}
+			catch ( Exception )
+			{
+				throw new InvalidOperationException( AddOrUpdateError );
+			}	
+		}
 
-               TEntity entity = CreateObject<TEntity,TSource>(entityDto);
+		private string GetClassName()
+		{
+			return this.GetType().Name;
+		}
 
-               EntityNullConfirmation<TEntity>( entity, nameof( TEntity ), nameof( UpdateEntityAsync ), GetClassFullName() );
-
-               if ( await UpdateRecordAsync( entity ) == false )
-               {
-                    throw new InvalidOperationException( AddOrUpdateError );
-               }
-          }
-
-          public virtual async Task<bool> AddRecordAsync<TEntity>(TEntity entity)
-			where TEntity:class
-          {
-               try
-               {
-                    await this.context.AddAsync(entity);
-
-                    await this.context.SaveChangesAsync();
-
-                    return true;
-               }
-               catch (Exception)
-               {
-
-                    return false;
-               }
-          }
-
-          public virtual async Task<bool> UpdateRecordAsync<TEntity>( TEntity entity )
-			where TEntity:class
-          {
-               try
-               {
-                    var updatedEntity = context.Entry( entity );
-
-                    if (updatedEntity.State != EntityState.Detached)
-                    {
-                         updatedEntity.State = EntityState.Detached;
-                    }
-
-                    if ( updatedEntity.State == EntityState.Detached )
-                    {
-                         //DbSet<TEntity> dbSet = this.context.Set<TEntity>();
-                         context.Attach( entity );
-                    }
-
-                    updatedEntity.State = EntityState.Modified;
-
-                    await this.context.SaveChangesAsync();
-
-                    return true;
-               }
-               catch ( Exception )
-               {
-                    return false;
-               }
-          }
-
-          public virtual TEntity CreateObject<TEntity,TSource>(TSource view)
-			where TEntity:class
-			where TSource :class
-          {
-               TEntity entity = mapper.Map<TEntity>(view);
-
-               return entity ;
-          }
-
-          private string GetClassName( )
-          {
-               return this.GetType().Name;
-          }
-
-          private string? GetClassFullName( )
-          {
-               return this.GetType().FullName;
-          }
-     }
+		private string? GetClassFullName()
+		{
+			return this.GetType().FullName;
+		}
+	}
 }

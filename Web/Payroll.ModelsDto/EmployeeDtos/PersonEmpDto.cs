@@ -18,6 +18,8 @@ namespace Payroll.ModelsDto.EmployeeDtos
 		public string LastName { get; set; }
 
 		public int? GenderId { get; set; }
+
+		[Display(Name ="Gender")]
 		public string? GenderType { get; set; }
 
 		public string EGN { get; set; }

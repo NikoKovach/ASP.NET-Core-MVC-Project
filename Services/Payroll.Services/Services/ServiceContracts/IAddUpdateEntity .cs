@@ -5,16 +5,14 @@ namespace Payroll.Services.Services.ServiceContracts
 {
      public interface IAddUpdateEntity 
      {
-          Task AddEntityAsync<TEntity,TSource>(TSource entityDto)
-			where TEntity : class
-			where TSource : class;
+		Task AddEntityAsync<TEntity>( TEntity entity )
+			where TEntity : class;
 
-		Task UpdateEntityAsync<TEntity, TSource>( TSource entityDto )
-			where TEntity : class
-			where TSource : class;
+		void UpdateEntity<TEntity>( TEntity entity )
+			where TEntity : class;
 
-		public PayrollContext Context { get; }
+		Task SaveAsync();
 
-		public IMapper Mapper { get; }
+		PayrollContext Context { get;}
 	}
 }

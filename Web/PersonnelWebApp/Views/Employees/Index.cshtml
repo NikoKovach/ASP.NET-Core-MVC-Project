@@ -22,13 +22,13 @@
 
 <div class="carousel col-mb-6">
 	<a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)"
-	   class="btn btn-link @prevDisabled">
+	   class="btn btn-outline-primary @prevDisabled">
 		Previous
 	</a>
 	<input class="text-center" name="pageNumber" value="@Model.PageIndex" />
 	<label>/ @Model.TotalPages</label>
 	<a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)"
-	   class="btn btn-link @nextDisabled">
+	   class="btn btn-outline-primary @nextDisabled">
 		Next
 	</a>
 </div>

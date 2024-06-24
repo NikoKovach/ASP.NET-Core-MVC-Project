@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Archives\WareHouseViews\OldIndex2.cshtml" />
+    <None Remove="Archives\WareHouseViews\_BannerLayout.cshtml" />
+    <None Remove="Archives\WareHouseViews\_LayoutBackUp.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Archives\WareHouseViews\OldIndex2.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Archives\WareHouseViews\_BannerLayout.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Archives\WareHouseViews\_LayoutBackUp.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\Models\Payroll.Models.csproj" />
+    <ProjectReference Include="..\..\Data\Payroll.Data\Payroll.Data.csproj" />
+    <ProjectReference Include="..\..\Services\Payroll.Services\Payroll.Services.csproj" />
+    <ProjectReference Include="..\..\Web\Payroll.ModelsDto\Payroll.ModelsDto.csproj" />
+  </ItemGroup>
+
+</Project>

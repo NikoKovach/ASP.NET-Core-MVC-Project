@@ -30,82 +30,12 @@
 <body class="bg-body">
      <!-- header section start -->
      <div class="header_section">
-		<div class="header_main">
+		<div class="header_main">		
+			<!-- Mobile menu start-->
 
-             <!-- Mobile menu start-->
-			<div class="mobile_menu">
-                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                     <div class="logo_mobile">
-                         <a asp-area="" asp-controller="Home" asp-action="Index">
-                             <img src="/images/logo555.png">
-                         </a>
-                     </div>
-                     <button class="navbar-toggler" type="button" 
-                         data-toggle="collapse" data-target="#navbarNav" 
-                         aria-controls="navbarNav" aria-expanded="false" 
-                         aria-label="Toggle navigation">
-                              <span class="navbar-toggler-icon"></span>
-                     </button>
-                     <div class="collapse navbar-collapse" id="navbarNav">
-                          <ul class="navbar-nav">
-                              <li class="nav-item active">
-                                  <a class="nav-link" asp-area="" 
-                                  asp-controller="Home" asp-action="Index">Home</a>
-                              </li>
-                              <li class="nav-item">
-                                  <a class="nav-link" href="#">Personnel staff</a>
-                              </li>
-                              <li class="nav-item">
-                                  <a class="nav-link" href="#">Payroll</a>
-                              </li>
-                              <li class="nav-item dropdown">
-                                  <a class="nav-link dropdown-toggle" href="#" 
-                                  role="button" data-bs-toggle="dropdown" 
-                                  aria-expanded="false">Company</a>
-                                  <div class="dropdown-content">
-                                      <ul class="dropdown-menu dropdown-menu-end">
-                                          <li>
-                                              <a asp-area="" asp-controller="Companies" 
-                                            asp-action="AllActual">
-                                                 Active Companies
-                                              </a>
-                                          </li>
-                                          <li>
-                                              <a asp-area="" asp-controller="Companies" 
-                                              asp-action="Details">
-                                                 Details
-                                              </a>
-                                          </li>
-                                          <li>
-                                              <a asp-area="" asp-controller="Companies" 
-                                              asp-action="Create">
-                                                  Create Company
-                                              </a>
-                                          </li>
-                                          <li>
-                                              <a asp-area="" asp-controller="Companies" 
-                                              asp-action="Update">
-                                                  Update Company
-                                              </a>
-                                          </li>
-                                          <li>
-                                              <a asp-area="" asp-controller="Companies" 
-                                                  asp-action="About">
-                                                  About
-                                              </a>
-                                          </li>
-                                      </ul>
-                                  </div>
-                              </li>
-                              <li class="nav-item">
-                                  <a class="nav-link " href="#"><img 
-                                     src="/images/search-icon.png"></a>
-                              </li>
-                          </ul>
-                     </div>
-                 </nav>
-             </div>
-             <!-- Mobile menu end-->
+			<partial name="_MobileMenuPartial"></partial>
+
+			<!-- Mobile menu end-->
 
 			<div class="container-fluid">
 				<div class="logo">
@@ -113,81 +43,11 @@
 						<img src="/images/logo555.png">
 					</a>
 				</div>
-				<div class="menu_main">
-					<ul>
-						<li class="active">
-							<a asp-area="" asp-controller="Home" 
-							asp-action="Index">
-								Home
-							</a> 
-						</li>
-						<li class="dropdown">
-							<a href="#">Personnel staff</a>
-							<div class="dropdown-content">
-								<ul>
-									<li>
-										<div class="read_bt">
-											<a asp-area="" 
-											asp-controller="" 
-											asp-action="">
-												Employees
-											</a>
-										</div>
-									</li>
-									<li>
-										<div class="read_bt">
-											<a asp-area="" 
-											asp-controller="" 
-											asp-action="">
-												Personnel
-											</a>
-										</div>
-									</li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<a href="#">Payroll</a>
-						</li>
-						<li class="dropdown">
-							<a href="#">Company</a>
-							<div class="dropdown-content">
-								<ul>
-									<li>
-										<div class="read_bt">
-										     <a asp-area="" 
-											asp-controller="Companies" 
-											asp-action="AllActual">
-										         Active Companies
-										     </a>
-										</div>   
-									</li>                                
-									<li>
-										<div class="read_bt">
-										    <a asp-area="" 
-										    asp-controller="Companies" 
-										        asp-action="Create">
-											   Create Company
-										    </a>        
-										</div>  
-									</li>
-									<li>
-										<div class="read_bt">
-										     <a asp-area="" 
-											asp-controller="Companies" 
-										         asp-action="About_Us">
-											    About Us
-										     </a>
-										</div>  
-									</li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<a href="#"><img src="/images/search-icon.png"></a>
-						</li>
-					</ul>
-				</div>
+				<!-- Main menu start-->
+
+				<partial name="_MainMenuPartial"></partial>
+
+				<!-- Main menu end-->
 			</div>
 		</div>
 

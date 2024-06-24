@@ -8,7 +8,7 @@ namespace Payroll.Mapper.AutoMapper.MapperProfiles
      {
           public EmployeeProfile()
           {
-               CreateMap<Employee, CreateEmployeeDto>().ReverseMap();
+               CreateMap<Employee, EmployeeDto>().ReverseMap();
 		}
      }
 }

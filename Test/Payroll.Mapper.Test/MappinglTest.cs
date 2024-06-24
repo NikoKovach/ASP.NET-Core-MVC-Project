@@ -3,18 +3,18 @@ using Payroll.Data;
 using Payroll.Mapper.AutoMapper;
 using Payroll.Models;
 using Payroll.ModelsDto.EmployeeDtos;
-using Payroll.ModelsDto.EmployeeDtos.PersonDtos;
+using Payroll.ModelsDto.PersonViewModels;
 using Payroll.Services.Services;
 
 
 namespace Test.Payroll
 {
-	[TestFixture]
+    [TestFixture]
 	public class MappinglTest
 	{
 		private PayrollContext payrollContext;
 		private IMapper? mapper;
-		private AddUpdateEntity? service;
+		private IMapEntity? service;
 
 		[SetUp]
 		public void MappingSetUp() 
@@ -25,7 +25,7 @@ namespace Test.Payroll
 
 			this.mapper = config.CreateMapper();
 
-			this.service = new AddUpdateEntity(payrollContext,this.mapper);
+			this.service = new MapEntity(payrollContext,mapper);
 		}
 
 		[TearDown]
@@ -51,7 +51,7 @@ namespace Test.Payroll
 				PhotoFilePath	= "/css/someFile.css"
 			};
 
-			Person person = this.service.CreateObject<Person, PersonDto>( personDto );
+			Person person = this.service.Map<PersonDto,Person>( personDto );
 
 			Assert.That( person, Is.InstanceOf<Person>() );
 
@@ -73,7 +73,7 @@ namespace Test.Payroll
 				PhotoFilePath	= "/css/someFile.css"
 			};
 
-			PersonDto personDto = this.service.CreateObject<PersonDto,Person>( person );
+			PersonDto personDto = this.service.Map<Person,PersonDto>( person );
 
 			Assert.That( personDto, Is.InstanceOf<PersonDto>() );
 
@@ -83,7 +83,7 @@ namespace Test.Payroll
 		[Test]
 		public void MapEmployeeDtoToEmployee()
 		{
-			CreateEmployeeDto empDto = new CreateEmployeeDto() 
+			EmployeeDto empDto = new EmployeeDto() 
 			{ 
 				
 				PersonId			= 17,
@@ -92,8 +92,8 @@ namespace Test.Payroll
 				IsPresent			= true
 			};
 
-			Employee employee = this.service
-				.CreateObject<Employee, CreateEmployeeDto>( empDto );
+			Employee employee = this.service.Map< EmployeeDto,Employee>
+							( empDto );
 
 			Assert.That( employee, Is.InstanceOf<Employee>() );
 
@@ -118,10 +118,10 @@ namespace Test.Payroll
 				IsPresent			= true
 			};
 
-			var employeeDto = this.service
-				.CreateObject<CreateEmployeeDto, Employee>( employee );
+			var employeeDto = this.service.Map<Employee,EmployeeDto>
+							( employee );
 
-			Assert.That( employeeDto, Is.InstanceOf<CreateEmployeeDto>() );
+			Assert.That( employeeDto, Is.InstanceOf<EmployeeDto>() );
 
 			Assert.Multiple( () =>
 			{
@@ -137,7 +137,7 @@ namespace Test.Payroll
 		public void MapCollectionOfPersonToCollectionOfPersonDto(List<Person> persons)
 		{
 			List<PersonDto> personDtoList = this.service
-				.CreateObject<List<PersonDto> ,List<Person> >( persons );
+				.Map<List<Person>,List<PersonDto>>( persons );
 
 			Assert.That( personDtoList, Is.InstanceOf<List<PersonDto>>() );
 

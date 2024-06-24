@@ -9,10 +9,10 @@ namespace PersonnelWebApp.Controllers
 {
 	public class EmployeesController : Controller
 	{
-		IEmployeeService empService;
+		IEmployee empService;
 		private static int companyIdNumber = 0;
 
-		public EmployeesController(IEmployeeService service)
+		public EmployeesController(IEmployee service)
 		{
 			this.empService = service;
 
@@ -57,7 +57,11 @@ namespace PersonnelWebApp.Controllers
 					FirstName = "No Record",
 					LastName = "No REcord"
 				},
+				ContactInfo = new ContactsEmpDto(),
+				IdCardPassport = new IdDocumentEmpDto(),
+				ContractInfo = new ContractEmpDto(),
 			};
+
 			var items = new List<GetEmployeeDto>();
 			items.Add( defaultItem );
 
@@ -66,73 +70,5 @@ namespace PersonnelWebApp.Controllers
 			return defaultList;
 		}
 
-		// GET: EmployeesController/Details/5
-		//public ActionResult Details( int id )
-		//{
-		//	return View();
-		//}
-
-		//// GET: EmployeesController/Create
-		//public ActionResult Create()
-		//{
-		//	return View();
-		//}
-
-		//// POST: EmployeesController/Create
-		//[HttpPost]
-		//[ValidateAntiForgeryToken]
-		//public ActionResult Create( IFormCollection collection )
-		//{
-		//	try
-		//	{
-		//		return RedirectToAction( nameof( Index ) );
-		//	}
-		//	catch
-		//	{
-		//		return View();
-		//	}
-		//}
-
-		//// GET: EmployeesController/Edit/5
-		//public ActionResult Edit( int id )
-		//{
-		//	return View();
-		//}
-
-		//// POST: EmployeesController/Edit/5
-		//[HttpPost]
-		//[ValidateAntiForgeryToken]
-		//public ActionResult Edit( int id, IFormCollection collection )
-		//{
-		//	try
-		//	{
-		//		return RedirectToAction( nameof( Index ) );
-		//	}
-		//	catch
-		//	{
-		//		return View();
-		//	}
-		//}
-
-		//// GET: EmployeesController/Delete/5
-		//public ActionResult Delete( int id )
-		//{
-		//	return View();
-		//}
-
-		//// POST: EmployeesController/Delete/5
-		//[HttpPost]
-		//[ValidateAntiForgeryToken]
-		//public ActionResult Delete( int id, IFormCollection collection )
-		//{
-		//	try
-		//	{
-		//		return RedirectToAction( nameof( Index ) );
-		//	}
-		//	catch
-		//	{
-		//		return View();
-		//	}
-		//}
 	}
 }
