@@ -2,7 +2,8 @@
 @model CompanyDto
 
 @{
-    ViewData["Title"] = "Edit";
+	ViewData["Title"] = "Edit";
+	string oldCompanyName = Model.Name;
 }
 
 <div class="about_section layout_padding company">
@@ -79,7 +80,8 @@
 									  class="control-label"></label>
 								<input asp-for="RepresentativeIdNumber"
 									  class="form-control" />
-								<span asp-validation-for="RepresentativeIdNumber"
+								<span asp-validation-for=
+								"RepresentativeIdNumber"
 									 class="text-danger"></span>
 							</div>
 							<div class="form-group">
@@ -102,7 +104,11 @@
 								</datalist>
 								<span asp-validation-for="HasBeenDeleted"
 									 class="text-danger"></span>
-							</div>							
+							</div>
+							<div class="form-group">
+								<input name="oldName" type="hidden" 
+									value ="@oldCompanyName" />
+							</div>
 							<div class="send_bt modify-company">
 								<button asp-controller="Companies" 
 									asp-action="EditCompany" type="submit">Save

@@ -15,6 +15,8 @@ namespace Payroll.Services.Services.EmployeeServices
 
 		}
 
+		//public string VirtualFilePath { get; set; }
+
 		public int PageIndex { get; private set; }
 
 		public int TotalPages { get; private set; }

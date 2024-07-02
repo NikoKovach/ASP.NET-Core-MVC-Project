@@ -2,23 +2,30 @@
 using Payroll.Data;
 using Payroll.Data.Common;
 using Payroll.Mapper.CustomMap;
+using Payroll.Models;
 using Payroll.ModelsDto.EmployeeDtos;
 using Payroll.Services.Services.ServiceContracts;
 using System.Diagnostics;
 
 namespace Payroll.Services.Services.EmployeeServices
 {
-     public class EmployeeService : AddUpdateEntity,IEmployee  
+     public class EmployeeService :IEmployee  
      {
-          //private PayrollContext dbContext;
 		private IGetEmployeeMapping customMapper;
+		private IRepository<Employee> repository;
 
-          public EmployeeService( PayrollContext payrollContext, 
-			IGetEmployeeMapping customMapper) : base(payrollContext)
+          public EmployeeService( IRepository<Employee> empRepository, 
+			IGetEmployeeMapping customMapper)
           {
-               EntityConfirmation.ArgumentNullConfirmation( payrollContext,
-				nameof(payrollContext ),EntityConfirmation.GetClassName(this) ,
+               EntityConfirmation.ArgumentNullConfirmation( empRepository,
+				nameof(empRepository ),EntityConfirmation.GetClassName(this) ,
 				EntityConfirmation.GetClassFullName( this));
+
+			EntityConfirmation.ArgumentNullConfirmation( customMapper,
+				nameof(customMapper ),EntityConfirmation.GetClassName(this) ,
+				EntityConfirmation.GetClassFullName( this));
+
+			this.repository = empRepository;
 
 			this.customMapper = customMapper;
           }
@@ -26,7 +33,8 @@ namespace Payroll.Services.Services.EmployeeServices
 		public IQueryable<GetEmployeeDto> AllEmployees( int companyId )
 		{
 			IQueryable<GetEmployeeDto>? allEmpList = 
-				this.customMapper.MapAllEmployeesQueryable(this.Context,companyId);
+				this.customMapper.MapAllEmployeesQueryable
+				(this.repository.DbSet,companyId);
 
 			return  allEmpList;
 		}
@@ -34,7 +42,8 @@ namespace Payroll.Services.Services.EmployeeServices
 		public IQueryable<GetEmployeeDto> AllPresentEmployees( int companyId )
 		{
 			IQueryable<GetEmployeeDto>? empList = 
-				this.customMapper.MapPresentEmployeesQueryable(this.Context,companyId);
+				this.customMapper.MapPresentEmployeesQueryable
+				(this.repository.DbSet,companyId);
 
 			return  empList;
 		}

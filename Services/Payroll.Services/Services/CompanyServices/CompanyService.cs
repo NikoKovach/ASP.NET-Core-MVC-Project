@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CommonServices;
+using Microsoft.EntityFrameworkCore;
 using Payroll.Data.Common;
 using Payroll.Mapper.AutoMapper;
 using Payroll.Models;
@@ -15,12 +16,6 @@ namespace Payroll.Services.Services.CompanyServices
 		private IRepository<Company> repository;
 		public CompanyService( IRepository<Company> repository,IMapEntity customMapper ) 
           {
-			//        EntityConfirmation.ArgumentNullConfirmation
-			//( autoMapper,nameof(autoMapper ),
-			//  EntityConfirmation.GetClassName(this) ,
-			//  EntityConfirmation.GetClassFullName(this )
-			//);
-
 			EntityConfirmation.ArgumentNullConfirmation
 							( customMapper, nameof( customMapper ),
 							  EntityConfirmation.GetClassName( this ),
@@ -84,5 +79,81 @@ namespace Payroll.Services.Services.CompanyServices
 
 			await this.repository.SaveChangesAsync();
 		}
+
+		public void CreateUpdateCompanyFolder(string rootFolder, 
+			CompanyDto viewModel,string actionName,params string[] viewModelOld)
+		{
+			if ( actionName.Equals("Create") )
+			{
+				CreateCompanyFolder( rootFolder, viewModel );
+			}
+			else if ( actionName.Equals("EditCompany") )
+			{
+				string oldCompanyName = viewModelOld[ 0 ];
+				string modifiedOldName =
+					EnvironmentService.ModifyFolderName( oldCompanyName );
+
+				if ( EnvironmentService.DirectoryExists(rootFolder,modifiedOldName) )
+				{
+					string modifiedNewName =
+					EnvironmentService.ModifyFolderName( viewModel.Name );
+
+					RenameCompanyFolder(rootFolder,modifiedOldName,
+						modifiedNewName);
+				}
+				else
+				{
+					CreateCompanyFolder( rootFolder, viewModel );
+				}
+			}
+		}
+
+		private void CreateCompanyFolder(string rootFolder, 
+			CompanyDto viewModel)
+		{ 
+			CompanyDto? existedCompany = this.GetActiveCompanyByUniqueIdAsync
+									   ( viewModel.UniqueIdentifier )
+									   .GetAwaiter()
+									   .GetResult();
+
+			if (existedCompany != null  )
+			{
+				EnvironmentService.CreateFolder( rootFolder, viewModel.Name );
+			}
+		}
+
+		private void RenameCompanyFolder( string rootFolder, 
+			string modifiedOldName, string modifiedNewName )
+		{
+			string sourceDirectory = Path.Combine(rootFolder,modifiedOldName);
+			//@"C:\zzz-source";
+
+			string destinationDirectory = Path.Combine(rootFolder,modifiedNewName);
+			//@"C:\zzz-destination";
+
+			try
+			{
+			    Directory.Move(sourceDirectory, destinationDirectory);
+			}
+			catch (Exception)
+			{
+			    throw new InvalidOperationException();
+			}
+		}
 	}
 }
+
+
+//CompanyDto? existedCompany = await this.service
+				//						 .GetActiveCompanyByUniqueIdAsync
+				//						 ( modelDto.UniqueIdentifier );
+
+				//if (existedCompany != null  )
+				//{
+				//	string appFolderPath = Path.Combine( this.env.ContentRootPath,
+				//			   this.config[ "PrimaryAppFolder" ] );
+
+
+				//	EnvironmentService.CreateFolder
+				//					( appFolderPath, modelDto.Name );
+				//}

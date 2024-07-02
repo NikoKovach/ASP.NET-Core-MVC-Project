@@ -1,5 +1,7 @@
-﻿@using Payroll.ModelsDto.EmployeeDtos
+﻿@using Microsoft.Extensions.Hosting.Internal
+@using Payroll.ModelsDto.EmployeeDtos
 @using Payroll.Services.Services.EmployeeServices
+@using System.IO
 @model PaginatedList<GetEmployeeDto> 
 
 @{
@@ -8,6 +10,18 @@
 }
 
 <h1>Employee files</h1>
+<hr />
+
+<div class="row">
+	<div>
+		<img src="~/beta-folder/test1.jpg" asp-append-version="true" 
+	width="150px" height="150px"/>
+		<img src="~/app-folder/img-2.png" asp-append-version="true"
+		width="150px" height="150px"/>
+	</div>
+	
+</div>
+
 <hr />
 <vc:select-company></vc:select-company> 
 <hr />

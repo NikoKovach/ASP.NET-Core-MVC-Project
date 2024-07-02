@@ -1,4 +1,5 @@
-﻿using Payroll.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Payroll.Models;
 using Payroll.ModelsDto.EmployeeDtos;
 
 namespace Payroll.Mapper.CustomMap
@@ -6,9 +7,9 @@ namespace Payroll.Mapper.CustomMap
 	public interface IGetEmployeeMapping
 	{
 		IQueryable<GetEmployeeDto> MapPresentEmployeesQueryable
-			( PayrollContext db, int companyId );
+			( DbSet<Employee> employees, int companyId );
 
 		public IQueryable<GetEmployeeDto> MapAllEmployeesQueryable
-			( PayrollContext db, int companyId );
+			( DbSet<Employee> employees, int companyId );
 	}
 }

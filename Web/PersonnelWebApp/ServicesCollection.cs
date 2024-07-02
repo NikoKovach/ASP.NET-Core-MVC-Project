@@ -1,4 +1,5 @@
-﻿using Payroll.Data.Common;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Payroll.Data.Common;
 using Payroll.Mapper.AutoMapper;
 using Payroll.Mapper.CustomMap;
 using Payroll.ModelsDto;
@@ -25,7 +26,9 @@ namespace PersonnelWebApp
 			
 			services.AddTransient<IAllValidEntities<SearchCompanyDto>,
 								ComponentSearchCompany>();
-		
+			
+
+			//services.Configure<CompositeFileProviderOptions>();
 		}
 	}
 }

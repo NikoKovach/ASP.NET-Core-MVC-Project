@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CommonServices;
+using Microsoft.AspNetCore.Mvc;
 using Payroll.ModelsDto;
 using Payroll.Services.Services.CompanyServices;
 
@@ -7,18 +8,23 @@ namespace PersonnelWebApp.Controllers
      public class CompaniesController : Controller
      {
           private ICompany service;
-          //private IAddUpdateEntity addUpdateService;
+          private IWebHostEnvironment env;
+		private IConfiguration config;
 
-          public CompaniesController(ICompany companyService)
+          public CompaniesController(ICompany companyService,
+			IWebHostEnvironment environment,IConfiguration configuration)
           {
-               service = companyService;
-               //addUpdateService = modifiedService;
+               this.service = companyService;
+
+			this.env = environment;
+
+			this.config = configuration;
           }
 
           public async Task<IActionResult> AllActual()
           {
 			ICollection<CompanyDto> companyList = 
-				await service.GetAllValidCompaniesAsync();
+				await this.service.GetAllValidCompaniesAsync();
 
 			if ( companyList == null )
 			{
@@ -38,22 +44,30 @@ namespace PersonnelWebApp.Controllers
           [ValidateAntiForgeryToken]
           public async Task<IActionResult> Create(CompanyDto modelDto)
           {
-               if ( ModelState.IsValid)
+               if ( !ModelState.IsValid)
                {
-                    try
-                    {
-                         await service.AddAsync(modelDto);
-
-                         return RedirectToAction(nameof(AllActual));
-                    }
-                    catch ( Exception ex )
-                    {
-                         return View("Error",ex.Message);
-                    }
-                    
+				return View(nameof(Create));                  
                }
+             
+			try
+               {				
+				await this.service.AddAsync(modelDto);
 
-               return View(nameof(Create));
+				string appFolderPath = Path.Combine( this.env.ContentRootPath,
+							   this.config[ "PrimaryAppFolder" ] );
+
+
+				this.service.CreateUpdateCompanyFolder(appFolderPath,modelDto,
+					nameof(Create));
+
+				//await this.service.CreateCompanyFolderAsync(appFolderPath,modelDto);
+
+				return RedirectToAction(nameof(AllActual));
+               }
+               catch ( Exception ex )
+               {
+                    return View("Error",ex.Message);
+               }
           }
 
 		[HttpPost]
@@ -67,7 +81,8 @@ namespace PersonnelWebApp.Controllers
 				throw new ArgumentNullException();
 			}
 
-               CompanyDto company = await service.GetActiveCompanyByUniqueIdAsync( uniqueIdentifier );
+               CompanyDto company = await 
+				this.service.GetActiveCompanyByUniqueIdAsync( uniqueIdentifier );
 
 			if ( company == null)
 			{
@@ -80,29 +95,36 @@ namespace PersonnelWebApp.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> EditCompany(CompanyDto modelDto)
+		public async Task<IActionResult> EditCompany(CompanyDto modelDto,
+			string oldName)
           { 
-               if ( ModelState.IsValid)
+               if ( !ModelState.IsValid)
                {
-                    try
-                    {
-					if ( modelDto.HasBeenDeleted == true )
-					{
-						modelDto.DeletionDate = DateTime.UtcNow;
-					}
-
-                         await service.UpdateAsync(modelDto);
-
-                         return RedirectToAction(nameof(AllActual));
-                    }
-                    catch ( Exception ex )
-                    {
-					return RedirectToAction("Error","Home",ex.Message);
-                         //TODO : Later N.Kostov's course
-                    }                  
+                    return View(nameof(Edit),modelDto);                
                }
 
-               return View(nameof(Edit),modelDto);
+			try
+               {
+				if ( modelDto.HasBeenDeleted == true )
+				{
+					modelDto.DeletionDate = DateTime.UtcNow;
+				}
+
+				await this.service.UpdateAsync(modelDto);
+
+				string appFolderPath = Path.Combine( this.env.ContentRootPath,
+							   this.config[ "PrimaryAppFolder" ] );
+
+				this.service.CreateUpdateCompanyFolder(appFolderPath,modelDto,
+					nameof(EditCompany),oldName);
+
+				return RedirectToAction(nameof(AllActual));
+               }
+               catch ( Exception ex )
+               {
+				return RedirectToAction("Error","Home",ex.Message);
+                    //TODO : Later N.Kostov's course
+               }  
           }
 
 		[HttpPost]
@@ -114,7 +136,8 @@ namespace PersonnelWebApp.Controllers
 				return RedirectToAction("Error","Home");
 			}
 
-               CompanyDto company = await service.GetActiveCompanyByUniqueIdAsync( uniqueIdentifier );
+               CompanyDto company = await 
+				this.service.GetActiveCompanyByUniqueIdAsync( uniqueIdentifier );
 
 			if ( company == null)
 			{
@@ -128,6 +151,6 @@ namespace PersonnelWebApp.Controllers
           public IActionResult About_Us()
           {
                return View("About");
-          }
-     }
+          }		
+	}
 }

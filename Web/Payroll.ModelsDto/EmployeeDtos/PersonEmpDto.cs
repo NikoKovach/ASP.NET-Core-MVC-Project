@@ -24,6 +24,7 @@ namespace Payroll.ModelsDto.EmployeeDtos
 
 		public string EGN { get; set; }
 
+		[Display(Name = "Photo")]
 		public string? PhotoFilePath { get; set; }
 
 		//public int? PermanentAddressId { get; set; }

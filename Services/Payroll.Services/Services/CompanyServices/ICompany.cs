@@ -8,5 +8,8 @@ namespace Payroll.Services.Services.CompanyServices
 		Task<ICollection<CompanyDto>> GetAllCompaniesAsync();
 
 		Task<ICollection<CompanyDto>> GetAllValidCompaniesAsync();
+
+		void CreateUpdateCompanyFolder(string rootFolder, 
+			CompanyDto viewModel,string actionName,params string[] viewModelOld);
      }
 }

@@ -1,13 +1,14 @@
-﻿using Payroll.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Payroll.Models;
 using Payroll.ModelsDto.EmployeeDtos;
 
 namespace Payroll.Mapper.CustomMap
 {
 	public class GetEmployeeMapping : IGetEmployeeMapping
 	{
-		public IQueryable<GetEmployeeDto> MapAllEmployeesQueryable( PayrollContext db, int companyId )
+		public IQueryable<GetEmployeeDto> MapAllEmployeesQueryable( DbSet<Employee> employees, int companyId )
 		{
-			var empQueryCollection = db.Employees
+			var empQueryCollection = employees
 				.Where( x => x.CompanyId == companyId)
 				.Select( x => new GetEmployeeDto
 				{
@@ -37,7 +38,7 @@ namespace Payroll.Mapper.CustomMap
 						E_MailAddress1 = x.Person.ContactInfoList
 									.OrderBy( x => x.Id )
 									.LastOrDefault().E_MailAddress1,
-						WebSite = x.Person.ContactInfoList
+						Website = x.Person.ContactInfoList
 									.OrderBy( x => x.Id )
 									.LastOrDefault().WebSite,
 					},
@@ -69,9 +70,9 @@ namespace Payroll.Mapper.CustomMap
 		}
 
 		public IQueryable<GetEmployeeDto> MapPresentEmployeesQueryable
-			( PayrollContext db, int companyId )
+			( DbSet<Employee> employees, int companyId )
 		{
-			var empQueryCollection = MapAllEmployeesQueryable( db, companyId )
+			var empQueryCollection = MapAllEmployeesQueryable( employees, companyId )
 				.Where( x => x.IsPresent == true );
 
 			return empQueryCollection;

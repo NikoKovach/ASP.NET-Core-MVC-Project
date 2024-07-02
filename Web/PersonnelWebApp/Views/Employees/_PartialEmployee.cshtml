@@ -1,6 +1,10 @@
 ﻿@using Payroll.ModelsDto.EmployeeDtos
 @model GetEmployeeDto
 
+@{
+	
+	var filePath = @"D:\SoftUni Courses\A Exercises\AA Git Projects\ASP.NET-Core-MVC-Payroll Web Project\z System Folder\Major Company\Asena  Y Koleva\TestImg1.jpg";
+}
 
 <div>
 	<section id="employee-section" class="col-md-9">
@@ -23,7 +27,8 @@
 	<section id="person-section">
 		<div class="person row col-md-12">
 			<div class="col-md-4">
-				<img />
+				<label asp-for="@Model.PersonDto.PhotoFilePath"></label>
+				<img src="/../AppFolder/TestImg1.jpg" alt="Sample Image" width="300" height="400" />
 			</div>
 			<div class="col-md-8">
 				<div>
@@ -63,9 +68,9 @@
 							value="@Model.ContactInfo.E_MailAddress1" />
 						</div>
 						<div class="col-md-3">
-							<label asp-for="@Model.ContactInfo.WebSite"></label>
+							<label asp-for="@Model.ContactInfo.Website"></label>
 							<input class="text-center"
-							value="@Model.ContactInfo.WebSite" />
+							value="@Model.ContactInfo.Website" />
 						</div>
 					</div>
 				</div>

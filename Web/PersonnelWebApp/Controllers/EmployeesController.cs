@@ -70,5 +70,11 @@ namespace PersonnelWebApp.Controllers
 			return defaultList;
 		}
 
+		public string MapPathReverse() 
+		{
+			//var RelativePath = HttpServerUtility;
+			return "";
+		}
+
 	}
 }
