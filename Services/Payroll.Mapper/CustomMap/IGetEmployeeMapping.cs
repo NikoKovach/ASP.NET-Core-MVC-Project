@@ -1,15 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Payroll.Models;
-using Payroll.ModelsDto.EmployeeDtos;
+using Payroll.ViewModels.EmployeeViewModels;
 
 namespace Payroll.Mapper.CustomMap
 {
 	public interface IGetEmployeeMapping
 	{
-		IQueryable<GetEmployeeDto> MapPresentEmployeesQueryable
+		IQueryable<GetEmployeeVM> MapPresentEmployeesQueryable
 			( DbSet<Employee> employees, int companyId );
 
-		public IQueryable<GetEmployeeDto> MapAllEmployeesQueryable
+		public IQueryable<GetEmployeeVM> MapAllEmployeesQueryable
 			( DbSet<Employee> employees, int companyId );
 	}
 }

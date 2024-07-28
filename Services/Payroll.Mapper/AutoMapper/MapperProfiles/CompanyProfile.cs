@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Payroll.Models;
-using Payroll.ModelsDto;
+using Payroll.ViewModels;
 
 namespace Payroll.Mapper.AutoMapper.MapperProfiles
 {
@@ -8,7 +8,7 @@ namespace Payroll.Mapper.AutoMapper.MapperProfiles
      {
           public CompanyProfile()
           {
-               CreateMap<Company, CompanyDto>()
+               CreateMap<Company, CompanyViewModel>()
                     .ForMember(m => m.Employees,o => o.MapFrom(s => s.Employees))
                     .ReverseMap()
                     .ForMember(m => m.Employees,o => o.MapFrom(s => s.Employees));

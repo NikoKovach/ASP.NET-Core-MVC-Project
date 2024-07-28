@@ -1,9 +1,9 @@
-﻿using Payroll.ModelsDto;
+﻿using Payroll.ViewModels;
 
 namespace Payroll.Services.Services.CompanyServices
 {
      public interface IGetCompany
      {
-          Task<CompanyDto> GetActiveCompanyByUniqueIdAsync( string companyUniqueId );
+          Task<CompanyViewModel> GetActiveCompanyByUniqueIdAsync( string companyUniqueId );
      }
 }

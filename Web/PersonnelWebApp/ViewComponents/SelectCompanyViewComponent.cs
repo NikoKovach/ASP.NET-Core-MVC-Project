@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Payroll.ModelsDto;
 using Payroll.Services.Services.ServiceContracts;
+using Payroll.ViewModels;
 using PersonnelWebApp.Models;
 
 namespace PersonnelWebApp.ViewComponents
@@ -9,10 +9,10 @@ namespace PersonnelWebApp.ViewComponents
     [ViewComponent(Name = "SelectCompany")]
 	public class SelectCompanyViewComponent : ViewComponent
 	{
-		private readonly IAllValidEntities<SearchCompanyDto> service;
+		private readonly IAllValidEntities<SearchCompanyViewModel> service;
 
 		public SelectCompanyViewComponent(
-			IAllValidEntities<SearchCompanyDto> selectCompanyService)
+			IAllValidEntities<SearchCompanyViewModel> selectCompanyService)
 		{
 			this.service = selectCompanyService;
 		}

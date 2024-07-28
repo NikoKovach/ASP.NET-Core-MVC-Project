@@ -18,9 +18,6 @@ namespace Payroll.Data.Common
 
 		public DbSet<TEntity> DbSet { get; set; }
 
-		//PayrollContext IRepository<TEntity>.Context { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-		//DbSet<TEntity> IRepository<TEntity>.DbSet { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
 		public IQueryable<TEntity> All()
 		{
 			return this.DbSet;

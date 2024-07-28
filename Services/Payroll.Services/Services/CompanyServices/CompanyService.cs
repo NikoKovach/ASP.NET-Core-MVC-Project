@@ -1,9 +1,10 @@
-﻿using CommonServices;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Payroll.Data.Common;
 using Payroll.Mapper.AutoMapper;
 using Payroll.Models;
-using Payroll.ModelsDto;
+using Payroll.Services.Utilities;
+using Payroll.ViewModels;
+using System.Runtime.CompilerServices;
 
 namespace Payroll.Services.Services.CompanyServices
 {
@@ -27,10 +28,10 @@ namespace Payroll.Services.Services.CompanyServices
 			this.repository = repository;
           }
 
-          public virtual async Task<ICollection<CompanyDto>> GetAllCompaniesAsync()
+          public virtual async Task<ICollection<CompanyViewModel>> GetAllCompaniesAsync()
           {
 			var companiesList = await this.mapEntity
-							.ProjectTo<Company, CompanyDto>(this.repository.DbSet)
+							.ProjectTo<Company, CompanyViewModel>(this.repository.DbSet)
 							.OrderBy( c => c.Name )
 							.ThenBy( c => c.Id )
 							.ToListAsync();
@@ -38,10 +39,10 @@ namespace Payroll.Services.Services.CompanyServices
 			return companiesList;
           }
 
-		public virtual async Task<ICollection<CompanyDto>> GetAllValidCompaniesAsync()
+		public virtual async Task<ICollection<CompanyViewModel>> GetAllValidCompaniesAsync()
           {
 			var companiesList = await this.mapEntity
-						.ProjectTo<Company, CompanyDto>(this.repository.DbSet)
+						.ProjectTo<Company, CompanyViewModel>(this.repository.DbSet)
 						.Where( x => x.HasBeenDeleted == false )
 						.OrderBy( c => c.Name )
 						.ThenBy( c => c.Id )
@@ -50,11 +51,11 @@ namespace Payroll.Services.Services.CompanyServices
                return companiesList;
           }
 
-		public async Task<CompanyDto> GetActiveCompanyByUniqueIdAsync
+		public async Task<CompanyViewModel> GetActiveCompanyByUniqueIdAsync
 			( string companyUniqueId )
           {
-			CompanyDto? company = await this.mapEntity
-				.ProjectTo<Company,CompanyDto>(this.repository.DbSet)
+			CompanyViewModel? company = await this.mapEntity
+				.ProjectTo<Company,CompanyViewModel>(this.repository.DbSet)
 				.Where( x => x.HasBeenDeleted == false 
                                     && x.UniqueIdentifier.Equals( companyUniqueId) )
 				.FirstOrDefaultAsync();
@@ -62,26 +63,26 @@ namespace Payroll.Services.Services.CompanyServices
                return company;
           }
 
-		public async Task AddAsync( CompanyDto viewModel )
+		public async Task AddAsync( CompanyViewModel viewModel )
 		{
-			var company = this.mapEntity.Map<CompanyDto,Company>(viewModel);
+			var company = this.mapEntity.Map<CompanyViewModel,Company>(viewModel);
 
 			await this.repository.AddAsync( company );
 
 			await this.repository.SaveChangesAsync();
 		}
 
-		public async Task UpdateAsync(CompanyDto viewModel)
+		public async Task UpdateAsync(CompanyViewModel viewModel)
 		{
-			var company = this.mapEntity.Map<CompanyDto,Company>(viewModel);
+			var company = this.mapEntity.Map<CompanyViewModel,Company>(viewModel);
 
 			this.repository.Update( company );
 
 			await this.repository.SaveChangesAsync();
 		}
 
-		public void CreateUpdateCompanyFolder(string rootFolder, 
-			CompanyDto viewModel,string actionName,params string[] viewModelOld)
+		public void CreateUpdateCompanyFolder(string rootFolder,CompanyViewModel viewModel,
+			[CallerMemberName]string actionName = "",params string[] viewModelOld)
 		{
 			if ( actionName.Equals("Create") )
 			{
@@ -109,9 +110,9 @@ namespace Payroll.Services.Services.CompanyServices
 		}
 
 		private void CreateCompanyFolder(string rootFolder, 
-			CompanyDto viewModel)
+			CompanyViewModel viewModel)
 		{ 
-			CompanyDto? existedCompany = this.GetActiveCompanyByUniqueIdAsync
+			CompanyViewModel? existedCompany = this.GetActiveCompanyByUniqueIdAsync
 									   ( viewModel.UniqueIdentifier )
 									   .GetAwaiter()
 									   .GetResult();

@@ -1,9 +1,10 @@
 namespace PersonnelWebApp
 {
-     using Microsoft.EntityFrameworkCore;
+	using System.Reflection;
+	using Microsoft.AspNetCore.Mvc;
+	using Microsoft.EntityFrameworkCore;
 	using Microsoft.Extensions.FileProviders;
 	using Payroll.Data;
-	using System.Reflection;
 
      public class Startup
      {
@@ -33,8 +34,11 @@ namespace PersonnelWebApp
 
 		//*********** End Personel modifications  ************       
 
-               services.AddControllersWithViews().AddRazorRuntimeCompilation();
-
+               services.AddControllersWithViews(options => 
+				{
+					options.Filters.Add( new AutoValidateAntiforgeryTokenAttribute() );
+				}
+			).AddRazorRuntimeCompilation();
           }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,16 +77,16 @@ namespace PersonnelWebApp
 			{
 				FileProvider = new PhysicalFileProvider(
 					Path.Combine( env.ContentRootPath, 
-					Configuration["PrimaryAppFolder"] )),
-				RequestPath = "/app-folder"
+					Configuration["PrimaryAppFolder:FolderName"] )),
+				RequestPath = Configuration["PrimaryAppFolder:RequestPath"]
 			} );
 
 			app.UseStaticFiles( new StaticFileOptions
 			{
 				FileProvider = new PhysicalFileProvider(
 					Path.Combine( env.ContentRootPath, 
-					Configuration["SecondaryAppFolder"] )),
-				RequestPath = "/beta-folder"
+					Configuration["SecondaryAppFolder:FolderName"] )),
+				RequestPath = Configuration["SecondaryAppFolder:RequestPath"]
 			} );
 // ******************************************************************
 

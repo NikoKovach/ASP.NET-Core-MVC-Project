@@ -1,12 +1,12 @@
 ﻿
-using Payroll.ModelsDto.EmployeeDtos;
+using Payroll.ViewModels.EmployeeViewModels;
 
 namespace Payroll.Services.Services.ServiceContracts
 {
 	public interface IGetEmployees
 	{		
-		IQueryable<GetEmployeeDto> AllPresentEmployees( int companyId );
+		IQueryable<GetEmployeeVM> AllPresentEmployees( int companyId );
 
-		IQueryable<GetEmployeeDto> AllEmployees( int companyId );
+		IQueryable<GetEmployeeVM> AllEmployees( int companyId );
 	}
 }

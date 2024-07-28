@@ -1,13 +1,13 @@
-﻿using Payroll.ModelsDto.EmployeeDtos;
+﻿using Payroll.ViewModels.EmployeeViewModels;
 
 namespace Payroll.Services.Services.ServiceContracts
 {
      public interface ISearchEmployee
      {
-          GetEmployeeDto GetEmployeeByEGN( string egnNumber );
+          GetEmployeeVM GetEmployeeByEGN( string egnNumber );
 
-          GetEmployeeDto GetEmployeeByListNumber( string numberFromTheList );
+          GetEmployeeVM GetEmployeeByListNumber( string numberFromTheList );
 
-          ICollection<GetEmployeeDto> GetEmployeeByName( string name );
+          ICollection<GetEmployeeVM> GetEmployeeByName( string name );
      }
 }

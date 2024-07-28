@@ -1,16 +1,15 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using LegalFramework.Services;
 using Payroll.Data.Common;
 using Payroll.Mapper.AutoMapper;
 using Payroll.Mapper.CustomMap;
-using Payroll.ModelsDto;
-using Payroll.Services.Services;
 using Payroll.Services.Services.CompanyServices;
 using Payroll.Services.Services.EmployeeServices;
 using Payroll.Services.Services.ServiceContracts;
+using Payroll.ViewModels;
 
 namespace PersonnelWebApp
 {
-	public static class ServicesCollection
+    public static class ServicesCollection
 	{
 		public static void Collect(IServiceCollection services) 
 		{ 
@@ -24,11 +23,16 @@ namespace PersonnelWebApp
 
 			services.AddTransient<IGetEmployeeMapping,GetEmployeeMapping>();
 			
-			services.AddTransient<IAllValidEntities<SearchCompanyDto>,
-								ComponentSearchCompany>();
-			
+			services.AddTransient<IAllValidEntities<SearchCompanyViewModel>,
+								SearchCompanyService>();
 
-			//services.Configure<CompositeFileProviderOptions>();
+			services.AddTransient<IAllValidEntities<SearchPersonVM>,
+								SearchPersonService>();
+
+			services.AddTransient<ICalculateExperience,CalculateExperience>();
+
+			services.AddTransient<IGetContractInfo,GetContractService>();
+			
 		}
 	}
 }

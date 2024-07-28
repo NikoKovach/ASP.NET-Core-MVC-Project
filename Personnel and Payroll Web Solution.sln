@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payroll.Services", "Service
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{AB720853-E689-4DBD-AE4C-9F4742276D15}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payroll.ModelsDto", "Web\Payroll.ModelsDto\Payroll.ModelsDto.csproj", "{8C3058BC-A1A2-42E1-A647-4CB67404F4F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payroll.ViewModels", "Web\Payroll.ModelsDto\Payroll.ViewModels.csproj", "{8C3058BC-A1A2-42E1-A647-4CB67404F4F8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonnelWebApp", "Web\PersonnelWebApp\PersonnelWebApp.csproj", "{58B70FCC-69E3-4284-9DE9-DF2F555DA6E3}"
 EndProject
@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestPersonnel.Demo", "Test\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payroll.Data.Common", "Data\Payroll.Data.Common\Payroll.Data.Common.csproj", "{503666E3-A5CD-4F6C-97E7-F78182F7DF42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonServices", "Services\CommonServices\CommonServices.csproj", "{389D235F-7EA1-46E1-BA42-F6C1E12DC6EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LegalFramework.Services", "Services\CommonServices\LegalFramework.Services.csproj", "{389D235F-7EA1-46E1-BA42-F6C1E12DC6EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
 
 namespace Payroll.Models
 {
      public class Address
      {
-          [Key]
+		[Key]
           public int Id { get; set; }
 
           [StringLength(100,MinimumLength = 3)]
@@ -41,13 +42,15 @@ namespace Payroll.Models
 
 
           [InverseProperty("PermanentAddress")]
-          public ICollection<Person> PersonPermanentAddresses { get; set; } = new List<Person>();
+          public ICollection<Person> PersonPermanentAddresses { get; set; } = 
+			new List<Person>();
 
           [InverseProperty("CurrentAddress")]
-          public ICollection<Person> PersonCurrentAddresesses { get; set; } = new List<Person>();
+          public ICollection<Person> PersonCurrentAddresesses { get; set; } = 
+			new List<Person>();
 
           public bool HasBeenDeleted { get; set; }
 
 		public DateTime? DeletionDate { get; set; }
-     }
+	}
 }

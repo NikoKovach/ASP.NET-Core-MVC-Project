@@ -2,7 +2,6 @@
 var prevItemBgColor = "";
 var indexMouseOver = -1;
 
-
 /* Company View */
 $('#tbody').on('click', 'tr', onRowClick);
 function onRowClick()
@@ -42,11 +41,37 @@ $("#companiesTable").css("border-radius", "15px");
 $("#companiesTable tr:last td").last().css("border-end-end-radius", "15px");
 $("#companiesTable tr:last td").first().css("border-bottom-left-radius", "15px");
 
-/*  End Company View */
+/*  Employyees Index View */
 
-/*$("thead").css("background-color", "green");*/
-/*$("thead tr").css("background-color", "red").css("border", "2px");*/
-/*'rgb(19, 19, 54)'*/
-/*$('#tbody').on('click', 'tr', onRowClickColor);*/
-/*$('#tbody tr').css("background-color", 'rgb(0, 0, 0 )');*/
-/*$("#companiesTable tr:last").css("border-end-end-radius", "15px");*/
+$(".radio-create").on("click", onRadioButtonClick);
+
+$(".radio-edit").on("click", onRadioButtonClick);
+
+function onRadioButtonClick() {
+	let radioButtonValue = $(this).val();
+	let currentRoute = $(".create-edit-form").attr("action");
+	let charLastIndex = currentRoute.lastIndexOf("/");
+	let getCurrentAction = currentRoute.substring(charLastIndex + 1);
+
+	let newRoute = currentRoute.replace(getCurrentAction, radioButtonValue)
+
+	$(".create-edit-form").attr("action", newRoute);
+
+	$(".create-update-submit").val(radioButtonValue);
+};
+
+
+/*alert(empForm + " ::"+ formAction);
+	alert(currentRoute + "<<>>" + newRoute);
+	let formAction = "/Employees/" + radioButtonValue;
+	
+	/*let empForm = $("#employee-create-form").attr("action");
+		/*let isChecked = $(this).prop("checked");
+	alert(radioButtonValue + "=>> checked = " + isChecked);
+//function (event) {
+//	if (event.which == 13) {
+//		alert($(this).val());
+//	}
+//}	
+	
+	*/

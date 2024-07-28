@@ -13,7 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Models\Payroll.Models.csproj" />
     <ProjectReference Include="..\..\Data\Payroll.Data\Payroll.Data.csproj" />
-    <ProjectReference Include="..\..\Web\Payroll.ModelsDto\Payroll.ModelsDto.csproj" />
+    <ProjectReference Include="..\..\Web\Payroll.ModelsDto\Payroll.ViewModels.csproj" />
   </ItemGroup>
 
 

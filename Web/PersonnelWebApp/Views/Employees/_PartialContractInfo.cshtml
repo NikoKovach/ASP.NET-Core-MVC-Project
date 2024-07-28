@@ -1,0 +1,36 @@
+﻿@using Payroll.ViewModels.EmployeeViewModels
+@model ContractEmpVM
+
+<div class="col col-md-7">
+	<div class="form-control">
+		<div class="row">
+			<div class="col-md-6">
+				<label asp-for="@Model.JobTitle"></label>
+				<input asp-for="@Model.JobTitle" class="text-center col-md-12" 
+				id="jobTitle"/>
+			</div>
+			<div class="col-md-6">
+				<label asp-for="@Model.DepartmentName"></label>
+				<input asp-for="@Model.DepartmentName" class="text-center col-md-12" 
+				id="departmentName"/>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<label asp-for="@Model.ContractType"></label>
+				<input asp-for="@Model.ContractType" class="text-center col-md-12" 
+				id="contractType"/>
+			</div>
+			<div class="col-md-3">
+				<label asp-for="@Model.ContractNumber"></label>
+				<input asp-for="@Model.ContractNumber" class="text-center col-md-12" 
+				id="contractNumber"/>
+			</div>
+			<div class="col-md-3">
+				<label asp-for="@Model.ContractDate"></label>
+				<input class="text-center col-md-12"
+				id="contractDate" />
+			</div>
+		</div>
+	</div>
+</div>

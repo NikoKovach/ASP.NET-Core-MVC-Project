@@ -1,33 +1,53 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Payroll.Models;
-using Payroll.ModelsDto.EmployeeDtos;
+using Payroll.ViewModels.EmployeeViewModels;
 
 namespace Payroll.Mapper.CustomMap
 {
 	public class GetEmployeeMapping : IGetEmployeeMapping
 	{
-		public IQueryable<GetEmployeeDto> MapAllEmployeesQueryable( DbSet<Employee> employees, int companyId )
+		public IQueryable<GetEmployeeVM> MapAllEmployeesQueryable
+			( DbSet<Employee> employees, int companyId )
 		{
 			var empQueryCollection = employees
-				.Where( x => x.CompanyId == companyId)
-				.Select( x => new GetEmployeeDto
+				.Where( x => x.CompanyId == companyId )
+				.Select( x => new GetEmployeeVM
 				{
 					Id = x.Id,
 					CompanyId = companyId,
 					NumberFromTheList = x.NumberFromTheList,
 					IsPresent = x.IsPresent,
-					PersonDto = new PersonEmpDto
+					Person = new PersonEmpVM
 					{
 						Id = x.Person.Id,
-						FirstName = x.Person.FirstName,
-						MiddleName = x.Person.MiddleName,
-						LastName = x.Person.LastName,
+						FullName = (x.Person.FirstName + " " +
+						( x.Person.MiddleName ?? "" ) + " " + x.Person.LastName)??"",
 						GenderId = x.Person.GenderId,
 						GenderType = x.Person.Gender.Type,
 						EGN = x.Person.EGN,
 						PhotoFilePath = x.Person.PhotoFilePath,
+						PermanentAddress = new AddressEmpVM
+						{
+							Country = x.Person.PermanentAddress.Country,
+							Region = x.Person.PermanentAddress.Region,
+							Municipality = x.Person.PermanentAddress.Municipality,
+							City = x.Person.PermanentAddress.City,
+							Street = x.Person.PermanentAddress.Street,
+							Number = x.Person.PermanentAddress.Number,
+							Entrance = x.Person.PermanentAddress.Entrance,
+						}.ToString()??"",
+						CurrentAddress = new AddressEmpVM
+						{
+							Country = x.Person.CurrentAddress.Country,
+							Region = x.Person.CurrentAddress.Region,
+							Municipality = x.Person.CurrentAddress.Municipality,
+							City = x.Person.CurrentAddress.City,
+							Street = x.Person.CurrentAddress.Street,
+							Number = x.Person.CurrentAddress.Number,
+							Entrance = x.Person.CurrentAddress.Entrance,
+						}.ToString()??"",
 					},
-					ContactInfo = new ContactsEmpDto
+					ContactInfo = new ContactsEmpVM
 					{
 						PhoneNumberOne = x.Person.ContactInfoList
 									.OrderBy( x => x.Id )
@@ -42,7 +62,7 @@ namespace Payroll.Mapper.CustomMap
 									.OrderBy( x => x.Id )
 									.LastOrDefault().WebSite,
 					},
-					IdCardPassport = new IdDocumentEmpDto
+					IdCardPassport = new IdDocumentEmpVM
 					{
 						DocumentName = x.Person.IdDocuments
 										.OrderBy( x => x.Id )
@@ -54,28 +74,23 @@ namespace Payroll.Mapper.CustomMap
 										.LastOrDefault()
 										.DocumentNumber,
 					},
-					ContractInfo = new ContractEmpDto
-					{
-						JobTitle = x.EmploymentContract.JobTitle,
-						DepartmentName = x.EmploymentContract.Department.Name,
-						ContractType = x.EmploymentContract.ContractType.Type,
-						ContractNumber = x.EmploymentContract.ContractNumber,
-						ContractDate = x.EmploymentContract.ContractDate,
-					}
+					ContractInfo = new ContractEmpVM()
 				} )
-				.OrderBy( x => x.PersonDto.FirstName )
-				.ThenBy( x => x.PersonDto.LastName );
+				.OrderBy( x => x.Person.FullName );
 
 			return empQueryCollection;
 		}
 
-		public IQueryable<GetEmployeeDto> MapPresentEmployeesQueryable
+		public IQueryable<GetEmployeeVM> MapPresentEmployeesQueryable
 			( DbSet<Employee> employees, int companyId )
 		{
 			var empQueryCollection = MapAllEmployeesQueryable( employees, companyId )
 				.Where( x => x.IsPresent == true );
 
+			//var finalresult = empQueryCollection.ToList();
+
 			return empQueryCollection;
 		}
+
 	}
 }

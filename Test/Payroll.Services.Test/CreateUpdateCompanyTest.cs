@@ -9,6 +9,7 @@ using Payroll.Models;
 using Payroll.Services.Services;
 using Payroll.Mapper.AutoMapper;
 using AutoMapper;
+using Payroll.ViewModels;
 
 
 namespace Payroll.Services.Test
@@ -18,7 +19,7 @@ namespace Payroll.Services.Test
      {
           private readonly DbContextOptions<PayrollContext> options;
           private IMapper mapper;
-          private List<CompanyDto> companyViews = CompanyInitialData.SetCompaniesDTO();
+          private List<CompanyViewModel> companyViews = CompanyInitialData.SetCompaniesDTO();
 
           public CreateUpdateCompanyTest()
           {

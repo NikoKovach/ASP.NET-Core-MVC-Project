@@ -1,17 +1,14 @@
-﻿using Payroll.ModelsDto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Payroll.ViewModels;
 
 namespace Payroll.Services.Test.EntitiesTests.Initial_Data
 {
      public static class CompanyInitialData
      {
-          public static List<CompanyDto> SetCompaniesDTO()
+          public static List<CompanyViewModel> SetCompaniesDTO()
           {
-               List<CompanyDto> compantDto = new List<CompanyDto>()
+               List<CompanyViewModel> compantDto = new List<CompanyViewModel>()
                {
-                    new CompanyDto
+                    new CompanyViewModel
                     {
                          Name                     = "AAA Company",
                          CompanyHeadquarter       = "Plovdiv",
@@ -23,7 +20,7 @@ namespace Payroll.Services.Test.EntitiesTests.Initial_Data
                          CompanyCaseNumber        = "BO20010101",
                          HasBeenDeleted           = false,
                     },
-                    new CompanyDto
+                    new CompanyViewModel
                     {
                          Name                     = "BBB Company",
                          CompanyHeadquarter       = "Plovdiv",
@@ -35,7 +32,7 @@ namespace Payroll.Services.Test.EntitiesTests.Initial_Data
                          CompanyCaseNumber        = "XYXY",
                          HasBeenDeleted           = false,
                     },
-                    new CompanyDto
+                    new CompanyViewModel
                     {
                          Name                     = "CCC Company",
                          CompanyHeadquarter       = "Varna",

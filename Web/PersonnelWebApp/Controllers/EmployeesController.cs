@@ -1,23 +1,33 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Payroll.ModelsDto.EmployeeDtos;
+﻿using Microsoft.AspNetCore.Mvc;
 using Payroll.Services.Services.EmployeeServices;
 using Payroll.Services.Services.ServiceContracts;
+using Payroll.ViewModels.EmployeeViewModels;
+using PersonnelWebApp.Models;
 
 namespace PersonnelWebApp.Controllers
 {
 	public class EmployeesController : Controller
 	{
-		IEmployee empService;
+		private readonly IEmployee empService;
+		private readonly IGetContractInfo contractService;
+
 		private static int companyIdNumber = 0;
 
-		public EmployeesController(IEmployee service)
+		public EmployeesController(IEmployee service,IGetContractInfo contractService)
 		{
 			this.empService = service;
 
+			this.contractService = contractService;
 		}
 
+		public IActionResult Index()
+		{
+			var emptyPaginatedList = new PaginatedCollection<GetEmployeeVM>( EmptyEmpoyeesCollection(), 1, 1 );
+
+			return View(emptyPaginatedList);
+		}
+
+		[HttpPost]
 		public async Task<IActionResult> Index( int companyId, int? pageNumber)
 		{
 			if ( companyId != 0 )
@@ -28,53 +38,111 @@ namespace PersonnelWebApp.Controllers
 			var empList = this.empService
 						   .AllPresentEmployees(companyIdNumber);
 
-			var paginatedList = await PaginatedList<GetEmployeeDto>
-							.CreateAsync( empList,pageNumber ?? 1) ;
+			var paginatedList = await PaginatedCollection<GetEmployeeVM>
+							.CreateCollectionAsync( empList,pageNumber ?? 1) ;
 
-			if ( paginatedList.Count == 0 )
+			await GetContractInfoAsync( companyId, paginatedList.ItemsCollection);
+
+			if ( paginatedList.ItemsCollection.Count == 0 )
 			{
-				PaginatedList<GetEmployeeDto> emptyPaginatedList = new PaginatedList<GetEmployeeDto>( EmptyEmpCollection(), 1, 1 );
+				var emptyPaginatedList = new PaginatedCollection<GetEmployeeVM>
+					( EmptyEmpoyeesCollection(), 1, 1 );
 
-				return View(emptyPaginatedList);
+				return Json(emptyPaginatedList);
 			}
 
-			return View(paginatedList);
+			return Json(paginatedList);
 		}
 
-		//[HttpPost]
-		public IActionResult AllPresentEmployees()
+		public IActionResult Create()
 		{
 			return View();
 		}
 
-		private PaginatedList<GetEmployeeDto> EmptyEmpCollection()
+		[HttpPost]
+		public IActionResult Create(EmployeeVM empViewModel)
 		{
-			GetEmployeeDto defaultItem = new GetEmployeeDto() 
+
+			if ( !ModelState.IsValid )
+			{
+				return View(nameof(Create));
+			}
+
+			//await this.empService.AddAsync( empViewModel );
+
+			//Implement empService.AddAsync method
+			//Създаване на папка за служител
+			//Копиране снимка на човек на сървъра.
+
+			var demo = new Demo() 
 			{ 
-				Id = -1,
-				PersonDto = new PersonEmpDto 
-				{ 
-					FirstName = "No Record",
-					LastName = "No REcord"
-				},
-				ContactInfo = new ContactsEmpDto(),
-				IdCardPassport = new IdDocumentEmpDto(),
-				ContractInfo = new ContractEmpDto(),
+				Text = "Create"
 			};
 
-			var items = new List<GetEmployeeDto>();
-			items.Add( defaultItem );
-
-			var defaultList = new PaginatedList<GetEmployeeDto>(items,1,1);
-
-			return defaultList;
+			return View("EditDemo",demo);
 		}
 
-		public string MapPathReverse() 
+		[HttpPost]
+		public IActionResult Edit(EmployeeVM empViewModel)
 		{
-			//var RelativePath = HttpServerUtility;
-			return "";
+			Console.WriteLine("Edit");
+			if ( !ModelState.IsValid )
+			{
+				return View(nameof(Create));
+			}
+
+			//await this.empService.AddAsync( empViewModel );
+
+			//Implement empService.AddAsync method
+			//Създаване на папка за служител
+			//Копиране снимка на човек на сървъра.
+
+			var demo = new Demo() 
+			{ 
+				Text =  "Edit"
+			};
+
+			return View("EditDemo",demo);
+		}
+//*******************************************************************
+
+		private List<GetEmployeeVM> EmptyEmpoyeesCollection()
+		{
+			GetEmployeeVM defaultItem = new GetEmployeeVM()
+			{
+				Person = new PersonEmpVM(),
+				ContactInfo = new ContactsEmpVM(),
+				IdCardPassport = new IdDocumentEmpVM(),
+				ContractInfo = new ContractEmpVM(),
+			};
+
+			var items = new List<GetEmployeeVM>
+			{
+				defaultItem
+			};
+
+			return items;
 		}
 
+		private async Task GetContractInfoAsync( int? companyId, List<GetEmployeeVM>empCollection )
+		{
+			foreach ( var item in empCollection )
+			{
+				int empId = item.Id;
+				ContractEmpVM resultDto = new ContractEmpVM();
+
+				if ( companyId == null || companyId == 0)
+				{
+					item.ContractInfo = default;
+				}
+				else
+				{
+					resultDto = await this.contractService
+						.GetContractAsync( companyId, empId );
+
+					item.ContractInfo = resultDto;
+				}
+			}
+		}
 	}
 }

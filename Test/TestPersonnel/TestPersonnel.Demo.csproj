@@ -11,6 +11,7 @@
     <None Remove="Archives\WareHouseViews\OldIndex2.cshtml" />
     <None Remove="Archives\WareHouseViews\_BannerLayout.cshtml" />
     <None Remove="Archives\WareHouseViews\_LayoutBackUp.cshtml" />
+    <None Remove="Archives\_zzzLayoutFace.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,13 +27,21 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Include="Archives\_zzzLayoutFace.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Models\Payroll.Models.csproj" />
     <ProjectReference Include="..\..\Data\Payroll.Data\Payroll.Data.csproj" />
     <ProjectReference Include="..\..\Services\Payroll.Services\Payroll.Services.csproj" />
-    <ProjectReference Include="..\..\Web\Payroll.ModelsDto\Payroll.ModelsDto.csproj" />
+    <ProjectReference Include="..\..\Web\Payroll.ModelsDto\Payroll.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

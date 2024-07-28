@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
+
 using Payroll.Data;
 using Payroll.Mapper.AutoMapper;
 using Payroll.Models;
-using Payroll.ModelsDto.EmployeeDtos;
 using Payroll.ModelsDto.PersonViewModels;
-using Payroll.Services.Services;
-
+using Payroll.ViewModels.EmployeeViewModels;
 
 namespace Test.Payroll
 {
@@ -83,7 +82,7 @@ namespace Test.Payroll
 		[Test]
 		public void MapEmployeeDtoToEmployee()
 		{
-			EmployeeDto empDto = new EmployeeDto() 
+			EmployeeVM empDto = new EmployeeVM() 
 			{ 
 				
 				PersonId			= 17,
@@ -92,7 +91,7 @@ namespace Test.Payroll
 				IsPresent			= true
 			};
 
-			Employee employee = this.service.Map< EmployeeDto,Employee>
+			Employee employee = this.service.Map< EmployeeVM,Employee>
 							( empDto );
 
 			Assert.That( employee, Is.InstanceOf<Employee>() );
@@ -118,10 +117,10 @@ namespace Test.Payroll
 				IsPresent			= true
 			};
 
-			var employeeDto = this.service.Map<Employee,EmployeeDto>
+			var employeeDto = this.service.Map<Employee,EmployeeVM>
 							( employee );
 
-			Assert.That( employeeDto, Is.InstanceOf<EmployeeDto>() );
+			Assert.That( employeeDto, Is.InstanceOf<EmployeeVM>() );
 
 			Assert.Multiple( () =>
 			{

@@ -1,15 +1,15 @@
-﻿using Payroll.ModelsDto;
-using Payroll.Services.Services.ServiceContracts;
+﻿using Payroll.Services.Services.ServiceContracts;
+using Payroll.ViewModels;
 
 namespace Payroll.Services.Services.CompanyServices
 {
-     public interface ICompany : IGetCompany,IAddUpdate<CompanyDto>
+     public interface ICompany : IGetCompany,IAddUpdate<CompanyViewModel>
      {
-		Task<ICollection<CompanyDto>> GetAllCompaniesAsync();
+		Task<ICollection<CompanyViewModel>> GetAllCompaniesAsync();
 
-		Task<ICollection<CompanyDto>> GetAllValidCompaniesAsync();
+		Task<ICollection<CompanyViewModel>> GetAllValidCompaniesAsync();
 
 		void CreateUpdateCompanyFolder(string rootFolder, 
-			CompanyDto viewModel,string actionName,params string[] viewModelOld);
+			CompanyViewModel viewModel,string actionName,params string[] viewModelOld);
      }
 }

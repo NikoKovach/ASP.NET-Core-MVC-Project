@@ -1,7 +1,6 @@
-﻿using CommonServices;
-using Microsoft.AspNetCore.Mvc;
-using Payroll.ModelsDto;
+﻿using Microsoft.AspNetCore.Mvc;
 using Payroll.Services.Services.CompanyServices;
+using Payroll.ViewModels;
 
 namespace PersonnelWebApp.Controllers
 {
@@ -23,7 +22,7 @@ namespace PersonnelWebApp.Controllers
 
           public async Task<IActionResult> AllActual()
           {
-			ICollection<CompanyDto> companyList = 
+			ICollection<CompanyViewModel> companyList = 
 				await this.service.GetAllValidCompaniesAsync();
 
 			if ( companyList == null )
@@ -42,7 +41,7 @@ namespace PersonnelWebApp.Controllers
 
           [HttpPost]
           [ValidateAntiForgeryToken]
-          public async Task<IActionResult> Create(CompanyDto modelDto)
+          public async Task<IActionResult> Create(CompanyViewModel modelDto)
           {
                if ( !ModelState.IsValid)
                {
@@ -54,13 +53,11 @@ namespace PersonnelWebApp.Controllers
 				await this.service.AddAsync(modelDto);
 
 				string appFolderPath = Path.Combine( this.env.ContentRootPath,
-							   this.config[ "PrimaryAppFolder" ] );
+							   this.config[ "PrimaryAppFolder:FolderName" ] );
 
 
 				this.service.CreateUpdateCompanyFolder(appFolderPath,modelDto,
 					nameof(Create));
-
-				//await this.service.CreateCompanyFolderAsync(appFolderPath,modelDto);
 
 				return RedirectToAction(nameof(AllActual));
                }
@@ -81,7 +78,7 @@ namespace PersonnelWebApp.Controllers
 				throw new ArgumentNullException();
 			}
 
-               CompanyDto company = await 
+               CompanyViewModel company = await 
 				this.service.GetActiveCompanyByUniqueIdAsync( uniqueIdentifier );
 
 			if ( company == null)
@@ -95,7 +92,7 @@ namespace PersonnelWebApp.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> EditCompany(CompanyDto modelDto,
+		public async Task<IActionResult> EditCompany(CompanyViewModel modelDto,
 			string oldName)
           { 
                if ( !ModelState.IsValid)
@@ -113,10 +110,10 @@ namespace PersonnelWebApp.Controllers
 				await this.service.UpdateAsync(modelDto);
 
 				string appFolderPath = Path.Combine( this.env.ContentRootPath,
-							   this.config[ "PrimaryAppFolder" ] );
+							   this.config[ "PrimaryAppFolder:FolderName" ] );
 
-				this.service.CreateUpdateCompanyFolder(appFolderPath,modelDto,
-					nameof(EditCompany),oldName);
+				this.service.CreateUpdateCompanyFolder( appFolderPath, 
+					modelDto,nameof(EditCompany), oldName );
 
 				return RedirectToAction(nameof(AllActual));
                }
@@ -136,7 +133,7 @@ namespace PersonnelWebApp.Controllers
 				return RedirectToAction("Error","Home");
 			}
 
-               CompanyDto company = await 
+               CompanyViewModel company = await 
 				this.service.GetActiveCompanyByUniqueIdAsync( uniqueIdentifier );
 
 			if ( company == null)

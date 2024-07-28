@@ -5,12 +5,15 @@ using System.Text.RegularExpressions;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Payroll.Data;
 using Payroll.Mapper.AutoMapper;
 using Payroll.Mapper.CustomMap;
 using Payroll.Models;
 using Payroll.ModelsDto;
-using Payroll.ModelsDto.EmployeeDtos;
+using Payroll.ViewModels;
+using TestPersonnel.Demo;
+using WebConsoleAppPersonnel;
 
 public class Program
 {
@@ -21,135 +24,105 @@ public class Program
 		var mapper = config.CreateMapper();
 
 		//**************************************************************
-		//var modelDto = GetDto();
 
-		//var entity = GetEntity( context, mapper );
+		Map.MapTest2( context, 10 );
+		//EnvironmentDemo();
 
-		//context.Entry( entity ).State = EntityState.Deleted;
+		//var someCollection = TestProjectTo<Company,CompanyViewModel>(context,mapper);
 
-		//var entityDto = GetMapperDto( entity, mapper );
-		//companyDto.UniqueIdentifier = "0000000000";
+		//var company = someCollection
+		//	.Where( x => x.Id == 6 )
+		//	.Count();
 
-		//IAddUpdateEntity service = new AddUpdateEntity(context,mapper);
-
-		//        await service.AddEntityAsync<Person,PersonDto>( modelDto as PersonDto );
-
-		EnvironmentDemo();
-
-		var someCollection = TestProjectTo<Company,CompanyDto>(context,mapper);
-
-		var company = someCollection
-			.Where( x => x.Id == 6 )
-			.Count();
-
-		//RunEmployeeService( context );
+		//JsonDemo();
 
 		Console.WriteLine();
 	}
 
-	private static GetEmployeeDto GetMapperDto( Employee entity, IMapper mapper )
+	private static void JsonDemo()
 	{
-		var dtoEntity = mapper.Map<GetEmployeeDto>( entity );
-		//var dtoList = mapper.Map<List<Employee>, List<GetEmployeeDto>>(entity);
+		var stringList = new List<string>() { "One","Two","Five"};
+		var querybleColl = stringList.AsQueryable();
 
-		return dtoEntity;
+		var pagingList = new PaginatedList<string>(stringList,3,1);
+
+		var pagingDict = PaginatedCollection<string>.CreateCollectionAsync(querybleColl,2);
+
+		var jsonPagingList = 
+			JsonConvert.SerializeObject(pagingDict, Formatting.Indented);
+
+		Console.WriteLine(jsonPagingList);
+
 	}
 
-	private static async Task<IList<GetEmployeeDto>> GetEntity( PayrollContext context, IMapper mapper )
-	{
-		DbSet<Employee> dbSet = context.Employees;
-		var dtoList = await new GetEmployeeMapping().MapAllEmployeesQueryable( dbSet, 6 ).ToListAsync();
+	//private static GetEmployeeDto GetMapperDto( Employee entity, IMapper mapper )
+	//{
+	//	var dtoEntity = mapper.Map<GetEmployeeDto>( entity );
+	//	//var dtoList = mapper.Map<List<Employee>, List<GetEmployeeDto>>(entity);
 
-		return dtoList;
-	}
+	//	return dtoEntity;
+	//}
 
-	private static void EnvironmentDemo(  )
-	{
-		////"   Геострой   Холдинг   " АД    
-		//string text = "\"   Геострой-   Холдинг   Инвест    '     ЕАД       \"";
-		//string textTwo = "\"   Expressions developer using    555'    Ltd.       \"";
+	//private static async Task<IList<GetEmployeeDto>> GetEntity( PayrollContext context, IMapper mapper )
+	//{
+	//	DbSet<Employee> dbSet = context.Employees;
+	//	var dtoList = await new GetEmployeeMapping().MapAllEmployeesQueryable( dbSet, 6 ).ToListAsync();
+
+	//	return dtoList;
+	//}
+
+	//private static void EnvironmentDemo(  )
+	//{
+	//	////"   Геострой   Холдинг   " АД    
+	//	//string text = "\"   Геострой-   Холдинг   Инвест    '     ЕАД       \"";
+	//	//string textTwo = "\"   Expressions developer using    555'    Ltd.       \"";
 
 
-		//string pattern1 = @"[\S+]+";//@"\w";
-		//var reg1 = Regex.Matches( text,pattern1 );
+	//	//string pattern1 = @"[\S+]+";//@"\w";
+	//	//var reg1 = Regex.Matches( text,pattern1 );
 		
-		//string pattern2 = @"[\w+]+";
-		//var reg2 = Regex.Matches( textTwo,pattern2 );
+	//	//string pattern2 = @"[\w+]+";
+	//	//var reg2 = Regex.Matches( textTwo,pattern2 );
 
-		//var result = string.Join( '-', reg2 );
+	//	//var result = string.Join( '-', reg2 );
 
 
-		//var text3 = text.Split( ' ',
-		//				StringSplitOptions.RemoveEmptyEntries );
+	//	//var text3 = text.Split( ' ',
+	//	//				StringSplitOptions.RemoveEmptyEntries );
 		
 
-		string sourceDirectory = @"C:\zzz-source";
-		string destinationDirectory = @"C:\zzz-destination";
+	//	string sourceDirectory = @"C:\zzz-source";
+	//	string destinationDirectory = @"C:\zzz-destination";
 
+	//	try
+	//	{
+	//	    Directory.Move(sourceDirectory, destinationDirectory);
+	//	}
+	//	catch (Exception e)
+	//	{
+	//	    Console.WriteLine(e.Message);
+	//	}
 
-		//string[] fileNames = Directory.GetFiles(destinationDirectory);
+	//	string[] newfileNames = Directory.GetFiles(destinationDirectory);
+	//	var newDir = Directory.GetDirectoryRoot(destinationDirectory);
 
-		try
-		{
-		    Directory.Move(sourceDirectory, destinationDirectory);
-		}
-		catch (Exception e)
-		{
-		    Console.WriteLine(e.Message);
-		}
+	//}
 
-		string[] newfileNames = Directory.GetFiles(destinationDirectory);
-		var newDir = Directory.GetDirectoryRoot(destinationDirectory);
+	//private static IEnumerable<string> TrimText( IEnumerable<string> textArr )
+	//{
+	//	return textArr.ToList()
+	//				.Select( x => x.Trim() )
+	//				.ToList();
+	//}
 
-	}
+	//private static IQueryable<TResult> TestProjectTo<TSource,TResult>
+	//	(PayrollContext db,IMapper mapperConfig) 
+	//	where TSource : class
+	//{
 
-	private static IEnumerable<string> TrimText( IEnumerable<string> textArr )
-	{
-		return textArr.ToList()
-					.Select( x => x.Trim() )
-					.ToList();
-	}
+	//	var query = db.Set<TSource>().ProjectTo<TResult>(mapperConfig.ConfigurationProvider);
 
-	private static IQueryable<TResult> TestProjectTo<TSource,TResult>
-		(PayrollContext db,IMapper mapperConfig) 
-		where TSource : class
-	{
-
-		var query = db.Set<TSource>().ProjectTo<TResult>(mapperConfig.ConfigurationProvider);
-
-		return query;
-	}
+	//	return query;
+	//}
 
 }
-
-/*
- var testPath = Path.GetFullPath( Assembly.GetExecutingAssembly().Location );
-
-		var appFolder = Path.GetFullPath( testPath + @"\..\..\..\..\");
-		Console.WriteLine(appFolder);
-
-		string companyName = "\"Company 1\" АД";
-
-		int index = companyName.IndexOf('"');
-
-		while ( index != -1 )
-		{
-			//if ( index == -1 ) break;
-
-			companyName = companyName.Remove(index,1);
-			index = companyName.IndexOf('"');
-		}
-		
-		string newCompanyName = companyName
-			.Trim()
-			.Replace( ' ', '-' )
-			.ToUpper();
-
-		Console.WriteLine(newCompanyName);
-
-		if ( !Directory.Exists(Path.Combine(appFolder,newCompanyName)) )
-		{
-			string path = appFolder + newCompanyName;
-			Directory.CreateDirectory(path);
-		}
- */
