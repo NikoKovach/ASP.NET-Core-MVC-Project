@@ -3,34 +3,34 @@ using System.Text;
 
 namespace Payroll.ViewModels
 {
-	public class SearchPersonVM
-	{
-		public int Id { get; set; }
-		
-		public string  FirstName {get; set; }
+       public class SearchPersonVM
+       {
+              public int Id { get; set; }
 
-		public string? MiddleName { get; set; }
+              public string FirstName { get; set; }
 
-		public string? LastName { get; set; }
+              public string? MiddleName { get; set; }
 
-		[Display(Name ="Unified Civil Number")]
-		public string? EGN { get; set; }
+              public string? LastName { get; set; }
 
-		public override string ToString()
-		{
-			StringBuilder sb = new StringBuilder();
+              [Display( Name = "Unified Civil Number" )]
+              public string? EGN { get; set; }
 
-			sb.Append(this.FirstName + " ");
+              public override string ToString()
+              {
+                     StringBuilder sb = new StringBuilder();
 
-			if ( !string.IsNullOrEmpty(this.MiddleName) )
-			{
-				sb.Append(this.MiddleName + " ");
-			}
+                     sb.Append( this.FirstName + " " );
 
-			sb.Append(this.LastName + " ");
-			sb.Append("-> Civil number : " + this.EGN);
+                     if ( !string.IsNullOrEmpty( this.MiddleName ) )
+                     {
+                            sb.Append( this.MiddleName + " " );
+                     }
 
-			return sb.ToString();
-		}
-	}
+                     sb.Append( this.LastName + " " );
+                     sb.Append( "-> Civil number : " + this.EGN );
+
+                     return sb.ToString();
+              }
+       }
 }

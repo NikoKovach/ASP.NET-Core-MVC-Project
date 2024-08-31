@@ -17,16 +17,52 @@
 			navbar-light justify-content-center">
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a asp-controller="Employees" asp-action="Create" class="nav-link btn">Add Employee</a>
+						<form asp-controller="Employees" asp-action="AllPresent">
+							<input id="show-all" type="hidden" name="companyId" />
+							<input id="all-employees-submit" class="nav-link btn" type="submit" 
+							value="All Employees" />
+						</form>
 					</li>
 					<li class="nav-item">
-						<a href="" class="nav-link btn">Add Person</a>
+						<form asp-controller="Employees" asp-action="Create">
+							<input id="create-id" type="hidden"  name="id" />
+							<input id="create-employee-submit" class="nav-link btn" type="submit" value="Add Employee" />
+						</form>
 					</li>
 					<li class="nav-item">
-						<a href="#" class="nav-link btn">Vacations</a>
+						<form asp-controller="Employees" asp-action="Create">
+							<input id="edit-employee-id" type="hidden"  name="id" />
+							<input id="edit-employee-submit" class="nav-link btn" 
+							type="submit" value="Edit Employee" />
+						</form>
 					</li>
 					<li class="nav-item">
-						<a href="#" class="nav-link btn">Disablement</a>
+						<form asp-controller="Employees" asp-action="Delete">
+							<input id="delete-employee-id" type="hidden" name="employeeId" />
+							<input id="delete-employee-submit" class="nav-link btn"
+								type="submit" value="Delete Employee" />
+						</form>
+					</li>
+					<li class="nav-item">
+						<form asp-controller="Persons" asp-action="Create">
+							@* <input id="edit-employee-id" type="hidden" name="id" /> *@
+							<input id="add-person-submit" class="nav-link btn"
+								type="submit" value="Add Person" />
+						</form>
+					</li>
+					<li class="nav-item">
+						<form asp-controller="Vacations" asp-action="Add">
+							@* <input id="edit-employee-id" type="hidden" name="id" /> *@
+							<input id="add-vacation-submit" class="nav-link btn"
+								type="submit" value="Add Vacation" />
+						</form>
+					</li>
+					<li class="nav-item">
+						<form asp-controller="Disablements" asp-action="Show">
+							@* <input id="edit-employee-id" type="hidden" name="id" /> *@
+							<input id="show-disablement-submit" class="nav-link btn"
+								type="submit" value="Show Disablement" />
+						</form>
 					</li>
 				</ul>
 			</nav>
@@ -43,11 +79,7 @@
 				<div class="col-md-5">
 					<label>Select Company</label>
 					<vc:select-company></vc:select-company>
-				</div>
-				<div class="col-md-1">
-					<button id="search-by-company-btn" @* type="submit" *@
-					class="btn btn-success">Search</button>
-				</div>			
+				</div>		
 			</div>	
 		</div>
 	</div>
@@ -74,12 +106,21 @@
 			</button>
 		</div>
 	</div>
-	
 </div>
 
 <!-- Javascript files-->
 @section Scripts
 {
-	<script src="~/js/ajax_jquery_functions.js" asp-append-version="true"></script>
+	<script src="~/custom/ajax_jquery_functions.js" asp-append-version="true"></script>
 }
 
+
+@* <div class="col-md-1">
+					<button id="search-by-company-btn" class="btn btn-success">Search</button>
+				</div>	 *@
+@* <a asp-controller="Employees" asp-action="Create" class="nav-link btn">Add Employee</a> *@
+@* @Html.AntiForgeryToken() *@
+@* method="post"
+	asp-controller="Employees" asp-action="Create"
+							   asp-route-id="5"
+*@

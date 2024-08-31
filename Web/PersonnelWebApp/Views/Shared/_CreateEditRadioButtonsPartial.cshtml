@@ -1,25 +1,21 @@
-﻿<div class="row">
+﻿@model string?
+
+@{
+	string? currentEmpId = Model;
+	// string? currentEmpId = "3";
+}
+
+<div  class="row">
 	<div class="col-md-4">
 		<label>Create</label>
-		<input type="radio" class="radio-create" name="create-update"
-			  value="Create" checked />
+		<input employee-id="@currentEmpId" type="radio" class="radio-create radio-btn"
+			name="create-update" value="Create" checked />
 	</div>
 	<div class="col-md-4">
 		<label>Edit</label>
-		<input type="radio" class="radio-edit" name="create-update"
-			  value="Edit" />
+		<input employee-id="@currentEmpId" type="radio" class="radio-edit radio-btn"
+			name="create-update" value="Edit" />
 	</div>
 </div>
 
-@* <div class="row">
-	<div class="col-md-4">
-		<label>Create</label>
-		<input type="radio" class="radio-create" name="create-update"
-			  value="Create" checked />
-	</div>
-	<div class="col-md-4">
-		<label>Edit</label>
-		<input type="radio" class="radio-edit" name="create-update"
-			  value="Edit" />
-	</div>
-</div> *@
+

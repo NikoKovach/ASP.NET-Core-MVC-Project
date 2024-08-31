@@ -1,18 +1,9 @@
 ﻿@model PersonListViewModel
 
-<input asp-for="PersonId" type="text" list="person-list" class="col-md-12">
-<datalist id="person-list" >
+<datalist id="person-list">
 	@foreach ( var item in Model.Persons )
 	{
-		<option value="@item.Value">@item.Text</option>
+		<option  value="@item.Value">@item.Text </option>
 	}
 </datalist>
-
-
-
-@* <input asp-for="PersonId" type="text" name="city" list="person-list">
-<datalist id="person-list">
-	<option value="Boston"></option>
-	<option value="Cambridge"></option>
-	<option value="Casa"></option>
-</datalist> *@		
+	

@@ -4,18 +4,18 @@ using Payroll.ViewModels.EmployeeViewModels;
 
 namespace PersonnelWebApp.ViewComponents
 {
-	[ViewComponent(Name = "WorkExperience")]
+	[ViewComponent( Name = "WorkExperience" )]
 	public class WorkExperienceViewComponent : ViewComponent
 	{
 		private readonly ICalculateExperience service;
 
 		public WorkExperienceViewComponent(
-			ICalculateExperience calculateService)
+			ICalculateExperience calculateService )
 		{
 			this.service = calculateService;
 		}
 
-		public async Task<IViewComponentResult> InvokeAsync(int? companyId,int empId)
+		public async Task<IViewComponentResult> InvokeAsync( int? companyId, int empId )
 		{
 			WorkExperienceVM resultExperience = new WorkExperienceVM();
 
@@ -24,9 +24,9 @@ namespace PersonnelWebApp.ViewComponents
 			//	return View(resultExperience);
 			//}
 
-			//resultExperience = await this.service.CalculateAsync(companyId,empId);
+			resultExperience = await this.service.CalculateAsync( companyId, empId );
 
-			return View(resultExperience);
+			return View( resultExperience );
 		}
 	}
 }

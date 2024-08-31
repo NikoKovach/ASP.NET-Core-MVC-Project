@@ -40,21 +40,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.6" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="AppFolder\" />
+    <Folder Include="BetaFolder\" />
     <Folder Include="Views\Shared\Components\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Data\Payroll.Data.Common\Payroll.Data.Common.csproj" />
-    <ProjectReference Include="..\..\Services\CommonServices\LegalFramework.Services.csproj" />
-    <ProjectReference Include="..\..\Services\Payroll.Services\Payroll.Services.csproj" />
-    <ProjectReference Include="..\Payroll.ModelsDto\Payroll.ViewModels.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -65,5 +53,15 @@
     <_ContentIncludedByDefault Remove="Views\Shared\_MobileMenuPartial.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Services\CommonServices\LegalFramework.Services.csproj" />
+    <ProjectReference Include="..\..\Services\Payroll.Services\Payroll.Services.csproj" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.3" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.3" />
+		<PackageReference Include="System.Reflection.Metadata" Version="8.0.0" />
+	</ItemGroup>
 
 </Project>

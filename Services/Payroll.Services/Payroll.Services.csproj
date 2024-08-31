@@ -7,13 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Payroll.Data.Common\Payroll.Data.Common.csproj" />
-    <ProjectReference Include="..\..\Data\Payroll.Data\Payroll.Data.csproj" />
-    <ProjectReference Include="..\CommonServices\LegalFramework.Services.csproj" />
     <ProjectReference Include="..\Payroll.Mapper\Payroll.Mapper.csproj" />
   </ItemGroup>
 

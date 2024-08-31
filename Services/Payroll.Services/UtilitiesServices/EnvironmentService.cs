@@ -2,48 +2,53 @@
 
 namespace Payroll.Services.Utilities
 {
-	public static class EnvironmentService
-	{
-		public static void CreateFolder( string rootPath,string folderName )
-		{
-			string modifiedFolderName = ModifyFolderName(folderName);
+       public static class EnvironmentService
+       {
+              public static void CreateFolder( string rootPath, string folderName )
+              {
+                     string modifiedFolderName = ModifyFolderName( folderName );
 
-			if ( DirectoryExists(rootPath,modifiedFolderName) )
-			{
-				return;
-			}
+                     if ( DirectoryExists( rootPath, modifiedFolderName ) )
+                     {
+                            return;
+                     }
 
-			Directory.CreateDirectory( NewFolderPath(rootPath,modifiedFolderName) );
-		}
+                     Directory.CreateDirectory( NewFolderPath( rootPath, modifiedFolderName ) );
+              }
 
-		public static string ModifyFolderName( string folderName )
-		{
-			string pattern = @"[\w+]+";
+              public static string ModifyFolderName( string folderName )
+              {
+                     if ( string.IsNullOrEmpty( folderName ) )
+                     {
+                            return default;
+                     }
 
-			MatchCollection? regexResult = Regex.Matches( folderName,pattern );
+                     string pattern = @"[\w+]+";
 
-			string? result = string.Join( '-', regexResult );
+                     MatchCollection? regexResult = Regex.Matches( folderName, pattern );
 
-			return result;
-		}
+                     string? result = string.Join( '-', regexResult );
 
-		public static bool DirectoryExists(string rootPath,string modifiedFolderName)
-		{ 
-			string newFolderPath = NewFolderPath(rootPath,modifiedFolderName);
+                     return result;
+              }
 
-			if ( !Directory.Exists( newFolderPath ) )
-				return false;
+              public static bool DirectoryExists( string rootPath, string modifiedFolderName )
+              {
+                     string newFolderPath = NewFolderPath( rootPath, modifiedFolderName );
 
-			return true;
-		}
+                     if ( !Directory.Exists( newFolderPath ) )
+                            return false;
 
-		public static string NewFolderPath(string rootPath,string modifiedFolderName)
-		{
-			string newFolderPath = Path.Combine(rootPath,modifiedFolderName);
+                     return true;
+              }
 
-			return newFolderPath;
-		}
-	}
+              public static string NewFolderPath( string rootPath, string modifiedFolderName )
+              {
+                     string newFolderPath = Path.Combine( rootPath, modifiedFolderName );
+
+                     return newFolderPath;
+              }
+       }
 }
 
 /*

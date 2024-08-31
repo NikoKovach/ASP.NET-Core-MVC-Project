@@ -1,153 +1,134 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Payroll.Services.Services.CompanyServices;
+using Microsoft.EntityFrameworkCore;
+using Payroll.Services.Services.ServiceContracts;
 using Payroll.ViewModels;
 
 namespace PersonnelWebApp.Controllers
 {
-     public class CompaniesController : Controller
-     {
-          private ICompany service;
-          private IWebHostEnvironment env;
-		private IConfiguration config;
+       public class CompaniesController : Controller
+       {
+              private ICompany service;
+              private IWebHostEnvironment env;
+              private IConfiguration config;
 
-          public CompaniesController(ICompany companyService,
-			IWebHostEnvironment environment,IConfiguration configuration)
-          {
-               this.service = companyService;
+              public CompaniesController( ICompany companyService,
+                     IWebHostEnvironment environment, IConfiguration configuration )
+              {
+                     this.service = companyService;
 
-			this.env = environment;
+                     this.env = environment;
 
-			this.config = configuration;
-          }
+                     this.config = configuration;
+              }
 
-          public async Task<IActionResult> AllActual()
-          {
-			ICollection<CompanyViewModel> companyList = 
-				await this.service.GetAllValidCompaniesAsync();
+              public async Task<IActionResult> AllActual()
+              {
+                     ICollection<CompanyViewModel> companyList = await this.service
+                                                                                                                              .AllActive()
+                                                                                                                              .ToListAsync();
 
-			if ( companyList == null )
-			{
-				return NotFound(companyList);
-			}
+                     if ( companyList == null )
+                     {
+                            return NotFound( companyList );
+                     }
 
-               return View(companyList);
-          }
+                     return View( companyList );
+              }
 
-          public IActionResult Create()
-          { 
-               
-               return View();
-          }
+              public IActionResult Create()
+              {
+                     return View();
+              }
 
-          [HttpPost]
-          [ValidateAntiForgeryToken]
-          public async Task<IActionResult> Create(CompanyViewModel modelDto)
-          {
-               if ( !ModelState.IsValid)
-               {
-				return View(nameof(Create));                  
-               }
-             
-			try
-               {				
-				await this.service.AddAsync(modelDto);
+              [HttpPost]
+              [ValidateAntiForgeryToken]
+              public async Task<IActionResult> Create( CompanyViewModel modelDto )
+              {
+                     if ( !ModelState.IsValid )
+                     {
+                            return View( nameof( Create ) );
+                     }
 
-				string appFolderPath = Path.Combine( this.env.ContentRootPath,
-							   this.config[ "PrimaryAppFolder:FolderName" ] );
+                     await this.service.AddAsync( modelDto );
 
+                     string appFolderPath = Path.Combine( this.env.ContentRootPath,
+                                             this.config[ "PrimaryAppFolder:FolderName" ] );
 
-				this.service.CreateUpdateCompanyFolder(appFolderPath,modelDto,
-					nameof(Create));
+                     this.service.CreateUpdateCompanyFolder( appFolderPath, modelDto,
+                            nameof( Create ) );
 
-				return RedirectToAction(nameof(AllActual));
-               }
-               catch ( Exception ex )
-               {
-                    return View("Error",ex.Message);
-               }
-          }
+                     return RedirectToAction( nameof( AllActual ) );
+              }
 
-		[HttpPost]
-		public async Task<IActionResult> Edit(string uniqueIdentifier)
-          { 
-			if ( string.IsNullOrWhiteSpace(uniqueIdentifier) )
-			{
-				//TODO : Later N.Kostov's course
-				//return RedirectToAction("Error","Home");
+              [HttpPost]
+              public async Task<IActionResult> Edit( string? uniqueIdentifier )
+              {
+                     if ( string.IsNullOrWhiteSpace( uniqueIdentifier ) )
+                     {
+                            return RedirectToAction( "Error", "Home" );
+                     }
 
-				throw new ArgumentNullException();
-			}
+                     CompanyViewModel? company = await this.service
+                                                                                                    .AllActive( uniqueIdentifier )
+                                                                                                    .FirstOrDefaultAsync();
 
-               CompanyViewModel company = await 
-				this.service.GetActiveCompanyByUniqueIdAsync( uniqueIdentifier );
+                     if ( company == null )
+                     {
+                            return RedirectToAction( "Error", "Home" );
+                     }
 
-			if ( company == null)
-			{
-				//TODO : Later N.Kostov's course
-				return RedirectToAction( "Error", "Home" );
-			}
+                     return View( company );
+              }
 
-               return View(company);
-          }
+              [HttpPost]
+              [ValidateAntiForgeryToken]
+              public async Task<IActionResult> EditCompany( CompanyViewModel modelDto,
+                     string oldName )
+              {
+                     if ( !ModelState.IsValid )
+                     {
+                            return View( nameof( Edit ), modelDto );
+                     }
 
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> EditCompany(CompanyViewModel modelDto,
-			string oldName)
-          { 
-               if ( !ModelState.IsValid)
-               {
-                    return View(nameof(Edit),modelDto);                
-               }
+                     if ( modelDto.HasBeenDeleted == true )
+                     {
+                            modelDto.DeletionDate = DateTime.UtcNow;
+                     }
 
-			try
-               {
-				if ( modelDto.HasBeenDeleted == true )
-				{
-					modelDto.DeletionDate = DateTime.UtcNow;
-				}
+                     await this.service.UpdateAsync( modelDto );
 
-				await this.service.UpdateAsync(modelDto);
+                     string appFolderPath = Path.Combine( this.env.ContentRootPath,
+                                             this.config[ "PrimaryAppFolder:FolderName" ] );
 
-				string appFolderPath = Path.Combine( this.env.ContentRootPath,
-							   this.config[ "PrimaryAppFolder:FolderName" ] );
+                     this.service.CreateUpdateCompanyFolder( appFolderPath,
+                            modelDto, nameof( EditCompany ), oldName );
 
-				this.service.CreateUpdateCompanyFolder( appFolderPath, 
-					modelDto,nameof(EditCompany), oldName );
+                     return RedirectToAction( nameof( AllActual ) );
+              }
 
-				return RedirectToAction(nameof(AllActual));
-               }
-               catch ( Exception ex )
-               {
-				return RedirectToAction("Error","Home",ex.Message);
-                    //TODO : Later N.Kostov's course
-               }  
-          }
+              [HttpPost]
+              public async Task<IActionResult> Details( string? uniqueIdentifier )
+              {
+                     if ( string.IsNullOrWhiteSpace( uniqueIdentifier ) )
+                     {
+                            return RedirectToAction( "Error", "Home" );
+                     }
 
-		[HttpPost]
-		public async Task<IActionResult> Details(string uniqueIdentifier)
-          {
-			if ( string.IsNullOrWhiteSpace(uniqueIdentifier) )
-			{
-				//TODO : Later N.Kostov's course
-				return RedirectToAction("Error","Home");
-			}
+                     CompanyViewModel? company = await this.service
+                                                                                                    .AllActive( uniqueIdentifier )
+                                                                                                    .FirstOrDefaultAsync();
 
-               CompanyViewModel company = await 
-				this.service.GetActiveCompanyByUniqueIdAsync( uniqueIdentifier );
+                     return View( company );
+              }
 
-			if ( company == null)
-			{
-				//TODO : Later N.Kostov's course
-				return RedirectToAction("Error","Home");
-			}
-
-               return View(company);
-          }
-
-          public IActionResult About_Us()
-          {
-               return View("About");
-          }		
-	}
+              public IActionResult About_Us()
+              {
+                     return View( "About" );
+              }
+       }
 }
+
+//public IActionResult Error()
+//{
+//       throw new Exception();
+//}

@@ -1,4 +1,4 @@
-﻿namespace Payroll.Services.Utilities.Messages
+﻿namespace Payroll.Services.UtilitiesServices.Messages
 {
      public static class ExceptionMessages
      {

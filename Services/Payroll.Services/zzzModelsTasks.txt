@@ -1,14 +1,14 @@
 ﻿
 TODO :
 Create Services for :
-1.Employee ;                                 << DONE >>                    : FOR TESTING
+1.Employee ;                                
 
-2.Person :                                   << DONE >>                    : FOR TESTING
-         2.1 Diploma and EducationType;      << Create,Update, Get DONE >> : FOR TESTING;
-         2.2 ContactInfo ;                   << Create,Update, Get DONE >> : FOR TESTING;
-         2.3 Addresses ;                     << Create,Update, Get DONE >> : FOR TESTING;
-         2.4 Gender                          << DONE >>                    : FOR TESTING;
-         2.5 IdDocuments And DocumentTypes   << Create,Update, Get DONE >> : FOR TESTING;
+2.Person :                                   
+         2.1 Diploma and EducationType;      
+         2.2 ContactInfo ;                   
+         2.3 Addresses ;                     
+         2.4 Gender                         
+         2.5 IdDocuments And DocumentTypes  
 
 3.EmploymentContracts :
          3.1 ContractType
@@ -67,7 +67,4 @@ Create Services for :
         //public virtual Employee Employee { get; set; }
         //public virtual ICollection<Employee> Employees { get; set; }
     //}
-
-    System.ArgumentException: 
-    'Expression 'm => m.Gender.Type' must resolve to top-level member and not any child object's properties. You can use ForPath, a custom resolver on the child type or the AfterMap option instead. (Parameter 'lambdaExpression')'
 

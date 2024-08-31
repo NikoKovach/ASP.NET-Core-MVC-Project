@@ -12,15 +12,3 @@ namespace Payroll.Mapper.AutoMapper.MapperProfiles
           }
      }
 }
-
-/*
- * 
-  //.ForMember( d => d.PersonId, opt =>
-  //opt.MapFrom( s => s.PersonCurrentAddresesses
-                      
-  //           ) )
-
-.ForMember( d => d.EmployeeId,
-   opt => opt.MapFrom( s => s.PersonPermanentAddresses
-   .Select( x => x.Employee.Id ) ) )
- */

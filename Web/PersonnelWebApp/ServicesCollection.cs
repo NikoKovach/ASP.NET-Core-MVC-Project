@@ -1,38 +1,49 @@
-﻿using LegalFramework.Services;
+﻿using System.Reflection;
+
+using LegalFramework.Services;
+using Microsoft.EntityFrameworkCore;
+
+using Payroll.Data;
 using Payroll.Data.Common;
 using Payroll.Mapper.AutoMapper;
 using Payroll.Mapper.CustomMap;
+using Payroll.Services.Services;
 using Payroll.Services.Services.CompanyServices;
 using Payroll.Services.Services.EmployeeServices;
 using Payroll.Services.Services.ServiceContracts;
-using Payroll.ViewModels;
+using Payroll.Services.UtilitiesServices.EntityValidateServices;
 
 namespace PersonnelWebApp
 {
     public static class ServicesCollection
-	{
-		public static void Collect(IServiceCollection services) 
-		{ 
-			services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+       {
+              public static void Collect( IServiceCollection services, IConfiguration Configuration )
+              {
+                     string? connString = Configuration
+                            .GetConnectionString( "DefaultConnection" );
 
-               services.AddScoped<ICompany, CompanyService>();
+                     string? mapperAssembly = Configuration[ "AutoMapperAssembly" ];
 
-			services.AddTransient<IMapEntity,MapEntity>();
+                     services.AddDbContext<PayrollContext>( options => options
+                                           .UseSqlServer( connString ) );
 
-			services.AddTransient<IEmployee, EmployeeService>();
+                     services.AddAutoMapper( Assembly.Load( mapperAssembly ) );
 
-			services.AddTransient<IGetEmployeeMapping,GetEmployeeMapping>();
-			
-			services.AddTransient<IAllValidEntities<SearchCompanyViewModel>,
-								SearchCompanyService>();
+                     services.AddTransient<IMapEntity, MapEntity>();
 
-			services.AddTransient<IAllValidEntities<SearchPersonVM>,
-								SearchPersonService>();
+                     services.AddTransient<ICustomProjections, CustomProjections>();
 
-			services.AddTransient<ICalculateExperience,CalculateExperience>();
+                     services.AddScoped( typeof( IRepository<> ), typeof( Repository<> ) );
 
-			services.AddTransient<IGetContractInfo,GetContractService>();
-			
-		}
-	}
+                     services.AddScoped<ICompany, CompanyService>();
+
+                     services.AddTransient<IEmployee, EmployeeService>();
+
+                     services.AddTransient<IPerson, PersonService>();
+
+                     services.AddTransient<ICalculateExperience, CalculateExperience>();
+
+                     services.AddTransient<IValidateEmployeeVModels, EmployeeVMValidate>();
+              }
+       }
 }

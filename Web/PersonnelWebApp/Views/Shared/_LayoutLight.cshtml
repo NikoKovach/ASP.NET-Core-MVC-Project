@@ -7,12 +7,12 @@
 	<title>@ViewData["Title"]</title>
 
 	<link rel="stylesheet" href="~/simple/lib/bootstrap/dist/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="~/simple/css/site.css" asp-append-version="true" />
-	@* <link rel="stylesheet" href="~/simple/DemoWebAppWithoutAccountsNet6.styles.css" asp-append-version="true"/> *@
-	<link rel="stylesheet" type="text/css" href="~/css/style-custom.css" 
-	asp-append-version="true" />
-	<link rel="stylesheet" type="text/css" href="~/simple/css/custom-light.css"
-		 asp-append-version="true" />
+        <link rel="stylesheet" href="~/simple/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" type="text/css" href="~/custom/style-custom.css" 
+              asp-append-version="true" />
+	@*@<link rel="stylesheet" type="text/css" href="~/simple/css/custom-light.css"
+		 asp-append-version="true" />*@
+       <link rel="stylesheet" href="~/custom/sub-menu.css" asp-append-version="true" />
 
 </head>
 <body>
@@ -20,111 +20,8 @@
 
 	<div class="sticky-top">
 		<header>
-			@* navbar navbar-expand-sm navbar-toggleable-sm
-			navbar-light  border-bottom box-shadow mb-3 bg-white  *@
-			<nav class="navbar navbar-expand-sm navbar-toggleable-sm 
-						navbar-light border-bottom box-shadow mb-3 bg-white">
-				<div class="container-fluid">
-					<a class="navbar-brand" asp-area="" asp-controller="Home"
-					   asp-action="Index">Payroll System</a>
-					<button class="navbar-toggler" type="button"
-						   data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-						   aria-controls="navbarSupportedContent"
-						   aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-
-					<!-- Main menu start-->
-					@* <partial name="_MainMenuPartial"></partial> *@
-
-					<!-- Main menu end-->
-
-					<div class="navbar-collapse collapse d-sm-inline-flex
-						justify-content-between">
-						<ul class="navbar-nav flex-grow-1">
-							<li class="nav-item">
-								<a class="nav-link text-dark" asp-area=""
-								   asp-controller="Home" asp-action="Index">
-									Home
-								</a>
-							</li>
-							<li class="nav-item dropdown">
-								<a class="btn dropdown-toggle"
-								   data-bs-toggle="dropdown">
-									Personnel staff
-								</a>
-								<div class="dropdown-menu">
-									<ul>
-										<li>
-											<a class="dropdown-item text-dark"
-											   asp-area=""
-											   asp-controller=""
-											   asp-action="">
-												Employees
-											</a>
-										</li>
-										<li>
-											<a class="dropdown-item text-dark"
-											   asp-area=""
-											   asp-controller=""
-											   asp-action="">
-												Personnel
-											</a>
-										</li>
-									</ul>
-								</div>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link text-dark" asp-area=""
-								   asp-controller="" asp-action="">
-									Payroll
-								</a>
-							</li>
-							<li class="nav-item dropdown">
-								<a class="btn dropdown-toggle"
-								   data-bs-toggle="dropdown">
-									Company
-								</a>
-								<div class="dropdown-menu">
-									<ul>
-										<li>
-											<a class="dropdown-item text-dark"
-											   asp-area=""
-											   asp-controller="Companies"
-											   asp-action="AllActual">
-												Active Companies
-											</a>
-										</li>
-										<li>
-											<a class="dropdown-item text-dark"
-											   asp-area=""
-											   asp-controller="Companies"
-											   asp-action="Create">
-												Create Company
-											</a>
-										</li>
-										<li>
-											<a class="dropdown-item text-dark"
-											   asp-area=""
-											   asp-controller="Companies"
-											   asp-action="About_Us">
-												About Us
-											</a>
-										</li>
-									</ul>
-								</div>
-							</li>
-							<li>
-								<a href="#">
-									<img src="/images/search-icon.png">
-								</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</nav>
+                     <partial name="_NavBarLayoutLight"></partial>
 		</header>
-
 	</div>
 	<!-- header section end -->
 
@@ -134,19 +31,18 @@
 		</main>	
 	</div>
 	
+       <script src="~/simple/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+       <script src="~/simple/js/site.js" asp-append-version="true"></script>
 
-	<script src="~/simple/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="~/simple/js/site.js" asp-append-version="true"></script>
+       <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
-	<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+       <script>
+              // Fallback to loading jQuery from a local path if the CDN is unavailable
+              (window.jQuery || document.write(
+                     '<script src="~/simple/lib/jquery/dist/jquery-3.7.1.js"><\/script>'));
+       </script>
 
-	<script>
-	   // Fallback to loading jQuery from a local path if the CDN is unavailable
-	   (window.jQuery || document.write(
-			'<script src="~/simple/lib/jquery/dist/jquery-3.7.1.js"><\/script>'));
-	</script>
-
-	<script src="~/js/my_jquery_functions.js" asp-append-version="true"></script>
+	<script src="~/custom/my_jquery_functions.js" asp-append-version="true"></script>
 
 	@await RenderSectionAsync("Scripts", required: false)
 </body>
