@@ -55,6 +55,7 @@ namespace PersonnelWebApp.Filters
 
                                    sb.Append( $"{i + 1}.{fieldErrors[ i ]}\r\n" );
                             }
+
                             context.ModelState.AddModelError( nameof( paramFile.ProfileImage ), sb.ToString() );
                      }
               }

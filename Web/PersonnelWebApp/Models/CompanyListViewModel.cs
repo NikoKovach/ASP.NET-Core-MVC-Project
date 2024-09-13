@@ -2,11 +2,10 @@
 
 namespace PersonnelWebApp.Models
 {
-	public class CompanyListViewModel
-	{
-		public int CompanyId { get; set; }
+       public class CompanyListViewModel
+       {
+              public int CompanyId { get; set; }
 
-		public List<SelectListItem> Companies { set; get; } 
-								= new List<SelectListItem>();
-	}
+              public List<SelectListItem> Companies { set; get; } = new List<SelectListItem>();
+       }
 }

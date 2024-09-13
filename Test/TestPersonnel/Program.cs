@@ -12,22 +12,13 @@ public class Program
               var mapper = config.CreateMapper();
 
               //**************************************************************
-              ServiceTest.AutoMapperTest( context, mapper );
+              //ServiceTest.AutoMapperTest( context, mapper );
 
               //ServiceTest.TestCustomMapper( context );
               //Map.UseDelegate( context );
-              //ServiceTest.TestValidate( context );
+              ServiceTest.TestValidate( context, mapper );
               //EnvironmentDemo();
-
-
-
-              //var someCollection = TestProjectTo<Company,CompanyViewModel>(context,mapper);
-
-              //var company = someCollection
-              //	.Where( x => x.Id == 6 )
-              //	.Count();
-
-              //JsonDemo();
+              ServiceTest.LinqTest( context );
 
               Console.WriteLine();
        }

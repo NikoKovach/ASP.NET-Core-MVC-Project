@@ -9,13 +9,83 @@
 <h3>All Present Employees</h3>
 
 <div class="col-md-12">
-	<nav class="navbar navbar-custom navbar-expand-sm
-			navbar-light justify-content-start">
+	<nav class="navbar navbar-custom navbar-expand-sm navbar-light justify-content-start">
 		<ul class="navbar-nav">
+                     <partial name="_PartialManageEmployees"></partial>
 			<li class="nav-item">
+                            <form asp-controller="Persons" asp-action="AllPersons">
+					<input id="add-person-submit" class="nav-link btn"
+						type="submit" value="Persons" />
+				</form>
+			</li>
+		</ul>
+	</nav>
+</div>
+<hr />
+
+<div class="table-responsive-sm">
+       <table id="privateTable" class="table  table-hover table-responsive-sm">
+		<thead class="table-success">
+			<tr>
+                            <th scope="col">#</th>
+				<th scope="col">Id</th>
+				<th scope="col" >List number</th>
+				<th scope="col">Name</th>
+				<th scope="col">Id Number</th>
+				<th scope="col">Department</th>
+				<th scope="col">Job Title</th>
+				<th scope="col">Contract number</th>
+                            <th scope="col">Contract date</th>
+			</tr>
+		</thead>
+
+              <tbody id="privateTable-body">
+                     @for ( int i = 0; i < Model.Count; i++ )
+                     {
+                            int rowNumber = i + 1;
+                            <tr>
+                                   <td>@rowNumber</td>
+                                   <td>@Model[i].Id</td>
+                                   <td>@Model[ i ].NumberFromTheList</td>
+                                   <td>@Model[i].FullName </td>
+                                   <td>@Model[i].EGN </td>
+                                   <td>
+                                          @Model[ i ].ContractInfo.CurrentDepartmentName
+                                   </td>
+                                   <td>
+                                          @Model[ i ].ContractInfo.CurrentJobTitle
+                                   </td>
+                                   <td>
+                                          @Model[ i ].ContractInfo.ContractNumber
+                                   </td>
+                                   <td>
+                                          @Model[ i ].ContractInfo.ContractDate
+                                   </td>
+                            </tr>
+                     }
+		</tbody>
+	</table>
+</div>
+
+<div>
+	<form>
+		<div class="form-group">
+			<a asp-action="Index" class="btn btn-primary">Back to Files</a>
+		</div>
+	</form>
+</div>
+
+
+<!-- Javascript files-->
+@section Scripts
+{
+       <script src="~/custom/privateTable_jquery_functions.js" asp-append-version="true"></script>
+}
+
+@* <li class="nav-item">
 				<form asp-controller="Employees" asp-action="Create">
 					<input id="create-id" type="hidden" name="id" />
-					<input id="create-employee-submit" class="nav-link btn" type="submit" 
+					<input id="create-employee-submit" class="nav-link btn" type="submit"
 					value="Add Employee" />
 				</form>
 			</li>
@@ -32,98 +102,4 @@
 					<input id="delete-employee-submit" class="nav-link btn"
 						type="submit" value="Delete Employee" />
 				</form>
-			</li>
-			<li class="nav-item">
-				<form asp-controller="Persons" asp-action="Create">
-					@* <input id="edit-employee-id" type="hidden" name="id" /> *@
-					<input id="add-person-submit" class="nav-link btn"
-						type="submit" value="Add Person" />
-				</form>
-			</li>
-		</ul>
-	</nav>
-</div>
-<hr />
-<div class="table-responsive-sm">
-       <table class="table  table-hover table-responsive-sm table-light">
-		<thead class="table-info">
-			<tr>
-				<th scope="col">
-					Id
-				</th>
-				<th scope="col" >
-					List number
-				</th>
-				<th scope="col">
-					Name
-				</th>
-				<th scope="col">
-					Id Number
-				</th>
-				<th scope="col">
-					Department
-				</th>
-				<th scope="col">
-					Job Title
-				</th>
-				<th scope="col">
-					Contract number
-				</th>
-				<th>
-					Contract date
-				</th>
-			</tr>
-		</thead>
-
-		 <tbody class="table-light">
-		@foreach (var item in Model) 
-		{
-			<tr>
-                              <td>
-                                    @item.Id
-                              </td>
-				 <td>
-					@item.NumberFromTheList
-				</td>
-				<td>
-					@item.FullName
-				</td>
-				<td>
-					@item.EGN
-				</td>
-				<td>
-					@item.ContractInfo.CurrentDepartmentName
-				</td>
-				<td>
-					@item.ContractInfo.CurrentJobTitle
-				</td>
-                            <td>
-                                   @item.ContractInfo.ContractNumber
-				</td>
-				<td>
-                                   @item.ContractInfo.ContractDate
-				</td>
-			</tr>
-		}
-		</tbody>
-	</table>
-</div>
-
-<div>
-	<form>
-		<div class="form-group">
-			<a asp-action="Index" class="btn btn-primary">Back to List</a>
-		</div>
-	</form>
-</div>
-
-@* 	@Html.ActionLink( "Edit", "Edit", new { /* id=item.PrimaryKey */ } ) |
-	@Html.ActionLink( "Details", "Details", new { /* id=item.PrimaryKey */ } ) |
-	@Html.ActionLink( "Delete", "Delete", new { /* id=item.PrimaryKey */ } ) *@
-
-@* <p>
-	<form asp-controller="Employees" asp-action="Create">
-		<input class="nav-link btn" type="hidden" name="id" />
-		<input id="create-employee-submit" class="nav-link btn" type="submit" value="Add Employee" />
-	</form>
-</p> *@
+			</li> *@

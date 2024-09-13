@@ -13,11 +13,5 @@
               {
                      return file.Length <= maxSizeInBytes;
               }
-
-              //public static bool FileWithSameNameExists( IFormFile fileName )
-              //{
-              //       // Implement logic to check if a file with the same name exists in the system
-              //       return false;
-              //}
        }
 }

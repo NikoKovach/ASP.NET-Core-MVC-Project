@@ -114,7 +114,8 @@ function setFormFields(items) {
 	}
 	else {
 		$("#isPresent").val(items[0]["isPresent"]);
-		$("#edit-employee-id").val(empId);
+              $("#edit-entity-id").val(empId);
+              $("#delete-entity-id").val(empId);
 	}
 	$("#numberFromTheList").val(items[0]["numberFromTheList"]);
 

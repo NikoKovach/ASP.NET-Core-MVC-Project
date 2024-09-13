@@ -4,70 +4,72 @@ namespace Payroll.Services.Utilities
 {
        public static class EnvironmentService
        {
-              public static void CreateFolder( string rootPath, string folderName )
+              public static string ModifyName( string name )
               {
-                     string modifiedFolderName = ModifyFolderName( folderName );
-
-                     if ( DirectoryExists( rootPath, modifiedFolderName ) )
-                     {
-                            return;
-                     }
-
-                     Directory.CreateDirectory( NewFolderPath( rootPath, modifiedFolderName ) );
-              }
-
-              public static string ModifyFolderName( string folderName )
-              {
-                     if ( string.IsNullOrEmpty( folderName ) )
+                     if ( string.IsNullOrEmpty( name ) )
                      {
                             return default;
                      }
 
                      string pattern = @"[\w+]+";
 
-                     MatchCollection? regexResult = Regex.Matches( folderName, pattern );
+                     MatchCollection? regexResult = Regex.Matches( name, pattern );
 
                      string? result = string.Join( '-', regexResult );
 
                      return result;
               }
 
-              public static bool DirectoryExists( string rootPath, string modifiedFolderName )
+              public static string CreateRelativePath( string fullPath, string relativeFolder, string appFolder )
               {
-                     string newFolderPath = NewFolderPath( rootPath, modifiedFolderName );
+                     //appFolder = AppFolder
+                     //relativeFolder = /app-folder
+                     //fullPath
+                     // ......\AppFolder\Булгарстрой-World-АД\Employees\Dida-B-Koleva\Dida-B-Koleva-profile-img.jpg
 
-                     if ( !Directory.Exists( newFolderPath ) )
-                            return false;
+                     //relativePath
+                     /// /app-folder/Булгарстрой-World-АД/Employees/Asena-Y-Koleva/koleva-clock.png
 
-                     return true;
-              }
+                     int startIndex = fullPath.IndexOf( appFolder ) + appFolder.Length;
 
-              public static string NewFolderPath( string rootPath, string modifiedFolderName )
-              {
-                     string newFolderPath = Path.Combine( rootPath, modifiedFolderName );
+                     string subRelativeImageFolder = fullPath.Substring( startIndex ).Replace( @"\", "/" );
 
-                     return newFolderPath;
+                     string relativePath = $"{relativeFolder}{subRelativeImageFolder}";
+
+                     return relativePath;
               }
        }
 }
 
 /*
- int index = folderName.IndexOf('"');
+  //public static void CreateFolder( string rootPath, string folderName )
+              //{
+              //       string modifiedFolderName = ModifyName( folderName );
 
-			while ( index != -1 )
-			{
-				folderName = folderName.Remove(index,1);
-				index = folderName.IndexOf('"');
-			}
+              //       if ( DirectoryExists( rootPath, modifiedFolderName ) )
+              //       {
+              //              return;
+              //       }
 
-			List<string> folderNameList = folderName
-							 .Trim()
-							 .ToUpper()
-							 .Split( ' ', StringSplitOptions.RemoveEmptyEntries )
-							 .ToList();
+              //       Directory.CreateDirectory( NewFolderPath( rootPath, modifiedFolderName ) );
+              //}
 
-			string newCompanyName = string.Join( '-' ,folderNameList);		
 
-			return newCompanyName;
- 
- */
+              //public static bool DirectoryExists( string rootFolder, string folderName )
+              //{
+              //       string newFolderPath = Path.Combine( rootFolder, folderName );
+
+              //       if ( !Directory.Exists( newFolderPath ) )
+              //              return false;
+
+              //       return true;
+              //}
+
+              //public static string NewFolderPath( string rootPath, string folderName )
+              //{
+              //       string newFolderPath = Path.Combine( rootPath, folderName );
+
+              //       return newFolderPath;
+              //}
+*/
+

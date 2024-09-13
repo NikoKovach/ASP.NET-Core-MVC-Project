@@ -14,8 +14,10 @@ namespace Payroll.Services.Services.ServiceContracts
 
               IQueryable<GetEmployeeVM> AllEmployees( int companyId );
 
-              Task<string> CreateEmployeeFolderAsync( string rootFolder, int PersonId, int CompanyId );
+              Task<bool> CreateEmployeeFolderAsync( string rootFolder, int PersonId, int CompanyId );
 
-              string CreateFileNameWithPath( string employeeFolder, string oldFileName );
+              Task<string?> UploadEmployeePictureAsync( EmployeeVM viewModel, string? employeeFolder );
+
+              Task UpdatePersonAsync( int personId, string? employeeFolder, string? relativeFolder, string? appFolder );
        }
 }

@@ -1,0 +1,152 @@
+﻿@using Payroll.Services.Services
+@using Payroll.ViewModels.PersonViewModels
+@model SortedPaginatedList<PersonViewModel>
+
+@{
+       ViewData["Title"] = "View";
+       Layout = "~/Views/Shared/_LayoutLight.cshtml";
+
+       PersonViewModel firstPerson = Model.ItemsCollection[0];
+
+       var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+       var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<div class="col">
+       <div class="row navbar-custom">
+              <div class="col-md-3">
+                     <h4 class="text-justify text-dark">Persons List</h4>
+              </div>
+              <partial name="_PersonItemsPartial"></partial>
+       </div>
+       <hr />
+       <partial name="_SearchPersonsPartial"></partial>
+       <hr />
+</div>
+
+       <div>
+              <div class="table-responsive-sm">
+                     <table id="privateTable" class="table  table-hover table-responsive-sm">
+                            <thead class="table-success">
+                                   <tr>
+                                          <th scope="col">E</th>
+                                          <th scope="col">#</th>
+                                          <th scope="col"><label asp-for="@firstPerson.Id"></label></th>
+                                          <th scope="col">
+                                                 <a asp-action="AllPersons"><label asp-for="@firstPerson.FirstName"></label></a>
+                                           </th>
+                                          <th scope="col"><label asp-for="@firstPerson.MiddleName"></label></th>
+                                          <th scope="col"><label asp-for="@firstPerson.LastName"></label></th>
+                                          <th scope="col"><label asp-for="@firstPerson.GenderType"></label></th>
+                                          <th scope="col"><label asp-for="@firstPerson.EGN"></label></th>
+                                          @* <th scope="col"><label asp-for="@firstPerson.PhotoFilePath"></label></th> *@
+                                   </tr>
+                            </thead>
+
+                            <tbody id="privateTable-body">
+                                   @for ( int i = 0; i < Model.ItemsCollection.Count; i++ )
+                                   {
+                                          int rowNumber = i + 1;
+                                          PersonViewModel person = Model.ItemsCollection[i];
+                                          <tr>
+                                                 <td><input type="checkbox" id="editRow"></td>
+                                                 <td class="col-sm-3">@rowNumber</td>
+                                                 <td class="col-sm-4">@person.Id</td>
+                                                 <td>@person.FirstName</td>
+                                                 <td>@person.MiddleName </td>
+                                                 <td>@person.LastName</td>
+                                                 <td class="col-sm-8">@person.GenderType</td>
+                                                 <td class="col-sm-8">@person.EGN </td>
+                                                 @* <td>@Model[ i ].PhotoFilePath</td> *@
+                                          </tr>
+                                   }
+                            
+                                   <partial name="_AddPersonPartial" model="@Model.Entity"></partial>
+                            </tbody>
+                     </table>
+              </div>
+       </div>
+
+       <div class="row col-sm-4">
+              <div class="col-sm-3">
+                     <form asp-action="AllPersons">
+                            <input type="hidden" value="@(Model.PageIndex - 1)" name="pageIndex" />
+                            <button type="submit" class="btn btn-primary @prevDisabled">
+                                   Previous
+                            </button>
+                     </form>
+              </div>
+              
+              <div class="col-sm-6">
+              @* method="post" id="formGoToPage" name="pageIndex" *@
+              <form asp-action="AllPersons" id="formGoToPage">
+                            <input id="go-to-page" class="text-center col-sm-8 h-75 fs-6 border-white"
+                            value="@Model.PageIndex" name="pageIndex" />
+                            <label id="lblTotalPages" class="text-center col-sm-3 h-75 fs-6 border-white">
+                            / @Model.TotalPages </label>
+                      </form>
+              </div>
+              <div class="col-sm-3">
+                     <form asp-action="AllPersons">
+                            <input type="hidden" value="@(Model.PageIndex + 1)" name="pageIndex" />
+                            <button type="submit" class="btn btn-primary @nextDisabled">
+                                   Next
+                            </button>
+                     </form>
+              </div>
+       </div>
+
+<hr />
+<div>
+       <a asp-controller="Persons" asp-action="" class="btn btn-primary">
+              Add
+       </a>
+       <a asp-controller="Persons" asp-action="" class="btn btn-primary">
+              Edit
+       </a>
+       <a asp-controller="Employees" asp-action="Index" class="btn btn-primary">
+              Back To Employees Files
+       </a>
+       <input class="btn link-underline-primary" value="Go"/>
+       <button id="btn-link-test" class="btn btn-link" value="Press">Press</button>
+</div>
+
+
+<!-- Javascript files-->
+@section Scripts
+{
+       <script src="~/custom/privateTable_jquery_functions.js" asp-append-version="true"></script>
+}
+
+@*
+
+ <button asp-action="AllPersons"asp-route-pageIndex="@(Model.PageIndex - 1)"
+                     class="previous-page btn btn-outline-primary @prevDisabled">
+                     Previous
+              </button> 
+
+<button asp-action="AllPersons" asp-route-pageIndex="@(Model.PageIndex + 1)"
+                     class="next-page btn btn-outline-primary @nextDisabled">
+                     Next
+              </button>
+*@
+
+@* <div class="col-mb-6">
+       <a asp-action="AllPersons" asp-route-pageIndex="@(Model.PageIndex - 1)"
+          class="btn btn-primary @prevDisabled">Previous</a>
+
+       <button asp-route-pageIndex="@(Model.PageIndex - 1)
+               type="submit" value="Previous" name="pageIndex"
+               class="btn btn-primary @prevDisabled"></button>
+
+       <input class="emp-paging text-center col-sm-1 h-25 fs-6 border-white"
+              name="pageIndex" value="@Model.PageIndex" />
+       <label id="totalPages">/@Model.TotalPages </label>
+
+       <a asp-action="AllPersons" asp-route-pageIndex="@(Model.PageIndex + 1)"
+          class="btn btn-primary @nextDisabled">Next</a>
+
+       <button asp-route-pageIndex="@(Model.PageIndex + 1)
+               type="submit" value="Next" name="pageIndex"
+               class="btn btn-primary @nextDisabled"></button>
+</div> *@

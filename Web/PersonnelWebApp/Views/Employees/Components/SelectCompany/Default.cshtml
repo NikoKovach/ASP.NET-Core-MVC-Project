@@ -1,7 +1,14 @@
 ﻿@model CompanyListViewModel
 
-<select asp-for="CompanyId" asp-items="@Model.Companies" id="selectCompany">
+@* <select asp-for="CompanyId" asp-items="@Model.Companies" id="selectCompany">
 	<option value="-1">Please select one</option>
-</select>
+</select> *@
+
+<datalist id="company-list">
+       @foreach ( var item in Model.Companies )
+       {
+              <option value="@item.Value">@item.Text </option>
+       }
+</datalist>
 
 		

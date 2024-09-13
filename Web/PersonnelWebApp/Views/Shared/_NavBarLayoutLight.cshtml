@@ -27,7 +27,7 @@
                                                         Employees &raquo;
                                                  </a>
                                                  <ul class="submenu dropdown-menu">
-                                                       <li>
+                                                        <li>
                                                                <form asp-controller="Employees" asp-action="Create"
                                                                      method="post" id="PersonnelStaffCreateForm">
                                                                       <a class="dropdown-item" href="#"
@@ -55,9 +55,11 @@
                                                  </ul>
                                           </li>
                                           <li>
-                                                 <a class="dropdown-item text-dark">
-                                                        Persons
-                                                 </a>
+                                                 <form asp-controller="Persons" asp-action="AllPersons"
+                                                       method="post" id="PersonsTable">
+                                                        <a class="dropdown-item" href="#"
+                                                           onclick="document.getElementById('PersonsTable').submit()">Personnel</a>
+                                                 </form>
                                           </li>
                                           <li>
                                                  <a class="dropdown-item text-dark">

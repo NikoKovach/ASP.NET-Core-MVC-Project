@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Payroll.Models;
-using Payroll.ModelsDto.PersonViewModels;
 using Payroll.ViewModels;
+using Payroll.ViewModels.PersonViewModels;
 
 namespace Payroll.Mapper.AutoMapper.MapperProfiles
 {
@@ -9,7 +9,7 @@ namespace Payroll.Mapper.AutoMapper.MapperProfiles
        {
               public PersonProfile()
               {
-                     CreateMap<Person, PersonDto>()
+                     CreateMap<Person, PersonViewModel>()
                             .ForMember<string>( m => m.GenderType, o => o.MapFrom( s => s.Gender.Type ) )
                             .ReverseMap();
 

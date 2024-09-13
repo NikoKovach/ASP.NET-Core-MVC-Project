@@ -88,43 +88,47 @@ namespace Payroll.Services.Services
                      await repository.SaveChangesAsync();
               }
 
-              public void CreateUpdateCompanyFolder( string rootFolder, CompanyViewModel viewModel,
+              public void CreateUpdateCompanyFolder( string appFolderPath, CompanyViewModel viewModel,
                [CallerMemberName] string actionName = "", params string[] viewModelOld )
               {
                      if ( actionName.Equals( "Create" ) )
                      {
-                            CreateCompanyFolder( rootFolder, viewModel );
+                            CreateCompanyFolder( appFolderPath, viewModel );
                      }
                      else if ( actionName.Equals( "EditCompany" ) )
                      {
                             string oldCompanyName = viewModelOld[ 0 ];
                             string modifiedOldName =
-                                   EnvironmentService.ModifyFolderName( oldCompanyName );
+                                   EnvironmentService.ModifyName( oldCompanyName );
 
-                            if ( EnvironmentService.DirectoryExists( rootFolder, modifiedOldName ) )
+                            if ( Directory.Exists( Path.Combine( appFolderPath, modifiedOldName ) ) )
                             {
                                    string modifiedNewName =
-                                   EnvironmentService.ModifyFolderName( viewModel.Name );
+                                   EnvironmentService.ModifyName( viewModel.Name );
 
-                                   RenameCompanyFolder( rootFolder, modifiedOldName,
+                                   RenameCompanyFolder( appFolderPath, modifiedOldName,
                                           modifiedNewName );
                             }
                             else
                             {
-                                   CreateCompanyFolder( rootFolder, viewModel );
+                                   CreateCompanyFolder( appFolderPath, viewModel );
                             }
                      }
               }
 
               //**************************************************************************
-              private void CreateCompanyFolder( string rootFolder, CompanyViewModel viewModel )
+              private void CreateCompanyFolder( string appFolderPath, CompanyViewModel viewModel )
               {
-                     CompanyViewModel? existedCompany = AllActive( viewModel.UniqueIdentifier )
-                                                                                                      .FirstOrDefault();
+                     string? companyName = this.repository.AllAsNoTracking()
+                            .Where( x => x.UniqueIdentifier == viewModel.UniqueIdentifier )
+                            .Select( x => x.Name )
+                            .FirstOrDefault();
 
-                     if ( existedCompany != null )
+                     if ( companyName.Equals( viewModel.Name ) )
                      {
-                            EnvironmentService.CreateFolder( rootFolder, viewModel.Name );
+                            string modifiedCompanyName = EnvironmentService.ModifyName( viewModel.Name );
+
+                            Directory.CreateDirectory( Path.Combine( appFolderPath, modifiedCompanyName ) );
                      }
               }
 

@@ -1,22 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Payroll.Services.Services.EmployeeServices;
+using Payroll.Services.Services;
 using Payroll.Services.Services.ServiceContracts;
+using Payroll.Services.UtilitiesServices.EntityValidateServices;
 using Payroll.ViewModels.EmployeeViewModels;
-using PersonnelWebApp.Filters;
 
 namespace PersonnelWebApp.Controllers
 {
        public class EmployeesController : Controller
        {
+              private const int PageSize = 1;
+              private const int PageIndex = 1;
+              private const int Count = 1;
+
               private readonly IEmployee empService;
-              private readonly IValidateEmployeeVModels validateService;
+              private readonly IValidate validateService;
               private readonly IWebHostEnvironment env;
               private readonly IConfiguration config;
 
               private static int companyIdNumber = 0;
 
-              public EmployeesController( IEmployee service, IValidateEmployeeVModels validateService,
+              public EmployeesController( IEmployee service, IValidate validateService,
                                                                IWebHostEnvironment environment, IConfiguration configuration )
               {
                      this.empService = service;
@@ -31,7 +35,7 @@ namespace PersonnelWebApp.Controllers
               public IActionResult Index()
               {
                      var emptyPaginatedList = new PaginatedCollection<GetEmployeeVM>
-                            ( EmptyEmpoyeesCollection(), 1, 1 );
+                            ( EmptyEmpoyeesCollection(), Count, PageIndex );
 
                      return View( emptyPaginatedList );
               }
@@ -48,12 +52,12 @@ namespace PersonnelWebApp.Controllers
                                                                                                        .AllActive_GetEmployeeVM( companyIdNumber );
 
                      var paginatedList = await PaginatedCollection<GetEmployeeVM>
-                                                 .CreateCollectionAsync( empList, pageNumber ?? 1 );
+                                                 .CreateCollectionAsync( empList, pageNumber ?? 1, PageSize );
 
                      if ( paginatedList.ItemsCollection.Count == 0 )
                      {
                             var emptyPaginatedList = new PaginatedCollection<GetEmployeeVM>
-                                   ( EmptyEmpoyeesCollection(), 1, 1 );
+                                   ( EmptyEmpoyeesCollection(), Count, PageIndex );
 
                             return Json( emptyPaginatedList );
                      }
@@ -82,11 +86,9 @@ namespace PersonnelWebApp.Controllers
               }
 
               [HttpPost]
-              [FileValidationFilter( [ ".jpg", ".png" ], 1024 * 1024 )]
               public async Task<IActionResult> CreateEmployee( EmployeeVM empViewModel )
-              //IFormFile? employeeImage 
               {
-                     ValidateModel( empViewModel );
+                     this.validateService.Validate<EmployeeVM>( ModelState, empViewModel );
 
                      if ( !ModelState.IsValid )
                      {
@@ -99,44 +101,64 @@ namespace PersonnelWebApp.Controllers
                      string appFolderPath = Path.Combine( this.env.ContentRootPath,
                                              this.config[ "PrimaryAppFolder:FolderName" ] );
 
-                     string? employeeFolder = await this.empService.CreateEmployeeFolderAsync( appFolderPath,
+                     bool empFolderWasCreate = await this.empService.CreateEmployeeFolderAsync( appFolderPath,
                             empViewModel.PersonId, empViewModel.CompanyId );
 
-                     if ( empViewModel.ProfileImage != null )
+                     if ( empViewModel.ProfileImage != null && empFolderWasCreate == true )
                      {
-                            await ManageFileAsync( empViewModel.ProfileImage, employeeFolder );
+                            string? empImageFullPath = await this.empService.UploadEmployeePictureAsync
+                                                                                                                ( empViewModel, appFolderPath );
+
+                            string? appFolderName = this.config[ "PrimaryAppFolder:FolderName" ];
+                            string? relativeFolderName = this.config[ "PrimaryAppFolder:RequestPath" ];
+
+                            await this.empService.UpdatePersonAsync( empViewModel.PersonId, empImageFullPath,
+                                                                                                                        relativeFolderName, appFolderName );
                      }
 
-                     /*
-                            TODO
-                            2.Запис на адреса на снимката от сървъра в Database - table Person,field - string? PhotoFilePath
-                     */
-                     //**********************End save image*********************************
                      List<AllEmployeeVM>? employeeList = await this.empService
-                                                                                                            .AllActive_AllEmployeeVM( empViewModel.CompanyId )
-                                                                                                            .ToListAsync();
+                                                                                          .AllActive_AllEmployeeVM( empViewModel.CompanyId )
+                                                                                          .ToListAsync();
 
                      return View( nameof( AllPresent ), employeeList );
               }
 
               [HttpPost]
-              public async Task<IActionResult> EditEmployee( EmployeeVM empViewModel,
-                                                                                                         IFormFile? employeeImage )
+              public async Task<IActionResult> EditEmployee( EmployeeVM empViewModel )
               {
+                     this.validateService.Validate<EmployeeVM>( ModelState, empViewModel );
 
                      if ( !ModelState.IsValid )
                      {
-
-                            //return View( nameof( Create ),empViewModel );
+                            return View( nameof( Create ) );
                      }
 
+                     empViewModel.IsPresent = true;
                      await this.empService.UpdateAsync( empViewModel );
 
-                     //Implement empService.AddAsync method
-                     //Създаване на папка за служител
-                     //Копиране снимка на човек на сървъра.
+                     string appFolderPath = Path.Combine( this.env.ContentRootPath,
+                                                                                          this.config[ "PrimaryAppFolder:FolderName" ] );
 
-                     return View();
+                     bool empFolderWasCreate = await this.empService.CreateEmployeeFolderAsync( appFolderPath,
+                                                                                           empViewModel.PersonId, empViewModel.CompanyId );
+
+                     if ( empViewModel.ProfileImage != null && empFolderWasCreate == true )
+                     {
+                            string? empImageFullPath = await this.empService.UploadEmployeePictureAsync
+                                                                                                                ( empViewModel, appFolderPath );
+
+                            string? appFolderName = this.config[ "PrimaryAppFolder:FolderName" ];
+                            string? relativeFolderName = this.config[ "PrimaryAppFolder:RequestPath" ];
+
+                            await this.empService.UpdatePersonAsync( empViewModel.PersonId, empImageFullPath,
+                                                                                                                        relativeFolderName, appFolderName );
+                     }
+                     //********************************************************************
+                     List<AllEmployeeVM>? employeeList = await this.empService
+                                                                                          .AllActive_AllEmployeeVM( empViewModel.CompanyId )
+                                                                                          .ToListAsync();
+
+                     return View( nameof( AllPresent ), employeeList );
               }
 
               [HttpPost]
@@ -152,7 +174,11 @@ namespace PersonnelWebApp.Controllers
 
                      await this.empService.UpdateAsync( empViewModel );
 
-                     return View();
+                     List<AllEmployeeVM>? employeeList = await this.empService
+                                                                                           .AllActive_AllEmployeeVM( empViewModel.CompanyId )
+                                                                                           .ToListAsync();
+
+                     return View( nameof( AllPresent ), employeeList );
               }
 
               [HttpPost]
@@ -189,46 +215,10 @@ namespace PersonnelWebApp.Controllers
 
                      return items;
               }
-
-              private async Task ManageFileAsync( IFormFile imageFile, string? employeeFolder )
-              {
-                     /* 1.Копиране снимка на човек на сървъра.
-                                   1.1 validate that file is picture
-                                   1.2 if file is picture - > save to employee folder
-                     */
-
-                     if ( string.IsNullOrEmpty( employeeFolder ) )
-                     {
-                            return;
-                     }
-
-                     string fileNameWithPath = this.empService
-                                                                            .CreateFileNameWithPath( employeeFolder, imageFile.FileName );
-
-                     FileStream? stream = new FileStream( fileNameWithPath, FileMode.Create );
-
-                     await imageFile.CopyToAsync( stream );
-              }
-
-              private void ValidateModel( EmployeeVM empViewModel )
-              {
-                     if ( empViewModel.NumberFromTheList != null )
-                     {
-                            this.validateService.NumberFromTheListIsValid( empViewModel.NumberFromTheList,
-                                                                      empViewModel.CompanyId, this.empService.Repository );
-
-                            if ( this.validateService.EntityState.ModelIsValid == false )
-                            {
-                                   ModelState.AddModelError( nameof( empViewModel.NumberFromTheList ),
-                                                                                    this.validateService.EntityState.ErrorMessage );
-                            }
-                     }
-
-              }
        }
 }
 
-
 /*
-      
+
 */
+

@@ -64,7 +64,9 @@ namespace Payroll.Data.Common
                             }
 
                             updatedEntity.State = EntityState.Modified;
-
+                            /*
+                            System.InvalidOperationException: 'The property 'Employee.Id' has a temporary value while attempting to change the entity's state to 'Modified'. Either set a permanent value explicitly, or ensure that the database is configured to generate values for this property.'
+                            */
                      }
                      catch ( Exception )
                      {

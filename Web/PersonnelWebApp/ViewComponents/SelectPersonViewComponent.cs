@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Payroll.Services.Services.CompanyServices;
+using Payroll.Services.Services.ServiceContracts;
 using PersonnelWebApp.Models;
 
 namespace PersonnelWebApp.ViewComponents

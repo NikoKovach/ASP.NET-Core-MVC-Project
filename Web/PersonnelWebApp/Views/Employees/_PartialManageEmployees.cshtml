@@ -1,0 +1,21 @@
+﻿
+
+<li class="nav-item">
+       <form asp-controller="Employees" asp-action="Create">
+              <input id="create-id" type="hidden" name="id" />
+              <input id="create-employee-submit" class="nav-link btn" type="submit"
+                     value="Add Employee" />
+       </form>
+</li>
+<li class="nav-item">
+       <form asp-controller="Employees" asp-action="Create">
+              <input id="edit-entity-id" type="hidden" name="id" />
+              <input id="edit-employee-submit" class="nav-link btn" type="submit" value="Edit Employee" />
+       </form>
+</li>
+<li class="nav-item">
+       <form asp-controller="Employees" asp-action="Delete">
+              <input id="delete-entity-id" type="hidden" name="employeeId" />
+              <input id="delete-employee-submit" class="nav-link btn" type="submit" value="Delete Employee" />
+       </form>
+</li>

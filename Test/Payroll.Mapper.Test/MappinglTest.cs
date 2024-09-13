@@ -3,8 +3,8 @@
 using Payroll.Data;
 using Payroll.Mapper.AutoMapper;
 using Payroll.Models;
-using Payroll.ModelsDto.PersonViewModels;
 using Payroll.ViewModels.EmployeeViewModels;
+using Payroll.ViewModels.PersonViewModels;
 
 namespace Test.Payroll
 {
@@ -40,7 +40,7 @@ namespace Test.Payroll
               [Test]
               public void MapPersonDtoToPerson()
               {
-                     PersonDto personDto = new PersonDto()
+                     PersonViewModel personDto = new PersonViewModel()
                      {
                             FirstName = "Dara",
                             MiddleName = "Smith",
@@ -50,7 +50,7 @@ namespace Test.Payroll
                             PhotoFilePath = "/css/someFile.css"
                      };
 
-                     Person person = this.service.Map<PersonDto, Person>( personDto );
+                     Person person = this.service.Map<PersonViewModel, Person>( personDto );
 
                      Assert.That( person, Is.InstanceOf<Person>() );
 
@@ -72,9 +72,9 @@ namespace Test.Payroll
                             PhotoFilePath = "/css/someFile.css"
                      };
 
-                     PersonDto personDto = this.service.Map<Person, PersonDto>( person );
+                     PersonViewModel personDto = this.service.Map<Person, PersonViewModel>( person );
 
-                     Assert.That( personDto, Is.InstanceOf<PersonDto>() );
+                     Assert.That( personDto, Is.InstanceOf<PersonViewModel>() );
 
                      Assert.That( personDto.EGN, Is.EqualTo( person.EGN ) );
               }
@@ -135,10 +135,10 @@ namespace Test.Payroll
               [TestCaseSource( nameof( GetPersonsLists ) )]
               public void MapCollectionOfPersonToCollectionOfPersonDto( List<Person> persons )
               {
-                     List<PersonDto> personDtoList = this.service
-                            .Map<List<Person>, List<PersonDto>>( persons );
+                     List<PersonViewModel> personDtoList = this.service
+                            .Map<List<Person>, List<PersonViewModel>>( persons );
 
-                     Assert.That( personDtoList, Is.InstanceOf<List<PersonDto>>() );
+                     Assert.That( personDtoList, Is.InstanceOf<List<PersonViewModel>>() );
 
                      Assert.That( personDtoList[ 0 ].EGN, Is.EqualTo( persons[ 0 ].EGN ) );
               }

@@ -8,14 +8,12 @@ using Payroll.Data.Common;
 using Payroll.Mapper.AutoMapper;
 using Payroll.Mapper.CustomMap;
 using Payroll.Services.Services;
-using Payroll.Services.Services.CompanyServices;
-using Payroll.Services.Services.EmployeeServices;
 using Payroll.Services.Services.ServiceContracts;
 using Payroll.Services.UtilitiesServices.EntityValidateServices;
 
 namespace PersonnelWebApp
 {
-    public static class ServicesCollection
+       public static class ServicesCollection
        {
               public static void Collect( IServiceCollection services, IConfiguration Configuration )
               {
@@ -43,7 +41,10 @@ namespace PersonnelWebApp
 
                      services.AddTransient<ICalculateExperience, CalculateExperience>();
 
-                     services.AddTransient<IValidateEmployeeVModels, EmployeeVMValidate>();
+                     services.AddTransient<IValidate, ValidateEmployeeVMService>();
+
+                     services.AddTransient<IViewModelLimitationsFactory, RestrictionsFactory>();
+
               }
        }
 }

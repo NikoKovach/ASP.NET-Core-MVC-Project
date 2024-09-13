@@ -1,0 +1,31 @@
+﻿
+<div >
+       <form asp-action="AllPersons" method="get">
+              <div class="d-flex justify-content-start">
+                     <div class="row col-md-10">
+                            <div class="form-group col-md-1">
+                                   <label class="col-md-12">Id</label>
+                                   <input class="col-md-12" type="text" name="id" value="" />
+                            </div>
+                            <div class="form-group col-md-5">
+                                   <label class="col-md-12">Find by name</label>
+                                   <input class="col-md-12" type="text" name="name" value="" />
+                            </div>
+                            <div class="form-group col-md-2">
+                                   <label class="col-md-12">Find by civil number</label>
+                                   <input class="col-md-12" type="text" name="civilNumber" value="" />
+                            </div>
+                            <div class="form-group col-md-3">
+                                   
+                                   <label class="col-md-12"></label>
+                                   @* <button type="submit" class="btn btn-success col-sm-4">Search</button> *@
+                                   <a asp-action="AllPersons" class="btn btn-success h-50 fs-6">Search</a>
+                                   @* <button asp-action="AllPersons" type="submit" class="btn btn-info">
+                                   Back to Full List
+                                   </button> *@
+                                   <a asp-action="AllPersons" class="btn btn-primary h-50 fs-6">Back to Full List</a>
+                            </div>
+                     </div>
+              </div>  
+       </form>
+</div>

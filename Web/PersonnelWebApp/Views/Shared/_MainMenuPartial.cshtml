@@ -31,9 +31,11 @@
 					</li>
 					<li>
 						<div class="read_bt">
-							<a href="#">
-								Personnel
-							</a>
+                                                 <form asp-controller="Persons" asp-action="AllPersons"
+                                                       method="post" id="PersonsTable">
+                                                        <a class="dropdown-item" href="#"
+                                                           onclick="document.getElementById('PersonsTable').submit()">Personnel</a>
+                                                 </form>
 						</div>
 					</li>
 				</ul>
