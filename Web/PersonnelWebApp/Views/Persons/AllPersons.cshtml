@@ -8,8 +8,9 @@
 
        PersonViewModel firstPerson = Model.ItemsCollection[0];
 
-       var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-       var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+       string? prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+       string? nextDisabled = !Model.HasNextPage ? "disabled" : "";
+       string? sortText = Model.SortValue;
 }
 
 <div class="col">
@@ -29,17 +30,40 @@
                      <table id="privateTable" class="table  table-hover table-responsive-sm">
                             <thead class="table-success">
                                    <tr>
-                                          <th scope="col">E</th>
+                                          <th scope="col"></th>
                                           <th scope="col">#</th>
                                           <th scope="col"><label asp-for="@firstPerson.Id"></label></th>
                                           <th scope="col">
-                                                 <a asp-action="AllPersons"><label asp-for="@firstPerson.FirstName"></label></a>
+                                                 @* <form asp-action="AllPersons"> *@
+                                                        <input id="txt-sort-FName" type="hidden" value=@sortText name="sortParam" />
+                                                        <input type="hidden" value="@Model.PageIndex" name="pageIndex" />
+                                                        <button id="btn-sort-FName" class="btn">
+                                                               <span id="sort-btn-span">&#11165;</span>
+                                                               <label asp-for="@firstPerson.FirstName"
+                                                        class="lbl-sortFName text-decoration-underline fw-bold"></label>
+                                                        </button>
+                                                @*  </form> *@
                                            </th>
                                           <th scope="col"><label asp-for="@firstPerson.MiddleName"></label></th>
-                                          <th scope="col"><label asp-for="@firstPerson.LastName"></label></th>
+                                          <th scope="col">
+                                                 <form asp-action="AllPersons">
+                                                        <input id="txt-sort-LastName" type="hidden" value=@sortText name="sortParam" />
+                                                        <input type="hidden" value="@Model.PageIndex" name="pageIndex" />
+                                                        <button id="btn-sort-LastName" class="btn btn-link">
+                                                               <label asp-for="@firstPerson.LastName" class="lbl-sortLastName"></label>
+                                                        </button>
+                                                 </form>
+                                          </th>
                                           <th scope="col"><label asp-for="@firstPerson.GenderType"></label></th>
-                                          <th scope="col"><label asp-for="@firstPerson.EGN"></label></th>
-                                          @* <th scope="col"><label asp-for="@firstPerson.PhotoFilePath"></label></th> *@
+                                          <th scope="col">
+                                                 <form asp-action="AllPersons">
+                                                        <input id="txt-sort-EGN" type="hidden" value=@sortText name="sortParam" />
+                                                        <input type="hidden" value="@Model.PageIndex" name="pageIndex" />
+                                                        <button id="btn-sort-EGN" class="btn btn-link">
+                                                               <label asp-for="@firstPerson.EGN" class="lbl-sortEGN"></label>
+                                                        </button>
+                                                 </form>
+                                          </th>
                                    </tr>
                             </thead>
 
@@ -49,7 +73,7 @@
                                           int rowNumber = i + 1;
                                           PersonViewModel person = Model.ItemsCollection[i];
                                           <tr>
-                                                 <td><input type="checkbox" id="editRow"></td>
+                                                 <td><input type="checkbox"></td>
                                                  <td class="col-sm-3">@rowNumber</td>
                                                  <td class="col-sm-4">@person.Id</td>
                                                  <td>@person.FirstName</td>
@@ -71,40 +95,41 @@
               <div class="col-sm-3">
                      <form asp-action="AllPersons">
                             <input type="hidden" value="@(Model.PageIndex - 1)" name="pageIndex" />
+                            <input type="hidden" value=@sortText name="sortParam" /> 
                             <button type="submit" class="btn btn-primary @prevDisabled">
-                                   Previous
-                            </button>
+                                   Previous</button>
                      </form>
               </div>
               
               <div class="col-sm-6">
               @* method="post" id="formGoToPage" name="pageIndex" *@
               <form asp-action="AllPersons" id="formGoToPage">
-                            <input id="go-to-page" class="text-center col-sm-8 h-75 fs-6 border-white"
+                     <input id="go-to-page" class="text-center col-sm-8 h-75 fs-6 border-white"
                             value="@Model.PageIndex" name="pageIndex" />
-                            <label id="lblTotalPages" class="text-center col-sm-3 h-75 fs-6 border-white">
+                     <input type="hidden" value=@sortText name="sortParam" />
+                     <label id="lblTotalPages" class="text-center col-sm-3 h-75 fs-6 border-white">
                             / @Model.TotalPages </label>
                       </form>
               </div>
               <div class="col-sm-3">
                      <form asp-action="AllPersons">
                             <input type="hidden" value="@(Model.PageIndex + 1)" name="pageIndex" />
+                            <input type="hidden" value=@sortText name="sortParam" />       
                             <button type="submit" class="btn btn-primary @nextDisabled">
-                                   Next
-                            </button>
+                                   Next</button>
                      </form>
               </div>
        </div>
 
 <hr />
 <div>
-       <a asp-controller="Persons" asp-action="" class="btn btn-primary">
+       <a asp-controller="" asp-action="" class="btn btn-primary">
               Add
        </a>
-       <a asp-controller="Persons" asp-action="" class="btn btn-primary">
+       <a asp-controller="" asp-action="" class="btn btn-primary">
               Edit
        </a>
-       <a asp-controller="Employees" asp-action="Index" class="btn btn-primary">
+       <a asp-controller="" asp-action="" class="btn btn-primary">
               Back To Employees Files
        </a>
        <input class="btn link-underline-primary" value="Go"/>

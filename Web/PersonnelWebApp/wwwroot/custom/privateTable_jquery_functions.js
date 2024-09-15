@@ -3,6 +3,10 @@ var currentRowIndex = -1;
 var prevItemBgColor = "";
 var indexMouseOver = -1;
 
+const ascending = "_asc";
+const descending = "_desc";
+const ascArray = "&#11165;";
+const descArray = "&#11167;";
 /* Custom Table functions*/
 
 $('#privateTable-body').on('click', 'tr', onRowClick);
@@ -84,10 +88,92 @@ function changeCurrentRowBgColor(row) {
 };
 /* End Custom Table functions*/
 
-
 $("#btn-link-test").on("click", function () {
        $(this).trigger("blur");
 });
+
+/*##########################################*/
+
+
+$("#btn-sort-FName").on('click', function () {
+/*       specialSymbols();*/
+       var sortLabelValue = $("label.lbl-sortFName").text();
+       var txtSortFName = $("input#txt-sort-FName").val();
+
+       sortLabelValue = sortLabelValue.replace(" ", "");
+
+       var sortFirstNameAsc = sortLabelValue + ascending;
+       var sortFirstNameDesc = sortLabelValue + descending;
+
+       if (txtSortFName == "") {
+              $("input#txt-sort-FName").val(sortFirstNameDesc);
+              $("#sort-btn-span").html(descArray); 
+       }
+       else if (txtSortFName == sortFirstNameDesc) {
+              $("input#txt-sort-FName").val(sortFirstNameAsc);
+              $("#sort-btn-span").html(ascArray); 
+       }
+       else if (txtSortFName == sortFirstNameAsc) {
+              $("input#txt-sort-FName").val(sortFirstNameDesc);
+              $("#sort-btn-span").html(descArray); 
+       }
+
+       $(this).trigger("blur");
+});
+
+function setToAsc() { 
+
+}
+
+function setToDesc() {
+
+}
+
+$("#btn-sort-LastName").on('click', function () {
+       var sortLabelValue = $("label.lbl-sortLastName").text();
+       var txtSortLastName = $("input#txt-sort-LastName").val();
+
+       sortLabelValue = sortLabelValue.replace(" ", "");
+
+       var sortLastNameAsc = sortLabelValue + ascending;
+       var sortLastNameDesc = sortLabelValue + descending;
+
+       if (txtSortLastName == "" || txtSortLastName != sortLastNameDesc) {
+              $("input#txt-sort-LastName").val(sortLastNameDesc);
+       }
+       else if (txtSortLastName == sortLastNameDesc) {
+              $("input#txt-sort-LastName").val(sortLastNameAsc);
+       }
+       else if (txtSortLastName == sortLastNameAsc) {
+              $("input#txt-sort-LastName").val(sortLastNameDesc);
+       }
+
+       $(this).trigger("blur");
+});
+
+$("#btn-sort-EGN").on('click', function () {
+       var sortLabelValue = $("label.lbl-sortEGN").text();
+       var txtSortEGN = $("input#txt-sort-EGN").val();
+
+       sortLabelValue = sortLabelValue.replace(" ", "");
+
+       var sortCivilIdAsc = sortLabelValue + ascending;
+       var sortCivilIdDesc = sortLabelValue + descending;
+
+       if (txtSortEGN == "" || txtSortEGN != sortCivilIdDesc) {
+              $("input#txt-sort-EGN").val(sortCivilIdDesc);
+       }
+       else if (txtSortEGN == sortCivilIdDesc) {
+              $("input#txt-sort-EGN").val(sortCivilIdAsc);
+       }
+       else if (txtSortEGN == sortCivilIdAsc) {
+              $("input#txt-sort-EGN").val(sortCivilIdDesc);
+       }
+
+       $(this).trigger("blur");
+});
+
+/*############################################## */
 
 //function goToPageFunction(event) {
 //       if (event.which == 13) {

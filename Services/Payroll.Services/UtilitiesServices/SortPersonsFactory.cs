@@ -24,15 +24,36 @@ namespace Payroll.Services.UtilitiesServices
                             case "FirstName_desc":
                             persons = this.mapper
                                                      .ProjectTo<Person, PersonViewModel>( this.personsCollection )
-                                                     .OrderByDescending( x => x.FirstName );
+                                                     .OrderByDescending( x => x.FirstName )
+                                                     .ThenByDescending( x => x.LastName );
+                            break;
+                            case "FirstName_asc":
+                            persons = this.mapper
+                                                     .ProjectTo<Person, PersonViewModel>( this.personsCollection )
+                                                     .OrderBy( x => x.FirstName )
+                                                     .ThenBy( x => x.LastName );
                             break;
                             case "LastName_desc":
                             persons = this.mapper
                                                      .ProjectTo<Person, PersonViewModel>( this.personsCollection )
-                                                     .OrderByDescending( x => x.LastName );
+                                                     .OrderByDescending( x => x.LastName )
+                                                     .ThenBy( x => x.FirstName );
                             break;
-                            case "date_desc":
-
+                            case "LastName_asc":
+                            persons = this.mapper
+                                                     .ProjectTo<Person, PersonViewModel>( this.personsCollection )
+                                                     .OrderBy( x => x.LastName )
+                                                     .ThenBy( x => x.FirstName );
+                            break;
+                            case "CivilNumber_desc":
+                            persons = this.mapper
+                                                     .ProjectTo<Person, PersonViewModel>( this.personsCollection )
+                                                     .OrderByDescending( x => x.EGN );
+                            break;
+                            case "CivilNumber_asc":
+                            persons = this.mapper
+                                                     .ProjectTo<Person, PersonViewModel>( this.personsCollection )
+                                                     .OrderBy( x => x.EGN );
                             break;
                             default:
 
