@@ -1,0 +1,50 @@
+﻿@using Payroll.Services.Services
+@using Payroll.ViewModels.PersonViewModels
+@model List<PersonVM>?
+
+@{
+       List<PersonVM>? entitiesForEdit = Model;
+}
+
+<tbody id="customTableBody">
+       @{
+              int rows = entitiesForEdit.Count;
+              for ( int i = 0; i < rows; i++ )
+              {
+                     int rowNumber = i + 1;
+                     <tr>
+                             <td><input type="checkbox" class="edit-checkbox" /></td>
+                             <td>@rowNumber</td>
+                             <td class="col-md-1">
+                                   <input asp-for="@entitiesForEdit[ i ].Id" class="col-md-7 border-0 table-field" readonly />
+                            </td>
+                             <td>
+                                   <input asp-for="@entitiesForEdit[ i ].FirstName" class="border-0 table-field" readonly />
+                             </td>
+                             <td>
+                                   <input asp-for="@entitiesForEdit[ i ].MiddleName" class="border-0 table-field" readonly />
+                             </td>
+                             <td>
+                                   <input asp-for="@entitiesForEdit[ i ].LastName" class="border-0 table-field" readonly />
+                             </td>
+                             <td>
+                                   <input asp-for="@entitiesForEdit[ i ].GenderType" class="border-0 table-field"
+                                          list="gender-list" readonly />
+                                   <datalist id="gender-list">
+                                          <option value="man"></option>
+                                          <option value="woman"></option>
+                                   </datalist>
+                             </td>
+                             <td>
+                                   <input asp-for="@entitiesForEdit[ i ].CivilNumber" class="border-0 table-field" readonly/>
+                             </td>
+                             <td>
+                                    <input asp-for="@entitiesForEdit[ i ].PhotoFilePath" class="border-0 table-field" readonly />
+                             </td>
+                            <td hidden>
+                                   <input asp-for="@entitiesForEdit[ i ].ViewTableRow" class="border-0 table-field" readonly hidden />
+                            </td>
+                     </tr>
+              }
+       }
+</tbody>

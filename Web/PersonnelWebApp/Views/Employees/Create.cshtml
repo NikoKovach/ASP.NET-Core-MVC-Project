@@ -1,11 +1,17 @@
 ﻿@using Payroll.ViewModels.EmployeeViewModels
 @model EmployeeVM
 
+@section Styles
+{
+       <link rel="stylesheet" type="text/css" href="~/custom/css/alertMessage.css" asp-append-version="true" />
+}
+
 @{
        ViewData["Title"] = "Create";
        Layout = "~/Views/Shared/_LayoutLight.cshtml";
 
        string? empId = default;
+
        if ( @Model != null )
        {
               empId = @Model.Id.ToString();
@@ -16,6 +22,10 @@
 
        int? personIdValue = (Model == null || Model.PersonId < 1)? null : Model.PersonId;
        int? companyIdValue = (Model == null || Model.CompanyId < 1) ? null : Model.CompanyId;
+
+       bool modelState = ViewContext.ViewData.ModelState.IsValid;
+
+       string divStyle = modelState == true ? "none" : "list-item";
 }
 
 <div >
@@ -23,60 +33,55 @@
               <div class="col-md-4">
                      <h3 employee-id="@empId" create-edit-heading="">Create/Edit Employee</h3>
                      <hr />
+                     <div asp-validation-summary="All" class="alert alert-danger alert-dismissible" style="display:@divStyle">
+                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                     </div>
                </div>
 
               <div class="col-md-8">
                      <div class="row">
                             <div id="create-update-radio-div" class="create-edit row col-md-6">
                                    <div class="col-md-12">
-                                                 <div class="form-control">
-                                                        <partial name="_CreateEditRadioButtonsPartial" model="@empId" />
-                                                        <input id="controller-name" type="text" value="@controllerName" hidden />
-                                                        <hr />
-                                                        <form class="create-edit-form" method="post" enctype="multipart/form-data">
-                                                               <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                                               <div class="form-group">
-                                                                      <label asp-for="Id"></label>
-                                                                      <input asp-for="Id" type="text" id="emp-id" class="col-md-10" />
-                                                                      <span asp-validation-for="Id" class="text-danger"></span>
-                                                               </div>
-                                                               <div class="form-group">
-                                                                      <label asp-for="PersonId"></label>
-                                                                      <input asp-for="PersonId" type="text" list="person-list" class="col-md-10"
+                                           <div class="form-control">
+                                                 <partial name="_CreateEditRadioButtonsPartial" model="@empId" />
+                                                 <input id="controller-name" type="text" value="@controllerName" hidden />
+                                                 <hr />
+                                                 <form class="create-edit-form" method="post" enctype="multipart/form-data">
+                                                        <div class="form-group">
+                                                               <label asp-for="Id"></label>
+                                                               <input asp-for="Id" type="text" id="emp-id" class="col-md-11" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                               <label asp-for="PersonId"></label>
+                                                               <input asp-for="PersonId" type="text" list="person-list" class="col-md-11"
                                                                              value="@personIdValue">
-                                                                      <vc:select-person></vc:select-person>
-                                                                      <span asp-validation-for="PersonId" class="text-danger"></span>
-                                                               </div>
-                                                               <div class="form-group">
-                                                                      <label asp-for="CompanyId"></label>
-                                                                      <input asp-for="CompanyId" type="text" list="company-list" class="col-md-10"
+                                                                 <vc:select-person></vc:select-person>
+                                                         </div>
+                                                        <div class="form-group">
+                                                               <label asp-for="CompanyId"></label>
+                                                               <input asp-for="CompanyId" type="text" list="company-list" class="col-md-11"
                                                                              value="@companyIdValue">
-                                                                      <vc:select-company parent-view=""></vc:select-company>
-                                                                      <span asp-validation-for="CompanyId" class="text-danger"></span>
-                                                               </div>
-                                                               <div class="form-group">
-                                                                      <label asp-for="NumberFromTheList"></label>
-                                                                      <input asp-for="NumberFromTheList" type="text" class="col-md-10" />
-                                                                      <span asp-validation-for="NumberFromTheList" class="text-danger">
-                                                                      </span>
-                                                               </div>
-                                                               <div class="form-group">
-                                                                      <label asp-for="ProfileImage">Employee Photo</label>
-                                                                      <input asp-for="ProfileImage" type="file" class="col-md-10" />
-                                                                      <span asp-validation-for="ProfileImage" class="text-danger">
-                                                                      </span>
-                                                               </div>
-                                                               <hr />
-                                                               <div class="form-group">
-                                                                      <button asp-controller="Employees" asp-action="CreateEmployee" 
-                                                                             type="submit" class="btn btn-primary create-update-submit" 
-                                                                             id="create-edit-emp-btn">Create
-                                                                      </button>
-                                                                      <a asp-action="Index" class="btn btn-primary">Back to Files</a>
-                                                               </div>
-                                                        </form>
-                                                 </div>
-                                          </div>
+                                                               <vc:select-company parent-view=""></vc:select-company>
+                                                         </div>
+                                                        <div class="form-group">
+                                                               <label asp-for="NumberFromTheList"></label>
+                                                               <input asp-for="NumberFromTheList" type="text" class="col-md-11" />
+                                                         </div>
+                                                        <div class="form-group">
+                                                               <label asp-for="ProfileImage">Employee Photo</label>
+                                                               <input asp-for="ProfileImage" type="file" class="col-md-11" />
+                                                        </div>
+                                                        <hr />
+                                                        <div class="form-group">
+                                                               <button asp-controller="Employees" asp-action="CreateEmployee" 
+                                                                      type="submit" class="btn btn-primary create-update-submit" 
+                                                                      id="create-edit-emp-btn">Create
+                                                               </button>
+                                                               <a asp-action="Index" class="btn btn-primary">Back to Files</a>
+                                                         </div>
+                                                  </form>
+                                            </div>
+                                    </div>
                             </div>
                             <div class="col-md-6 align-content-md-center">
                                    <img src="/images/map-img.png" width="400">
@@ -89,6 +94,6 @@
 <!-- Javascript files-->
 @section Scripts
 {
-	<script src="~/custom/create_edit_radioBtn_functions.js" asp-append-version="true"></script>
+	<script src="~/custom/js/create_edit_radioBtn_functions.js" asp-append-version="true"></script>
 }
 

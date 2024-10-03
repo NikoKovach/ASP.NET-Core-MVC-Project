@@ -1,0 +1,87 @@
+﻿@using Payroll.Services.Services
+@using Payroll.ViewModels.PersonViewModels
+
+@model SortedPaginatedList<PersonVM,PersonFilterVM>
+
+@{
+       PersonVM firstPerson = Model.ItemsCollection[ 0 ];
+       string? sortText = Model.SortValue;
+
+       var fieldsName = firstPerson.GetType().GetProperties();
+}
+
+<thead class="table-success">
+       <tr>
+              <th></th>
+              <th>
+                     <label class="btn fw-bold">#</label>
+              </th>
+              <th>
+                     <label asp-for="@firstPerson.Id" class="btn fw-bold column-lbl"
+                            value="@fieldsName[0].Name"></label>
+              </th>
+              <th>
+                     <form asp-action="AllPersons" id="formGoToPage">
+                            <div>
+                                   <input id="txt-sort-FName" class="input-sort"
+                                          type="hidden" value=@sortText name="sortParam" />
+                                   <input type="hidden" value="@Model.PageIndex" class="page-number" name="pageIndex" />
+                                   <input type="hidden" value="@Model.FilterVM.PersonId" class="model-filter" name="Id" />
+                                   <input type="hidden" value="@Model.FilterVM.SearchName"
+                                          class="model-filter" name="SearchName" />
+                                   <input type="hidden" value="@Model.FilterVM.CivilID" class="model-filter" name="EGN" />
+                                   <button id="btn-sort-FName" class="btn table-sortBtn">
+                                          <label asp-for="@firstPerson.FirstName" class="fw-bold column-lbl"
+                                                 value="@fieldsName[1].Name"></label>
+                                   </button>
+                            </div>
+                     </form>
+              </th>
+              <th>
+                     <label asp-for="@firstPerson.MiddleName" class="btn fw-bold column-lbl"
+                            value="@fieldsName[2].Name"></label>
+              </th>
+              <th>
+                     <form asp-action="AllPersons">
+                            <div>
+                                   <input id="txt-sort-LastName" class="input-sort"
+                                          type="hidden" value=@sortText name="sortParam" />
+                                   <input type="hidden" value="@Model.PageIndex" name="pageIndex" />
+                                   <input type="hidden" value="@Model.FilterVM.PersonId" name="Id" />
+                                   <input type="hidden" value="@Model.FilterVM.SearchName"
+                                          name="SearchName" />
+                                   <input type="hidden" value="@Model.FilterVM.CivilID" name="EGN" />
+                                   <button id="btn-sort-LastName" class="btn table-sortBtn">
+                                          <label asp-for="@firstPerson.LastName" class="fw-bold column-lbl"
+                                                 value="@fieldsName[3].Name"></label>
+                                   </button>
+                            </div>
+                     </form>
+              </th>
+              <th>
+                     <label asp-for="@firstPerson.GenderType" class="btn fw-bold column-lbl"
+                            value="@fieldsName[4].Name"></label>
+              </th>
+              <th>
+                     <form asp-action="AllPersons">
+                            <div>
+                                   <input id="txt-sort-EGN" class="input-sort"
+                                          type="hidden" value=@sortText name="sortParam" />
+                                   <input type="hidden" value="@Model.PageIndex" name="pageIndex" />
+                                   <input type="hidden" value="@Model.FilterVM.PersonId" name="Id" />
+                                   <input type="hidden" value="@Model.FilterVM.SearchName"
+                                          name="SearchName" />
+                                   <input type="hidden" value="@Model.FilterVM.CivilID" name="EGN" />
+                                   <button id="btn-sort-EGN" class="btn table-sortBtn">
+                                          <label asp-for="@firstPerson.CivilNumber" class="fw-bold column-lbl"
+                                                 value="@fieldsName[5].Name"></label>
+                                   </button>
+                            </div>
+                     </form>
+              </th>
+              <th>
+                     <label asp-for="@firstPerson.PhotoFilePath" class="btn fw-bold column-lbl"
+                            value="@fieldsName[6].Name"></label>
+              </th>
+       </tr>
+</thead>

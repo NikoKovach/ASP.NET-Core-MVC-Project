@@ -16,9 +16,11 @@ public class Program
 
               //ServiceTest.TestCustomMapper( context );
               //Map.UseDelegate( context );
-              ServiceTest.TestValidate( context, mapper );
+
+              //ServiceTest.TestValidate( context, mapper );
+              ServiceTest.PersonsServiceTest( context, mapper );
               //EnvironmentDemo();
-              ServiceTest.LinqTest( context );
+              //ServiceTest.LinqTest( context );
 
               Console.WriteLine();
        }

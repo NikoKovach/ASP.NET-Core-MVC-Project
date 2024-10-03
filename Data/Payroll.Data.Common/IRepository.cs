@@ -15,6 +15,8 @@
 
               void Update( TEntity entity );
 
+              void Update( ICollection<TEntity> entities );
+
               Task SaveChangesAsync();
 
               DbSet<TEntity> DbSet { get; set; }

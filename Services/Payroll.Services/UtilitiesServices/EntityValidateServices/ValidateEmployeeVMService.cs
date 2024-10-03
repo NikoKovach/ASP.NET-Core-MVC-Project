@@ -1,23 +1,20 @@
 ﻿using System.Reflection;
-using System.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Payroll.Data.Common;
 using Payroll.Models;
 using Payroll.Services.UtilitiesServices.Messages;
+using Payroll.ViewModels;
 using Payroll.ViewModels.EmployeeViewModels;
 using Payroll.ViewModels.ModelRestrictions;
 using SixLabors.ImageSharp;
 
 namespace Payroll.Services.UtilitiesServices.EntityValidateServices
 {
-       public class ValidateEmployeeVMService : IValidate
+       public class ValidateEmployeeVMService : ValidateBaseClass, IValidate<ValidateBaseModel>
        {
-              private const string newRow = "\r\n";
-
               private IQueryable<Employee> employees;
               private EmployeeVMLimitations limitations;
-              private List<string> fieldErrors;
 
               public ValidateEmployeeVMService( IRepository<Employee> employees,
                      IViewModelLimitationsFactory factory )
@@ -25,80 +22,114 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                      this.employees = employees.AllAsNoTracking();
 
                      limitations = (EmployeeVMLimitations) factory.Limitations[ nameof( EmployeeVM ) ];
-
-                     this.fieldErrors = new List<string>();
               }
 
-              public void Validate<EmployeeVM>( ModelStateDictionary modelState, EmployeeVM viewModel )
+              public override void Validate( ModelStateDictionary modelState, ValidateBaseModel viewModel )
               {
-                     ValidateNumberFromTheList( modelState, viewModel );
+                     base.ModelState = modelState;
 
-                     ValidateEmployeePicture( modelState, viewModel, this.limitations );
+                     EmployeeVM model = (EmployeeVM) viewModel;
+
+                     ValidateNumberFromTheList( model );
+
+                     ValidateEmployeePicture( modelState, model, this.limitations );
+
+                     PropertyInfo? personIdProp = viewModel
+                                                                         .GetType()
+                                                                         .GetProperty( nameof( model.PersonId ) );
+
+                     PropertyInfo? companyIdProp = viewModel
+                                                                              .GetType()
+                                                                              .GetProperty( nameof( model.CompanyId ) );
+
+                     RenameInvalidValueErrorMsg( modelState, personIdProp, nameof( model.PersonId ) );
+
+                     RenameInvalidValueErrorMsg( modelState, companyIdProp, nameof( model.CompanyId ) );
               }
 
-              private void ValidateNumberFromTheList<EmployeeVM>( ModelStateDictionary modelState,
-                                                                                                                                     EmployeeVM viewModel )
+              public void RenameInvalidValueErrorMsg( ModelStateDictionary modelState,
+                     PropertyInfo? property, string propertyName )
               {
-                     this.fieldErrors.Clear();
+                     ModelStateEntry? entryToChange = modelState[ propertyName ];
 
-                     PropertyInfo? viewProperty = viewModel.GetType().GetProperty( "NumberFromTheList" );
+                     if ( entryToChange == null )
+                            return;
 
-                     string propName = viewProperty.Name;
+                     string? entryValue = entryToChange.RawValue.ToString();
 
-                     object? propertyValue = viewProperty.GetValue( viewModel );
-
-                     if ( propertyValue is null )
+                     if ( entryToChange.ValidationState == ModelValidationState.Invalid
+                            && string.IsNullOrEmpty( entryValue ) )
                      {
-                            return;
+                            string errorMsg = "The value '' is invalid.";
+
+                            ModelError? errorEmptyString = entryToChange
+                                                                                       .Errors
+                                                                                       .FirstOrDefault( x => x.ErrorMessage.Equals( errorMsg ) );
+
+                            bool isRemoved = entryToChange.Errors.Remove( errorEmptyString );
+                            if ( isRemoved )
+                            {
+                                   string? displayName = this.GetDisplayName( property );
+
+                                   string newErrorMsg = $"{displayName} : {this.newRow}{errorMsg}";
+
+                                   entryToChange.Errors.Add( newErrorMsg );
+                            }
                      }
+              }
 
-                     string? propValue = propertyValue.ToString();
+              private void ValidateNumberFromTheList( EmployeeVM viewModel )
+              {
+                     this.FieldErrors.Clear();
 
-                     if ( string.IsNullOrEmpty( propValue ) )
+                     if ( string.IsNullOrEmpty( viewModel.NumberFromTheList ) )
                             return;
 
-                     bool isNumber = int.TryParse( propValue, out int numberFromTheList );
+                     string? propertyValue = viewModel.NumberFromTheList;
+
+                     bool isNumber = int.TryParse( propertyValue, out int numberFromTheList );
+
+                     PropertyInfo? property = viewModel
+                                                                          .GetType()
+                                                                          .GetProperty( nameof( viewModel.NumberFromTheList ) );
 
                      if ( !isNumber )
                      {
                             string error = string.Format( OutputMessages.ErrorNotANumber );
-                            fieldErrors.Add( error );
+                            this.FieldErrors.Add( error );
 
-                            AddModelStateError( modelState, propName );
+                            string displayName = this.GetDisplayName( property );
+
+                            AddModelStateError( displayName );
 
                             return;
                      }
 
-                     PropertyInfo? propEmployeeId = viewModel.GetType().GetProperty( "Id" );
-                     int? employeeIdVal = (int?) propEmployeeId.GetValue( viewModel );
+                     int? employeeIdVal = viewModel.Id;
 
                      bool listNumberWasChanged = ListNumberIsChanged( numberFromTheList, employeeIdVal );
 
                      if ( !listNumberWasChanged )
                             return;
 
-                     LstNumberIsZeroOrNegative( numberFromTheList, fieldErrors );
+                     ListNumberIsZeroOrNegative( numberFromTheList );
 
-                     PropertyInfo? propCompanyId = viewModel.GetType().GetProperty( "CompanyId" );
-                     int? companyIdVal = (int?) propCompanyId.GetValue( viewModel );
+                     ListNumberExists( numberFromTheList, viewModel.CompanyId );
 
-                     ListNumberExists( numberFromTheList, companyIdVal, fieldErrors );
-
-                     if ( this.fieldErrors.Count > 0 )
+                     if ( this.FieldErrors.Count > 0 )
                      {
-                            AddModelStateError( modelState, propName );
+                            string displayName = this.GetDisplayName( property );
+
+                            this.AddModelStateError( displayName );
                      }
               }
 
-              private void ValidateEmployeePicture<EmployeeVM>( ModelStateDictionary modelState,
-                     EmployeeVM viewModel, EmployeeVMLimitations? limitations )
+              private void ValidateEmployeePicture( ModelStateDictionary modelState, EmployeeVM viewModel,
+                                                                                                                        EmployeeVMLimitations? limitations )
               {
-                     this.fieldErrors.Clear();
+                     this.FieldErrors.Clear();
 
-                     PropertyInfo? imageProperty = viewModel.GetType().GetProperty( "ProfileImage" );
-                     string imagePropName = imageProperty.Name;
-
-                     IFormFile? image = (IFormFile?) imageProperty.GetValue( viewModel );
+                     IFormFile? image = viewModel.ProfileImage;
 
                      if ( image != null )
                      {
@@ -106,7 +137,7 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
 
                             if ( image is not IFormFile file || image.Length == 0 )
                             {
-                                   this.fieldErrors.Add( OutputMessages.ErrorInvalidFile );
+                                   this.FieldErrors.Add( OutputMessages.ErrorInvalidFile );
                             }
 
                             if ( !FileValidator.IsFileSizeWithinLimit( image, limitations.MaxImageSizeInBytes,
@@ -117,12 +148,18 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
 
                                    string errorMessage = string.Format( OutputMessages.ErrorFileSize, minKbSize, maxMbSize );
 
-                                   this.fieldErrors.Add( errorMessage );
+                                   this.FieldErrors.Add( errorMessage );
                             }
 
-                            if ( this.fieldErrors.Count > 0 )
+                            if ( this.FieldErrors.Count > 0 )
                             {
-                                   AddModelStateError( modelState, imagePropName );
+                                   PropertyInfo? imageProperty = viewModel
+                                                                          .GetType()
+                                                                          .GetProperty( nameof( viewModel.ProfileImage ) );
+
+                                   string displayName = this.GetDisplayName( imageProperty );
+
+                                   AddModelStateError( displayName );
                             }
                      }
               }
@@ -143,38 +180,13 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                                                                                                 .ToUpper();
 
                             string errorMessage = string.Format( OutputMessages.ErrorFileFormat, allowedExtensions );
-                            fieldErrors.Add( errorMessage );
+                            this.FieldErrors.Add( errorMessage );
                      }
                      catch ( InvalidImageContentException )
                      {
                             string invalidContentError = OutputMessages.ErrorFileContent;
-                            fieldErrors.Add( invalidContentError );
+                            this.FieldErrors.Add( invalidContentError );
                      }
-              }
-
-              private void AddModelStateError( ModelStateDictionary modelState, string propName )
-              {
-                     string generalError = GenerateErrorString( this.fieldErrors );
-
-                     modelState.AddModelError( propName, generalError );
-              }
-
-              private string GenerateErrorString( List<string> fieldErrors )
-              {
-                     StringBuilder sb = new StringBuilder();
-
-                     for ( int i = 0; i < fieldErrors.Count; i++ )
-                     {
-                            if ( i == fieldErrors.Count - 1 )
-                            {
-                                   sb.Append( $"{i + 1}.{fieldErrors[ i ]}" );
-                                   break;
-                            }
-
-                            sb.Append( $"{i + 1}.{fieldErrors[ i ]}{newRow}" );
-                     }
-
-                     return sb.ToString();
               }
 
               private bool ListNumberIsChanged( int numberFromTheList, int? employeeIdVal )
@@ -191,16 +203,16 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                      return result;
               }
 
-              private void LstNumberIsZeroOrNegative( int numberFromTheList, List<string> fieldErrors )
+              private void ListNumberIsZeroOrNegative( int numberFromTheList )
               {
                      if ( numberFromTheList < 1 )
                      {
                             string errorIsNegative = string.Format( OutputMessages.ErrorNumberIsNegative );
-                            fieldErrors.Add( errorIsNegative );
+                            this.FieldErrors.Add( errorIsNegative );
                      }
               }
 
-              private void ListNumberExists( int numberFromTheList, int? companyIdVal, List<string> fieldErrors )
+              private void ListNumberExists( int numberFromTheList, int? companyIdVal )
               {
                      if ( companyIdVal != null && companyIdVal > 0 )
                      {
@@ -212,7 +224,7 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                             if ( empPropertyList.Contains( numberFromTheList ) )
                             {
                                    string errorIsExists = string.Format( OutputMessages.ErrorValueExists, numberFromTheList );
-                                   fieldErrors.Add( errorIsExists );
+                                   this.FieldErrors.Add( errorIsExists );
                             }
                      }
               }

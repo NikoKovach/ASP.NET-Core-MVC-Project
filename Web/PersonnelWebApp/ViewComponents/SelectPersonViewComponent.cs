@@ -9,9 +9,9 @@ namespace PersonnelWebApp.ViewComponents
        [ViewComponent( Name = "SelectPerson" )]
        public class SelectPersonViewComponent : ViewComponent
        {
-              private readonly IPerson service;
+              private readonly IPersonService service;
 
-              public SelectPersonViewComponent( IPerson personService )
+              public SelectPersonViewComponent( IPersonService personService )
               {
                      this.service = personService;
               }
@@ -29,7 +29,7 @@ namespace PersonnelWebApp.ViewComponents
                             personList.Persons.Add( new SelectListItem()
                             {
                                    Text = item.ToString(),
-                                   Value = item.Id.ToString()
+                                   Value = item.PersonId.ToString()
                             } );
                      }
 

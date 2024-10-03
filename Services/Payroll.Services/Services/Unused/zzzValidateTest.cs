@@ -1,19 +1,13 @@
-﻿//namespace Payroll.Services.Services.Unused
+﻿//using Microsoft.AspNetCore.Mvc.ModelBinding;
+//using Payroll.ViewModels;
+
+//namespace Payroll.Services.Services.Unused
 //{
-//       public class ValidateTest
+//       public class ValidateTest : IValidateTest<ValidateBaseModel>
 //       {
-//              public void Validate<EmployeeVM>( EmployeeVM viewModel )
-//                     where EmployeeVM : class
+//              public void Validate( ModelStateDictionary modelState, ValidateBaseModel viewModel )
 //              {
-//                     var viewProperty = viewModel.GetType().GetProperty( "ProfileImage" );
-
-//                     var propName = viewProperty.Name;
-//                     var propValue = viewProperty.GetValue( viewModel );
-
-//                     var propType = viewProperty.PropertyType.Name;
-//                     var isValueType = viewProperty.GetType().IsValueType;
-//                     //var propType = viewProperty.PropertyType;
-
+//                     var child = viewModel;
 //                     throw new NotImplementedException();
 //              }
 //       }

@@ -1,177 +1,148 @@
 ﻿@using Payroll.Services.Services
 @using Payroll.ViewModels.PersonViewModels
-@model SortedPaginatedList<PersonViewModel>
+@model SortedPaginatedList<PersonVM,PersonFilterVM>
+
+@section Styles
+{
+       <link rel="stylesheet" type="text/css" href="~/custom/css/privateTable_css.css" asp-append-version="true"/>
+       <link rel="stylesheet" type="text/css" href="~/custom/css/alertMessage.css" asp-append-version="true" />
+}
 
 @{
        ViewData["Title"] = "View";
        Layout = "~/Views/Shared/_LayoutLight.cshtml";
 
-       PersonViewModel firstPerson = Model.ItemsCollection[0];
-
        string? prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
        string? nextDisabled = !Model.HasNextPage ? "disabled" : "";
+
        string? sortText = Model.SortValue;
+
+       bool modelState = ViewContext.ViewData.ModelState.IsValid;
+       string divStyle = modelState == true ? "display:none" : "display:list-item";
 }
 
-<div class="col">
-       <div class="row navbar-custom">
-              <div class="col-md-3">
-                     <h4 class="text-justify text-dark">Persons List</h4>
+<div class="payroll-table">
+       <div class="col">
+              <div class="navbar-custom">
+                     <div class="row">
+                            <div class="col-md-2 d-flex justify-content-center">
+                                   <div class="">
+                                          <h4 class="text-justify text-dark">Persons List</h4>
+                                   </div>
+                            </div>
+                            <div class="col-md-9">
+                                   <partial name="_PersonItemsPartial"></partial>
+                            </div>
+                     </div> 
               </div>
-              <partial name="_PersonItemsPartial"></partial>
-       </div>
-       <hr />
-       <partial name="_SearchPersonsPartial"></partial>
-       <hr />
-</div>
+              <hr />
 
+              <div asp-validation-summary="All" class="alert alert-danger alert-dismissible" style="@divStyle">
+                     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+              </div>
+              <div>
+                     <partial name="_SearchPersonsPartial" model="@Model.FilterVM"></partial>
+              </div>
+              <hr />
+       </div>
        <div>
-              <div class="table-responsive-sm">
-                     <table id="privateTable" class="table  table-hover table-responsive-sm">
-                            <thead class="table-success">
-                                   <tr>
-                                          <th scope="col"></th>
-                                          <th scope="col">#</th>
-                                          <th scope="col"><label asp-for="@firstPerson.Id"></label></th>
-                                          <th scope="col">
-                                                 @* <form asp-action="AllPersons"> *@
-                                                        <input id="txt-sort-FName" type="hidden" value=@sortText name="sortParam" />
-                                                        <input type="hidden" value="@Model.PageIndex" name="pageIndex" />
-                                                        <button id="btn-sort-FName" class="btn">
-                                                               <span id="sort-btn-span">&#11165;</span>
-                                                               <label asp-for="@firstPerson.FirstName"
-                                                        class="lbl-sortFName text-decoration-underline fw-bold"></label>
-                                                        </button>
-                                                @*  </form> *@
-                                           </th>
-                                          <th scope="col"><label asp-for="@firstPerson.MiddleName"></label></th>
-                                          <th scope="col">
-                                                 <form asp-action="AllPersons">
-                                                        <input id="txt-sort-LastName" type="hidden" value=@sortText name="sortParam" />
-                                                        <input type="hidden" value="@Model.PageIndex" name="pageIndex" />
-                                                        <button id="btn-sort-LastName" class="btn btn-link">
-                                                               <label asp-for="@firstPerson.LastName" class="lbl-sortLastName"></label>
-                                                        </button>
-                                                 </form>
-                                          </th>
-                                          <th scope="col"><label asp-for="@firstPerson.GenderType"></label></th>
-                                          <th scope="col">
-                                                 <form asp-action="AllPersons">
-                                                        <input id="txt-sort-EGN" type="hidden" value=@sortText name="sortParam" />
-                                                        <input type="hidden" value="@Model.PageIndex" name="pageIndex" />
-                                                        <button id="btn-sort-EGN" class="btn btn-link">
-                                                               <label asp-for="@firstPerson.EGN" class="lbl-sortEGN"></label>
-                                                        </button>
-                                                 </form>
-                                          </th>
-                                   </tr>
-                            </thead>
-
-                            <tbody id="privateTable-body">
-                                   @for ( int i = 0; i < Model.ItemsCollection.Count; i++ )
-                                   {
-                                          int rowNumber = i + 1;
-                                          PersonViewModel person = Model.ItemsCollection[i];
-                                          <tr>
-                                                 <td><input type="checkbox"></td>
-                                                 <td class="col-sm-3">@rowNumber</td>
-                                                 <td class="col-sm-4">@person.Id</td>
-                                                 <td>@person.FirstName</td>
-                                                 <td>@person.MiddleName </td>
-                                                 <td>@person.LastName</td>
-                                                 <td class="col-sm-8">@person.GenderType</td>
-                                                 <td class="col-sm-8">@person.EGN </td>
-                                                 @* <td>@Model[ i ].PhotoFilePath</td> *@
-                                          </tr>
-                                   }
-                            
-                                   <partial name="_AddPersonPartial" model="@Model.Entity"></partial>
-                            </tbody>
+                     <table id="privateTable" class="table  table-hover table-responsive-sm ">
+                            <partial name="_PartialTableHead" model="@Model"></partial>
+                            <partial name="_PartialTableBody" model="@Model.ItemsCollection"></partial>
                      </table>
-              </div>
+              @* </form> *@
+       </div>
+       <div>
+               <partial name="_AddPersonTablePartial" model="@Model"></partial>
        </div>
 
-       <div class="row col-sm-4">
-              <div class="col-sm-3">
+       <div class="row col-sm-3">
+              <div class="col-sm-2">
                      <form asp-action="AllPersons">
                             <input type="hidden" value="@(Model.PageIndex - 1)" name="pageIndex" />
-                            <input type="hidden" value=@sortText name="sortParam" /> 
+                            <input type="hidden" value=@sortText name="sortParam" />
+                            <input type="hidden" value="@Model.FilterVM.PersonId" name="Id" />
+                            <input type="hidden" value="@Model.FilterVM.SearchName"
+                                   name="SearchName" />
+                            <input type="hidden" value="@Model.FilterVM.CivilID" name="EGN" />
                             <button type="submit" class="btn btn-primary @prevDisabled">
-                                   Previous</button>
+                                   <span aria-hidden="true">&laquo;</span>
+                            </button>
                      </form>
               </div>
-              
-              <div class="col-sm-6">
-              @* method="post" id="formGoToPage" name="pageIndex" *@
-              <form asp-action="AllPersons" id="formGoToPage">
-                     <input id="go-to-page" class="text-center col-sm-8 h-75 fs-6 border-white"
-                            value="@Model.PageIndex" name="pageIndex" />
-                     <input type="hidden" value=@sortText name="sortParam" />
-                     <label id="lblTotalPages" class="text-center col-sm-3 h-75 fs-6 border-white">
-                            / @Model.TotalPages </label>
-                      </form>
+              <div class="col-sm-8">
+                     <form asp-action="AllPersons">
+                            <input id="go-to-page" class="text-center col-sm-7 h-75 border-white"
+                                   value="@Model.PageIndex" name="pageIndex" />
+                            <input type="hidden" value=@sortText name="sortParam" />
+                            <input type="hidden" value="@Model.FilterVM.PersonId" name="Id" />
+                            <input type="hidden" value="@Model.FilterVM.SearchName"
+                                   name="SearchName" />
+                            <input type="hidden" value="@Model.FilterVM.CivilID" name="EGN" />
+                            <label id="lblTotalPages" class="text-center col-sm-3 h-75 border-white">
+                                   / @Model.TotalPages
+                            </label>
+                     </form>
               </div>
-              <div class="col-sm-3">
+              <div class="col-sm-2">
                      <form asp-action="AllPersons">
                             <input type="hidden" value="@(Model.PageIndex + 1)" name="pageIndex" />
-                            <input type="hidden" value=@sortText name="sortParam" />       
+                            <input type="hidden" value=@sortText name="sortParam" />
+                            <input type="hidden" value="@Model.FilterVM.PersonId" name="Id" />
+                            <input type="hidden" value="@Model.FilterVM.SearchName"
+                                   name="SearchName" />
+                            <input type="hidden" value="@Model.FilterVM.CivilID" name="EGN" />
                             <button type="submit" class="btn btn-primary @nextDisabled">
-                                   Next</button>
+                                   <span aria-hidden="true">&raquo;</span>
+                            </button>
                      </form>
               </div>
        </div>
-
-<hr />
-<div>
-       <a asp-controller="" asp-action="" class="btn btn-primary">
-              Add
-       </a>
-       <a asp-controller="" asp-action="" class="btn btn-primary">
-              Edit
-       </a>
-       <a asp-controller="" asp-action="" class="btn btn-primary">
-              Back To Employees Files
-       </a>
-       <input class="btn link-underline-primary" value="Go"/>
-       <button id="btn-link-test" class="btn btn-link" value="Press">Press</button>
+       <hr />
+       <div>
+              <button id="add-entity"class="btn btn-primary h-50 border-0 final-btn">
+                     Add
+              </button>
+              <button id="edit-entities"class="btn btn-primary h-50 border-0 final-btn">
+                     Edit
+              </button>
+              <button id="go-back-btn" class="btn btn-primary h-50 border-0 final-btn employees">
+                     Back To Employees Files
+              </button>
+       </div>
 </div>
 
 
 <!-- Javascript files-->
 @section Scripts
 {
-       <script src="~/custom/privateTable_jquery_functions.js" asp-append-version="true"></script>
+       <script src="~/custom/js/privateTable_jquery_functions.js" asp-append-version="true"></script>
 }
 
 @*
 
- <button asp-action="AllPersons"asp-route-pageIndex="@(Model.PageIndex - 1)"
-                     class="previous-page btn btn-outline-primary @prevDisabled">
-                     Previous
-              </button> 
+<input class="col-md-12 border-1 input-validation-error"
 
-<button asp-action="AllPersons" asp-route-pageIndex="@(Model.PageIndex + 1)"
-                     class="next-page btn btn-outline-primary @nextDisabled">
-                     Next
-              </button>
+type="text" data-val="true" data-val-length="The field Name must be a string with a minimum length of 3 and a maximum length of 100." data-val-length-max="100" data-val-length-min="3" id="SearchName" maxlength="100" name="SearchName" value="g">
+
+      <div>
+              <table id="privateTable" class="table  table-hover table-responsive-sm ">
+                     <thead class="table-success">
+                            <partial name="_PersonsTHeadPartial" model="@Model"></partial>
+                     </thead>
+                     <tbody id="customTableBody">
+                            <partial name="_PersonsTBodyPartial" model="@Model"></partial>
+                     </tbody>
+                     <tfoot>
+                            <partial name="_AddPersonPartial" model="@Model.Entity"></partial>
+                     </tfoot>
+              </table>
+       </div> 
+
+ <form asp-action="AllPersons"  asp-controller="Persons" id="main-form"> 
+ <input type="hidden" value="@Model.PageIndex" name="pageIndex" />
+                     <input type="hidden" value="@sortText" name="sortParam" />
+                     <input class="model-filter" type="hidden" value="@Model.FilterVM.PersonId" name="Id" />
+                     <input class="model-filter" type="hidden" value="@Model.FilterVM.SearchName" name="SearchName" />
+                     <input class="model-filter" type="hidden" value="@Model.FilterVM.CivilID" name="EGN" /> 
 *@
-
-@* <div class="col-mb-6">
-       <a asp-action="AllPersons" asp-route-pageIndex="@(Model.PageIndex - 1)"
-          class="btn btn-primary @prevDisabled">Previous</a>
-
-       <button asp-route-pageIndex="@(Model.PageIndex - 1)
-               type="submit" value="Previous" name="pageIndex"
-               class="btn btn-primary @prevDisabled"></button>
-
-       <input class="emp-paging text-center col-sm-1 h-25 fs-6 border-white"
-              name="pageIndex" value="@Model.PageIndex" />
-       <label id="totalPages">/@Model.TotalPages </label>
-
-       <a asp-action="AllPersons" asp-route-pageIndex="@(Model.PageIndex + 1)"
-          class="btn btn-primary @nextDisabled">Next</a>
-
-       <button asp-route-pageIndex="@(Model.PageIndex + 1)
-               type="submit" value="Next" name="pageIndex"
-               class="btn btn-primary @nextDisabled"></button>
-</div> *@

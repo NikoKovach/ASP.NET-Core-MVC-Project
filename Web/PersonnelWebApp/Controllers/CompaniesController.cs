@@ -7,11 +7,11 @@ namespace PersonnelWebApp.Controllers
 {
        public class CompaniesController : Controller
        {
-              private ICompany service;
+              private ICompanyService service;
               private IWebHostEnvironment env;
               private IConfiguration config;
 
-              public CompaniesController( ICompany companyService,
+              public CompaniesController( ICompanyService companyService,
                      IWebHostEnvironment environment, IConfiguration configuration )
               {
                      this.service = companyService;

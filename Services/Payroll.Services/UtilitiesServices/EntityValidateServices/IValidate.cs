@@ -2,8 +2,10 @@
 
 namespace Payroll.Services.UtilitiesServices.EntityValidateServices
 {
-       public interface IValidate
+       public interface IValidate<ValidateBaseModel>
        {
-              public void Validate<TViewModel>( ModelStateDictionary modelState, TViewModel viewModel );
+              public void Validate( ModelStateDictionary modelState, ValidateBaseModel viewModel );
+
+              public void Validate( ModelStateDictionary modelState, IEnumerable<ValidateBaseModel> viewModelsCollection );
        }
 }

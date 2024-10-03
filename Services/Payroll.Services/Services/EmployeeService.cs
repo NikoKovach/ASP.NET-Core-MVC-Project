@@ -10,7 +10,7 @@ using Payroll.ViewModels.EmployeeViewModels;
 
 namespace Payroll.Services.Services
 {
-       public class EmployeeService : IEmployee
+       public class EmployeeService : IEmployeeService
        {
               private IMapEntity mapper;
               private ICustomProjections customProjections;
@@ -90,6 +90,15 @@ namespace Payroll.Services.Services
                      Employee employee = mapper.Map<EmployeeVM, Employee>( viewModel );
 
                      repository.Update( employee );
+
+                     await repository.SaveChangesAsync();
+              }
+
+              public async Task UpdateAsync( ICollection<EmployeeVM> viewModels )
+              {
+                     List<Employee>? employees = mapper.Map<List<EmployeeVM>, List<Employee>>( viewModels.ToList() );
+
+                     repository.Update( employees );
 
                      await repository.SaveChangesAsync();
               }

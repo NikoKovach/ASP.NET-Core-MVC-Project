@@ -49,29 +49,17 @@ namespace Payroll.Data.Common
                      EntityConfirmation.ArgumentNullConfirmation( modifyEntity,
                             nameof( modifyEntity ), nameof( Update ), GetClassFullName() );
 
-                     try
+                     ChangeEntityStateToModified( modifyEntity );
+              }
+
+              public void Update( ICollection<TEntity> modifiedEntities )
+              {
+                     EntityConfirmation.ArgumentNullConfirmation( modifiedEntities,
+                            nameof( modifiedEntities ), nameof( Update ), GetClassFullName() );
+
+                     foreach ( var item in modifiedEntities )
                      {
-                            var updatedEntity = this.Context.Entry( modifyEntity );
-
-                            if ( updatedEntity.State != EntityState.Detached )
-                            {
-                                   updatedEntity.State = EntityState.Detached;
-                            }
-
-                            if ( updatedEntity.State == EntityState.Detached )
-                            {
-                                   this.Context.Attach( modifyEntity );
-                            }
-
-                            updatedEntity.State = EntityState.Modified;
-                            /*
-                            System.InvalidOperationException: 'The property 'Employee.Id' has a temporary value while attempting to change the entity's state to 'Modified'. Either set a permanent value explicitly, or ensure that the database is configured to generate values for this property.'
-                            */
-                     }
-                     catch ( Exception )
-                     {
-                            throw new InvalidOperationException
-                                                 ( ExceptionMessages.AddOrUpdateError );
+                            ChangeEntityStateToModified( item );
                      }
               }
 
@@ -102,6 +90,32 @@ namespace Payroll.Data.Common
                      }
               }
               //*******************************************************
+
+              private void ChangeEntityStateToModified( TEntity modifyEntity )
+              {
+                     try
+                     {
+                            var updatedEntity = this.Context.Entry( modifyEntity );
+
+                            if ( updatedEntity.State != EntityState.Detached )
+                            {
+                                   updatedEntity.State = EntityState.Detached;
+                            }
+
+                            if ( updatedEntity.State == EntityState.Detached )
+                            {
+                                   this.Context.Attach( modifyEntity );
+                            }
+
+                            updatedEntity.State = EntityState.Modified;
+                     }
+                     catch ( Exception )
+                     {
+                            throw new InvalidOperationException
+                                                 ( ExceptionMessages.AddOrUpdateError );
+                     }
+              }
+
               private string GetClassName()
               {
                      return this.GetType().Name;

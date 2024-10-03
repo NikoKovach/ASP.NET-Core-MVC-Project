@@ -51,6 +51,7 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Shared\_MobileMenuPartial.cshtml" />
+    <_ContentIncludedByDefault Remove="wwwroot\custom\js\Notes.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -66,6 +67,14 @@
 
 	<ItemGroup>
 	  <Content Update="Views\Employees\Components\SelectCompany\IndexEmployees.cshtml">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	  <Content Update="wwwroot\custom\css\alertMessage.css">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	  <Content Update="wwwroot\custom\css\privateTable_css.css">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 	  </Content>

@@ -1,0 +1,12 @@
+﻿
+.payroll-table input,button,td,a{
+       font-size: 0.8em;
+}
+
+button.final-btn{
+       font-size:12px;
+}
+
+#privateTable th > label {
+       font-size: 0.8em;
+}

@@ -16,8 +16,4 @@
     <ProjectReference Include="..\Payroll.Mapper\Payroll.Mapper.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\EmployeeServices\" />
-  </ItemGroup>
-
 </Project>

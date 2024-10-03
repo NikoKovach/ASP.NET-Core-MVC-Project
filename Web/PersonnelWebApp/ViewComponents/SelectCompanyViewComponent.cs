@@ -9,9 +9,9 @@ namespace PersonnelWebApp.ViewComponents
        [ViewComponent( Name = "SelectCompany" )]
        public class SelectCompanyViewComponent : ViewComponent
        {
-              private readonly ICompany service;
+              private readonly ICompanyService service;
 
-              public SelectCompanyViewComponent( ICompany companyService )
+              public SelectCompanyViewComponent( ICompanyService companyService )
               {
                      this.service = companyService;
               }

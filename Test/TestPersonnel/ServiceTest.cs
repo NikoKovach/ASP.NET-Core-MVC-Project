@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Payroll.Data;
@@ -10,8 +9,8 @@ using Payroll.Mapper.CustomMap;
 using Payroll.Models;
 using Payroll.Services.Services;
 using Payroll.Services.UtilitiesServices.EntityValidateServices;
-using Payroll.ViewModels;
 using Payroll.ViewModels.EmployeeViewModels;
+using Payroll.ViewModels.PersonViewModels;
 
 namespace TestPersonnel.Demo
 {
@@ -27,7 +26,7 @@ namespace TestPersonnel.Demo
 
                      context.Entry( employee ).State = EntityState.Detached;
 
-                     string revativePath2 = @"/app-folder/Булгарстрой-World-АД/Employees/Gocho-B-Petrov/man.png";
+                     //string revativePath2 = @"/app-folder/Булгарстрой-World-АД/Employees/Gocho-B-Petrov/man.png";
                      string relativePath = "new image";
 
                      employee.Person.PhotoFilePath = relativePath;
@@ -90,30 +89,26 @@ namespace TestPersonnel.Demo
                      //                                   + @"\Булгарстрой-World-АД\Employees\Gocho-B-Petrov";
 
                      //var relativeFolder = EnvironmentService.CreateRelativePath( empFolder, "/app-folder", "AppFolder" );
+
+                     //var file = @"D:\NK_Pictures\Arrioch-Elements-Leaf.ico";
+                     //var file = @"D:\NK_Pictures\emp-3.jpg"; //
+                     //var file = @"D:\SoftUni Courses\A Exercises\AA Git Projects\Images\DSC_5605.jpg";
+
+                     //using var stream = new MemoryStream( File.ReadAllBytes( file ).ToArray() );
+                     //var formFile = new FormFile( stream, 0, stream.Length, "streamFile", file.Split( @"\" ).Last() );
                      */
 
                      //************************************************************
 
-                     //var file = @"D:\NK_Pictures\Arrioch-Elements-Leaf.ico";
-                     //var file = @"D:\NK_Pictures\emp-3.jpg"; //
-                     var file = @"D:\SoftUni Courses\A Exercises\AA Git Projects\Images\DSC_5605.jpg";
-
-                     using var stream = new MemoryStream( File.ReadAllBytes( file ).ToArray() );
-                     var formFile = new FormFile( stream, 0, stream.Length, "streamFile", file.Split( @"\" ).Last() );
-
                      EmployeeVM viewModel = new EmployeeVM
                      {
-                            Id = 25,
-                            PersonId = 6,
-                            CompanyId = 8,
-                            NumberFromTheList = "5", // "2"
+                            NumberFromTheList = "dfg", // "2"
                             IsPresent = true,
-                            ProfileImage = formFile // formFile
                      };
 
                      var modelState = new ModelStateDictionary();
-                     validateService.Validate<EmployeeVM>( modelState, viewModel );
-
+                     //validateService.Validate( modelState, viewModel );
+                     //validateService.RenameInvalidValueErrorMsg( modelState, viewModel );
               }
 
               public static void AutoMapperTest( PayrollContext context, IMapper autoMapper )
@@ -148,6 +143,59 @@ namespace TestPersonnel.Demo
 
 
                      return sb.ToString();
+              }
+
+              public static void PersonsServiceTest( PayrollContext context, IMapper autoMapper )
+              {
+                     IRepository<Person> repository = new Repository<Person>( context );
+                     var mapEntity = new MapEntity( autoMapper );
+
+                     //PersonFilterVM? filterVM = new()
+                     //{
+                     //       //Id = 6,
+                     //       SearchName = "pet",
+                     //       CivilID = "4646"
+                     //};
+
+                     List<PersonVM>? entitiesForEdit = new List<PersonVM>()
+                     {
+                            new PersonVM
+                            {
+                                   Id = 3,
+                                   FirstName = "F one",
+                                   LastName = "L one",
+                                   CivilNumber = "1111",
+                                   GenderType = "man",
+                            },
+                            new PersonVM
+                            {
+                                   Id = 3,
+                                   FirstName = "F two",
+                                   LastName = "L two",
+                                   CivilNumber = "2222",
+                                   GenderType = "man",
+                            },
+                            new PersonVM
+                            {
+                                   Id = 3,
+                                   FirstName = "F five",
+                                   LastName = "L five",
+                                   CivilNumber = "3333",
+                                   GenderType = "man",
+                            },
+                     };
+
+                     var result = mapEntity.Map<List<PersonVM>, List<Person>>( entitiesForEdit );
+
+
+                     Console.WriteLine( result.Count );
+                     //Console.WriteLine( nameof( filterVM.CivilID ) );
+
+                     //string? sort = "LastName_desc";
+
+                     //var personsFactory = new PersonsCollectionFactory( mapEntity, repository.AllAsNoTracking() );
+
+                     //personsFactory.Filtrate( filterVM, sort );
               }
        }
 }

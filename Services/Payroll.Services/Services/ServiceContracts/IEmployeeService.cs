@@ -4,7 +4,7 @@ using Payroll.ViewModels.EmployeeViewModels;
 
 namespace Payroll.Services.Services.ServiceContracts
 {
-       public interface IEmployee : IAddUpdate<EmployeeVM>, IGetEntity<EmployeeVM>
+       public interface IEmployeeService : IAddUpdate<EmployeeVM>, IGetEntity<EmployeeVM>
        {
               IRepository<Employee> Repository { get; }
 

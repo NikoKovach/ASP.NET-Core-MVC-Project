@@ -10,9 +10,9 @@
 
               public const string ErrorValueExists = "The number {0} already exists in database !";
 
-              public const string ErrorNotANumber = "The property value must be a number !";
+              public const string ErrorNotANumber = "The field value must be a number !";
 
-              public const string ErrorNumberIsNegative = "The property value must be a positive number !";
+              public const string ErrorNumberIsNegative = "The field value must be a positive number !";
 
               public const string ErrorInvalidFile = "File is invalid !";
 
@@ -21,5 +21,7 @@
               public const string ErrorFileSize = "The file size must be between ({0} KB) and ({1} MB).";
 
               public const string ErrorFileContent = "File contains invalid content !";
+
+              public const string ErrorFieldIsRequired = "The field '{0}' is required !";
        }
 }

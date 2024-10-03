@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Payroll.Services.Services;
 using Payroll.Services.Services.ServiceContracts;
 using Payroll.Services.UtilitiesServices.EntityValidateServices;
+using Payroll.ViewModels;
 using Payroll.ViewModels.EmployeeViewModels;
 
 namespace PersonnelWebApp.Controllers
@@ -13,15 +14,16 @@ namespace PersonnelWebApp.Controllers
               private const int PageIndex = 1;
               private const int Count = 1;
 
-              private readonly IEmployee empService;
-              private readonly IValidate validateService;
+              private readonly IEmployeeService empService;
+              private readonly IValidate<ValidateBaseModel> validateService;
               private readonly IWebHostEnvironment env;
               private readonly IConfiguration config;
 
               private static int companyIdNumber = 0;
 
-              public EmployeesController( IEmployee service, IValidate validateService,
-                                                               IWebHostEnvironment environment, IConfiguration configuration )
+              public EmployeesController( IEmployeeService service,
+                     [FromKeyedServices( "EmployeeValidate" )] IValidate<ValidateBaseModel> validateService,
+                      IWebHostEnvironment environment, IConfiguration configuration )
               {
                      this.empService = service;
 
@@ -74,7 +76,7 @@ namespace PersonnelWebApp.Controllers
                             {
                                    PersonId = 0,
                                    CompanyId = 0,
-                                   IsPresent = true
+                                   IsPresent = true,
                             };
 
                             return View( empModel );
@@ -88,7 +90,7 @@ namespace PersonnelWebApp.Controllers
               [HttpPost]
               public async Task<IActionResult> CreateEmployee( EmployeeVM empViewModel )
               {
-                     this.validateService.Validate<EmployeeVM>( ModelState, empViewModel );
+                     this.validateService.Validate( ModelState, empViewModel );
 
                      if ( !ModelState.IsValid )
                      {
@@ -96,6 +98,7 @@ namespace PersonnelWebApp.Controllers
                      }
 
                      empViewModel.IsPresent = true;
+
                      await this.empService.AddAsync( empViewModel );
 
                      string appFolderPath = Path.Combine( this.env.ContentRootPath,
@@ -126,14 +129,13 @@ namespace PersonnelWebApp.Controllers
               [HttpPost]
               public async Task<IActionResult> EditEmployee( EmployeeVM empViewModel )
               {
-                     this.validateService.Validate<EmployeeVM>( ModelState, empViewModel );
+                     this.validateService.Validate( ModelState, empViewModel );
 
                      if ( !ModelState.IsValid )
-                     {
                             return View( nameof( Create ) );
-                     }
 
                      empViewModel.IsPresent = true;
+
                      await this.empService.UpdateAsync( empViewModel );
 
                      string appFolderPath = Path.Combine( this.env.ContentRootPath,

@@ -10,6 +10,7 @@ using Payroll.Mapper.CustomMap;
 using Payroll.Services.Services;
 using Payroll.Services.Services.ServiceContracts;
 using Payroll.Services.UtilitiesServices.EntityValidateServices;
+using Payroll.ViewModels;
 
 namespace PersonnelWebApp
 {
@@ -33,17 +34,22 @@ namespace PersonnelWebApp
 
                      services.AddScoped( typeof( IRepository<> ), typeof( Repository<> ) );
 
-                     services.AddScoped<ICompany, CompanyService>();
+                     services.AddScoped<ICompanyService, CompanyService>();
 
-                     services.AddTransient<IEmployee, EmployeeService>();
+                     services.AddTransient<IEmployeeService, EmployeeService>();
 
-                     services.AddTransient<IPerson, PersonService>();
+                     services.AddTransient<IPersonService, PersonService>();
 
                      services.AddTransient<ICalculateExperience, CalculateExperience>();
 
-                     services.AddTransient<IValidate, ValidateEmployeeVMService>();
-
                      services.AddTransient<IViewModelLimitationsFactory, RestrictionsFactory>();
+
+                     services.AddTransient<IValidate<ValidateBaseModel>, ValidateEmployeeVMService>();
+
+                     services.AddKeyedTransient<IValidate<ValidateBaseModel>, ValidateEmployeeVMService>
+                                                                                                                                                   ( "EmployeeValidate" );
+                     services.AddKeyedTransient<IValidate<ValidateBaseModel>, ValidatePersonVMService>
+                                                                                                                                                    ( "PersonValidate" );
 
               }
        }

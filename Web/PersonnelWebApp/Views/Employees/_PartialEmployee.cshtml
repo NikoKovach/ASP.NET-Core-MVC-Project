@@ -37,70 +37,51 @@
 									</div>
 									<div class="row">
 										<div class="col-md-6">
-											<label 
-										asp-for="@Model.Person.GenderType">
-											</label>
-											<input class="text-center col-md-12"
-										asp-for="@Model.Person.GenderType" 
-										id="gender"/>
+											<label asp-for="@Model.Person.GenderType"></label>
+                                                                             <input id="gender" class="text-center col-md-12"
+										              asp-for="@Model.Person.GenderType" />
 										</div>
 										<div class="col-md-6">
-											<label asp-for="@Model.Person.EGN">
-											</label>
+											<label asp-for="@Model.Person.EGN"></label>
 											<input asp-for="@Model.Person.EGN"
-											class="text-center col-md-12" 
-											id="egn"/>
+											       class="text-center col-md-12" id="egn"/>
 										</div>
 									</div>	
 									<div>
-										<label 
-										asp-for="@Model.Person.PermanentAddress">
-										</label>
-										<input class="text-center col-md-12"
-											  asp-for="@permanentAddress" 
-											  id="permanentAddress"/>
+										<label asp-for="@Model.Person.PermanentAddress"></label>
+                                                                      <input id="permanentAddress" class="text-center col-md-12"
+											  asp-for="@permanentAddress"/>
 									</div>
 									<div>
-										<label 
-										asp-for="@Model.Person.CurrentAddress">
-										</label>
-										<input class="text-center col-md-12"
-											  asp-for="@currentAddress" 
-											  id="currentAddress" />
+										<label asp-for="@Model.Person.CurrentAddress"></label>
+                                                                      <input id="currentAddress" class="text-center col-md-12"
+											  asp-for="@currentAddress" />
 									</div>
 								</div>
 								<div class="col-md-3">
 									<div>
-										<label 
-									asp-for="@Model.ContactInfo.PhoneNumberOne">
+										<label asp-for="@Model.ContactInfo.PhoneNumberOne">
 										</label>
-										<input class="text-center col-md-12"
-									asp-for="@Model.ContactInfo.PhoneNumberOne" 
-									id="phone-one"/>
+                                                                      <input id="phone-one" class="text-center col-md-12"
+									              asp-for="@Model.ContactInfo.PhoneNumberOne" />
 									</div>
 									<div>
-										<label 
-									asp-for="@Model.ContactInfo.PhoneNumberTwo">
+										<label asp-for="@Model.ContactInfo.PhoneNumberTwo">
 										</label>
-										<input class="text-center col-md-12"
-									asp-for="@Model.ContactInfo.PhoneNumberTwo" 
-									id="phone-two"/>
+                                                                      <input id="phone-two" class="text-center col-md-12"
+									              asp-for="@Model.ContactInfo.PhoneNumberTwo" />
 									</div>
 									<div>
-										<label 
-									asp-for="@Model.ContactInfo.E_MailAddress1">
+										<label asp-for="@Model.ContactInfo.E_MailAddress1">
 										</label>
-										<input class="text-center col-md-12"
-									asp-for="@Model.ContactInfo.E_MailAddress1" 
-									id="email-one"/>
+                                                                      <input id="email-one" class="text-center col-md-12"
+									              asp-for="@Model.ContactInfo.E_MailAddress1" />
 									</div>
 									<div>
-										<label 
-										asp-for="@Model.ContactInfo.Website">
+										<label asp-for="@Model.ContactInfo.Website">
 										</label>
-										<input class="text-center col-md-12"
-										asp-for="@Model.ContactInfo.Website" 
-										id="web-site"/>
+                                                                      <input id="web-site" class="text-center col-md-12"
+										asp-for="@Model.ContactInfo.Website" />
 									</div>
 								</div>
 								<div class="col-md-3">
@@ -129,17 +110,13 @@
 
 				<div class="col-md-12">
 					<div class="row">
-						<partial name="_PartialContractInfo" 
-						model="@Model.ContractInfo"></partial>
-
+						<partial name="_PartialContractInfo" model="@Model.ContractInfo"></partial>
 						@* <vc:contract-info company-id=@Model.CompanyId 
 						emp-id=@Model.Id>
 						</vc:contract-info> *@
 
-						<vc:work-experience company-id=@Model.CompanyId 
-						emp-id=@Model.Id>
+						<vc:work-experience company-id=@Model.CompanyId emp-id=@Model.Id>
 						</vc:work-experience>
-						
 						<div class="col col-md-2">
 							<div class="form-control">
 								<div>

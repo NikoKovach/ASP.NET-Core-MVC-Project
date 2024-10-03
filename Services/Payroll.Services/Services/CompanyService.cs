@@ -11,7 +11,7 @@ namespace Payroll.Services.Services
        /// <summary>
        /// TODO : FOR TESTING
        /// </summary>
-       public class CompanyService : ICompany
+       public class CompanyService : ICompanyService
        {
               private IMapEntity mapEntity;
               private IRepository<Company> repository;
@@ -84,6 +84,15 @@ namespace Payroll.Services.Services
                      var company = mapEntity.Map<CompanyViewModel, Company>( viewModel );
 
                      repository.Update( company );
+
+                     await repository.SaveChangesAsync();
+              }
+
+              public async Task UpdateAsync( ICollection<CompanyViewModel> viewModels )
+              {
+                     List<Company>? companyList = mapEntity.Map<List<CompanyViewModel>, List<Company>>( viewModels.ToList() );
+
+                     repository.Update( companyList );
 
                      await repository.SaveChangesAsync();
               }

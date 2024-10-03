@@ -64,6 +64,7 @@ function empPagingPressEnter(event) {
 		}
 	}
 }
+
 function getEmployees() {
 	var token = $('input[name="__RequestVerificationToken"]').val();
 

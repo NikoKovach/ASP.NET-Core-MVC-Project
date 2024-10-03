@@ -11,7 +11,7 @@
      <link rel="stylesheet" type="text/css" href="~/css/style.css" 
 	asp-append-version="true"/>
      <!-- custom style css -->
-     <link rel="stylesheet" type="text/css" href="~/custom/style-custom.css" 
+     <link rel="stylesheet" type="text/css" href="~/custom/css/style-custom.css" 
 	asp-append-version="true"/>
      <!-- Responsive-->
      <link rel="stylesheet" href="~/css/responsive.css"/>
@@ -120,8 +120,7 @@
 			'<script src="/js/jquery-3.7.1.js"><\/script>'));
 	</script>
 
-	<script src="~/custom/my_jquery_functions.js" asp-append-version="true"></script>
-	@* <script src="~/js/my_jquery_functions.js" asp-append-version="true"></script> *@
+	<script src="~/custom/js/my_jquery_functions.js" asp-append-version="true"></script>
 	<!-- javascript -->
      @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -1,0 +1,121 @@
+﻿with errors :
+<ul>
+<li>
+       : : marker == $0
+       The field 'Last Name' is required !
+</li>
+<li>The field 'First Name' is required !</li>
+<li>The field 'Gender' is required !</li>
+<li>The field Middle Name must be a string with a minimum length of 3 and a maximum length of 100.</li>
+<li>The field 'Civil Number' is required !</li>
+</ul>
+
+without error
+<ul>
+       <li style="display:none">
+       </li>
+</ul>
+
+//###################################################3
+
+ string span = "<span  class=\"text-danger\"  style=\"color:#f44336;font-size: 14px;\" > *</span>";
+output.PostElement.AppendHtml( span );
+
+output.Attributes.RemoveAll( "style" );
+output.Attributes.Add( new TagHelperAttribute( "style", "background-color:rgb(255, 179, 179);" ) );
+
+{
+    "pageIndex": {
+        "rawValue": "1",
+        "attemptedValue": "1",
+        "errors": [],
+        "validationState": 2,
+        "isContainerNode": false,
+        "children": null
+    },
+    "sortParam": {
+        "rawValue": "",
+        "attemptedValue": "",
+        "errors": [],
+        "validationState": 2,
+        "isContainerNode": false,
+        "children": null
+    },
+    "filter.SearchName": {
+        "rawValue": "",
+        "attemptedValue": "",
+        "errors": [],
+        "validationState": 2,
+        "isContainerNode": false,
+        "children": null
+    },
+    "entitiesForEdit[0].Id": {
+        "rawValue": "8",
+        "attemptedValue": "8",
+        "errors": [],
+        "validationState": 2,
+        "isContainerNode": false,
+        "children": null
+    },
+    "entitiesForEdit[0].LastName": {
+        "rawValue": "Petrov",
+        "attemptedValue": "Petrov",
+        "errors": [],
+        "validationState": 2,
+        "isContainerNode": false,
+        "children": null
+    },
+    "entitiesForEdit[0].FirstName": {
+        "rawValue": "Boris",
+        "attemptedValue": "Boris",
+        "errors": [],
+        "validationState": 2,
+        "isContainerNode": false,
+        "children": null
+    },
+    "entitiesForEdit[0].GenderType": {
+        "rawValue": "",
+        "attemptedValue": "",
+        "errors": [],
+        "validationState": 2,
+        "isContainerNode": false,
+        "children": null
+    },
+    "entitiesForEdit[0].MiddleName": {
+        "rawValue": "B",
+        "attemptedValue": "B",
+        "errors": [
+            {
+                "exception": null,
+                "errorMessage": "The field Middle Name must be a string with a minimum length of 3 and a maximum length of 100."
+            }
+        ],
+        "validationState": 1,
+        "isContainerNode": false,
+        "children": null
+    },
+    "entitiesForEdit[0].CivilNumber": {
+        "rawValue": "333333",
+        "attemptedValue": "333333",
+        "errors": [],
+        "validationState": 2,
+        "isContainerNode": false,
+        "children": null
+    },
+    "entitiesForEdit[0].ViewTableRow": {
+        "rawValue": "entitiesForEdit[2].ViewTableRow",
+        "attemptedValue": "entitiesForEdit[2].ViewTableRow",
+        "errors": [],
+        "validationState": 2,
+        "isContainerNode": false,
+        "children": null
+    },
+    "entitiesForEdit[0].PhotoFilePath": {
+        "rawValue": "/app-folder/Major-Company/Employees/Boris-B-Petrov/Boris-B-Petrov-profile-2024-09-07_215054.jpg",
+        "attemptedValue": "/app-folder/Major-Company/Employees/Boris-B-Petrov/Boris-B-Petrov-profile-2024-09-07_215054.jpg",
+        "errors": [],
+        "validationState": 2,
+        "isContainerNode": false,
+        "children": null
+    }
+}

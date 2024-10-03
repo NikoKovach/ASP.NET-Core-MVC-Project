@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Payroll.Models;
-using Payroll.ViewModels;
 using Payroll.ViewModels.PersonViewModels;
 
 namespace Payroll.Mapper.AutoMapper.MapperProfiles
@@ -9,8 +8,9 @@ namespace Payroll.Mapper.AutoMapper.MapperProfiles
        {
               public PersonProfile()
               {
-                     CreateMap<Person, PersonViewModel>()
-                            .ForMember<string>( m => m.GenderType, o => o.MapFrom( s => s.Gender.Type ) )
+                     CreateMap<Person, PersonVM>()
+                            .ForMember<string>( m => m.GenderType, opt => opt.MapFrom( s => s.Gender.Type ) )
+                            .ForMember<string>( m => m.CivilNumber, opt => opt.MapFrom( s => s.EGN ) )
                             .ReverseMap();
 
                      CreateMap<Person, SearchPersonVM>();
