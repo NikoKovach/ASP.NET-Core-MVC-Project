@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using Payroll.Models;
-using Payroll.ModelsDto.PersonViewModels;
+using Payroll.ViewModels.PersonViewModels;
 
 namespace Payroll.Mapper.AutoMapper.MapperProfiles
 {
-    public class AddressProfile : Profile
-     {
-          public AddressProfile()
-          {
-               CreateMap<Address, AddressDto>().ReverseMap();
-          }
-     }
+       public class AddressProfile : Profile
+       {
+              public AddressProfile()
+              {
+                     CreateMap<Address, AddressVM>().ReverseMap();
+              }
+       }
 }

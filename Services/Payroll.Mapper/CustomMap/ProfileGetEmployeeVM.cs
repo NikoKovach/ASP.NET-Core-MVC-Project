@@ -36,7 +36,7 @@ namespace Payroll.Mapper.CustomMap
                                    E_MailAddress1 = x.Person.ContactInfoList
                                                                .OrderBy( x => x.Id )
                                                                .LastOrDefault().E_MailAddress1,
-                                   Website = x.Person.ContactInfoList
+                                   WebSite = x.Person.ContactInfoList
                                                                .OrderBy( x => x.Id )
                                                                .LastOrDefault().WebSite,
                             },

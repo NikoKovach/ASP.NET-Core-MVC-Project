@@ -1,48 +1,46 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Payroll.Models.EnumTables;
 
-namespace Payroll.Models
+namespace Payroll.ViewModels.PersonViewModels
 {
-       public class Diploma
+       public class DiplomaVM
        {
-              [Key]
               public int Id { get; set; }
 
+              [Display( Name = "Person Id" )]
+              public int? PersonId { get; set; }
+
+              [Display( Name = "Education Id" )]
+              public int? EducationId { get; set; }
+
+              [Display( Name = "Reg Number" )]
+              [Required]
               [StringLength( 20, MinimumLength = 3 )]
               public string DiplomaRegNumber { get; set; }
 
-              [Column( TypeName = "date" )]
+              [Display( Name = "Registration Date" )]
               public DateTime? DateOfIssue { get; set; }
 
               [StringLength( 20, MinimumLength = 3 )]
               public string? Seria { get; set; }
 
-
+              [Display( Name = "Serial Number" )]
               [StringLength( 20, MinimumLength = 3 )]
               public string? SerialNumber { get; set; }
 
-
-              [ForeignKey( "EducationType" )]
-              public int EducationId { get; set; }
-
-              public EducationType EducationType { get; set; }
-
+              [Display( Name = "Education" )]
+              [Required]
+              [StringLength( 20, MinimumLength = 3 )]
+              public string? EducationTypeName { get; set; }
 
               [StringLength( 250, MinimumLength = 3 )]
               public string? Speciality { get; set; }
 
-
               [StringLength( 250, MinimumLength = 3 )]
               public string? Profession { get; set; }
 
-
-              [ForeignKey( "Person" )]
-              public int? PersonId { get; set; }
-              public Person? Person { get; set; }
-
+              [Display( Name = "Deleted" )]
               public bool HasBeenDeleted { get; set; }
-
-              public DateTime? DeletionDate { get; set; }
        }
 }
+
+//public int EducationId { get; set; }

@@ -1,20 +1,19 @@
 ﻿using AutoMapper;
 using Payroll.Models;
-using Payroll.ModelsDto.PersonViewModels;
+using Payroll.ViewModels.PersonViewModels;
 
 namespace Payroll.Mapper.AutoMapper.MapperProfiles
 {
-    public class IdDocumentProfile : Profile
-     {
-          public IdDocumentProfile()
-          {
-               CreateMap<IdDocument, IdDocumentDto>()
-                    .ForPath( m => m.DocumentName,
-                                   opt => opt.MapFrom( s => s.DocumentType.DocumentName )
-                              )
-                    .ReverseMap();
-          }
-     }
+       public class IdDocumentProfile : Profile
+       {
+              public IdDocumentProfile()
+              {
+                     CreateMap<IdDocument, IdDocumentVM>()
+                          .ForPath( m => m.DocumentName,
+                                          opt => opt.MapFrom( s => s.DocumentType.DocumentName ) )
+                          .ReverseMap();
+              }
+       }
 }
 
 /*

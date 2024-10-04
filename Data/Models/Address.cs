@@ -98,6 +98,5 @@ namespace Payroll.Models
 
                      return sb.ToString();
               }
-
        }
 }

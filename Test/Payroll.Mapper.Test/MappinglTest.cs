@@ -1,10 +1,13 @@
-﻿using AutoMapper;
+﻿using System.Reflection;
+using AutoMapper;
 
 using Payroll.Data;
 using Payroll.Mapper.AutoMapper;
 using Payroll.Models;
+using Payroll.Models.EnumTables;
 using Payroll.ViewModels.EmployeeViewModels;
 using Payroll.ViewModels.PersonViewModels;
+
 
 namespace Test.Payroll
 {
@@ -38,7 +41,7 @@ namespace Test.Payroll
               }
 
               [Test]
-              public void MapPersonDtoToPerson()
+              public void MapPersonVMToPerson()
               {
                      PersonVM personDto = new PersonVM()
                      {
@@ -47,7 +50,8 @@ namespace Test.Payroll
                             LastName = "Bergendorf",
                             CivilNumber = "7703102225",
                             GenderType = "woman",
-                            PhotoFilePath = "/css/someFile.css"
+                            PhotoFilePath = "/css/someFile.css",
+                            Id = 2
                      };
 
                      Person person = this.service.Map<PersonVM, Person>( personDto );
@@ -55,11 +59,10 @@ namespace Test.Payroll
                      Assert.That( person, Is.InstanceOf<Person>() );
 
                      Assert.That( person.FirstName, Is.EqualTo( "Dara" ) );
-
               }
 
               [Test]
-              public void MapPersonToPersonDto()
+              public void MapPersonToPersonVM()
               {
                      Person person = new Person()
                      {
@@ -80,11 +83,10 @@ namespace Test.Payroll
               }
 
               [Test]
-              public void MapEmployeeDtoToEmployee()
+              public void MapEmployeeVMToEmployee()
               {
                      EmployeeVM empDto = new EmployeeVM()
                      {
-
                             PersonId = 17,
                             CompanyId = 6,
                             NumberFromTheList = "555",
@@ -106,7 +108,7 @@ namespace Test.Payroll
               }
 
               [Test]
-              public void MapEmployeeToEmployeeDto()
+              public void MapEmployeeToEmployeeVM()
               {
                      Employee employee = new Employee()
                      {
@@ -133,7 +135,7 @@ namespace Test.Payroll
 
 
               [TestCaseSource( nameof( GetPersonsLists ) )]
-              public void MapCollectionOfPersonToCollectionOfPersonDto( List<Person> persons )
+              public void MapCollectionOfPersonToCollectionOfPersonVM( List<Person> persons )
               {
                      List<PersonVM> personDtoList = this.service
                             .Map<List<Person>, List<PersonVM>>( persons );
@@ -141,6 +143,61 @@ namespace Test.Payroll
                      Assert.That( personDtoList, Is.InstanceOf<List<PersonVM>>() );
 
                      Assert.That( personDtoList[ 0 ].CivilNumber, Is.EqualTo( persons[ 0 ].EGN ) );
+              }
+
+              //######################################################################
+              [TestCaseSource( nameof( IsInstanceOf_MethodParameters ) )]
+              public void Result_IsInstanceOf_Source( Type sourceType, Type destinationType, object source )
+              {
+                     MethodInfo? baseMethod = this.service.GetType()
+                            .GetMethod( nameof( this.service.Map ), BindingFlags.Instance | BindingFlags.Public );
+
+                     MethodInfo genericMethod = baseMethod.MakeGenericMethod( sourceType, destinationType );
+
+                     object? result = genericMethod.Invoke( this.service, new object[] { source } );
+
+                     Assert.That( result, Is.InstanceOf( destinationType ) );
+              }
+
+              [TestCaseSource( nameof( IsInstanceOf_MethodParameters ) )]
+              public void ResultId_IsEqualTo_SourceId( Type sourceType, Type destinationType, object source )
+              {
+                     MethodInfo? baseMethod = this.service.GetType()
+                            .GetMethod( nameof( this.service.Map ), BindingFlags.Instance | BindingFlags.Public );
+
+                     MethodInfo genericMethod = baseMethod.MakeGenericMethod( sourceType, destinationType );
+
+                     object? result = genericMethod.Invoke( this.service, new object[] { source } );
+                     //var result = this.service.Map<TSource, TDestination>( source );
+
+                     PropertyInfo? resultPropId = result.GetType().GetProperty( "Id" );
+                     int? resultId = (int?) resultPropId.GetValue( result );
+
+                     PropertyInfo? sourcePropId = source.GetType().GetProperty( "Id" );
+                     int? sourceId = (int?) sourcePropId.GetValue( source );
+
+                     if ( resultId != null && sourceId != null )
+                     {
+                            Assert.That( resultId, Is.EqualTo( sourceId ) );
+                     }
+              }
+
+              //######################################################################
+
+
+              private static object[] IsInstanceOf_MethodParameters()
+              {
+                     object[] methodParams2 = new object[ DestinationTypesList().Count ];
+
+                     if ( DestinationTypesList().Count == SourceTypesList().Count )
+                     {
+                            for ( int i = 0; i < DestinationTypesList().Count; i++ )
+                            {
+                                   methodParams2[ i ] = new object[] { SourceTypesList()[ i ], DestinationTypesList()[ i ], SourceList()[ i ] };
+                            }
+                     }
+
+                     return methodParams2;
               }
 
               private static IEnumerable<List<Person>> GetPersonsLists()
@@ -180,6 +237,128 @@ namespace Test.Payroll
                      };
 
                      return [ persons ];
+              }
+
+              private static List<Type> SourceTypesList()
+              {
+                     return new List<Type>
+                     {
+                            typeof(DiplomaVM ) ,
+                            typeof(Diploma ),
+                            typeof(ContactInfoVM),
+                            typeof(ContactInfo),
+                            typeof(AddressVM),
+                            typeof(Address),
+                            typeof(IdDocumentVM),
+                            typeof(IdDocument),
+                     };
+              }
+
+              private static List<Type> DestinationTypesList()
+              {
+                     return new List<Type>
+                     {
+                            typeof(Diploma) ,
+                            typeof(DiplomaVM),
+                            typeof(ContactInfo),
+                            typeof(ContactInfoVM),
+                            typeof(Address),
+                            typeof(AddressVM),
+                            typeof(IdDocument),
+                            typeof(IdDocumentVM),
+                     };
+              }
+
+              private static List<Object> SourceList()
+              {
+                     List<Object> sources = new List<object>
+                     {
+                            new DiplomaVM
+                            {
+                                   Id = 10,
+                                   DiplomaRegNumber = "R202410",
+                                   DateOfIssue = DateTime.Parse( "01.10.2024" ),
+                                   Seria = "S_Omega",
+                                   SerialNumber = "242424",
+                                   EducationTypeName = "High school diploma",
+                            },
+                            new Diploma
+                            {
+                                   Id = 555,
+                                   DiplomaRegNumber = "R55555",
+                                   DateOfIssue = DateTime.Parse( "01.10.2055" ),
+                                   Seria = "S_555",
+                                   SerialNumber = "555",
+                                   EducationId = 55
+                            },
+                            new ContactInfoVM
+                            {
+                                   Id = 4,
+                                   PhoneNumberOne = "7777777777777",
+                                   PhoneNumberTwo = "8888888888888",
+                                   E_MailAddress1 = "zzzzzz.DDDD@xxxxxx-yyyy.zzz",
+                                   E_MailAddress2 = "qqqqqqq@wwwwwwwwww",
+                                   WebSite = "domain",
+                                   HasBeenDeleted = false,
+                            },
+                            new ContactInfo
+                            {
+                                   Id = 1234,
+                                   PhoneNumberOne = "1234",
+                                   PhoneNumberTwo = "4321",
+                                   E_MailAddress1 = "4321@4321.zzz",
+                                   E_MailAddress2 = "1234@1234",
+                                   WebSite = "domain",
+                                   HasBeenDeleted = false,
+                            },
+                            new AddressVM
+                            {
+                                   Id = 8888,
+                                   AddressType ="current",
+                                   Country = "Spain",
+                                   Region ="YYY",
+                                   City="City of Spain",
+                                   Street="Any street",
+                                   Number = 11,
+                            },
+                            new Address
+                            {
+                                   Id = 8888,
+                                   AddressType ="permanent",
+                                   Country = "Canada",
+                                   Region ="Region X",
+                                   City="City Y",
+                                   Street="Any street",
+                                   Number = 8888,
+                                   Floor = 8,
+                                   ApartmentNumber = 8
+                            },
+                            new IdDocumentVM
+                            {
+                                   Id = 7777777,
+                                   DocumentName = "person card",
+                                   Nationality = "XXX",
+                                   DateOfExpire = DateTime.Parse("30.12.2311"),
+                                   ColorOfEyes = "green",
+                                   IssuingAuthority = "Ministry of the Interior",
+                                   DateOfIssue = DateTime.Parse("29.12.2300"),
+                                   IsValid = true,
+                            },
+                            new IdDocument
+                            {
+                                   Id = 7777777,
+                                   DocumentType = new DocumentType{Id = 2,DocumentName = "Drive License" },
+                                   //DocumentName = "drive license",
+                                   Nationality = "YYYY",
+                                   DateOfExpire = DateTime.Parse("30.12.2222"),
+                                   ColorOfEyes = "green",
+                                   IssuingAuthority = "Ministry of the Interior",
+                                   DateOfIssue = DateTime.Parse("29.12.2201"),
+                                   IsValid = false,
+                            },
+                     };
+
+                     return sources;
               }
        }
 }
