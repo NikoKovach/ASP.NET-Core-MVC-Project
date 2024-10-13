@@ -36,8 +36,8 @@ namespace PersonnelWebApp.Controllers
 
               public IActionResult Index()
               {
-                     var emptyPaginatedList = new PaginatedCollection<GetEmployeeVM>
-                            ( EmptyEmpoyeesCollection(), Count, PageIndex );
+                     var emptyPaginatedList = new PagingBaseList<GetEmployeeVM>
+                            ( EmptyEmpoyeesCollection(), Count, PageIndex, PageSize );
 
                      return View( emptyPaginatedList );
               }
@@ -53,13 +53,13 @@ namespace PersonnelWebApp.Controllers
                      IQueryable<GetEmployeeVM>? empList = this.empService
                                                                                                        .AllActive_GetEmployeeVM( companyIdNumber );
 
-                     var paginatedList = await PaginatedCollection<GetEmployeeVM>
+                     var paginatedList = await PagingBaseList<GetEmployeeVM>
                                                  .CreateCollectionAsync( empList, pageNumber ?? 1, PageSize );
 
                      if ( paginatedList.ItemsCollection.Count == 0 )
                      {
-                            var emptyPaginatedList = new PaginatedCollection<GetEmployeeVM>
-                                   ( EmptyEmpoyeesCollection(), Count, PageIndex );
+                            var emptyPaginatedList = new PagingBaseList<GetEmployeeVM>
+                                   ( EmptyEmpoyeesCollection(), Count, PageIndex, PageSize );
 
                             return Json( emptyPaginatedList );
                      }

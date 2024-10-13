@@ -1,26 +1,26 @@
 ﻿@using Payroll.Services.Services
 @using Payroll.ViewModels.PersonViewModels
-
-@model SortedPaginatedList<PersonVM,PersonFilterVM>
+@using System.Reflection
+@model PagingListSortedFiltered<PersonVM,PersonFilterVM>
 
 @{
        PersonVM firstPerson = Model.ItemsCollection[ 0 ];
        string? sortText = Model.SortValue;
 
-       var fieldsName = firstPerson.GetType().GetProperties();
+       PropertyInfo[]? fieldsName = firstPerson.GetType().GetProperties();
 }
 
 <thead class="table-success">
        <tr>
-              <th></th>
-              <th>
+              <th class="px-1 py-0 text-center"></th>
+              <th class="px-1 py-0 text-center">
                      <label class="btn fw-bold">#</label>
               </th>
-              <th>
+              <th class="px-1 py-0 text-center">
                      <label asp-for="@firstPerson.Id" class="btn fw-bold column-lbl"
                             value="@fieldsName[0].Name"></label>
               </th>
-              <th>
+              <th class="px-1 py-0 text-center">
                      <form asp-action="AllPersons" id="formGoToPage">
                             <div>
                                    <input id="txt-sort-FName" class="input-sort"
@@ -31,17 +31,17 @@
                                           class="model-filter" name="SearchName" />
                                    <input type="hidden" value="@Model.FilterVM.CivilID" class="model-filter" name="EGN" />
                                    <button id="btn-sort-FName" class="btn table-sortBtn">
-                                          <label asp-for="@firstPerson.FirstName" class="fw-bold column-lbl"
+                                          <label asp-for="@firstPerson.FirstName" class="fw-bold column-lbl text-decoration-underline"
                                                  value="@fieldsName[1].Name"></label>
                                    </button>
                             </div>
                      </form>
               </th>
-              <th>
+              <th class="px-1 py-0 text-center">
                      <label asp-for="@firstPerson.MiddleName" class="btn fw-bold column-lbl"
                             value="@fieldsName[2].Name"></label>
               </th>
-              <th>
+              <th class="px-1 py-0 text-center">
                      <form asp-action="AllPersons">
                             <div>
                                    <input id="txt-sort-LastName" class="input-sort"
@@ -52,17 +52,17 @@
                                           name="SearchName" />
                                    <input type="hidden" value="@Model.FilterVM.CivilID" name="EGN" />
                                    <button id="btn-sort-LastName" class="btn table-sortBtn">
-                                          <label asp-for="@firstPerson.LastName" class="fw-bold column-lbl"
+                                          <label asp-for="@firstPerson.LastName" class="fw-bold text-decoration-underline column-lbl"
                                                  value="@fieldsName[3].Name"></label>
                                    </button>
                             </div>
                      </form>
               </th>
-              <th>
+              <th class="px-1 py-0 text-center">
                      <label asp-for="@firstPerson.GenderType" class="btn fw-bold column-lbl"
                             value="@fieldsName[4].Name"></label>
               </th>
-              <th>
+              <th class="px-1 py-0 text-center">
                      <form asp-action="AllPersons">
                             <div>
                                    <input id="txt-sort-EGN" class="input-sort"
@@ -73,13 +73,13 @@
                                           name="SearchName" />
                                    <input type="hidden" value="@Model.FilterVM.CivilID" name="EGN" />
                                    <button id="btn-sort-EGN" class="btn table-sortBtn">
-                                          <label asp-for="@firstPerson.CivilNumber" class="fw-bold column-lbl"
+                                          <label asp-for="@firstPerson.CivilNumber" class="fw-bold text-decoration-underline column-lbl"
                                                  value="@fieldsName[5].Name"></label>
                                    </button>
                             </div>
                      </form>
               </th>
-              <th>
+              <th class="px-1 py-0 text-center">
                      <label asp-for="@firstPerson.PhotoFilePath" class="btn fw-bold column-lbl"
                             value="@fieldsName[6].Name"></label>
               </th>

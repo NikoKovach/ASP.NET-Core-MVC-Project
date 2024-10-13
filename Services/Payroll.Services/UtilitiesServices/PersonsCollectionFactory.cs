@@ -1,19 +1,21 @@
-﻿using Payroll.Mapper.AutoMapper;
+﻿using Payroll.Data.Common;
+using Payroll.Mapper.AutoMapper;
 using Payroll.Models;
+using Payroll.Services.Services.ServiceContracts;
 using Payroll.ViewModels.PersonViewModels;
 
 namespace Payroll.Services.UtilitiesServices
 {
-       public class PersonsCollectionFactory
+       public class PersonsCollectionFactory : IPersonsCollectionFactory
        {
               private IMapEntity mapper;
               private IQueryable<Person> personsCollection;
 
-              public PersonsCollectionFactory( IMapEntity mapper, IQueryable<Person> personsList )
+              public PersonsCollectionFactory( IMapEntity mapper, IRepository<Person> personRepository )
               {
                      this.mapper = mapper;
 
-                     this.personsCollection = personsList;
+                     this.personsCollection = personRepository.AllAsNoTracking();
 
                      SetPersonsDictionary();
               }
@@ -40,6 +42,8 @@ namespace Payroll.Services.UtilitiesServices
 
                      return resultPersonsVM;
               }
+
+              //###################################################################
 
               private void SetPersonsDictionary()
               {

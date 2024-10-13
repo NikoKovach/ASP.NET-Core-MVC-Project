@@ -1,0 +1,8 @@
+﻿@model List<string>?
+
+<datalist id="education-list">
+       @foreach ( var item in Model )
+       {
+              <option value="@item"></option>
+       }
+</datalist>

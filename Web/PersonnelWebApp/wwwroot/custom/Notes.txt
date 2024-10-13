@@ -119,3 +119,15 @@ output.Attributes.Add( new TagHelperAttribute( "style", "background-color:rgb(25
         "children": null
     }
 }
+
+DateOfIssue                    = null, 
+DiplomaRegNumber     = null, 
+EducationTypeName     = null, 
+HasBeenDeleted            = null, 
+Id                                      = null, 
+PersonId                          = 7, 
+Profession                       = null, 
+Seria                                = null, 
+SerialNumber                = null, 
+Speciality                        = null, 
+ViewTableRow               = null

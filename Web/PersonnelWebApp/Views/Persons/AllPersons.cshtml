@@ -1,6 +1,6 @@
 ﻿@using Payroll.Services.Services
 @using Payroll.ViewModels.PersonViewModels
-@model SortedPaginatedList<PersonVM,PersonFilterVM>
+@model PagingListSortedFiltered<PersonVM,PersonFilterVM>
 
 @section Styles
 {
@@ -9,7 +9,7 @@
 }
 
 @{
-       ViewData["Title"] = "View";
+       ViewData["Title"] = "Persons";
        Layout = "~/Views/Shared/_LayoutLight.cshtml";
 
        string? prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
@@ -27,7 +27,7 @@
                      <div class="row">
                             <div class="col-md-2 d-flex justify-content-center">
                                    <div class="">
-                                          <h4 class="text-justify text-dark">Persons List</h4>
+                                          <h4 id="private-header" class="text-justify text-dark">Persons List</h4>
                                    </div>
                             </div>
                             <div class="col-md-9">
@@ -35,22 +35,25 @@
                             </div>
                      </div> 
               </div>
-              <hr />
+              <hr class="my-2"/>
 
               <div asp-validation-summary="All" class="alert alert-danger alert-dismissible" style="@divStyle">
                      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
               </div>
+              <div id="edit-success" class="alert alert-success alert-dismissible px-1 py-2 mb-2" style="display:none">
+                     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                     <p class="mx-4 my-2"> Editing is successful </p>
+              </div>
               <div>
                      <partial name="_SearchPersonsPartial" model="@Model.FilterVM"></partial>
               </div>
-              <hr />
+              <hr class="my-2"/>
        </div>
        <div>
-                     <table id="privateTable" class="table  table-hover table-responsive-sm ">
-                            <partial name="_PartialTableHead" model="@Model"></partial>
-                            <partial name="_PartialTableBody" model="@Model.ItemsCollection"></partial>
-                     </table>
-              @* </form> *@
+              <table id="privateTable" class="table  table-hover table-responsive-sm ">
+                     <partial name="_PartialTableHead" model="@Model"></partial>
+                     <partial name="_PartialTableBody" model="@Model.ItemsCollection"></partial>
+               </table>
        </div>
        <div>
                <partial name="_AddPersonTablePartial" model="@Model"></partial>
@@ -103,7 +106,8 @@
               <button id="add-entity"class="btn btn-primary h-50 border-0 final-btn">
                      Add
               </button>
-              <button id="edit-entities"class="btn btn-primary h-50 border-0 final-btn">
+              <button id="edit-entities-btn" value="@Model.RouteEdit"
+                      class="btn btn-primary h-50 border-0 final-btn">
                      Edit
               </button>
               <button id="go-back-btn" class="btn btn-primary h-50 border-0 final-btn employees">
@@ -118,31 +122,3 @@
 {
        <script src="~/custom/js/privateTable_jquery_functions.js" asp-append-version="true"></script>
 }
-
-@*
-
-<input class="col-md-12 border-1 input-validation-error"
-
-type="text" data-val="true" data-val-length="The field Name must be a string with a minimum length of 3 and a maximum length of 100." data-val-length-max="100" data-val-length-min="3" id="SearchName" maxlength="100" name="SearchName" value="g">
-
-      <div>
-              <table id="privateTable" class="table  table-hover table-responsive-sm ">
-                     <thead class="table-success">
-                            <partial name="_PersonsTHeadPartial" model="@Model"></partial>
-                     </thead>
-                     <tbody id="customTableBody">
-                            <partial name="_PersonsTBodyPartial" model="@Model"></partial>
-                     </tbody>
-                     <tfoot>
-                            <partial name="_AddPersonPartial" model="@Model.Entity"></partial>
-                     </tfoot>
-              </table>
-       </div> 
-
- <form asp-action="AllPersons"  asp-controller="Persons" id="main-form"> 
- <input type="hidden" value="@Model.PageIndex" name="pageIndex" />
-                     <input type="hidden" value="@sortText" name="sortParam" />
-                     <input class="model-filter" type="hidden" value="@Model.FilterVM.PersonId" name="Id" />
-                     <input class="model-filter" type="hidden" value="@Model.FilterVM.SearchName" name="SearchName" />
-                     <input class="model-filter" type="hidden" value="@Model.FilterVM.CivilID" name="EGN" /> 
-*@

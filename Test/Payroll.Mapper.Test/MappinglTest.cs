@@ -77,7 +77,7 @@ namespace Test.Payroll
 
                      PersonVM personDto = this.service.Map<Person, PersonVM>( person );
 
-                     Assert.That( personDto, Is.InstanceOf<PersonVM>() );
+                     Assert.That( personDto, Is.InstanceOf<DiplomaVM>() );
 
                      Assert.That( personDto.CivilNumber, Is.EqualTo( person.EGN ) );
               }

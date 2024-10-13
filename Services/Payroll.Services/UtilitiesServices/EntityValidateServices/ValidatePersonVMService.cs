@@ -19,12 +19,9 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
 
               public override void Validate( ModelStateDictionary modelState, ValidateBaseModel viewModel )
               {
-                     //key = personVM.MiddleName
                      base.ModelState = modelState;
 
                      PersonVM? personVM = (PersonVM) viewModel;
-
-                     MarkFieldsAsRequired( personVM );
 
                      ValidateCivilId( personVM );
               }
@@ -37,14 +34,12 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                      List<PersonVM> changedPersons = (List<PersonVM>) entitiesForEdit;
 
                      HasAnotherPersonWithTheSameCivilNumber( changedPersons, nameof( entitiesForEdit ) );
-
-                     MarkFieldsAsRequired( changedPersons );
               }
 
               //#####################################################################
 
-              private void HasAnotherPersonWithTheSameCivilNumber( IEnumerable<PersonVM> changedPersons,
-                                                                                           string entityRootName )
+              private void HasAnotherPersonWithTheSameCivilNumber(
+                     IEnumerable<PersonVM> changedPersons, string entityRootName )
               {
                      this.FieldErrors.Clear();
 
@@ -54,9 +49,8 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                      {
                             PersonVM? item = modifiedModelsList[ i ];
 
-                            Person? person = this.persons
-                                                                  .Where( x => x.Id == item.Id )
-                                                                  .FirstOrDefault();
+                            Person? person = this.persons.Where( x => x.Id == item.Id )
+                                                                                  .FirstOrDefault();
 
                             if ( item.CivilNumber != person.EGN )
                             {
@@ -94,59 +88,6 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                      return displayName;
               }
 
-              private void MarkFieldsAsRequired( PersonVM? personVM, string? rootName = null ) // rootName come like parameter
-              {
-                     if ( rootName == null )
-                     {
-                            rootName = nameof( personVM );
-                     }
-
-                     var propertiesArr = personVM.GetType().GetProperties();
-
-                     List<object> valuesList = new List<object>();
-
-                     foreach ( var item in propertiesArr )
-                     {
-                            string? name = item.Name;
-                            object? propValue = item.GetValue( personVM );
-                            valuesList.Add( propValue );
-                     }
-
-                     bool allValuesAreNull = valuesList.All( x => x == null );
-
-                     if ( !allValuesAreNull )
-                     {
-                            // property value :  personVM.FirstName ; personVM.LastName
-                            //string rootName
-                            //string properyName
-                            //PersonVM personVM
-                            string propStringName = nameof( personVM.FirstName );
-                            SetRequiredError( personVM.FirstName, rootName, propStringName, personVM );
-
-                            propStringName = nameof( personVM.LastName );
-                            SetRequiredError( personVM.LastName, rootName, propStringName, personVM );
-
-                            propStringName = nameof( personVM.GenderType );
-                            SetRequiredError( personVM.GenderType, rootName, propStringName, personVM );
-
-                            propStringName = nameof( personVM.CivilNumber );
-                            SetRequiredError( personVM.CivilNumber, rootName, propStringName, personVM );
-                     }
-              }
-
-              private void MarkFieldsAsRequired( List<PersonVM> entitiesForEdit )
-              {
-                     for ( int i = 0; i < entitiesForEdit.Count; i++ )
-                     {
-                            PersonVM? personVM = (PersonVM) entitiesForEdit[ i ];
-
-                            string? rootName = $"{nameof( entitiesForEdit )}[{i}]";
-
-                            MarkFieldsAsRequired( personVM, rootName );
-                     }
-
-              }
-
               private void ValidateCivilId( PersonVM? personVM )
               {
                      this.FieldErrors.Clear();
@@ -157,9 +98,9 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                      PropertyInfo? civilIdProperty = GetPorpertyInfo( personVM, stringPropName );
 
                      string? personCivilId = this.persons
-                                                                 .Where( x => x.EGN.Equals( personVM.CivilNumber ) )
-                                                                 .Select( x => x.EGN )
-                                                                 .FirstOrDefault();
+                                                                    .Where( x => x.EGN.Equals( personVM.CivilNumber ) )
+                                                                    .Select( x => x.EGN )
+                                                                    .FirstOrDefault();
 
                      if ( !string.IsNullOrEmpty( personCivilId ) )
                      {
@@ -172,19 +113,6 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                             string displayName = this.GetDisplayName( civilIdProperty );
 
                             this.AddModelStateError( displayName, keyString );
-                     }
-              }
-
-              private void SetRequiredError( string? propValue, string rootName, string propStringName, PersonVM personVM )
-              {
-                     if ( string.IsNullOrEmpty( propValue ) )
-                     {
-                            string keyString = this.GetModelStateKeyString( rootName, propStringName );
-
-                            string displayFirstName = this.GetDisplayName( propStringName, personVM );
-
-                            base.ModelState.AddModelError( keyString,
-                                   FormatErrorMessage( displayFirstName, OutputMessages.ErrorFieldIsRequired ) );
                      }
               }
 

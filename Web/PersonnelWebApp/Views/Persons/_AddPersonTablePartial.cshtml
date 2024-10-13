@@ -1,13 +1,13 @@
 ﻿@using Payroll.Services.Services
 @using Payroll.ViewModels.PersonViewModels
-@model SortedPaginatedList<PersonVM,PersonFilterVM>
+@model PagingListSortedFiltered<PersonVM,PersonFilterVM>
 
 @{
        PersonVM? personVM = Model.Entity;
        string? sortText = Model.SortValue;
 }
 
-<form asp-action="AllPersons">
+<form asp-action="Create">
        <input type="hidden" value="@Model.PageIndex" name="pageIndex" />
        <input type="hidden" value=@sortText name="sortParam" />
        <input type="hidden" value="@Model.FilterVM.PersonId" name="Id" />
@@ -18,36 +18,38 @@
        <table class="table  table-hover table-responsive-sm ">
               <tbody>
                      <tr id="last-row-add" hidden>
-                            <td><input type="checkbox" class="edit-checkbox" /></td>
-                            <td><input type="text" hidden /></td>
-                            <td><input type="text" hidden /></td>
-                            <td>
-                                   <input asp-for="@personVM.FirstName" type="text" placeholder="Required" class="border-1"
-                                          validate field-name="@nameof(personVM.FirstName)" />
+                            <td class="px-3 py-1"></td>
+                            <td class="px-4 py-1"></td>
+                            <td class="px-4 py-1"></td>
+                            <td class="px-4 py-1"></td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@personVM.FirstName" type="text" placeholder="Required"
+                                          class="border-1 p-0 col-sm-11" validate field-name="@nameof(personVM.FirstName)" />
                             </td>
-                            <td>
-                                   <input asp-for="@personVM.MiddleName" type="text" class="border-1"
+                            <td class="px-1 py-1">
+                                   <input asp-for="@personVM.MiddleName" type="text" class="border-1 p-0 col-sm-11"
                                           validate field-name="@nameof(personVM.MiddleName)" />
                             </td>
-                            <td>
-                                   <input asp-for="@personVM.LastName" type="text" placeholder="Required" class="border-1"
-                                          validate field-name="@nameof(personVM.LastName)" />
+                            <td class="px-1 py-1">
+                                   <input asp-for="@personVM.LastName" type="text" placeholder="Required"
+                                          class="border-1 p-0 col-sm-11" validate field-name="@nameof(personVM.LastName)" />
                             </td>
-                            <td>
-                                   <input asp-for="@personVM.GenderType" type="text" placeholder="Required" class="border-1"
+                            <td class="px-1 py-1">
+                                   <input asp-for="@personVM.GenderType" type="text" 
+                                          placeholder="Required" class="border-1 p-0 col-sm-11"
                                           list="gender-list" validate field-name="@nameof(personVM.GenderType)" />
                                    <datalist id="gender-list">
                                           <option value="man"></option>
                                           <option value="woman"></option>
                                    </datalist>
                             </td>
-                            <td>
-                                   <input asp-for="@personVM.CivilNumber" type="text" placeholder="Required" class="border-1"
-                                          validate field-name="@nameof(personVM.CivilNumber)" />
+                            <td class="px-1 py-1">
+                                   <input asp-for="@personVM.CivilNumber" type="text" placeholder="Required"
+                                          class="border-1 p-0 col-sm-11" validate field-name="@nameof(personVM.CivilNumber)" />
                             </td>
-                            <td>
-                                   <input asp-for="@personVM.PhotoFilePath" type="text" class="border-1" 
-                                   validate field-name="@nameof(personVM.PhotoFilePath)" />
+                            <td class="px-1 py-1">
+                                   <input asp-for="@personVM.PhotoFilePath" type="text" class="border-1 p-0 col-sm-11"
+                                          validate field-name="@nameof(personVM.PhotoFilePath)" />
                             </td>
                      </tr>
               </tbody>

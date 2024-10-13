@@ -25,11 +25,42 @@ namespace PersonnelWebApp.Controllers
               }
 
               [HttpPost]
-              public async Task<IActionResult> AllPersons( int? pageIndex, int? pageSize,
-                     string? sortParam, PersonFilterVM? filter, PersonVM? personVM, List<PersonVM>? entitiesForEdit )
+              public async Task<IActionResult> AllPersons( int? pageIndex, int? pageSize, string? sortParam,
+                                                                                               PersonFilterVM? filter )
+              {
+                     if ( !ModelState.IsValid )
+                     {
+                            return await ResultAsync( pageIndex, pageSize, sortParam, new PersonFilterVM() );
+
+                            //PagingListSortedFiltered<PersonVM, PersonFilterVM>? sortedListWithErrors =
+                            //await GetPersonsListOfPagesAsync( pageIndex, pageSize, sortParam, new PersonFilterVM() );
+
+                            //return View( sortedListWithErrors );
+                     }
+
+                     return await ResultAsync( pageIndex, pageSize, sortParam, filter );
+              }
+
+              [HttpPost]
+              public async Task<IActionResult> Create( int? pageIndex, int? pageSize, string? sortParam,
+                     PersonFilterVM? filter, PersonVM? personVM )
               {
                      this.validateService.Validate( ModelState, personVM );
 
+                     if ( !ModelState.IsValid )
+                     {
+                            return await ResultAsync( pageIndex, pageSize, sortParam, filter );
+                     }
+
+                     await this.personService.AddAsync( personVM );
+
+                     return await ResultAsync( pageIndex, pageSize, sortParam, filter );
+              }
+
+              [HttpPost]
+              public async Task<IActionResult> Edit( int? pageIndex, int? pageSize, string? sortParam,
+                     PersonFilterVM? filter, List<PersonVM>? entitiesForEdit )
+              {
                      this.validateService.Validate( ModelState, entitiesForEdit );
 
                      if ( !ModelState.IsValid )
@@ -39,34 +70,34 @@ namespace PersonnelWebApp.Controllers
                                    return Json( ModelState );
                             }
 
-                            SortedPaginatedList<PersonVM, PersonFilterVM>? sortedListWithErrors =
-                            await GetPersonsListOfPagesAsync( pageIndex, pageSize, sortParam, new PersonFilterVM() );
-
-                            return View( sortedListWithErrors );
+                            return await ResultAsync( pageIndex, pageSize, sortParam, filter );
                      }
 
-                     if ( !string.IsNullOrEmpty( personVM.FirstName )
-                            && !string.IsNullOrEmpty( personVM.LastName )
-                            && !string.IsNullOrEmpty( personVM.CivilNumber )
-                            && !string.IsNullOrEmpty( personVM.GenderType ) )
-                     {
-                            await this.personService.AddAsync( personVM );
-                     }
+                     await this.personService.UpdateAsync( entitiesForEdit );
 
                      if ( entitiesForEdit.Count > 0 )
                      {
-                            await this.personService.UpdateAsync( entitiesForEdit );
+                            return Json( ModelState );
                      }
 
-                     SortedPaginatedList<PersonVM, PersonFilterVM>? sortedList =
-                           await GetPersonsListOfPagesAsync( pageIndex, pageSize, sortParam, filter );
-
-                     return View( sortedList );
+                     return await ResultAsync( pageIndex, pageSize, sortParam, filter );
               }
 
               //##############################################################
 
-              private SortedPaginatedList<PersonVM, PersonFilterVM> EmptyPersonsSortedCollection()
+              private async Task<IActionResult> ResultAsync( int? pageIndex, int? pageSize, string? sortParam, PersonFilterVM? filter )
+              {
+                     PagingListSortedFiltered<PersonVM, PersonFilterVM>? sortedList =
+                           await GetPersonsListOfPagesAsync( pageIndex, pageSize, sortParam, filter );
+
+                     string? controllerName = this.RouteData.Values[ "controller" ].ToString();
+
+                     sortedList.RouteEdit = $"/{controllerName}/{nameof( Edit )}";
+
+                     return View( "AllPersons", sortedList );
+              }
+
+              private PagingListSortedFiltered<PersonVM, PersonFilterVM> EmptyPersonsSortedCollection()
               {
                      List<PersonVM> defaultPersonsList = new List<PersonVM>()
                      {
@@ -75,20 +106,20 @@ namespace PersonnelWebApp.Controllers
 
                      PersonFilterVM personsFilter = new PersonFilterVM();
 
-                     SortedPaginatedList<PersonVM, PersonFilterVM> emptyPaginatedList =
-                            new SortedPaginatedList<PersonVM, PersonFilterVM>
-                            ( defaultPersonsList, Count, PageIndex, string.Empty, personsFilter );
+                     PagingListSortedFiltered<PersonVM, PersonFilterVM> emptyPaginatedList =
+                            new PagingListSortedFiltered<PersonVM, PersonFilterVM>
+                            ( defaultPersonsList, Count, PageIndex, PageSize, string.Empty, personsFilter );
 
                      return emptyPaginatedList;
               }
 
-              private async Task<SortedPaginatedList<PersonVM, PersonFilterVM>>? GetPersonsListOfPagesAsync
+              private async Task<PagingListSortedFiltered<PersonVM, PersonFilterVM>>? GetPersonsListOfPagesAsync
                      ( int? pageIndex, int? pageSize, string? sortParam, PersonFilterVM? filter )
               {
                      IQueryable<PersonVM>? sortedPersonsList = this.personService.All( sortParam, filter );
 
-                     SortedPaginatedList<PersonVM, PersonFilterVM>? sortedList =
-                            await SortedPaginatedList<PersonVM, PersonFilterVM>.CreateSortedCollectionAsync
+                     PagingListSortedFiltered<PersonVM, PersonFilterVM>? sortedList =
+                            await PagingListSortedFiltered<PersonVM, PersonFilterVM>.CreateSortedCollectionAsync
                                ( sortedPersonsList, pageIndex ?? PageIndex, pageSize ?? PageSize, sortParam, filter );
 
                      if ( sortedList.ItemsCollection.Count == 0 )
@@ -99,38 +130,3 @@ namespace PersonnelWebApp.Controllers
        }
 }
 
-
-//[HttpPost]
-//public async Task<IActionResult> AddPerson( PersonVM? personVM )
-//{
-//       this.validateService.Validate( ModelState, personVM );
-
-//       if ( !ModelState.IsValid )
-//       {
-//              return RedirectToAction( nameof( AllPersons ) );
-//       }
-
-//       await this.personService.AddAsync( personVM );
-
-
-//List<PersonVM> persons = await this.personService.All().ToListAsync();
-
-//return RedirectToAction( nameof( AllPersons ) );
-//}
-
-//[HttpPost]
-//public async Task<IActionResult> UpdatePerson( PersonVM personVM )
-//{
-//       // TODO : validationServise if necessary
-
-//       if ( !ModelState.IsValid )
-//       {
-//              return RedirectToAction( nameof( AllPersons ) );
-//       }
-
-//       await this.personService.UpdateAsync( personVM );
-
-//       List<PersonVM> persons = await this.personService.All().ToListAsync();
-
-//       return View( persons );
-//}

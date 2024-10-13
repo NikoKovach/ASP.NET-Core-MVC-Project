@@ -13,36 +13,42 @@
               {
                      int rowNumber = i + 1;
                      <tr>
-                             <td><input type="checkbox" class="edit-checkbox" /></td>
-                             <td>@rowNumber</td>
-                             <td class="col-md-1">
-                                   <input asp-for="@entitiesForEdit[ i ].Id" class="col-md-7 border-0 table-field" readonly />
+                            <td class="px-1 py-1 text-center"><input type="checkbox" class="edit-checkbox" /></td>
+                            <td class="px-1 py-1 text-center">@rowNumber</td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].Id"
+                                          class="text-sm-center col-sm-11 border-0 table-field" readonly />
                             </td>
-                             <td>
-                                   <input asp-for="@entitiesForEdit[ i ].FirstName" class="border-0 table-field" readonly />
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].FirstName"
+                                          class="col-sm-11 text-sm-center border-0 table-field" readonly />
                              </td>
-                             <td>
-                                   <input asp-for="@entitiesForEdit[ i ].MiddleName" class="border-0 table-field" readonly />
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].MiddleName"
+                                          class="col-sm-11 text-sm-center border-0 table-field" readonly />
                              </td>
-                             <td>
-                                   <input asp-for="@entitiesForEdit[ i ].LastName" class="border-0 table-field" readonly />
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].LastName"
+                                          class="col-sm-11 text-center border-0 table-field" readonly />
                              </td>
-                             <td>
-                                   <input asp-for="@entitiesForEdit[ i ].GenderType" class="border-0 table-field"
-                                          list="gender-list" readonly />
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].GenderType" list="gender-list" readonly
+                                          class="col-sm-11 text-center border-0 table-field"/>
                                    <datalist id="gender-list">
                                           <option value="man"></option>
                                           <option value="woman"></option>
                                    </datalist>
                              </td>
-                             <td>
-                                   <input asp-for="@entitiesForEdit[ i ].CivilNumber" class="border-0 table-field" readonly/>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].CivilNumber"
+                                          class="col-sm-11 text-center border-0 table-field" readonly />
                              </td>
-                             <td>
-                                    <input asp-for="@entitiesForEdit[ i ].PhotoFilePath" class="border-0 table-field" readonly />
+                            <td class="px-1 py-1">
+                                    <input asp-for="@entitiesForEdit[ i ].PhotoFilePath"
+                                          class="col-sm-11 text-center border-0 table-field" readonly />
                              </td>
                             <td hidden>
-                                   <input asp-for="@entitiesForEdit[ i ].ViewTableRow" class="border-0 table-field" readonly hidden />
+                                   <input asp-for="@entitiesForEdit[ i ].ViewTableRow" class="border-0 not-table-field" readonly hidden />
                             </td>
                      </tr>
               }

@@ -1,8 +1,8 @@
-﻿using Payroll.Data.Common;
+﻿using Microsoft.EntityFrameworkCore;
+using Payroll.Data.Common;
 using Payroll.Mapper.AutoMapper;
 using Payroll.Models;
 using Payroll.Services.Services.ServiceContracts;
-using Payroll.Services.UtilitiesServices;
 using Payroll.ViewModels.PersonViewModels;
 
 namespace Payroll.Services.Services
@@ -11,12 +11,16 @@ namespace Payroll.Services.Services
        {
               private IRepository<Person> repository;
               private IMapEntity mapper;
+              private IPersonsCollectionFactory collectionsFactory;
 
-              public PersonService( IRepository<Person> personsRepo, IMapEntity mapper )
+              public PersonService( IRepository<Person> personsRepo, IMapEntity mapper,
+                                                        IPersonsCollectionFactory personsCollectionFactory )
               {
                      repository = personsRepo;
 
                      this.mapper = mapper;
+
+                     this.collectionsFactory = personsCollectionFactory;
               }
 
               public IQueryable<PersonVM> All()
@@ -38,18 +42,15 @@ namespace Payroll.Services.Services
                      if ( string.IsNullOrEmpty( sortParam ) && filter == null )
                             return this.All();
 
-                     PersonsCollectionFactory personsFactory =
-                                    new PersonsCollectionFactory( mapper, repository.AllAsNoTracking() );
-
                      if ( filter == null )
                      {
                             IQueryable<PersonVM> sortedPersons =
-                           personsFactory.SortedPersonsCollection[ sortParam ];
+                           this.collectionsFactory.SortedPersonsCollection[ sortParam ];
 
                             return sortedPersons;
                      }
 
-                     IQueryable<PersonVM> filteredPersonsList = personsFactory.Filtrate( filter, sortParam );
+                     IQueryable<PersonVM> filteredPersonsList = this.collectionsFactory.Filtrate( filter, sortParam );
 
                      return filteredPersonsList;
               }
@@ -89,6 +90,15 @@ namespace Payroll.Services.Services
                      repository.Update( personList );
 
                      await repository.SaveChangesAsync();
+              }
+
+              public async Task<string?> GetEntityNameAsync( int? entityId )
+              {
+                     Person? person = await this.repository.AllAsNoTracking()
+                                                                                         .Where( x => x.Id == entityId )
+                                                                                         .FirstOrDefaultAsync();
+
+                     return person.FullName;
               }
        }
 }

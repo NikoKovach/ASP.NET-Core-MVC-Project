@@ -18,7 +18,7 @@
        }
 
        string? controllerName = this.ViewContext.RouteData.Values[ "controller" ].ToString();
-       string? actionName = this.ViewContext.RouteData.Values[ "action" ].ToString();
+       // string? actionName = this.ViewContext.RouteData.Values[ "action" ].ToString();
 
        int? personIdValue = (Model == null || Model.PersonId < 1)? null : Model.PersonId;
        int? companyIdValue = (Model == null || Model.CompanyId < 1) ? null : Model.CompanyId;

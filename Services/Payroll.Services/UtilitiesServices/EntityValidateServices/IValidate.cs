@@ -7,5 +7,7 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
               public void Validate( ModelStateDictionary modelState, ValidateBaseModel viewModel );
 
               public void Validate( ModelStateDictionary modelState, IEnumerable<ValidateBaseModel> viewModelsCollection );
+
+              //public void Validate( ModelStateDictionary modelState, int? paramValue, string paramName );
        }
 }

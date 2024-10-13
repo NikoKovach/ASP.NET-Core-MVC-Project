@@ -10,7 +10,6 @@
 	string permanentAddress = Model.Person.PermanentAddress ?? "";
 
 	string currentAddress = Model.Person.CurrentAddress ?? "";
-
 }
 
 <div>
@@ -86,20 +85,16 @@
 								</div>
 								<div class="col-md-3">
 									<div>
-										<label 
-									asp-for="@Model.IdCardPassport.DocumentName">
+										<label asp-for="@Model.IdCardPassport.DocumentName">
 										</label>
-										<input class="text-center col-md-12"
-									asp-for="@Model.IdCardPassport.DocumentName" 
-									id="cardPassport"/>
+                                                                      <input id="cardPassport" class="text-center col-md-12"
+									       asp-for="@Model.IdCardPassport.DocumentName" />
 									</div>
 									<div>
-										<label 
-								asp-for="@Model.IdCardPassport.DocumentNumber">
+										<label asp-for="@Model.IdCardPassport.DocumentNumber">
 										</label>
-										<input class="text-center col-md-12"
-								asp-for="@Model.IdCardPassport.DocumentNumber"
-								id="cardPassportNumber"/>
+                                                                      <input id="cardPassportNumber" class="text-center col-md-12"
+								              asp-for="@Model.IdCardPassport.DocumentNumber"/>
 									</div>
 								</div>
 							</div>
@@ -111,10 +106,6 @@
 				<div class="col-md-12">
 					<div class="row">
 						<partial name="_PartialContractInfo" model="@Model.ContractInfo"></partial>
-						@* <vc:contract-info company-id=@Model.CompanyId 
-						emp-id=@Model.Id>
-						</vc:contract-info> *@
-
 						<vc:work-experience company-id=@Model.CompanyId emp-id=@Model.Id>
 						</vc:work-experience>
 						<div class="col col-md-2">

@@ -2,11 +2,13 @@
 
 namespace Payroll.Services.Services
 {
-       public class PaginatedCollection<T>
+       public class PagingBaseList<T>
        {
-              public PaginatedCollection( List<T> items, int maxTotalPagest, int pageIndex )
+              public PagingBaseList( List<T> items, int maxTotalPagest, int pageIndex, int pageSize )
               {
                      this.PageIndex = pageIndex;
+
+                     this.PageSize = pageSize;
 
                      this.TotalPages = maxTotalPagest;
 
@@ -14,6 +16,8 @@ namespace Payroll.Services.Services
               }
 
               public int PageIndex { get; private set; }
+
+              public int PageSize { get; set; }
 
               public int TotalPages { get; private set; }
 
@@ -23,23 +27,21 @@ namespace Payroll.Services.Services
 
               public List<T> ItemsCollection { get; set; } = new List<T>();
 
-              public static async Task<PaginatedCollection<T>> CreateCollectionAsync
+              public string? RouteEdit { get; set; }
+
+              public static async Task<PagingBaseList<T>> CreateCollectionAsync
               ( IQueryable<T> source, int pageIndex, int? pageSize )
               {
-                     int totalPages = await GetTotalPages( source, GetPageSize( pageSize ) );
+                     int totalPages = await GetTotalPages( source, pageSize ?? 1 );
 
                      int validPageIndex = GetPageIndex( totalPages, pageIndex );
 
-                     List<T> items = await GetItemsList( source, validPageIndex, GetPageSize( pageSize ) );
+                     List<T> items = await GetItemsList( source, validPageIndex, pageSize ?? 1 );
 
-                     return new PaginatedCollection<T>( items, totalPages, validPageIndex );
+                     return new PagingBaseList<T>( items, totalPages, validPageIndex, pageSize ?? 1 );
               }
 
               //#######################################################
-              protected static int GetPageSize( int? pageSize )
-              {
-                     return pageSize ?? 1;
-              }
 
               protected static int GetPageIndex( int totalPages, int pageIndex )
               {

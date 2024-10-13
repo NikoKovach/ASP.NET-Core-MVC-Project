@@ -5,6 +5,20 @@
        color: white;
 }
 
+#edit-success {
+       padding: 20px;
+       background-color: #99ff99;
+       color: white;
+}
+
+#edit-success p,span.closebtn{
+       color:black; 
+}
+
+#edit-success .closebtn:hover{
+       color:deepskyblue;
+}
+
 .closebtn {
        margin-left: 15px;
        color: white;

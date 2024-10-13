@@ -1,23 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Payroll.ViewModels.CustomValidation;
 
 namespace Payroll.ViewModels.PersonViewModels
 {
-       public class DiplomaVM
+       public class DiplomaVM : ValidateBaseModel
        {
-              public int Id { get; set; }
-
-              [Display( Name = "Person Id" )]
-              public int? PersonId { get; set; }
-
-              [Display( Name = "Education Id" )]
-              public int? EducationId { get; set; }
+              public int? Id { get; set; }
 
               [Display( Name = "Reg Number" )]
               [Required]
               [StringLength( 20, MinimumLength = 3 )]
-              public string DiplomaRegNumber { get; set; }
+              public string? DiplomaRegNumber { get; set; }
 
-              [Display( Name = "Registration Date" )]
+              [Display( Name = "Reg. Date" )]
+              [DataType( DataType.Date )]
+              [DateIsEarlier( ErrorMessage = "Date cannot be greater than today's date !" )]
               public DateTime? DateOfIssue { get; set; }
 
               [StringLength( 20, MinimumLength = 3 )]
@@ -39,8 +36,10 @@ namespace Payroll.ViewModels.PersonViewModels
               public string? Profession { get; set; }
 
               [Display( Name = "Deleted" )]
-              public bool HasBeenDeleted { get; set; }
+              public bool? HasBeenDeleted { get; set; }
+
+              [Display( Name = "Person Id" )]
+              [Required]
+              public int? PersonId { get; set; }
        }
 }
-
-//public int EducationId { get; set; }

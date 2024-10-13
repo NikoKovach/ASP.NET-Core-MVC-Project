@@ -10,7 +10,6 @@ const ascArray = "&#11165;";
 const descArray = "&#11167;";
 const underscore = "_";
 const rightArrayError = "&#129170;";
-/* Custom Table functions*/
 
 
 $('#customTableBody').on('click','tr' ,onRowClick);
@@ -32,55 +31,14 @@ $(".edit-checkbox").on("click", function () {
        }
 });
 
-$("#edit-entities").on("click", function () {
-       var rowsForEdit = $(".edit-checkbox:checked").parents("tr");
+$("#edit-entities-btn").on("click", function () {
+       var formAction = $(this).val();
 
-       var columnsLabel = $("#privateTable > thead > tr label.column-lbl");
+       var actionData = getActionParameters();
 
-       var colsTitles = columnsLabel.map(function () {
-              return $(this).attr("value");
-       }).toArray();
+       actionData["entitiesForEdit"] = getEntitiesForEdit();
 
-       var entitiesList= [];
-
-       if (rowsForEdit.length > 0) {
-              for (var z = 0; z < rowsForEdit.length; z++) {
-                     var entityElements = rowsForEdit.eq(z).children("td").children("input.table-field");
-
-                     var textValuesArr = [];
-
-                     for (var i = 0; i < entityElements.length-1; i++) {
-                            if (!entityElements.eq(i).val() == "") {
-                                   textValuesArr.push(entityElements.eq(i).val());
-                            }
-                            else {
-                                   textValuesArr.push(null);
-                            }
-                     }
-
-                     var viewTableRow = entityElements.eq(entityElements.length - 1).attr("name");
-                     textValuesArr.push(viewTableRow);
-
-                     var entityForEdit = {};
-                     
-                     if (colsTitles.length == textValuesArr.length-1) {
-                            for (var i = 0; i < textValuesArr.length-1; i++) {
-                                   entityForEdit[colsTitles[i]] = textValuesArr[i];
-                            }
-                     }
-
-                     var lastIndex = textValuesArr.length - 1;
-                     entityForEdit["ViewTableRow"] = textValuesArr[lastIndex];
-
-                     entitiesList.push(entityForEdit);
-              }
-       }
-
-       var actionData = GetActionParameters();
-
-       actionData["entitiesForEdit"] = entitiesList;
-
-       PostRequest(actionData);
+       postRequest(actionData,formAction);
 });
 
 $(document).on("keypress", function (event) {
@@ -90,7 +48,6 @@ $(document).on("keypress", function (event) {
 $(document).on("keydown", function (key) {
        arrowKeysPress(key);
 });
-
 
 function onRowClick() {
        if (prevItemIndex > -1) {
@@ -106,7 +63,16 @@ function onRowClick() {
        prevItemBgColor = $(this).css("background-color");
 
        changeCurrentRowBgColor($(this));
-       
+
+       let headerText = $("#private-header").text();
+       let equalsStringResult = headerText.localeCompare("Persons List");
+
+       if (equalsStringResult === 0) {
+              let id = $(this).children("td").children("input.table-field").eq(0).val();
+              $("input.person-id").val(id);
+       }
+
+       deleteEntityCaseGetEntityId();
        //####################################################
 
    //Employees->AllPresent View
@@ -123,7 +89,17 @@ function onRowClick() {
        //####################################################
 };
 
-function GetActionParameters() {
+function deleteEntityCaseGetEntityId() {
+       let editCheckBoxes = $("input.edit-checkbox:checked");
+
+       if (editCheckBoxes.length == 1) {
+              let inputEntityId = $(".edit-checkbox:checked").parents("tr").find("input[entity-id]");
+
+              $("#entity-id-number").val(inputEntityId.val());
+       }
+};
+
+function getActionParameters() {
        var data = { };
 
        var inputToken = $('#formGoToPage > input[name="__RequestVerificationToken"]');
@@ -141,38 +117,108 @@ function GetActionParameters() {
        var valueSort = inputSort.val();
        data[keySort] = valueSort;
 
+       var inputPageSize = $('#formGoToPage').find("input[name='pageSize']");
+
+       if (inputPageSize.length > 0) {
+              var keyPageSize = inputPageSize.attr("name");
+              var valuePageSize = inputPageSize.val();
+              data[keyPageSize] = valuePageSize;
+       }
+
+       var inputPersonId = $('#formGoToPage').find("input[name='personId']");
+
+       if (inputPersonId.length > 0) {
+              var keyPersonId = inputPersonId.attr("name");
+              var valuePersonId = inputPersonId.val();
+              data[keyPersonId] = valuePersonId;
+       }
+
        var filterInputs = $('#formGoToPage').find("input.model-filter");
 
+       if (filterInputs.length > 0) {
+              data["filter"] = getFilterObject(filterInputs);
+       }
+
+       return data;
+};
+
+function getEntitiesForEdit() {
+       var selectedElements = [];
+
+       var rowsForEdit = $(".edit-checkbox:checked").parents("tr");
+
+       var columnsLabel = $("#privateTable > thead > tr label.column-lbl");
+
+       var colsTitles = columnsLabel.map(function () {
+              return $(this).attr("value");
+       }).toArray();
+
+       if (rowsForEdit.length > 0) {
+              for (var z = 0; z < rowsForEdit.length; z++) {
+                     var entityElements = rowsForEdit.eq(z).children("td").children("input.table-field");
+                     let notTableElements = rowsForEdit.eq(z).children("td").children("input.not-table-field");
+
+                     var textValuesArr = [];
+
+                     for (var i = 0; i < entityElements.length ; i++) {
+                            if (!entityElements.eq(i).val() == "") {
+                                   textValuesArr.push(entityElements.eq(i).val());
+                            }
+                            else {
+                                   textValuesArr.push(null);
+                            }
+                     }
+
+                     var entityForEdit = {};
+
+                     if (colsTitles.length == textValuesArr.length) {
+                            for (var i = 0; i < textValuesArr.length ; i++) {
+                                   entityForEdit[colsTitles[i]] = textValuesArr[i];
+                            }
+                     }
+
+                     if (notTableElements.length == 1) {
+                            var viewTableRow = notTableElements.attr("name");
+                            entityForEdit["ViewTableRow"] = viewTableRow;
+                     }
+/*                     console.log(entityForEdit);*/
+
+                     selectedElements.push(entityForEdit);
+              }
+       }
+
+       return selectedElements;
+};
+
+function getFilterObject(filterInputs) {
        var filterObj = {};
 
-       filterInputs.each( function (index, element) {
+       filterInputs.each(function (index, element) {
               var keyFilter = $(this).attr("name");
               var valueFilter = $(this).val();
 
               filterObj[keyFilter] = (valueFilter == "") ? null : valueFilter;
        });
 
-       data["filter"] = filterObj;
-
-       return data;
+       return filterObj;
 };
 
-function PostRequest(actionData) {
-       var formAction = $('#formGoToPage').attr("action");
-/*       var formMethod = $('#formGoToPage').attr("method");*/
+function postRequest(actionData, formAction) {
+
+       /*console.log(formAction);*/
 
        $.post(formAction, actionData, function (data) {
               alert("success");
 
-              PostResponse(data);
+              postResponse(data);
        });
 };
 
-function PostResponse(data) {
+function postResponse(data) {
        var enumValid = {isValid:2, isNotValid:1};
 
        var arrModelState = [];
- 
+
        $.each(data, function (key, obj) {
               arrModelState.push({ key: key, value: obj });
        });
@@ -213,9 +259,10 @@ function PostResponse(data) {
                      let rightBracket = replacement.value.indexOf("]");
                      let rowText = replacement.value.substring(leftBracket + 1, rightBracket);
 
-                     console.log(rowText);
+                     let actualTableRow = parseInt(rowText) + 1;
+/*                     console.log(actualTableRow);*/
 
-                     var errorsMsgString = "<li><p>Property : " + fieldNameText + " - row " + rowText + " of the table :</p>";
+                     var errorsMsgString = "<li><p>Property : " + fieldNameText + " - row " + actualTableRow  + " of the table :</p>";
 
                      for (var z = 0; z < itemErrors.length; z++) {
                             var anyError = "<p>" + rightArrayError + "  " + itemErrors[z].errorMessage + "</p>";
@@ -240,6 +287,26 @@ function PostResponse(data) {
 
               $("div.alert").css("display", 'list-item');
               $("div.alert").show();  
+
+              $("#edit-success").css("display", 'none');
+       }
+
+       if (invalidItems.length == 0) {
+              $("div.alert").css("display", 'none');
+              $("div.alert").hide();  
+
+              $("#edit-success").css("display", 'list-item');
+              $("#edit-success").show();
+
+              $("#customTableBody input").parent("td").children("span").remove();
+
+              $(".edit-checkbox:checked").prop("checked", false);
+
+             var inputTableFields = $("#customTableBody").find("input.table-field");
+
+              console.log(inputTableFields.length);
+
+              inputTableFields.attr("readonly", true);
        }
 };
 
@@ -308,10 +375,8 @@ function changeCurrentRowBgColor(currentRow) {
        rowInputs.css("background-color", 'rgb(231, 255, 245 )');
 };
 
-/* End Custom Table functions
 
 /*##########################################*/
-
 
 $(".table-sortBtn").on('click', function () {
        var sortLabelValue = $(this.getElementsByTagName("label")).text();
@@ -390,14 +455,21 @@ $("#add-record").on("click", function () {
        return confirm("\" Do you want to create a new record ? \"");
 });
 
+$("#delete-entity-btn").on("click", function () {
+       return confirm("\" Do you want to delete the selected record ? \"");
+});
+
 $("#go-back-btn.employees").on("click", backToEmployeesIndex);
 
+$("#go-back-btn.diplomas").on("click", backToPersons);
 function backToEmployeesIndex() {
        document.location = "/Employees/Index";
 }
 
+function backToPersons() {
+       document.location = "/Persons/AllPersons";
+}
 
-
-
+//**************************************************************/
 
 
