@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Payroll.Services.Services;
 using Payroll.Services.Services.ServiceContracts;
 using Payroll.Services.UtilitiesServices.EntityValidateServices;
 using Payroll.ViewModels;
 using Payroll.ViewModels.EmployeeViewModels;
+using Payroll.ViewModels.PagingViewModels;
 
 namespace PersonnelWebApp.Controllers
 {
@@ -220,7 +220,4 @@ namespace PersonnelWebApp.Controllers
        }
 }
 
-/*
-
-*/
 

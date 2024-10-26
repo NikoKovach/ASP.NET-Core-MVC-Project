@@ -36,7 +36,7 @@ namespace Payroll.ViewModels.PersonViewModels
               public string? Profession { get; set; }
 
               [Display( Name = "Deleted" )]
-              public bool? HasBeenDeleted { get; set; }
+              public bool HasBeenDeleted { get; set; }
 
               [Display( Name = "Person Id" )]
               [Required]

@@ -32,25 +32,24 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
 
                      ValidateNumberFromTheList( model );
 
-                     ValidateEmployeePicture( modelState, model, this.limitations );
+                     ValidateEmployeePicture( model, this.limitations );
 
-                     PropertyInfo? personIdProp = viewModel
-                                                                         .GetType()
-                                                                         .GetProperty( nameof( model.PersonId ) );
+                     PropertyInfo? personIdProperty = viewModel
+                                                                                  .GetType()
+                                                                                  .GetProperty( nameof( model.PersonId ) );
 
-                     PropertyInfo? companyIdProp = viewModel
-                                                                              .GetType()
-                                                                              .GetProperty( nameof( model.CompanyId ) );
+                     PropertyInfo? companyIdProperty = viewModel
+                                                                                      .GetType()
+                                                                                      .GetProperty( nameof( model.CompanyId ) );
 
-                     RenameInvalidValueErrorMsg( modelState, personIdProp, nameof( model.PersonId ) );
+                     RenameInvalidValueErrorMsg( personIdProperty, nameof( model.PersonId ) );
 
-                     RenameInvalidValueErrorMsg( modelState, companyIdProp, nameof( model.CompanyId ) );
+                     RenameInvalidValueErrorMsg( companyIdProperty, nameof( model.CompanyId ) );
               }
 
-              public void RenameInvalidValueErrorMsg( ModelStateDictionary modelState,
-                     PropertyInfo? property, string propertyName )
+              public void RenameInvalidValueErrorMsg( PropertyInfo? property, string propertyName )
               {
-                     ModelStateEntry? entryToChange = modelState[ propertyName ];
+                     ModelStateEntry? entryToChange = this.ModelState[ propertyName ];
 
                      if ( entryToChange == null )
                             return;
@@ -90,8 +89,8 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                      bool isNumber = int.TryParse( propertyValue, out int numberFromTheList );
 
                      PropertyInfo? property = viewModel
-                                                                          .GetType()
-                                                                          .GetProperty( nameof( viewModel.NumberFromTheList ) );
+                                                                  .GetType()
+                                                                  .GetProperty( nameof( viewModel.NumberFromTheList ) );
 
                      if ( !isNumber )
                      {
@@ -100,17 +99,20 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
 
                             string displayName = this.GetDisplayName( property );
 
-                            AddModelStateError( displayName );
+                            AddModelStateError( displayName, property.Name );
 
                             return;
                      }
 
                      int? employeeIdVal = viewModel.Id;
 
-                     bool listNumberWasChanged = ListNumberIsChanged( numberFromTheList, employeeIdVal );
+                     if ( employeeIdVal != null && employeeIdVal > 0 )
+                     {
+                            bool listNumberWasChanged = ListNumberIsChanged( numberFromTheList, employeeIdVal );
 
-                     if ( !listNumberWasChanged )
-                            return;
+                            if ( !listNumberWasChanged )
+                                   return;
+                     }
 
                      ListNumberIsZeroOrNegative( numberFromTheList );
 
@@ -120,12 +122,12 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                      {
                             string displayName = this.GetDisplayName( property );
 
-                            this.AddModelStateError( displayName );
+                            this.AddModelStateError( displayName, property.Name );
+                            //this.AddModelStateError( displayName );
                      }
               }
 
-              private void ValidateEmployeePicture( ModelStateDictionary modelState, EmployeeVM viewModel,
-                                                                                                                        EmployeeVMLimitations? limitations )
+              private void ValidateEmployeePicture( EmployeeVM viewModel, EmployeeVMLimitations? limitations )
               {
                      this.FieldErrors.Clear();
 
@@ -140,8 +142,10 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                                    this.FieldErrors.Add( OutputMessages.ErrorInvalidFile );
                             }
 
-                            if ( !FileValidator.IsFileSizeWithinLimit( image, limitations.MaxImageSizeInBytes,
-                                   limitations.MinImageSizeInBytes ) )
+                            bool fileSizeIsInLimit = image.Length >= limitations.MinImageSizeInBytes
+                                                              && image.Length <= limitations.MaxImageSizeInBytes;
+
+                            if ( !fileSizeIsInLimit )
                             {
                                    double maxMbSize = (double) limitations.MaxImageSizeInBytes / 1024 / 1024;
                                    double minKbSize = (double) limitations.MaxImageSizeInBytes / 1024;
@@ -159,7 +163,8 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
 
                                    string displayName = this.GetDisplayName( imageProperty );
 
-                                   AddModelStateError( displayName );
+                                   this.AddModelStateError( displayName, imageProperty.Name );
+                                   //AddModelStateError( displayName );
                             }
                      }
               }
@@ -243,40 +248,4 @@ Image cannot be loaded. Available decoders:
  - JPEG : JpegDecoder
  - TGA : TgaDecoder
  - TIFF : TiffDecoder
-
-
- using var stream = image.OpenReadStream();
-                     try
-                     {
-                            var imageInfo = Image.Identify( stream );
-
-                            //if ( imageInfo != null )
-                            //{
-                            //       var formatName = imageInfo.Metadata.DecodedImageFormat.Name;
-                            //       var width = imageInfo.Width;
-                            //       var height = imageInfo.Height;
-                            //}
-                     }
-                     catch ( InvalidImageContentException exc )
-                     {
-                            //Invalid content ?
-                            var error = exc.Message;
-
-                     }
-                     catch ( UnknownImageFormatException formatExc )
-                     {
-                            var error = formatExc.Message;
-
-                            Console.WriteLine( error );
-                     }
-
-//if ( !FileValidator.IsFileExtensionAllowed( image, limitations.AllowedExtensions ) )
-                            //{
-                            //       string? allowedExtensions = String.Join( ", ", limitations.AllowedExtensions )
-                            //                                                                    .Replace( ".", "" )
-                            //                                                                    .ToUpper();
-
-                            //       string errorMessage = string.Format( OutputMessages.ErrorFileFormat, allowedExtensions );
-                            //       fieldErrors.Add( errorMessage );
-                            //}
 */

@@ -1,0 +1,186 @@
+﻿@using Payroll.ViewModels.PersonViewModels
+@model AddressVM?
+
+@{
+       // ModelVM? Model = Model;
+
+       bool modelState = ViewContext.ViewData.ModelState.IsValid;
+       string changeFormDivStyle = modelState == true ? "display:none" : "display:initial";
+}
+
+<div class="container" id="change-address-form" style="@changeFormDivStyle">
+       <form   method="post">
+              <fieldset class="col-sm-5 px-sm-2">
+                            <!-- Form Name -->
+                     <legend class="fs-5 col-sm-9 text-center mx-5 px-5">Create / Update Address:</legend>
+                     <div class="col-sm-10 ">
+
+                            <!-- Text Address Type-->
+                            <div class="form-group row">
+                                   <label asp-for="@Model.AddressType" class="col-sm-4 control-label text-end py-1"></label>
+                                   <div class="col-sm-8 px-1">
+                                          <div class="input-group">
+                                                 <input asp-for="@Model.AddressType" list="Model-type-list"
+                                                        class="form-control my-1 py-0"
+                                                        validate field-name="@nameof(Model.AddressType)">
+                                                        <datalist id="address-type-list">
+                                                               <option>permanent</option>
+                                                               <option>current</option>
+
+                                                        </datalist>
+                                          </div>
+                                   </div>
+                            </div>
+
+                            <!-- Text input Id-->
+                            <div class="form-group row">
+                                   <label asp-for="@Model.Id" 
+                                          class="col-sm-4 control-label text-end py-1">
+                                   </label>
+                                   <div class="col-sm-8 px-1">
+                                          <div class="input-group">
+                                                 <input asp-for="@Model.Id" type="text"
+                                                        class="form-control my-1 py-0" readonly
+                                                        validate field-name="@nameof(Model.Id)">
+                                          </div>
+                                   </div>
+                            </div>
+
+                            <!-- Text input Country-->
+                            <div class="form-group row">
+                                   <label asp-for="@Model.Country"
+                                          class="col-sm-4 control-label text-end py-1">Country</label>
+                                   <div class="col-sm-8 px-1">
+                                          <div class="input-group">
+                                                 <input asp-for="@Model.Country" 
+                                                        class="form-control my-1 py-0"
+                                                        placeholder="Required" type="text"
+                                                        validate field-name="@nameof(Model.Country)">
+                                          </div>
+                                   </div>
+                            </div>
+
+                            <!-- Text input Region-->
+                            <div class="form-group row">
+                                   <label asp-for="@Model.Region"
+                                          class="col-sm-4 control-label text-end py-1">Region</label>
+                                   <div class="col-sm-8 px-1">
+                                          <div class="input-group">
+                                                 <input asp-for="@Model.Region" 
+                                                        class="form-control my-1 py-0" type="text"
+                                                        placeholder="Required"
+                                                        validate field-name="@nameof(Model.Region)">
+                                          </div>
+                                   </div>
+                            </div>
+
+                            <!-- Text input Municipality-->
+                            <div class="form-group row">
+                                   <label asp-for="@Model.Municipality"
+                                          class="col-sm-4 control-label text-end py-1">Municipality</label>
+                                   <div class="col-sm-8 px-1">
+                                          <div class="input-group">
+                                                 <input asp-for="@Model.Municipality"
+                                                        class="form-control my-1 py-0" type="text"
+                                                        validate field-name="@nameof(Model.Municipality)">
+                                          </div>
+                                   </div>
+                            </div>
+
+                            <!-- Text input City-->
+                            <div class="form-group row">
+                                   <label asp-for="@Model.City" 
+                                          class="col-sm-4 control-label text-end py-1">City</label>
+                                   <div class="col-sm-8 px-1">
+                                          <div class="input-group">
+                                                 <input asp-for="@Model.City"
+                                                        class="form-control my-1 py-0" type="text"
+                                                        placeholder="Required"
+                                                        validate field-name="@nameof(Model.City)">
+                                          </div>
+                                   </div>
+                            </div>
+
+                            <!-- Text input Street-->
+                            <div class="form-group row">
+                                   <label asp-for="@Model.Street" 
+                                          class="col-sm-4 control-label text-end py-1">Street</label>
+                                   <div class="col-sm-8 px-1">
+                                          <div class="input-group">
+                                                 <input asp-for="@Model.Street"
+                                                        class="form-control my-1 py-0" type="text"
+                                                        placeholder="Required"
+                                                        validate field-name="@nameof(Model.Street)">
+                                          </div>
+                                   </div>
+                            </div>
+
+                            <!-- Text input Number-->
+                            <div class="form-group row">
+                                   <label asp-for="@Model.Number" 
+                                          class="col-sm-4 control-label text-end py-1">Number</label>
+                                   <div class="col-sm-8 px-1">
+                                          <div class="input-group">
+                                                 <input asp-for="@Model.Number"
+                                                        class="form-control my-1 py-0" type="text"
+                                                        placeholder="Required"
+                                                        validate field-name="@nameof(Model.Number)">
+                                          </div>
+                                   </div>
+                            </div>
+
+                            <!-- Text input Entrance-->
+                            <div class="form-group row">
+                                   <label asp-for="@Model.Entrance"
+                                          class="col-sm-4 control-label text-end py-1">Entrance</label>
+                                   <div class="col-sm-8 px-1">
+                                          <div class="input-group">
+                                                 <input asp-for="@Model.Entrance"
+                                                        class="form-control my-1 py-0" type="text"
+                                                        validate field-name="@nameof(Model.Entrance)">
+                                          </div>
+                                   </div>
+                            </div>
+
+                            <!-- Text input Floor-->
+                            <div class="form-group row">
+                                   <label asp-for="@Model.Floor"
+                                          class="col-sm-4 control-label text-end py-1">Floor</label>
+                                   <div class="col-sm-8 px-1">
+                                          <div class="input-group">
+                                                 <input asp-for="@Model.Floor"
+                                                        class="form-control my-1 py-0" type="text"
+                                                        validate field-name="@nameof(Model.Floor)">
+                                          </div>
+                                   </div>
+                            </div>
+
+                            <!-- Text input Apartment-->
+                            <div class="form-group row">
+                                   <label asp-for="@Model.ApartmentNumber" 
+                                          class="col-sm-4 control-label text-end py-1">Apartment</label>
+                                   <div class="col-sm-8 px-1">
+                                          <div class="input-group">
+                                                 <input asp-for="@Model.ApartmentNumber"
+                                                        class="form-control my-1 py-0" type="text"
+                                                        validate field-name="@nameof(Model.ApartmentNumber)">
+                                          </div>
+                                   </div>
+                            </div>
+
+                            <input asp-for="@Model.HasBeenDeleted" type="hidden">
+                            <input asp-for="@Model.PersonId" hidden/>
+
+                            <!-- Button -->
+                            <div class="form-group d-flex justify-content-center mx-5 mt-4 mb-1 col-md-12">
+                                   <div class="col-md-2 d-flex justify-content-center mx-1">
+                                          <button asp-action="Create" type="submit" class="btn btn-success btn-sm">Create </button>
+                                   </div>
+                                   <div class="col-md-2 d-flex justify-content-center mx-1">
+                                          <button asp-action="Edit" type="submit" class="btn btn-success btn-sm">Update </button>
+                                   </div>
+                            </div>
+                     </div>
+              </fieldset>
+       </form>
+</div>

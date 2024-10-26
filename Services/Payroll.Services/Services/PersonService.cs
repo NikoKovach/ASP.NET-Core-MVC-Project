@@ -2,6 +2,7 @@
 using Payroll.Data.Common;
 using Payroll.Mapper.AutoMapper;
 using Payroll.Models;
+using Payroll.Models.EnumTables;
 using Payroll.Services.Services.ServiceContracts;
 using Payroll.ViewModels.PersonViewModels;
 
@@ -69,27 +70,38 @@ namespace Payroll.Services.Services
               {
                      Person? person = mapper.Map<PersonVM, Person>( viewModel );
 
-                     await repository.AddAsync( person );
+                     await this.SetExistingGenderAsync( person, viewModel.GenderType );
 
-                     await repository.SaveChangesAsync();
+                     await this.repository.AddAsync( person );
+
+                     await this.repository.SaveChangesAsync();
               }
 
               public async Task UpdateAsync( PersonVM viewModel )
               {
                      Person? person = mapper.Map<PersonVM, Person>( viewModel );
 
-                     repository.Update( person );
+                     await this.SetExistingGenderAsync( person, viewModel.GenderType );
 
-                     await repository.SaveChangesAsync();
+                     this.repository.Update( person );
+
+                     await this.repository.SaveChangesAsync();
               }
 
               public async Task UpdateAsync( ICollection<PersonVM> viewModels )
               {
-                     var personList = mapper.Map<List<PersonVM>, List<Person>>( viewModels.ToList() );
+                     List<PersonVM> viewModelsList = viewModels.ToList();
 
-                     repository.Update( personList );
+                     List<Person>? personList = mapper.Map<List<PersonVM>, List<Person>>( viewModelsList );
 
-                     await repository.SaveChangesAsync();
+                     for ( int i = 0; i < personList.Count; i++ )
+                     {
+                            await SetExistingGenderAsync( personList[ i ], viewModelsList[ i ].GenderType );
+                     }
+
+                     this.repository.Update( personList );
+
+                     await this.repository.SaveChangesAsync();
               }
 
               public async Task<string?> GetEntityNameAsync( int? entityId )
@@ -99,6 +111,27 @@ namespace Payroll.Services.Services
                                                                                          .FirstOrDefaultAsync();
 
                      return person.FullName;
+              }
+
+              public IQueryable<string>? GenderTypes()
+              {
+                     IQueryable<string>? genders = this.repository.Context.Genders.Select( x => x.Type );
+
+                     return genders;
+              }
+
+              //**************************************************************
+
+              private async Task SetExistingGenderAsync( Person person, string? genderType )
+              {
+                     Gender? gender = await this.repository.Context.Genders
+                                                                                        .Where( x => x.Type == genderType )
+                                                                                        .FirstOrDefaultAsync();
+
+                     if ( gender != null && gender.Id > 0 )
+                     {
+                            person.Gender = gender;
+                     }
               }
        }
 }

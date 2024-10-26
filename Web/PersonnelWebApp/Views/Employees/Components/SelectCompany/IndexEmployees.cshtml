@@ -1,10 +1,6 @@
-﻿@model CompanyListViewModel
+﻿@using Payroll.ViewModels
+@model CompanyListViewModel
 
 <select asp-for="CompanyId" asp-items="@Model.Companies" id="selectCompany">
 	<option value="-1">Please select one</option>
 </select>
-
-
-
-		
-@* <option value="-1">Please select one</option> *@

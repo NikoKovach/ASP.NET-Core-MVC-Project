@@ -13,7 +13,9 @@ namespace Payroll.Mapper.AutoMapper.MapperProfiles
                             .ForMember<string>( m => m.CivilNumber, opt => opt.MapFrom( s => s.EGN ) )
                             .ReverseMap();
 
-                     CreateMap<Person, SearchPersonVM>();
+                     CreateMap<Person, SearchPersonVM>()
+                            .ForMember( m => m.PersonId, opt => opt.MapFrom( s => s.Id ) )
+                            .ForMember( m => m.CivilID, opt => opt.MapFrom( s => s.EGN ) );
               }
        }
 }

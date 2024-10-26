@@ -66,10 +66,10 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                                           this.FieldErrors.Add( errorIsExists );
 
                                           int indexOfModifiedEntity = i;
+
                                           string itemStringName = nameof( item.CivilNumber );
 
-                                          string keyString = base.GetModelStateKeyString( entityRootName, indexOfModifiedEntity,
-                                                                                                                                                                        itemStringName );
+                                          string keyString = $"{entityRootName}[{indexOfModifiedEntity}].{itemStringName}";
 
                                           string displayName = this.GetDisplayName( itemStringName, item );
 

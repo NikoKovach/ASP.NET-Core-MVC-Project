@@ -23,25 +23,25 @@
 //                                   GenderType = x.Person.Gender.Type,
 //                                   EGN = x.Person.EGN,
 //                                   PhotoFilePath = x.Person.PhotoFilePath,
-//                                   PermanentAddress = new AddressEmpVM
+//                                   PermanentModel = new ModelEmpVM
 //                                   {
-//                                          Country = x.Person.PermanentAddress.Country,
-//                                          Region = x.Person.PermanentAddress.Region,
-//                                          Municipality = x.Person.PermanentAddress.Municipality,
-//                                          City = x.Person.PermanentAddress.City,
-//                                          Street = x.Person.PermanentAddress.Street,
-//                                          Number = x.Person.PermanentAddress.Number,
-//                                          Entrance = x.Person.PermanentAddress.Entrance,
+//                                          Country = x.Person.PermanentModel.Country,
+//                                          Region = x.Person.PermanentModel.Region,
+//                                          Municipality = x.Person.PermanentModel.Municipality,
+//                                          City = x.Person.PermanentModel.City,
+//                                          Street = x.Person.PermanentModel.Street,
+//                                          Number = x.Person.PermanentModel.Number,
+//                                          Entrance = x.Person.PermanentModel.Entrance,
 //                                   }.ToString() ?? "",
-//                                   CurrentAddress = new AddressEmpVM
+//                                   CurrentModel = new ModelEmpVM
 //                                   {
-//                                          Country = x.Person.CurrentAddress.Country,
-//                                          Region = x.Person.CurrentAddress.Region,
-//                                          Municipality = x.Person.CurrentAddress.Municipality,
-//                                          City = x.Person.CurrentAddress.City,
-//                                          Street = x.Person.CurrentAddress.Street,
-//                                          Number = x.Person.CurrentAddress.Number,
-//                                          Entrance = x.Person.CurrentAddress.Entrance,
+//                                          Country = x.Person.CurrentModel.Country,
+//                                          Region = x.Person.CurrentModel.Region,
+//                                          Municipality = x.Person.CurrentModel.Municipality,
+//                                          City = x.Person.CurrentModel.City,
+//                                          Street = x.Person.CurrentModel.Street,
+//                                          Number = x.Person.CurrentModel.Number,
+//                                          Entrance = x.Person.CurrentModel.Entrance,
 //                                   }.ToString() ?? "",
 //                            },
 //                            ContactInfo = new ContactsEmpVM
@@ -52,9 +52,9 @@
 //                                   PhoneNumberTwo = x.Person.ContactInfoList
 //                                                               .OrderBy( x => x.Id )
 //                                                               .LastOrDefault().PhoneNumberTwo,
-//                                   E_MailAddress1 = x.Person.ContactInfoList
+//                                   E_MailModel1 = x.Person.ContactInfoList
 //                                                               .OrderBy( x => x.Id )
-//                                                               .LastOrDefault().E_MailAddress1,
+//                                                               .LastOrDefault().E_MailModel1,
 //                                   Website = x.Person.ContactInfoList
 //                                                               .OrderBy( x => x.Id )
 //                                                               .LastOrDefault().WebSite,

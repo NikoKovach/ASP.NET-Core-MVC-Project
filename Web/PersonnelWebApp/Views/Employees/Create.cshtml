@@ -18,7 +18,6 @@
        }
 
        string? controllerName = this.ViewContext.RouteData.Values[ "controller" ].ToString();
-       // string? actionName = this.ViewContext.RouteData.Values[ "action" ].ToString();
 
        int? personIdValue = (Model == null || Model.PersonId < 1)? null : Model.PersonId;
        int? companyIdValue = (Model == null || Model.CompanyId < 1) ? null : Model.CompanyId;
@@ -53,23 +52,29 @@
                                                         </div>
                                                         <div class="form-group">
                                                                <label asp-for="PersonId"></label>
-                                                               <input asp-for="PersonId" type="text" list="person-list" class="col-md-11"
-                                                                             value="@personIdValue">
+                                                               <input asp-for="PersonId" type="text" value="@personIdValue" 
+                                                                      list="person-list" class="col-md-11"
+                                                                      validate field-name="@nameof(Model.PersonId)">
                                                                  <vc:select-person></vc:select-person>
                                                          </div>
                                                         <div class="form-group">
                                                                <label asp-for="CompanyId"></label>
-                                                               <input asp-for="CompanyId" type="text" list="company-list" class="col-md-11"
-                                                                             value="@companyIdValue">
+                                                               <input asp-for="CompanyId" type="text" value="@companyIdValue" 
+                                                                      list="company-list" class="col-md-11"  
+                                                                      validate field-name="@nameof(Model.CompanyId)">
                                                                <vc:select-company parent-view=""></vc:select-company>
                                                          </div>
                                                         <div class="form-group">
                                                                <label asp-for="NumberFromTheList"></label>
-                                                               <input asp-for="NumberFromTheList" type="text" class="col-md-11" />
+                                                               <input asp-for="NumberFromTheList" type="text"
+                                                                      validate field-name="@nameof(Model.NumberFromTheList)" 
+                                                                      class="col-md-11" />
                                                          </div>
                                                         <div class="form-group">
-                                                               <label asp-for="ProfileImage">Employee Photo</label>
-                                                               <input asp-for="ProfileImage" type="file" class="col-md-11" />
+                                                               <label asp-for="ProfileImage"></label>
+                                                               <input asp-for="ProfileImage" type="file"
+                                                                      validate field-name="@nameof(Model.ProfileImage)" 
+                                                                      class="col-md-11" />
                                                         </div>
                                                         <hr />
                                                         <div class="form-group">

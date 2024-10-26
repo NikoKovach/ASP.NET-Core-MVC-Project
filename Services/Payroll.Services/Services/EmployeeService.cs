@@ -52,9 +52,9 @@ namespace Payroll.Services.Services
                      return result;
               }
 
-              public IQueryable<AllEmployeeVM> AllActive_AllEmployeeVM( int companyId )
+              public IQueryable<AllEmployeeVM> AllActive_AllEmployeeVM( int? companyId )
               {
-                     IQueryable<Employee>? employees = AllActiveEntities( companyId );
+                     IQueryable<Employee>? employees = this.AllActiveEntities( companyId );
 
                      IQueryable<AllEmployeeVM>? result =
                             (IQueryable<AllEmployeeVM>) customProjections
@@ -70,7 +70,7 @@ namespace Payroll.Services.Services
                                                                                 .Where( x => x.IsPresent == true )
                                                                                 .FirstOrDefaultAsync( x => x.Id == entityId );
 
-                     var empViewModel = mapper.Map<Employee, EmployeeVM>( employee );
+                     EmployeeVM? empViewModel = mapper.Map<Employee, EmployeeVM>( employee );
 
                      return empViewModel;
               }
@@ -203,7 +203,7 @@ namespace Payroll.Services.Services
 
               //**************************************************************************
 
-              private IQueryable<Employee>? AllActiveEntities( int companyId )
+              private IQueryable<Employee>? AllActiveEntities( int? companyId )
               {
                      IQueryable<Employee>? employees = repository
                                                .AllAsNoTracking()
@@ -253,37 +253,3 @@ namespace Payroll.Services.Services
        }
 }
 
-/*
-
-              //private string GetEmlpoyeeName( string employeeFolder )
-              //{
-              //       var reverseSlash = char.Parse( @"\" );
-
-              //       int reverseSlashIndex = employeeFolder.LastIndexOf( reverseSlash );
-
-              //       string? profileEmpName = employeeFolder.Substring( reverseSlashIndex + 1 );
-
-              //       return profileEmpName;
-              //}
-
-
-              //private string CreateEmployeeFolder( string rootFolder, string companyName, string employeeName )
-              //{
-              //       string path = $@"{rootFolder}\{companyName}\Employees\{employeeName}";
-
-              //       DirectoryInfo? newDirectory = Directory.CreateDirectory( path );
-
-              //       return newDirectory.FullName;
-              //}
-
-             //private bool EmployeeDirectoryExists( string appFolder, string modifiedCompanyName,
-              //                                                                                                               string modifiedEmpName )
-              //{
-              //       //string path1 = $@"{rootFolder}\{modifiedCompanyName}\Employees";
-
-              //       string path = EnvironmentService.NewFolderPath( appFolder, modifiedCompanyName )
-              //                                   + @"\Employees";
-
-              //       return EnvironmentService.DirectoryExists( path, modifiedEmpName );
-              //}
-*/

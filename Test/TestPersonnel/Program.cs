@@ -13,14 +13,13 @@ public class Program
 
               //**************************************************************
               //ServiceTest.AutoMapperTest( context, mapper );
-
               //ServiceTest.TestCustomMapper( context );
-              //Map.UseDelegate( context );
+              //ServiceTest.TestValidate( context, mapper );
 
-              ServiceTest.TestValidate( context, mapper );
-              //ServiceTest.PersonsServiceTest( context, mapper );
-              //EnvironmentDemo();
-              //ServiceTest.LinqTest( context );
+              ServiceTest.AddressValidateTest( context, mapper );
+
+              //ServiceTest.ConfigurationTest();
+              //ServiceTest.PersonPartTest( context, mapper );
 
               Console.WriteLine();
        }
@@ -41,21 +40,6 @@ public class Program
 
        }
 
-       //private static GetEmployeeDto GetMapperDto( Employee entity, IMapper mapper )
-       //{
-       //	var dtoEntity = mapper.Map<GetEmployeeDto>( entity );
-       //	//var dtoList = mapper.Map<List<Employee>, List<GetEmployeeDto>>(entity);
-
-       //	return dtoEntity;
-       //}
-
-       //private static async Task<IList<GetEmployeeDto>> GetEntity( PayrollContext context, IMapper mapper )
-       //{
-       //	DbSet<Employee> dbSet = context.Employees;
-       //	var dtoList = await new GetEmployeeMapping().MapAllEmployeesQueryable( dbSet, 6 ).ToListAsync();
-
-       //	return dtoList;
-       //}
 
        //private static void EnvironmentDemo(  )
        //{
@@ -92,23 +76,6 @@ public class Program
        //	string[] newfileNames = Directory.GetFiles(destinationDirectory);
        //	var newDir = Directory.GetDirectoryRoot(destinationDirectory);
 
-       //}
-
-       //private static IEnumerable<string> TrimText( IEnumerable<string> textArr )
-       //{
-       //	return textArr.ToList()
-       //				.Select( x => x.Trim() )
-       //				.ToList();
-       //}
-
-       //private static IQueryable<TResult> TestProjectTo<TSource,TResult>
-       //	(PayrollContext db,IMapper mapperConfig) 
-       //	where TSource : class
-       //{
-
-       //	var query = db.Set<TSource>().ProjectTo<TResult>(mapperConfig.ConfigurationProvider);
-
-       //	return query;
        //}
 
 }

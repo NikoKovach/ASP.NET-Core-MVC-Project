@@ -1,14 +1,12 @@
 ﻿
 TODO :
 Create Services for :
-1.Employee ;                                 << DONE >>                    : FOR TESTING
-
+1.Employee ;                                 << DONE >>                 : FOR TESTING
 2.Person :                                   << DONE >>                    : FOR TESTING
          2.1 Diploma and EducationType;      << Create,Update, Get DONE >> : FOR TESTING;
          2.2 ContactInfo ;                   << Create,Update, Get DONE >> : FOR TESTING;
-         2.3 Addresses ;                     << Create,Update, Get DONE >> : FOR TESTING;
-         2.4 Gender                          << DONE >>                    : FOR TESTING;
-         2.5 IdDocuments And DocumentTypes   << Create,Update, Get DONE >> : FOR TESTING;
+         2.4 Gender                          << DONE >>                  : FOR TESTING;
+         2.5 IdDocuments And DocumentTypes ;
 
 3.EmploymentContracts :
          3.1 ContractType
@@ -39,8 +37,8 @@ Create Services for :
         //public int DepartmentID { get; set; }
         //public virtual Department Department { get; set; }
 
-        //public Nullable<int> AddressID { get; set; }    
-        //public virtual Address Address { get; set; }
+        //public Nullable<int> ModelID { get; set; }    
+        //public virtual Model Model { get; set; }
 
         //public Nullable<int> ManagerID { get; set; }
 

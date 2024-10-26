@@ -75,11 +75,11 @@ namespace Test.Payroll
                             PhotoFilePath = "/css/someFile.css"
                      };
 
-                     PersonVM personDto = this.service.Map<Person, PersonVM>( person );
+                     PersonVM personViewModel = this.service.Map<Person, PersonVM>( person );
 
-                     Assert.That( personDto, Is.InstanceOf<DiplomaVM>() );
+                     Assert.That( personViewModel, Is.InstanceOf<PersonVM>() );
 
-                     Assert.That( personDto.CivilNumber, Is.EqualTo( person.EGN ) );
+                     Assert.That( personViewModel.CivilNumber, Is.EqualTo( person.EGN ) );
               }
 
               [Test]
@@ -183,7 +183,6 @@ namespace Test.Payroll
               }
 
               //######################################################################
-
 
               private static object[] IsInstanceOf_MethodParameters()
               {
@@ -324,7 +323,6 @@ namespace Test.Payroll
                             new Address
                             {
                                    Id = 8888,
-                                   AddressType ="permanent",
                                    Country = "Canada",
                                    Region ="Region X",
                                    City="City Y",

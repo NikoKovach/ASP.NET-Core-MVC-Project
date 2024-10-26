@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Payroll.Services.Services.ServiceContracts;
-using PersonnelWebApp.Models;
+using Payroll.ViewModels.PersonViewModels;
 
 namespace PersonnelWebApp.ViewComponents
 {
@@ -18,22 +18,25 @@ namespace PersonnelWebApp.ViewComponents
 
               public async Task<IViewComponentResult> InvokeAsync()
               {
-                     var personList = new PersonListViewModel();
+                     List<SelectListItem> personsList = new List<SelectListItem>();
 
-                     var persons = await this.service
-                                                               .AllActive_SearchPersonVM()
-                                                               .ToListAsync();
+                     List<SearchPersonVM>? persons = await this.service
+                                                                .AllActive_SearchPersonVM()
+                                                                .ToListAsync();
 
-                     foreach ( var item in persons )
+                     if ( persons != null && persons.Count > 0 )
                      {
-                            personList.Persons.Add( new SelectListItem()
+                            foreach ( var person in persons )
                             {
-                                   Text = item.ToString(),
-                                   Value = item.PersonId.ToString()
-                            } );
+                                   personsList.Add( new SelectListItem
+                                   {
+                                          Text = $"{person.FullName} -> Civil number : {person.CivilID}",
+                                          Value = person.PersonId.ToString()
+                                   } );
+                            }
                      }
 
-                     return View( personList );
+                     return View( personsList );
               }
        }
 }

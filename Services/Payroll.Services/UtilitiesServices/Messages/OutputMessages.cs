@@ -23,5 +23,7 @@
               public const string ErrorFileContent = "File contains invalid content !";
 
               public const string ErrorFieldIsRequired = "The field '{0}' is required !";
+
+              public const string ErrorAddressExists = "The addressl exists !";
        }
 }

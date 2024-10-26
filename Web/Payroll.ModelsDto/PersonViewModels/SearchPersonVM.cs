@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Payroll.ViewModels.PersonViewModels
 {
@@ -15,25 +14,10 @@ namespace Payroll.ViewModels.PersonViewModels
 
               public string? LastName { get; set; }
 
+              public string? FullName { get; set; }
+
               [Display( Name = "Civil Number" )]
               [StringLength( 10, MinimumLength = 2 )]
               public string? CivilID { get; set; }
-
-              public override string ToString()
-              {
-                     StringBuilder sb = new StringBuilder();
-
-                     sb.Append( FirstName + " " );
-
-                     if ( !string.IsNullOrEmpty( MiddleName ) )
-                     {
-                            sb.Append( MiddleName + " " );
-                     }
-
-                     sb.Append( LastName + " " );
-                     sb.Append( "-> Civil number : " + CivilID );
-
-                     return sb.ToString();
-              }
        }
 }

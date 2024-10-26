@@ -13,7 +13,7 @@
               for ( int i = 0; i < rows; i++ )
               {
                      int rowNumber = i + 1;
-                     string deleted = entitiesForEdit[i].HasBeenDeleted ?? false ? "true" : "false";
+                     string deleted = entitiesForEdit[i].HasBeenDeleted ? "true" : "false";
 
                      <tr>
                             <td class="py-1 text-center">
@@ -21,7 +21,7 @@
                             </td>
                             <td class="py-1 text-center">@rowNumber</td>
                             <td class="py-1">
-                                   <input asp-for="@entitiesForEdit[ i ].Id" readonly entity-id 
+                                   <input asp-for="@entitiesForEdit[ i ].Id" readonly entity-id
                                    class="col-sm-11 border-0 text-center table-field" />
                             </td>
                             <td class="px-1 py-1">
@@ -54,8 +54,8 @@
                                           class="col-md-11 text-center border-0 table-field" />
                             </td>
                             <td class="px-1 py-1">
-                                   <input asp-for="@deleted" readonly 
-                                   class="col-md-11 text-center border-0 table-field" />
+                                   <input asp-for="@entitiesForEdit[ i ].HasBeenDeleted" type="text" readonly
+                                          class="col-md-11 text-center border-0 table-field" />
                             </td>
                             <td hidden>
                                    <input asp-for="@entitiesForEdit[i].PersonId" readonly

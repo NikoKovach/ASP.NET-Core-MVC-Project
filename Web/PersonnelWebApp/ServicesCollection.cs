@@ -12,6 +12,7 @@ using Payroll.Services.Services.ServiceContracts;
 using Payroll.Services.UtilitiesServices;
 using Payroll.Services.UtilitiesServices.EntityValidateServices;
 using Payroll.ViewModels;
+using PersonnelWebApp.Utilities;
 
 namespace PersonnelWebApp
 {
@@ -35,6 +36,8 @@ namespace PersonnelWebApp
 
                      services.AddScoped( typeof( IRepository<> ), typeof( Repository<> ) );
 
+                     services.AddTransient<IPrivateConfiguration, PrivateConfiguration>();
+
                      //##################################################################
                      services.AddScoped<ICompanyService, CompanyService>();
 
@@ -47,6 +50,14 @@ namespace PersonnelWebApp
                      services.AddTransient<IDiplomaService, DiplomaService>();
 
                      services.AddTransient<IDiplomasCollectionFactory, DiplomasCollectionFactory>();
+
+                     services.AddTransient<IContactInfoService, ContactInfoService>();
+
+                     services.AddTransient<IContactInfoCollectionFactory, ContactsCollectionFactory>();
+
+                     services.AddTransient<IAddressService, AddressService>();
+
+                     services.AddTransient<IAddressesCollectionFactory, AddressesCollectionFactory>();
 
                      //##################################################################
                      services.AddTransient<ICalculateExperience, CalculateExperience>();
@@ -64,6 +75,9 @@ namespace PersonnelWebApp
 
                      services.AddKeyedTransient<IValidate<ValidateBaseModel>, ValidateDiplomaVMService>
                                                                                                                                                     ( "DiplomaValidate" );
+
+                     services.AddKeyedTransient<IValidate<ValidateBaseModel>, ValidateAddressVMService>
+                                                                                                                                                    ( "AddressValidate" );
 
               }
        }

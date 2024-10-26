@@ -1,4 +1,5 @@
 ﻿@using Payroll.Services.Services
+@using Payroll.ViewModels.PagingViewModels
 @using Payroll.ViewModels.PersonViewModels
 @model PagingListSortedFiltered<PersonVM,PersonFilterVM>
 
@@ -38,10 +39,7 @@
                                    <input asp-for="@personVM.GenderType" type="text" 
                                           placeholder="Required" class="border-1 p-0 col-sm-11"
                                           list="gender-list" validate field-name="@nameof(personVM.GenderType)" />
-                                   <datalist id="gender-list">
-                                          <option value="man"></option>
-                                          <option value="woman"></option>
-                                   </datalist>
+                                          <vc:gender-types></vc:gender-types>
                             </td>
                             <td class="px-1 py-1">
                                    <input asp-for="@personVM.CivilNumber" type="text" placeholder="Required"

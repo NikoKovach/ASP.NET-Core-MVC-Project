@@ -1,8 +1,8 @@
 ﻿namespace Payroll.Models.EnumTables
 {
-     public enum AddressType
-     {
-          Permanent = 1,
-          Present   = 2
-     }
+       public enum AddressType
+       {
+              Permanent = 1,
+              Present = 2
+       }
 }

@@ -59,13 +59,11 @@ namespace Payroll.Services.Services
 
               public IQueryable<SearchCompanyVM> AllActive_SearchCompanyVM()
               {
-                     var companies = repository
-                                                          .AllAsNoTracking()
-                                                          .Where( x => x.HasBeenDeleted == false );
+                     var companies = repository.AllAsNoTracking()
+                                                                     .Where( x => x.HasBeenDeleted == false );
 
-                     var companyList = mapEntity
-                                                             .ProjectTo<Company, SearchCompanyVM>( companies )
-                                                             .OrderBy( c => c.Name );
+                     var companyList = mapEntity.ProjectTo<Company, SearchCompanyVM>( companies )
+                                                                        .OrderBy( c => c.Name );
 
                      return companyList;
               }

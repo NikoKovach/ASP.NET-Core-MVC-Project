@@ -17,7 +17,7 @@ namespace Payroll.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.14")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -29,10 +29,6 @@ namespace Payroll.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AddressType")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int?>("ApartmentNumber")
                         .HasColumnType("int");
@@ -60,7 +56,6 @@ namespace Payroll.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Municipality")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -1631,7 +1626,7 @@ namespace Payroll.Data.Migrations
             modelBuilder.Entity("Payroll.Models.Person", b =>
                 {
                     b.HasOne("Payroll.Models.Address", "CurrentAddress")
-                        .WithMany("PersonCurrentAddresesses")
+                        .WithMany("PersonCurrentAddresses")
                         .HasForeignKey("CurrentAddressId")
                         .OnDelete(DeleteBehavior.Restrict);
 
@@ -1725,7 +1720,7 @@ namespace Payroll.Data.Migrations
 
             modelBuilder.Entity("Payroll.Models.Address", b =>
                 {
-                    b.Navigation("PersonCurrentAddresesses");
+                    b.Navigation("PersonCurrentAddresses");
 
                     b.Navigation("PersonPermanentAddresses");
                 });

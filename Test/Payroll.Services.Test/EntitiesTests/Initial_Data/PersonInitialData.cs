@@ -14,8 +14,8 @@ namespace Payroll.Services.Test.PersonEntityTests.Initial_Data
      //               {
      //                    PhoneNumberOne = "0888777555",
      //                    PhoneNumberTwo = "0888777555",
-     //                    E_MailAddress1 = "first@xxxx.xx",
-     //                    E_MailAddress2 = "secontmail@yyyyy.yyy",
+     //                    E_MailModel1 = "first@xxxx.xx",
+     //                    E_MailModel2 = "secontmail@yyyyy.yyy",
      //                    WebSite = "Ddddddd.org",
      //                    PersonId = 1,
 
@@ -24,8 +24,8 @@ namespace Payroll.Services.Test.PersonEntityTests.Initial_Data
      //               {
      //                    PhoneNumberOne = "0887666555",
      //                    PhoneNumberTwo = "0887123123",
-     //                    E_MailAddress1 = "mail@mail.ml",
-     //                    E_MailAddress2 = "secontmail@mail.ml",
+     //                    E_MailModel1 = "mail@mail.ml",
+     //                    E_MailModel2 = "secontmail@mail.ml",
      //                    WebSite = "Ddddddd.org",
      //                    PersonId = 1,
      //                    HasBeenDeleted = false
@@ -43,8 +43,8 @@ namespace Payroll.Services.Test.PersonEntityTests.Initial_Data
 
      //               PhoneNumberOne = "2222222222222",
      //               PhoneNumberTwo = "3333333333333",
-     //               E_MailAddress1 = "failMail@xxxx.xx",
-     //               E_MailAddress2 = "secontFailMail@yyyyy.yyy",
+     //               E_MailModel1 = "failMail@xxxx.xx",
+     //               E_MailModel2 = "secontFailMail@yyyyy.yyy",
      //               WebSite = "some web site",
      //               PersonId = null,
      //          };

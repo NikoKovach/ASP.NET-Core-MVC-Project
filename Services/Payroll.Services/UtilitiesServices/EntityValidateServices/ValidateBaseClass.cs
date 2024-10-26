@@ -32,6 +32,11 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
               {
                      string generalError = GenerateErrorString( this.FieldErrors, propName );
 
+                     if ( keyString is null )
+                     {
+                            keyString = propName;
+                     }
+
                      this.ModelState.AddModelError( keyString, generalError );
               }
 
@@ -76,11 +81,6 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
               protected string GetModelStateKeyString( string rootName, string firstLevelChild )
               {
                      return $"{rootName}.{firstLevelChild}";
-              }
-
-              protected string GetModelStateKeyString( string rootName, int index, string firstLevelChild )
-              {
-                     return $"{rootName}[{index}].{firstLevelChild}";
               }
        }
 }

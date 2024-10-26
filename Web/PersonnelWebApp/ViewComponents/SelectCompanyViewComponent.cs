@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Payroll.Services.Services.ServiceContracts;
-using PersonnelWebApp.Models;
+using Payroll.ViewModels;
 
 namespace PersonnelWebApp.ViewComponents
 {
@@ -18,21 +18,21 @@ namespace PersonnelWebApp.ViewComponents
 
               public async Task<IViewComponentResult> InvokeAsync( string? parentView )
               {
-                     var companyList = new CompanyListViewModel();
+                     CompanyListViewModel? companyList = new CompanyListViewModel();
 
-                     var companies = await this.service.AllActive_SearchCompanyVM()
-                                                                                  .ToListAsync();
+                     List<SearchCompanyVM>? companies = await this.service.AllActive_SearchCompanyVM()
+                                                                                                                            .ToListAsync();
 
-                     foreach ( var item in companies )
+                     foreach ( var company in companies )
                      {
-                            companyList.Companies.Add( new SelectListItem()
+                            companyList.Companies.Add( new SelectListItem
                             {
-                                   Text = $"{item.Info}",
-                                   Value = item.Id.ToString()
+                                   Text = $"{company.Info}",
+                                   Value = company.Id.ToString()
                             } );
                      }
 
-                     companyList.Companies.OrderBy( x => x.Text ).ToList();
+                     companyList.Companies = companyList.Companies.OrderBy( x => x.Text ).ToList();
 
                      if ( !string.IsNullOrEmpty( parentView ) )
                      {

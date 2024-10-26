@@ -9,5 +9,7 @@ namespace Payroll.Services.Services.ServiceContracts
               IQueryable<PersonVM> All();
 
               IQueryable<PersonVM> All( string? sortParam, PersonFilterVM? filter );
+
+              IQueryable<string>? GenderTypes();
        }
 }

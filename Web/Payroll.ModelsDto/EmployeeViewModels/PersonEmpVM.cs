@@ -20,10 +20,10 @@ namespace Payroll.ViewModels.EmployeeViewModels
               [Display( Name = "Photo" )]
               public string? PhotoFilePath { get; set; }
 
-              [Display( Name = "Permanent address" )]
+              [Display( Name = "Permanent Address" )]
               public string? PermanentAddress { get; set; }
 
-              [Display( Name = "Current address" )]
+              [Display( Name = "Current Address" )]
               public string? CurrentAddress { get; set; }
        }
 }

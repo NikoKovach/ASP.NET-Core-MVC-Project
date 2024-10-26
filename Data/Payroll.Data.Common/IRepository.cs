@@ -20,6 +20,8 @@
               Task SaveChangesAsync();
 
               DbSet<TEntity> DbSet { get; set; }
+
+              PayrollContext Context { get; set; }
        }
 }
 

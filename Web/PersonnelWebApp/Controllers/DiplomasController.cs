@@ -1,22 +1,28 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
-using Payroll.Services.Services;
 using Payroll.Services.Services.ServiceContracts;
+using Payroll.ViewModels.PagingViewModels;
 using Payroll.ViewModels.PersonViewModels;
+using PersonnelWebApp.Utilities;
 
 namespace PersonnelWebApp.Controllers
 {
        public class DiplomasController : Controller
        {
-              private const int PageSize = 6;
-              private const int PageIndex = 1;
-              private const int Count = 1;
+              private int _pageSize;
+              private int _pageIndex;
+              private int _count;
 
               private readonly IDiplomaService service;
+              private IConfigurationRoot? privateConfig;
 
-              public DiplomasController( IDiplomaService diplomaService )
+              public DiplomasController( IDiplomaService diplomaService, IPrivateConfiguration configuration )
               {
                      this.service = diplomaService;
+
+                     this.privateConfig = configuration.PrivateConfig();
+
+                     SetPagingVariables();
               }
 
               [HttpPost]
@@ -30,7 +36,6 @@ namespace PersonnelWebApp.Controllers
                             return await ResultAsync( personId, pageIndex, pageSize, sortParam );
                      }
 
-                     //var actionEdit = nameof(Edit);
                      return await ResultAsync( personId, pageIndex, pageSize, sortParam );
               }
 
@@ -103,32 +108,53 @@ namespace PersonnelWebApp.Controllers
                      return View( "Index", pagingSortedList );
               }
 
-              private PagingListSorted<DiplomaVM> EmptyPersonsSortedCollection()
-              {
-                     List<DiplomaVM> defaultDiplomasList = new List<DiplomaVM>()
-                     {
-                            new DiplomaVM()
-                     };
-
-                     PagingListSorted<DiplomaVM> emptyPaginatedList = new PagingListSorted<DiplomaVM>
-                            ( defaultDiplomasList, Count, PageIndex, PageSize, string.Empty );
-
-                     return emptyPaginatedList;
-              }
-
               private async Task<PagingListSorted<DiplomaVM>>? GetDiplomasListOfPagesAsync
                      ( int? personId, int? pageIndex, int? pageSize, string? sortParam )
               {
                      IQueryable<DiplomaVM>? sortedDiplomasList = this.service.AllNotDeleted( personId, sortParam );
 
+                     if ( sortedDiplomasList is null )
+                            return EmptyPersonsSortedCollection( personId );
+
                      PagingListSorted<DiplomaVM>? sortedList =
                             await PagingListSorted<DiplomaVM>.CreateSortedCollectionAsync
-                               ( sortedDiplomasList, pageIndex ?? PageIndex, pageSize ?? PageSize, sortParam );
+                               ( sortedDiplomasList, pageIndex ?? this._pageIndex, pageSize ?? this._pageSize, sortParam );
 
                      if ( sortedList.ItemsCollection.Count == 0 )
-                            return EmptyPersonsSortedCollection();
+                            return EmptyPersonsSortedCollection( personId );
 
                      return sortedList;
+              }
+
+              private PagingListSorted<DiplomaVM> EmptyPersonsSortedCollection( int? personId )
+              {
+                     List<DiplomaVM> defaultDiplomasList = new List<DiplomaVM>()
+                     {
+                            new DiplomaVM{PersonId = personId,}
+                     };
+
+                     PagingListSorted<DiplomaVM> emptyPaginatedList = new PagingListSorted<DiplomaVM>
+                            ( defaultDiplomasList, this._count, this._pageIndex, this._pageSize, string.Empty );
+
+                     return emptyPaginatedList;
+              }
+
+              private void SetPagingVariables()
+              {
+                     if ( !string.IsNullOrEmpty( this.privateConfig[ "Paging:PageSize" ] ) )
+                     {
+                            this._pageSize = int.Parse( this.privateConfig[ "Paging:PageSize" ] );
+                     }
+
+                     if ( !string.IsNullOrEmpty( this.privateConfig[ "Paging:PageIndex" ] ) )
+                     {
+                            this._pageIndex = int.Parse( this.privateConfig[ "Paging:PageIndex" ] );
+                     }
+
+                     if ( !string.IsNullOrEmpty( this.privateConfig[ "Paging:Count" ] ) )
+                     {
+                            this._count = int.Parse( this.privateConfig[ "Paging:Count" ] );
+                     }
               }
        }
 }

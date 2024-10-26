@@ -1,5 +1,4 @@
-﻿using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Payroll.Data;
@@ -7,7 +6,10 @@ using Payroll.Data.Common;
 using Payroll.Mapper.AutoMapper;
 using Payroll.Mapper.CustomMap;
 using Payroll.Models;
+using Payroll.Services.Services;
+using Payroll.Services.UtilitiesServices;
 using Payroll.Services.UtilitiesServices.EntityValidateServices;
+using Payroll.ViewModels.CustomValidation;
 using Payroll.ViewModels.EmployeeViewModels;
 using Payroll.ViewModels.PersonViewModels;
 
@@ -33,8 +35,6 @@ namespace TestPersonnel.Demo
                      repository.Update( employee );
 
                      repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-
 
                      Console.WriteLine();
               }
@@ -94,38 +94,216 @@ namespace TestPersonnel.Demo
                      Console.WriteLine( personList[ 0 ].ToString() );
               }
 
-              private static string GeneratError()
+              public static void PersonPartTest( PayrollContext context, IMapper autoMapper )
               {
-                     string newRow = "\r\n";
-                     StringBuilder sb = new StringBuilder();
+                     //IRepository<Diploma> repoDiplomas = new Repository<Diploma>( context );
 
-                     sb.Append( $"Image cannot be loaded. Available decoders:{newRow}" );
-                     sb.Append( $"- BMP : BmpDecoder{newRow}" );
-                     sb.Append( $"- PBM : PbmDecoder{newRow}" );
-                     sb.Append( $"- PNG : PngDecoder{newRow}" );
-                     sb.Append( $"- QOI : QoiDecoder{newRow}" );
-                     sb.Append( $"- Webp : WebpDecoder{newRow}" );
-                     sb.Append( $"- BMP : BmpDecoder{newRow}" );
-                     sb.Append( $"- BMP : BmpDecoder{newRow}" );
-                     sb.Append( $"- BMP : BmpDecoder{newRow}" );
+                     //var eduTypes = repoDiplomas.Context.EducationTypes.Select( x => x.Type ).ToList();
 
+                     IRepository<Person> repo = new Repository<Person>( context );
+                     var mapper = new MapEntity( autoMapper );
+                     var personsFactory = new PersonsCollectionFactory( mapper, repo );
 
-                     return sb.ToString();
-              }
+                     var firstPerson = repo.AllAsNoTracking().FirstOrDefault();
+                     var mappedPerson = mapper.Map<Person, SearchPersonVM>( firstPerson );
 
-              public static void PersonsServiceTest( PayrollContext context, IMapper autoMapper )
-              {
-                     IRepository<Person> repository = new Repository<Person>( context );
-                     var mapEntity = new MapEntity( autoMapper );
+                     var searchPersons = mapper
+                            .ProjectTo<Person, SearchPersonVM>( repo.AllAsNoTracking() )
+                            .OrderBy( x => x.FirstName )
+                            .ThenBy( x => x.LastName ).ToList();
 
-                     //PersonFilterVM? filterVM = new()
+                     var personService = new PersonService( repo, mapper, personsFactory );
+
+                     var result = personService.AllActive_SearchPersonVM().ToList();
+                     //var personVM = new PersonVM
                      //{
-                     //       //Id = 6,
-                     //       SearchName = "pet",
-                     //       CivilID = "4646"
+                     //       Id = 7,
+                     //       FirstName = "Costa",
+                     //       LastName = "Costadinov",
+                     //       CivilNumber = "8810251234",
+                     //       GenderType = "man",
                      //};
 
-                     List<PersonVM>? entitiesForEdit = new List<PersonVM>()
+                     //var person = mapper.Map<PersonVM, Person>( personVM );
+
+                     //var genderCaseOne = repo.Context.Genders.Where( x => x.Type == personVM.GenderType ).FirstOrDefault();
+
+                     //if ( genderCaseOne != null && genderCaseOne.Id > 0 )
+                     //{
+                     //       person.Gender = genderCaseOne;
+                     //}
+
+                     //repo.Update( person );
+
+                     //repo.SaveChangesAsync().GetAwaiter().GetResult();
+
+                     Console.WriteLine();
+
+
+              }
+
+              public static void AddressValidateTest( PayrollContext context, IMapper autoMapper )
+              {
+                     IRepository<Address> repository = new Repository<Address>( context );
+                     var mapper = new MapEntity( autoMapper );
+
+                     //IQueryable<AddressVM>? defaultCollection =
+                     //     mapper.ProjectTo<Address, AddressVM>( repository.AllAsNoTracking() );
+
+                     var modelState = new ModelStateDictionary();
+                     var ModelVm = new AddressVM
+                     {
+                            Country = "Bulgaria",
+                            Region = "Tarnovo",
+                            City = "Tarnovo",
+                            Street = "Green Meadow",
+                            Number = 8,
+                            Floor = 4,
+                            HasBeenDeleted = false,
+                            AddressType = "permanent",
+                            PersonId = 19
+                     };
+
+                     var validateService = new ValidateAddressVMService( repository );
+
+                     validateService.Validate( modelState, ModelVm );
+
+              }
+
+              public static void AnyServiceTest( PayrollContext context, IMapper autoMapper )
+              {
+                     IRepository<Address> repository = new Repository<Address>( context );
+                     var mapEntity = new MapEntity( autoMapper );
+
+                     int personId = 17;
+
+                     var personPermanentA = repository.AllAsNoTracking()
+                                                                      .Where( x => x.PersonPermanentAddresses
+                                                                                                 .Any( y => y.Id == personId ) )
+                                                                      .Include( x => x.PersonPermanentAddresses )
+                                                                      .ToList();
+
+                     var personCurrentA = repository.AllAsNoTracking()
+                                                                      .Where( x => x.PersonCurrentAddresses
+                                                                                                 .Any( y => y.Id == personId ) )
+                                                                      .Include( x => x.PersonCurrentAddresses )
+                                                                      .ToList();
+
+                     Console.WriteLine();
+
+                     //var result = mapEntity.Map<List<PersonVM>, List<Person>>( entitiesForEdit );
+                     //Console.WriteLine( nameof( filterVM.CivilID ) );
+                     //string? sort = "LastName_desc";
+                     //var personsFactory = new PersonsCollectionFactory( mapEntity, repository.AllAsNoTracking() );
+                     //personsFactory.Filtrate( filterVM, sort );
+              }
+
+              public static void PropertyOrderReflection()
+              {
+                     ContactInfoVM firstContact = new ContactInfoVM
+                     {
+                            Id = 20,
+                            PersonId = 7,
+                            PhoneNumberOne = "123",
+                            PhoneNumberTwo = "456",
+                            E_MailAddress1 = "E-1",
+                            E_MailAddress2 = "e-2",
+                            WebSite = "Website",
+                            HasBeenDeleted = false
+                     };
+
+                     var propList = firstContact.GetType()
+                              .GetProperties()
+                              .OrderBy( f => (int?) ( f.CustomAttributes.Where( a => a.AttributeType == typeof( OrderAttribute ) )
+                                                                                                    .FirstOrDefault()?.ConstructorArguments[ 0 ].Value ) ?? -1 )
+                              .Select( x => x.Name )
+                              .ToList();
+
+                     Console.WriteLine();
+
+              }
+
+              public static void ConfigurationTest()
+              {
+                     //D:\SoftUni Courses\A Exercises\AA Git Projects\ASP.NET-Core-MVC-Payroll Web Project\Test\
+                     //TestPersonnel\bin\Debug\net8.0
+                     //var dir = Environment.CurrentDirectory;
+                     //var files = Directory.GetFiles( path );
+                     //string path = Path.GetFullPath( Environment.CurrentDirectory + @"\..\..\..\" );
+
+                     //string dirPath = Path.GetFullPath( Environment.CurrentDirectory + @"\..\..\..\" );
+                     //string jsonFileName = "appsettingsSecond.json";
+
+                     //var jsonPath = dirPath + jsonFileName;
+
+                     //IConfigurationRoot? config = new ConfigurationBuilder().AddJsonFile( jsonPath, true, true ).Build();
+
+                     //var pageSize = config[ "Paging:PageSize" ];
+                     //var pSection = config.GetSection( "Paging:PageSize" ).Value;
+
+
+                     Console.WriteLine();
+              }
+       }
+}
+
+
+/*
+
+ //Cannot insert explicit value for identity column in table 'Persons' when IDENTITY_INSERT is set to OFF.
+
+                     //repository.Context.Addresses.Entry( address ).State = EntityState.Added;
+
+                     //person.PermanentAddress = address;
+
+                     //repository.SaveChangesAsync().GetAwaiter().GetResult();
+
+
+                     //if ( repo.Context.Genders.Any( x => x.Type == person.Gender.Type ) )
+                     //{
+
+                     //       //person.GenderId = 1;
+                     //}
+                     //else
+                     //{
+                     //       repo.Context.Genders.Entry( person.Gender ).State = EntityState.Added;
+                     //}
+
+                     //var genderState = repo.Context.Genders.Entry( person.Gender ).State;
+
+
+//var person = repository.All()
+                     //       .Where( x => x.Id == 19 )
+                     //       .FirstOrDefault();
+
+                     //var personState = repository.DbSet.Entry( person ).State;
+
+                     //var addressVm = new AddressVM
+                     //{
+                     //       Country = "Bul",
+                     //       Region = "Tarnovo",
+                     //       City = "Tarrnovo",
+                     //       Street = "Green Meadow",
+                     //       Number = 8,
+                     //       Floor = 4,
+                     //       HasBeenDeleted = false,
+                     //       AddressType = "permanent",
+                     //       PersonId = 19
+                     //};
+
+                     //var address = mapper.Map<AddressVM, Address>( addressVm );
+
+                     //repository.Context.Addresses.Entry( address ).State = EntityState.Added;
+
+                     //person.PermanentAddress = address;
+
+                     //repository.SaveChangesAsync().GetAwaiter().GetResult();
+
+*/
+
+/*
+
+ List<PersonVM>? entitiesForEdit = new List<PersonVM>()
                      {
                             new PersonVM
                             {
@@ -152,24 +330,6 @@ namespace TestPersonnel.Demo
                                    GenderType = "man",
                             },
                      };
-
-                     var result = mapEntity.Map<List<PersonVM>, List<Person>>( entitiesForEdit );
-
-
-                     Console.WriteLine( result.Count );
-                     //Console.WriteLine( nameof( filterVM.CivilID ) );
-
-                     //string? sort = "LastName_desc";
-
-                     //var personsFactory = new PersonsCollectionFactory( mapEntity, repository.AllAsNoTracking() );
-
-                     //personsFactory.Filtrate( filterVM, sort );
-              }
-       }
-}
-
-/*
-
                     appFolderPath = 
                     D:\SoftUni Courses\A Exercises\AA Git Projects\ASP.NET-Core-MVC-Payroll Web Project\Web\PersonnelWebApp\AppFolder
 
@@ -196,4 +356,4 @@ namespace TestPersonnel.Demo
 
                     //using var stream = new MemoryStream( File.ReadAllBytes( file ).ToArray() );
                     //var formFile = new FormFile( stream, 0, stream.Length, "streamFile", file.Split( @"\" ).Last() );
-                    */
+*/

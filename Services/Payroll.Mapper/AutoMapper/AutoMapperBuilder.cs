@@ -16,7 +16,6 @@ namespace Payroll.Mapper.AutoMapper
                             new ContactInfoProfile(),
                             new AddressProfile(),
                             new IdDocumentProfile(),
-                            //new EducationTypeProfile(),
                      };
 
                      var config = new MapperConfiguration( cfg => cfg.AddProfiles( mapperProfiles ) );

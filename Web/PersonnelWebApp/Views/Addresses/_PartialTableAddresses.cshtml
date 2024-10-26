@@ -1,0 +1,88 @@
+﻿@using Payroll.ViewModels.PagingViewModels
+@using Payroll.ViewModels.PersonViewModels
+@using System.Reflection
+@model AddressesOfPersonVM?
+
+@{
+       string? prevDisabled = !Model.Addresses.HasPreviousPage ? "disabled" : "";
+       string? nextDisabled = !Model.Addresses.HasNextPage ? "disabled" : "";
+
+       // AddressVM? firstAddress= Model.Addresses.ItemsCollection[ 0 ];
+
+       // PropertyInfo[]? fieldsName = firstAddress.GetType().GetProperties();
+
+       string? sortText = Model.Addresses.SortValue;
+       int? personId = Model.PersonId;
+       // int? personId = ( Model.ItemsCollection.Count > 0 ) ? firstAddress.PersonId : null;
+
+       // bool modelState = ViewContext.ViewData.ModelState.IsValid;
+       // string divStyle = modelState == true ? "display:none" : "display:list-item";
+}
+
+<div>
+       <div>
+              <div>
+                     <div class="d-flex form-control justify-content-start p-1 m-0 h-50">
+                            <div class="d-inline mx-1">
+                                   <form asp-action="Index" method="post">
+                                          <input type="submit" class="btn btn-success border-0 px-1 py-0 col-sm-12" value="..." />
+                                          <input type="hidden" value=@personId name="personId" />
+                                   </form>
+                            </div>
+                            <div class="d-inline mx-1">
+                                   <form asp-action="Index" method="post">
+                                          <input asp-for="@Model.Addresses.PageSize" type="text" class="border-1 col-md-2 px-1 py-0"
+                                                 name="pageSize" />
+                                          <label>Table rows</label>
+                                          <input type="hidden" value="@Model.Addresses.PageIndex" name="pageIndex" />
+                                          <input type="hidden" value=@Model.Addresses.SortValue name="sortParam" />
+                                          <input type="hidden" value=@personId name="personId" />
+                                   </form>
+                            </div>
+                     </div>
+              </div>
+       </div>
+       <div class="table-responsive">
+              <table id="privateTable" class="table  table-hover table-responsive-sm">
+                     <partial name="_AddressesTableHead" model="@Model"></partial>
+                     <partial name="_AddressesTableBody" model="@Model.Addresses.ItemsCollection"></partial>
+              </table>
+       </div>
+       <div class="row col-sm-3 px-0 mx-0">
+              <div class="col-sm-2 pl-0 pr-1">
+                     <form asp-action="Index">
+                            <input type="hidden" value="@(Model.Addresses.PageIndex - 1)" name="pageIndex" />
+                            <input type="hidden" value=@sortText name="sortParam" />
+                            <input type="hidden" value=@personId name="personId" />
+                            <input type="hidden" value=@Model.Addresses.PageSize name="pageSize" />
+                            <button type="submit" class="btn btn-primary @prevDisabled px-2 py-0">
+                                   <span aria-hidden="true">&laquo;</span>
+                            </button>
+                     </form>
+              </div>
+              <div class="col-sm-5 px-1">
+                     <form asp-action="Index">
+                            <input id="go-to-page" class="text-center col-sm-6 h-75 border-white px-0 py-0"
+                                   value="@Model.Addresses.PageIndex" name="pageIndex" />
+                            <input type="hidden" value=@sortText name="sortParam" />
+                            <input type="hidden" value=@personId name="personId" />
+                            <input type="hidden" value=@Model.Addresses.PageSize name="pageSize" />
+                            <label id="lblTotalPages" class="text-left col-sm-4 h-75 border-white px-1">
+                                   / @Model.Addresses.TotalPages
+                            </label>
+                     </form>
+              </div>
+              <div class="col-sm-2 px-0">
+                     <form asp-action="Index">
+                            <input type="hidden" value="@(Model.Addresses.PageIndex + 1)" name="pageIndex" />
+                            <input type="hidden" value=@sortText name="sortParam" />
+                            <input type="hidden" value=@personId name="personId" />
+                            <input type="hidden" value=@Model.Addresses.PageSize name="pageSize" />
+                            <button type="submit" class="btn btn-primary @nextDisabled px-2 py-0">
+                                   <span aria-hidden="true">&raquo;</span>
+                            </button>
+                     </form>
+              </div>
+       </div>
+       <hr class="my-1" />
+</div>

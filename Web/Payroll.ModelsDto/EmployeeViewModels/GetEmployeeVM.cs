@@ -23,19 +23,3 @@ namespace Payroll.ViewModels.EmployeeViewModels
        }
 }
 
-/*
-//[Display(Name = "Permanent address")]
-//public string? PermanentAddress { get; set; }
-////Calculate Field - <vc:VCName companyId="" empId=""></vc:VCName>
-
-//[Display(Name = "Current address")]
-//public string? CurrentAddress { get; set; }
-////Calculate Field - <vc:VCName companyId="" empId=""></vc:VCName>
-[Display(Name = "Work experience")]
-		public string? WorkExperience { get; set; } 
-		//Calculate Field - <vc:VCName companyId="" empId=""></vc:VCName>
-
-		[Display(Name = "Specialty experience")]
-          public string? SpecialtyWorkExperience  { get; set; } 
-		//Calculate Field - <vc:VCName companyId="" empId=""></vc:VCName>
-*/

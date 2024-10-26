@@ -1,0 +1,82 @@
+﻿@* @using Payroll.Services.Services
+@using Payroll.ViewModels.PersonViewModels
+@using System.Reflection
+@model PagingListSorted<ContactInfoVM>
+
+@{
+       ContactInfoVM firstContact = Model.ItemsCollection[ 0 ];
+       string? sortText = Model.SortValue;
+
+       PropertyInfo[]? fieldsName = firstContact.GetType().GetProperties();
+       int? personId = ( Model.ItemsCollection.Count > 0 ) ? firstContact.PersonId : null;
+} *@
+
+@* <thead class="table-success">
+       <tr>
+              <th class="px-1 py-0 text-center"></th>
+              <th class="px-1 py-0 text-center">
+                     <label class="fw-bold">#</label>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstDiploma.Id" class="fw-bold column-lbl"
+                            value="@fieldsName[0].Name"></label>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <form asp-action="Index" id="formGoToPage">
+                            <div>
+                                   <input type="hidden" value=@sortText name="sortParam" class="input-sort" />
+                                   <input type="hidden" value="@Model.PageIndex" class="page-number" name="pageIndex" />
+                                   <input type="hidden" value=@Model.PageSize name="pageSize" />
+                                   <input type="hidden" value="@personId" name="personId" />
+                                   <button id="btn-sort-FName" class="btn table-sortBtn px-0">
+                                          <label asp-for="@firstDiploma.DiplomaRegNumber" class="fw-bold column-lbl text-decoration-underline"
+                                                 value="@fieldsName[1].Name"></label>
+                                   </button>
+                            </div>
+                     </form>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstDiploma.DateOfIssue" class="fw-bold column-lbl"
+                            value="@fieldsName[2].Name"></label>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstDiploma.Seria" class="fw-bold column-lbl"
+                            value="@fieldsName[3].Name"></label>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstDiploma.SerialNumber" class="fw-bold column-lbl"
+                            value="@fieldsName[4].Name"></label>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <form asp-action="Index">
+                            <div>
+                                   <input id="txt-sort-FName" class="input-sort" type="hidden" value=@sortText name="sortParam" />
+                                   <input type="hidden" value="@Model.PageIndex" class="page-number" name="pageIndex" />
+                                   <input type="hidden" value=@Model.PageSize name="pageSize" />
+                                   <input type="hidden" value="@personId"  name="personId" />
+
+                                   <button id="btn-sort-FName" class="btn table-sortBtn px-0">
+                                          <label asp-for="@firstDiploma.EducationTypeName" class="fw-bold column-lbl text-decoration-underline"
+                                                 value="@fieldsName[5].Name"></label>
+                                   </button>
+                            </div>
+                     </form>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstDiploma.Speciality" class="fw-bold column-lbl"
+                            value="@fieldsName[6].Name"></label>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstDiploma.Profession" class="fw-bold column-lbl"
+                            value="@fieldsName[7].Name"></label>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstDiploma.HasBeenDeleted" class="fw-bold column-lbl"
+                            value="@fieldsName[8].Name"></label>
+              </th>
+              <th class="px-1 py-0 text-center" hidden>
+                     <label asp-for="@firstDiploma.PersonId" class="column-lbl"
+                            value="@fieldsName[9].Name"></label>
+              </th>
+       </tr>
+</thead> *@

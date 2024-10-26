@@ -10,7 +10,7 @@ namespace Payroll.Services.Services.ServiceContracts
 
               IQueryable<GetEmployeeVM> AllActive_GetEmployeeVM( int companyId );
 
-              IQueryable<AllEmployeeVM> AllActive_AllEmployeeVM( int companyId );
+              IQueryable<AllEmployeeVM> AllActive_AllEmployeeVM( int? companyId );
 
               IQueryable<GetEmployeeVM> AllEmployees( int companyId );
 
@@ -19,5 +19,7 @@ namespace Payroll.Services.Services.ServiceContracts
               Task<string?> UploadEmployeePictureAsync( EmployeeVM viewModel, string? employeeFolder );
 
               Task UpdatePersonAsync( int personId, string? employeeFolder, string? relativeFolder, string? appFolder );
+
+              //Task<int?> DeleteEmployee( int? employeeId );
        }
 }

@@ -1,11 +1,11 @@
 ﻿
 namespace Payroll.Mapper.Utilities
 {
-     public class AddressTranslate : IAddressTranslate
-     {
-          public  IDictionary<string,string> GetAddressPrefix()
-          {
-               Dictionary<string, string> prefix = new Dictionary<string, string>()
+       public class AddressTranslate : IAddressTranslate
+       {
+              public IDictionary<string, string> GetAddressPrefix()
+              {
+                     Dictionary<string, string> prefix = new Dictionary<string, string>()
                {
                     { "Country", string.Empty },
                     { "Region", "обл. " },
@@ -18,7 +18,7 @@ namespace Payroll.Mapper.Utilities
                     { "ApartmentNumber", "ап." },
                };
 
-               return prefix;
-          }
-     }
+                     return prefix;
+              }
+       }
 }

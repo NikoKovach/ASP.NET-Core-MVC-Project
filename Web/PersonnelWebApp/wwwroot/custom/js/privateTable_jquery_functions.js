@@ -149,9 +149,12 @@ function getEntitiesForEdit() {
 
        var columnsLabel = $("#privateTable > thead > tr label.column-lbl");
 
-       var colsTitles = columnsLabel.map(function () {
-              return $(this).attr("value");
-       }).toArray();
+       //************************************************** */
+       var colsTitleArray = [];
+
+       for (var d = 0; d < columnsLabel.length; d++) {
+              colsTitleArray.push(columnsLabel[d].getAttribute("value") );
+       }
 
        if (rowsForEdit.length > 0) {
               for (var z = 0; z < rowsForEdit.length; z++) {
@@ -171,19 +174,35 @@ function getEntitiesForEdit() {
 
                      var entityForEdit = {};
 
-                     if (colsTitles.length == textValuesArr.length) {
+                     if (colsTitleArray.length == textValuesArr.length) {
                             for (var i = 0; i < textValuesArr.length ; i++) {
-                                   entityForEdit[colsTitles[i]] = textValuesArr[i];
+                                   entityForEdit[colsTitleArray[i]] = textValuesArr[i];
                             }
                      }
 
-                     if (notTableElements.length == 1) {
-                            var viewTableRow = notTableElements.attr("name");
-                            entityForEdit["ViewTableRow"] = viewTableRow;
-                     }
-/*                     console.log(entityForEdit);*/
+                     //***************************************************** */
+                     if (notTableElements.length > 0) {
 
+                            for (var i = 0; i < notTableElements.length; i++) {
+
+                                   let attrName = notTableElements[i].getAttribute("name");
+                                   let dotIndex = attrName.indexOf(".");
+
+                                   let key = attrName.slice(dotIndex +1);
+                                   let value = notTableElements[i].getAttribute("value");
+
+                                   if (key.startsWith("ViewTableRow")) {
+                                          entityForEdit[key] = attrName;
+                                   }
+                                   else {
+                                          entityForEdit[key] = (value =="")? null : value;
+                                   }
+                            }
+                     }
+
+                     //***************************************************** */
                      selectedElements.push(entityForEdit);
+                     console.log(selectedElements);
               }
        }
 
@@ -204,9 +223,6 @@ function getFilterObject(filterInputs) {
 };
 
 function postRequest(actionData, formAction) {
-
-       /*console.log(formAction);*/
-
        $.post(formAction, actionData, function (data) {
               alert("success");
 
@@ -438,6 +454,10 @@ $(".final-btn").on("click", function () {
        $(this).trigger("blur");
 });
 
+$(".person-item-btn").on("click", function () {
+       $(this).trigger("blur");
+});
+
 $("#add-entity").on("click", function () {
        var addRow = $("tr#last-row-add");
 
@@ -471,5 +491,35 @@ function backToPersons() {
 }
 
 //**************************************************************/
+// -- > Address View <--
+
+$("#show-add-address-form").on("click", function () {
+       var changeForm = $("#change-address-form");
+
+       let hideShowAtrr = changeForm.attr("style");
+
+       let colonIndex = hideShowAtrr.indexOf(":");
+
+       let displayValue = hideShowAtrr.slice(colonIndex + 1);
+
+       if (displayValue == "none") {
+              
+              changeForm.attr("style", "display:initial");
+       }
+       else {
+              
+              changeForm.attr("style", "display:none");
+       }
+});
 
 
+//var attr = changeForm.attr("hidden");
+
+//if (typeof attr !== 'undefined' && attr !== false) {
+//       changeForm.removeAttr("hidden");
+//}
+//else {
+//       changeForm.attr("hidden", true);
+//}
+
+//$("#msform").attr("style", "display:none");

@@ -1,4 +1,5 @@
 ﻿@using Payroll.Services.Services
+@using Payroll.ViewModels.PagingViewModels
 @using Payroll.ViewModels.PersonViewModels
 @model PagingListSorted<DiplomaVM>
 
@@ -7,6 +8,7 @@
 
        string? sortText = Model.SortValue;
        int? personId = ( Model.ItemsCollection.Count > 0 ) ? Model.ItemsCollection[ 0 ].PersonId : null;
+       string? nameAttrInputPersonId = $"{nameof( diplomaVM )}.{nameof( personId )}";
 }
 
 <form asp-action="Create">
@@ -24,7 +26,7 @@
                                    <td class="px-3 py-1"></td>
                                    <td class="px-3 py-1"></td>
                                    <td class="px-1 py-1">
-                                          <input type="hidden" value=@personId name="diplomaVM.PersonId" class="border-0 px-1" />
+                                          <input type="hidden" value="@personId" name="diplomaVM.personId" class="border-0 px-1" />
                                    </td>
                                    <td class="px-1 py-1">
                                           <input asp-for="@diplomaVM.DiplomaRegNumber" type="text"

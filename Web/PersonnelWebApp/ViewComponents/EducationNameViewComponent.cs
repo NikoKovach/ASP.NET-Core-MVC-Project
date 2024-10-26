@@ -4,7 +4,7 @@ using Payroll.Services.Services.ServiceContracts;
 
 namespace PersonnelWebApp.ViewComponents
 {
-       //[ViewComponent( Name = "EducationName" )]
+       [ViewComponent( Name = "EducationName" )]
        public class EducationNameViewComponent : ViewComponent
        {
               private readonly IDiplomaService service;

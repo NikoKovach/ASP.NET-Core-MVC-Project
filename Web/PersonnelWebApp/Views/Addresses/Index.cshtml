@@ -1,0 +1,64 @@
+﻿@using Payroll.ViewModels.PersonViewModels
+@model AddressesOfPersonVM?
+
+@section Styles
+{
+       <link rel="stylesheet" type="text/css" href="~/custom/css/privateTable_css.css" asp-append-version="true"/>
+       <link rel="stylesheet" type="text/css" href="~/custom/css/alertMessage.css" asp-append-version="true" />
+       <link rel="stylesheet" type="text/css" href="~/custom/css/fieldset_css.css" asp-append-version="true" />
+}
+
+@{
+       ViewData["Title"] = "Addresses";
+       Layout = "~/Views/Shared/_LayoutLight.cshtml";
+
+       int? personId = Model.PersonId;
+
+       AddressVM newEntity = Model.Addresses.Entity;
+
+       bool modelState = ViewContext.ViewData.ModelState.IsValid;
+       string divStyle = modelState == true ? "display:none" : "display:list-item";
+}
+
+<div class="payroll-table">
+       <div class="col">
+              <div class="navbar-custom">
+                     <div class="row">
+                            <div class="d-flex justify-content-center">
+                                   <div class="d-inline-block">
+                                          <h4 id="private-header" class="text-justify text-dark">Addresses List</h4>
+                                   </div>
+                                   <div class="d-inline-block">
+                                          <vc:person-name person-id="@personId"></vc:person-name>
+                                   </div>
+                            </div>
+                     </div> 
+              </div>
+              <hr class="my-2"/>
+
+              <div asp-validation-summary="All" class="alert alert-danger alert-dismissible px-1 py-2 mb-2" style="@divStyle">
+                     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+              </div>
+              <div id="edit-success" class="alert alert-success alert-dismissible px-1 py-2 mb-2" style="display:none">
+                     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                     <p class="mx-4 my-2"> Editing is successful </p>
+              </div>
+        
+              <div class="container px-0">
+                     <partial name="_PartialActualAddresses" model="@Model"></partial>
+              </div>
+              <hr class="my-2" />
+              <div>
+                     <partial name="_PartialTableAddresses" model="@Model"></partial>
+              </div>
+              <div>
+                     <partial name="_PartialAddAddress" model="@newEntity"></partial>
+              </div>
+       </div>     
+</div>
+
+<!-- Javascript files-->
+@section Scripts
+{
+       <script src="~/custom/js/privateTable_jquery_functions.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,96 @@
+﻿@using Payroll.Services.Services
+@using Payroll.ViewModels.CustomValidation
+@using Payroll.ViewModels.PagingViewModels
+@using Payroll.ViewModels.PersonViewModels
+@using System.Reflection
+@model PagingListSorted<ContactInfoVM>
+
+@{
+       ContactInfoVM? firstContact = ( Model.ItemsCollection.Count > 0 )
+                                                        ? Model.ItemsCollection[ 0 ]
+                                                        : Model.Entity;
+       int? personId = ( Model.ItemsCollection.Count > 0 ) ? firstContact.PersonId : null;
+
+       string? sortText = Model.SortValue;
+
+       List<string>? fieldsName = firstContact.GetType()
+                              .GetProperties()
+                              .OrderBy( f => (int?) ( f.CustomAttributes.Where( a => a.AttributeType == typeof( OrderAttribute ) )
+                                                                                                    .FirstOrDefault()?.ConstructorArguments[ 0 ].Value ) ?? -1 )
+                              .Select( x => x.Name )
+                              .ToList();
+}
+
+<thead class="table-success">
+       <tr>
+              <th class="px-1 py-0 text-center"></th>
+              <th class="px-1 py-0 text-center">
+                     <label class="fw-bold">#</label>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstContact.Id" class="fw-bold column-lbl"
+                            value="@fieldsName[0]"></label>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <form asp-action="Index" id="formGoToPage">
+                            <div>
+                                   <input type="hidden" value=@sortText name="sortParam" class="input-sort" />
+                                   <input type="hidden" value="@Model.PageIndex" class="page-number" name="pageIndex" />
+                                   <input type="hidden" value=@Model.PageSize name="pageSize" />
+                                   <input type="hidden" value="@personId" name="personId" />
+                                   <button id="btn-sort-FName" class="btn table-sortBtn px-0">
+                                          <label asp-for="@firstContact.PhoneNumberOne" 
+                                          class="fw-bold column-lbl text-decoration-underline"  
+                                          value="@fieldsName[1]"></label>
+                                   </button>
+                            </div>
+                     </form>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstContact.PhoneNumberTwo" class="fw-bold column-lbl"
+                            value="@fieldsName[2]"></label>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <form asp-action="Index">
+                            <div>
+                                   <input type="hidden" value=@sortText name="sortParam" class="input-sort" />
+                                   <input type="hidden" value="@Model.PageIndex" class="page-number" name="pageIndex" />
+                                   <input type="hidden" value=@Model.PageSize name="pageSize" />
+                                   <input type="hidden" value="@personId" name="personId" />
+
+                                   <button id="btn-sort-FName" class="btn table-sortBtn px-0">
+                                          <label asp-for="@firstContact.E_MailAddress1" 
+                                          class="fw-bold column-lbl text-decoration-underline" 
+                                          value="@fieldsName[3]"></label>
+                                   </button>
+                            </div>
+                     </form>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstContact.E_MailAddress2" class="fw-bold column-lbl"
+                            value="@fieldsName[4]"></label>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstContact.WebSite" class="fw-bold column-lbl"
+                            value="@fieldsName[5]"></label>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstContact.HasBeenDeleted" class="fw-bold column-lbl"
+                            value="@fieldsName[6]"></label>
+              </th>
+              <th class="px-1 py-0 text-center" hidden>
+                     <label asp-for="@firstContact.PersonId" class="column-lbl"
+                            value="@fieldsName[7]"></label>
+              </th>
+       </tr>
+</thead>
+
+
+@*               <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstDiploma.Speciality" class="fw-bold column-lbl"
+                            value="@fieldsName[6].Name"></label>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstDiploma.Profession" class="fw-bold column-lbl"
+                            value="@fieldsName[7].Name"></label>
+              </th> *@

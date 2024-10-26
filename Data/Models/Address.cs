@@ -11,9 +11,6 @@ namespace Payroll.Models
               [Key]
               public int Id { get; set; }
 
-              [StringLength( 100, MinimumLength = 3 )]
-              public string? AddressType { get; set; }
-
               [StringLength( 200, MinimumLength = 3 )]
               [Required]
               public string Country { get; set; }
@@ -23,7 +20,7 @@ namespace Payroll.Models
               public string Region { get; set; }
 
               [StringLength( 200, MinimumLength = 3 )]
-              public string Municipality { get; set; }
+              public string? Municipality { get; set; }
 
               [StringLength( 200, MinimumLength = 3 )]
               [Required]
@@ -46,7 +43,7 @@ namespace Payroll.Models
               public ICollection<Person> PersonPermanentAddresses { get; set; } = new List<Person>();
 
               [InverseProperty( "CurrentAddress" )]
-              public ICollection<Person> PersonCurrentAddresesses { get; set; } = new List<Person>();
+              public ICollection<Person> PersonCurrentAddresses { get; set; } = new List<Person>();
 
               public bool HasBeenDeleted { get; set; }
 
@@ -62,41 +59,36 @@ namespace Payroll.Models
                      }
 
                      StringBuilder sb = new StringBuilder();
-                     sb.Append( this.Country + Comma );
-                     sb.Append( this.Region + Comma );
 
-                     if ( this.Municipality != null )
-                     {
-                            sb.Append( this.Municipality + Comma );
-                     }
-
-                     sb.Append( this.City + Comma );
-                     sb.Append( this.Street + Comma );
-
-                     sb.Append( this.Number );
-
-                     if ( this.Entrance != null || this.Floor != null ||
-                            this.ApartmentNumber != null )
-                     {
-                            sb.Append( Comma );
-                     }
+                     sb.Append( this.Street );
+                     sb.Append( Comma + "No." + this.Number );
 
                      if ( this.Entrance != null )
                      {
-                            sb.Append( this.Entrance + Comma );
+                            sb.Append( Comma + "Ent." + this.Entrance );
                      }
 
                      if ( this.Floor != null )
                      {
-                            sb.Append( this.Floor + Comma );
+                            sb.Append( Comma + "Fl." + this.Floor );
                      }
 
                      if ( this.ApartmentNumber != null )
                      {
-                            sb.Append( this.ApartmentNumber );
+                            sb.Append( Comma + "Apt." + this.ApartmentNumber );
                      }
 
+                     sb.Append( Comma + this.City + " City" );
+                     sb.Append( Comma + "Reg. " + this.Region );
+                     sb.Append( Comma + this.Country );
+                     //##################################################################
                      return sb.ToString();
               }
        }
 }
+
+//???????????????????????????????????????????????????????????????????/
+
+//[StringLength( 100, MinimumLength = 3 )]
+//[Ignore]
+//public string? AddressType { get; set; }

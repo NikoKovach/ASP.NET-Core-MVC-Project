@@ -2,10 +2,8 @@
 
 namespace Payroll.ViewModels.EmployeeViewModels
 {
-       public class AddressEmpVM
+       public class AddressEmpVM : ValidateBaseModel
        {
-              private const string Comma = ", ";
-
               [Required]
               [StringLength( 200, MinimumLength = 3 )]
               public string? Country { get; set; }
@@ -32,54 +30,7 @@ namespace Payroll.ViewModels.EmployeeViewModels
 
               public int? Floor { get; set; }
 
+              [Display( Name = "Apt Number" )]
               public int? ApartmentNumber { get; set; }
        }
 }
-
-/*
-public override string ToString()
-              {
-                     if ( string.IsNullOrEmpty( this.Country ) || string.IsNullOrEmpty( this.City ) )
-                     {
-                            return string.Empty;
-                     }
-
-                     StringBuilder sb = new StringBuilder();
-                     sb.Append( this.Country + Comma );
-                     sb.Append( this.Region + Comma );
-
-                     if ( this.Municipality != null )
-                     {
-                            sb.Append( this.Municipality + Comma );
-                     }
-
-                     sb.Append( this.City + Comma );
-                     sb.Append( this.Street + Comma );
-
-                     sb.Append( this.Number );
-
-                     if ( this.Entrance != null || this.Floor != null ||
-                            this.ApartmentNumber != null )
-                     {
-                            sb.Append( Comma );
-                     }
-
-                     if ( this.Entrance != null )
-                     {
-                            sb.Append( this.Entrance + Comma );
-                     }
-
-                     if ( this.Floor != null )
-                     {
-                            sb.Append( this.Floor + Comma );
-                     }
-
-                     if ( this.ApartmentNumber != null )
-                     {
-                            sb.Append( this.ApartmentNumber );
-                     }
-
-                     return sb.ToString();
-              }
-
-*/

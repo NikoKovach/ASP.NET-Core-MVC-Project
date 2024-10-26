@@ -1,0 +1,112 @@
+﻿@using Payroll.ViewModels.CustomValidation
+@using Payroll.ViewModels.PagingViewModels
+@using System.Reflection
+@using Payroll.ViewModels.PersonViewModels
+@model AddressesOfPersonVM?
+
+@{
+       AddressVM firstAddress = ( Model.Addresses.ItemsCollection.Count > 0) 
+                                                        ? Model.Addresses.ItemsCollection[ 0 ]
+                                                        : Model.Addresses.Entity;
+
+       List<string>? fieldsName = firstAddress.GetType()
+                              .GetProperties()
+                              .OrderBy( f => (int?) ( f.CustomAttributes.Where( a => a.AttributeType == typeof( OrderAttribute ) )
+                                                                                                    .FirstOrDefault()?.ConstructorArguments[ 0 ].Value ) ?? -1 )
+                              .Select( x => x.Name ).ToList();
+
+       string? sortText = Model.Addresses.SortValue;
+}
+
+<thead class="table-success">
+       <tr>
+              <th class="px-1 py-0 text-center">
+                     <label class="fw-bold">#</label>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstAddress.Id" class="fw-bold column-lbl" value="@fieldsName[0]"></label>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <form asp-action="Index">
+                            <div>
+                                   <input type="hidden" value=@sortText name="sortParam" class="input-sort" />
+                                   <input type="hidden" value="@Model.Addresses.PageIndex" class="page-number" name="pageIndex" />
+                                   <input type="hidden" value=@Model.Addresses.PageSize name="pageSize" />
+                                   <input type="hidden" value="@Model.PersonId" name="personId" />
+
+                                   <button id="btn-sort-FName" class="btn table-sortBtn px-0">
+                                          <label asp-for="@firstAddress.Country"
+                                                 class="fw-bold column-lbl text-decoration-underline"
+                                                 value="@fieldsName[1]"></label>
+                                   </button>
+                            </div>
+                     </form>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <form asp-action="Index">
+                            <div>
+                                   <input type="hidden" value=@sortText name="sortParam" class="input-sort" />
+                                   <input type="hidden" value="@Model.Addresses.PageIndex" class="page-number" name="pageIndex" />
+                                   <input type="hidden" value=@Model.Addresses.PageSize name="pageSize" />
+                                   <input type="hidden" value="@Model.PersonId" name="personId" />
+
+                                   <button id="btn-sort-FName" class="btn table-sortBtn px-0">
+                                          <label asp-for="@firstAddress.Region"
+                                                 class="fw-bold column-lbl text-decoration-underline"
+                                                 value="@fieldsName[2]"></label>
+                                   </button>
+                            </div>
+                     </form>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstAddress.Municipality" class="fw-bold column-lbl" value="@fieldsName[3]"></label>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <form asp-action="Index">
+                            <div>
+                                   <input type="hidden" value=@sortText name="sortParam" class="input-sort" />
+                                   <input type="hidden" value="@Model.Addresses.PageIndex" class="page-number" name="pageIndex" />
+                                   <input type="hidden" value=@Model.Addresses.PageSize name="pageSize" />
+                                   <input type="hidden" value="@Model.PersonId" name="personId" />
+
+                                   <button id="btn-sort-FName" class="btn table-sortBtn px-0 w-100">
+                                          <label asp-for="@firstAddress.City"
+                                                 class="fw-bold column-lbl text-decoration-underline"
+                                                 value="@fieldsName[4]"></label>
+                                   </button>
+                            </div>
+                     </form>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <form asp-action="Index">
+                            <div>
+                                   <input type="hidden" value=@sortText name="sortParam" class="input-sort" />
+                                   <input type="hidden" value="@Model.Addresses.PageIndex" class="page-number" name="pageIndex" />
+                                   <input type="hidden" value=@Model.Addresses.PageSize name="pageSize" />
+                                   <input type="hidden" value="@Model.PersonId" name="personId" />
+
+                                   <button id="btn-sort-FName" class="btn table-sortBtn px-0">
+                                          <label asp-for="@firstAddress.Street"
+                                                 class="fw-bold column-lbl text-decoration-underline"
+                                                 value="@fieldsName[5]"></label>
+                                   </button>
+                            </div>
+                     </form>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstAddress.Number" class="fw-bold column-lbl"></label>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstAddress.Entrance" class="fw-bold column-lbl"></label>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstAddress.Floor" class="fw-bold column-lbl"></label>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstAddress.ApartmentNumber" class="fw-bold column-lbl"></label>
+              </th>
+              <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstAddress.HasBeenDeleted" class="fw-bold column-lbl"></label>
+              </th>
+       </tr>
+</thead>

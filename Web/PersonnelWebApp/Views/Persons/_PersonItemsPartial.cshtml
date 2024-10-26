@@ -2,28 +2,29 @@
 <nav class="navbar navbar-custom navbar-expand-sm navbar-light justify-content-center">
        <ul class="navbar-nav">
               <li class="nav-item">
-                     <form asp-controller="" asp-action="">
+                     <form asp-controller="Contacts" asp-action="Index">
                             <input class="person-id" type="hidden" name="personId" />
-                            <input  class="nav-link btn" type="submit" value="Contacts" />
+                            <input class="nav-link btn person-item-btn" type="submit" value="Contacts" />
                      </form>
                </li>
               <li class="nav-item">
-                     <form asp-controller="" asp-action="">
+                     <form asp-controller="Addresses" asp-action="Index">
                             <input class="person-id" type="hidden" name="personId" />
-                            <input class="nav-link btn" type="submit" value="Addresses" />
+                            <input class="nav-link btn person-item-btn" type="submit" value="Addresses" />
                      </form>
-               </li>
+              </li>
               <li class="nav-item">
                      <form asp-controller="" asp-action="">
                             <input class="person-id" type="hidden" name="personId" />
-                            <input class="nav-link btn" type="submit"  value="ID Documents" />
+                            <input class="nav-link btn person-item-btn" type="submit" value="ID Documents" />
                      </form>
                </li>
               <li class="nav-item">
                      <form asp-controller="Diplomas" asp-action="Index">
                             <input class="person-id" type="hidden" name="personId" />
-                             <input class="nav-link btn" type="submit" value="Diplomas" />
+                            <input class="nav-link btn person-item-btn" type="submit" value="Diplomas" />
                       </form>
                </li>
        </ul>
 </nav>
+

@@ -15,7 +15,7 @@ namespace PersonnelWebApp.ViewComponents
 
               public async Task<IViewComponentResult> InvokeAsync( int? personId )
               {
-                     if ( personId == null )
+                     if ( personId == null || personId == 0 )
                      {
                             return View( "Default", string.Empty );
                      }

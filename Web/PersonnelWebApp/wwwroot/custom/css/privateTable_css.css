@@ -10,3 +10,7 @@ button.final-btn{
 #privateTable th > label {
        font-size: 0.8em;
 }
+
+.person-item-btn:hover {
+       font-weight: bold;
+}

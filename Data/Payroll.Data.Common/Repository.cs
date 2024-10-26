@@ -14,7 +14,7 @@ namespace Payroll.Data.Common
                      this.DbSet = this.Context.Set<TEntity>();
               }
 
-              protected PayrollContext Context { get; set; }
+              public PayrollContext Context { get; set; }
 
               public DbSet<TEntity> DbSet { get; set; }
 

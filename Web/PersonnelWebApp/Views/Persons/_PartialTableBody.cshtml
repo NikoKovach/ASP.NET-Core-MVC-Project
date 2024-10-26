@@ -34,10 +34,8 @@
                             <td class="px-1 py-1">
                                    <input asp-for="@entitiesForEdit[ i ].GenderType" list="gender-list" readonly
                                           class="col-sm-11 text-center border-0 table-field"/>
-                                   <datalist id="gender-list">
-                                          <option value="man"></option>
-                                          <option value="woman"></option>
-                                   </datalist>
+                                   <vc:gender-types></vc:gender-types>
+                                   
                              </td>
                             <td class="px-1 py-1">
                                    <input asp-for="@entitiesForEdit[ i ].CivilNumber"
@@ -48,9 +46,23 @@
                                           class="col-sm-11 text-center border-0 table-field" readonly />
                              </td>
                             <td hidden>
-                                   <input asp-for="@entitiesForEdit[ i ].ViewTableRow" class="border-0 not-table-field" readonly hidden />
+                                   <input asp-for="@entitiesForEdit[ i ].ViewTableRow" 
+                                   class="not-table-field" readonly hidden />
+                            </td>
+                            <td hidden>
+                                   <input asp-for="@entitiesForEdit[ i ].PermanentAddressId"
+                                          class="not-table-field" hidden />
+                            </td>
+                            <td hidden>
+                                   <input asp-for="@entitiesForEdit[ i ].CurrentAddressId"
+                                          class="not-table-field" hidden />
                             </td>
                      </tr>
               }
        }
 </tbody>
+
+@* <datalist id="gender-list">
+       <option value="man"></option>
+       <option value="woman"></option>
+</datalist> *@

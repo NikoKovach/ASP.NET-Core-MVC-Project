@@ -1,0 +1,16 @@
+﻿@model List<string>?
+
+<datalist id="gender-list">
+       @{
+              for ( int i = 0; i < Model.Count; i++ )
+              {
+                     <option value="@Model[ i ]"></option>
+              }
+       }
+</datalist>
+
+@*        <option value="man"></option>
+       <option value="woman"></option> *@
+
+
+	

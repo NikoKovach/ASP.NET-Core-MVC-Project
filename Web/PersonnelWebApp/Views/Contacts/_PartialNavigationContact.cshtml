@@ -1,0 +1,33 @@
+﻿@using Payroll.Services.Services
+@using Payroll.ViewModels.PagingViewModels
+@using Payroll.ViewModels.PersonViewModels
+@model PagingListSorted<ContactInfoVM>
+
+@{
+       ContactInfoVM? firstContact = ( Model.ItemsCollection.Count > 0 )
+                                                        ? Model.ItemsCollection[ 0 ]
+                                                        : Model.Entity;
+
+       int? personId = ( Model.ItemsCollection.Count > 0 ) ? firstContact.PersonId : null;
+}
+
+<div>
+       <div class="d-flex form-control justify-content-start p-1 m-0 h-50">
+              <div class="d-inline mx-1">
+                     <form asp-action="Index" method="post">
+                            <input type="submit" class="btn btn-success border-0 px-1 py-0 col-sm-12" value="..." />
+                            <input type="hidden" value=@personId name="personId" />
+                     </form>
+               </div>
+              <div class="d-inline mx-1">
+                     <form asp-action="Index" method="post">
+                            <input asp-for="@Model.PageSize" type="text" class="border-1 col-md-2 px-1 py-0"
+                            name="pageSize" />
+                            <label>Table rows</label>
+                            <input type="hidden" value="@Model.PageIndex" name="pageIndex" />
+                            <input type="hidden" value=@Model.SortValue name="sortParam" />
+                            <input type="hidden" value=@personId name="personId" />
+                     </form>
+               </div>
+       </div>
+</div>

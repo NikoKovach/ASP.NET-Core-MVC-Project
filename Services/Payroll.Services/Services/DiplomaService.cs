@@ -2,6 +2,7 @@
 using Payroll.Data.Common;
 using Payroll.Mapper.AutoMapper;
 using Payroll.Models;
+using Payroll.Models.EnumTables;
 using Payroll.Services.Services.ServiceContracts;
 using Payroll.ViewModels.PersonViewModels;
 
@@ -11,45 +12,36 @@ namespace Payroll.Services.Services
        {
               private IRepository<Diploma> repository;
               private IMapEntity mapper;
-              private IDiplomasCollectionFactory diplomaCollections;
+              private IDiplomasCollectionFactory diplomaSortFactory;
 
               public DiplomaService( IRepository<Diploma> diplomasRepo, IMapEntity mapper,
-                                                                      IDiplomasCollectionFactory diplomaCollections )
+                                                                      IDiplomasCollectionFactory diplomaSortFactory )
               {
                      repository = diplomasRepo;
 
                      this.mapper = mapper;
 
-                     this.diplomaCollections = diplomaCollections;
+                     this.diplomaSortFactory = diplomaSortFactory;
               }
 
-              public IQueryable<DiplomaVM> All( int? personId )
+              public IQueryable<DiplomaVM>? All( int? personId )
               {
                      IQueryable<Diploma>? diplomas = repository.AllAsNoTracking()
                                                                                                       .Where( x => x.PersonId == personId );
 
-                     IQueryable<DiplomaVM> diplomasVM = mapper.ProjectTo<Diploma, DiplomaVM>( diplomas );
+                     IQueryable<DiplomaVM>? diplomasVM = mapper.ProjectTo<Diploma, DiplomaVM>( diplomas );
 
                      return diplomasVM;
               }
 
-              public IQueryable<DiplomaVM> AllNotDeleted( int? personId, string? sortParam )
+              public IQueryable<DiplomaVM>? AllNotDeleted( int? personId, string? sortParam )
               {
-                     IQueryable<Diploma>? diplomas = repository.AllAsNoTracking()
-                                                                                                   .Where( x => x.PersonId == personId
-                                                                                                                           && x.HasBeenDeleted == false );
-
-                     if ( string.IsNullOrEmpty( sortParam ) )
+                     if ( personId == null )
                      {
-                            IQueryable<DiplomaVM> diplomasVM = mapper.ProjectTo<Diploma, DiplomaVM>( diplomas );
-
-                            return diplomasVM;
+                            return null;
                      }
 
-                     //DiplomaVMCollectionFactory diplomasVMFactory =
-                     //               new DiplomaVMCollectionFactory( mapper, diplomas );
-
-                     IQueryable<DiplomaVM> sortedDiplomas = this.diplomaCollections.SortedDiplomasCollection[ sortParam ];
+                     IQueryable<DiplomaVM>? sortedDiplomas = this.diplomaSortFactory.SortedCollection( personId, sortParam );
 
                      return sortedDiplomas;
               }
@@ -58,27 +50,38 @@ namespace Payroll.Services.Services
               {
                      Diploma? diploma = mapper.Map<DiplomaVM, Diploma>( viewModel );
 
-                     await repository.AddAsync( diploma );
+                     await this.SetExistingEducationAsync( diploma, viewModel.EducationTypeName );
 
-                     await repository.SaveChangesAsync();
+                     await this.repository.AddAsync( diploma );
+
+                     await this.repository.SaveChangesAsync();
               }
 
               public async Task UpdateAsync( DiplomaVM viewModel )
               {
                      Diploma? diploma = mapper.Map<DiplomaVM, Diploma>( viewModel );
 
-                     repository.Update( diploma );
+                     await this.SetExistingEducationAsync( diploma, viewModel.EducationTypeName );
 
-                     await repository.SaveChangesAsync();
+                     this.repository.Update( diploma );
+
+                     await this.repository.SaveChangesAsync();
               }
 
               public async Task UpdateAsync( ICollection<DiplomaVM> viewModels )
               {
-                     List<Diploma>? diplomasList = mapper.Map<List<DiplomaVM>, List<Diploma>>( viewModels.ToList() );
+                     List<DiplomaVM> diplomasVMList = viewModels.ToList();
 
-                     repository.Update( diplomasList );
+                     List<Diploma>? diplomasList = mapper.Map<List<DiplomaVM>, List<Diploma>>( diplomasVMList );
 
-                     await repository.SaveChangesAsync();
+                     for ( int i = 0; i < diplomasList.Count; i++ )
+                     {
+                            await this.SetExistingEducationAsync( diplomasList[ i ], diplomasVMList[ i ].EducationTypeName );
+                     }
+
+                     this.repository.Update( diplomasList );
+
+                     await this.repository.SaveChangesAsync();
               }
 
               public async Task DeleteAsync( int? id, int? personId )
@@ -105,12 +108,44 @@ namespace Payroll.Services.Services
 
               public IQueryable<string> TypesOfEducation()
               {
-                     IQueryable<string>? educations = this.repository.DbSet.Select( x => x.EducationType.Type );
+                     IQueryable<string>? educations = this.repository.Context.EducationTypes.Select( x => x.Type );
 
                      return educations;
               }
+
+              //**************************************************************
+
+              private async Task SetExistingEducationAsync( Diploma diploma, string? typeOfEducation )
+              {
+                     EducationType? educationType = await this.repository.Context.EducationTypes
+                                                                                        .Where( x => x.Type == typeOfEducation )
+                                                                                        .FirstOrDefaultAsync();
+
+                     if ( educationType != null && educationType.Id > 0 )
+                     {
+                            diploma.EducationType = educationType;
+                     }
+              }
        }
 }
+
+
+//if ( string.IsNullOrEmpty( sortParam ) )
+//{
+//       IQueryable<Diploma>? diplomas = repository.AllAsNoTracking()
+//                                                                              .Where( x => x.PersonId == personId
+//                                                                                       && x.HasBeenDeleted == false );
+
+//       IQueryable<DiplomaVM> diplomasVM = mapper.ProjectTo<Diploma, DiplomaVM>( diplomas );
+
+//       return diplomasVM;
+//}
+
+//DiplomaVMCollectionFactory diplomasVMFactory =
+//               new DiplomaVMCollectionFactory( mapper, diplomas );
+
+//IQueryable<DiplomaVM> sortedDiplomas = this.diplomaCollections.SortedDiplomasCollection[ sortParam ];
+
 
 //public IQueryable<SearchPersonVM> AllActive_SearchPersonVM()
 //{

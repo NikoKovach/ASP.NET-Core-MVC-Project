@@ -1,27 +1,35 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Payroll.Services.Services;
 using Payroll.Services.Services.ServiceContracts;
 using Payroll.Services.UtilitiesServices.EntityValidateServices;
 using Payroll.ViewModels;
+using Payroll.ViewModels.PagingViewModels;
 using Payroll.ViewModels.PersonViewModels;
+using PersonnelWebApp.Utilities;
 
 namespace PersonnelWebApp.Controllers
 {
        public class PersonsController : Controller
        {
-              private const int PageSize = 3;
-              private const int PageIndex = 1;
-              private const int Count = 1;
+              private int _pageSize;
+              private int _pageIndex;
+              private int _count;
 
               private readonly IPersonService personService;
               private readonly IValidate<ValidateBaseModel> validateService;
+              private IConfigurationRoot? privateConfig;
 
-              public PersonsController( IPersonService personService,
-                     [FromKeyedServices( "PersonValidate" )] IValidate<ValidateBaseModel> validateService )
+              public PersonsController(
+                     IPersonService personService,
+                     [FromKeyedServices( "PersonValidate" )] IValidate<ValidateBaseModel> validateService,
+                     IPrivateConfiguration configuration )
               {
                      this.personService = personService;
 
                      this.validateService = validateService;
+
+                     this.privateConfig = configuration.PrivateConfig();
+
+                     SetPagingVariables();
               }
 
               [HttpPost]
@@ -31,11 +39,6 @@ namespace PersonnelWebApp.Controllers
                      if ( !ModelState.IsValid )
                      {
                             return await ResultAsync( pageIndex, pageSize, sortParam, new PersonFilterVM() );
-
-                            //PagingListSortedFiltered<PersonVM, PersonFilterVM>? sortedListWithErrors =
-                            //await GetPersonsListOfPagesAsync( pageIndex, pageSize, sortParam, new PersonFilterVM() );
-
-                            //return View( sortedListWithErrors );
                      }
 
                      return await ResultAsync( pageIndex, pageSize, sortParam, filter );
@@ -108,7 +111,7 @@ namespace PersonnelWebApp.Controllers
 
                      PagingListSortedFiltered<PersonVM, PersonFilterVM> emptyPaginatedList =
                             new PagingListSortedFiltered<PersonVM, PersonFilterVM>
-                            ( defaultPersonsList, Count, PageIndex, PageSize, string.Empty, personsFilter );
+                            ( defaultPersonsList, this._count, this._pageIndex, this._pageSize, string.Empty, personsFilter );
 
                      return emptyPaginatedList;
               }
@@ -120,12 +123,30 @@ namespace PersonnelWebApp.Controllers
 
                      PagingListSortedFiltered<PersonVM, PersonFilterVM>? sortedList =
                             await PagingListSortedFiltered<PersonVM, PersonFilterVM>.CreateSortedCollectionAsync
-                               ( sortedPersonsList, pageIndex ?? PageIndex, pageSize ?? PageSize, sortParam, filter );
+                               ( sortedPersonsList, pageIndex ?? this._pageIndex, pageSize ?? this._pageSize, sortParam, filter );
 
                      if ( sortedList.ItemsCollection.Count == 0 )
                             return EmptyPersonsSortedCollection();
 
                      return sortedList;
+              }
+
+              private void SetPagingVariables()
+              {
+                     if ( !string.IsNullOrEmpty( this.privateConfig[ "Paging:PageSize" ] ) )
+                     {
+                            this._pageSize = int.Parse( this.privateConfig[ "Paging:PageSize" ] );
+                     }
+
+                     if ( !string.IsNullOrEmpty( this.privateConfig[ "Paging:PageIndex" ] ) )
+                     {
+                            this._pageIndex = int.Parse( this.privateConfig[ "Paging:PageIndex" ] );
+                     }
+
+                     if ( !string.IsNullOrEmpty( this.privateConfig[ "Paging:Count" ] ) )
+                     {
+                            this._count = int.Parse( this.privateConfig[ "Paging:Count" ] );
+                     }
               }
        }
 }

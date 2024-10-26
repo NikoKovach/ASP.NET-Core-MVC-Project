@@ -33,5 +33,9 @@ namespace Payroll.ViewModels.PersonViewModels
 
               [Display( Name = "Profile Photo" )]
               public string? PhotoFilePath { get; set; }
+
+              public int? PermanentAddressId { get; set; }
+
+              public int? CurrentAddressId { get; set; }
        }
 }
