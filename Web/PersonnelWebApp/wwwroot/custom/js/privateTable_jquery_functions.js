@@ -3,6 +3,7 @@ var currentRowIndex = -1;
 var prevItemBgColor = "";
 var indexMouseOver = -1;
 var currentFieldIndex = 1;
+/*var propHiddenValue =true;*/
 
 const ascending = "_asc";
 const descending = "_desc";
@@ -65,12 +66,20 @@ function onRowClick() {
        changeCurrentRowBgColor($(this));
 
        let headerText = $("#private-header").text();
-       let equalsStringResult = headerText.localeCompare("Persons List");
+       let personViewIsLoaded = headerText.localeCompare("Persons List");
 
-       if (equalsStringResult === 0) {
+       if (personViewIsLoaded === 0) {
               let id = $(this).children("td").children("input.table-field").eq(0).val();
               $("input.person-id").val(id);
        }
+
+       let addressViewIsLoaded = headerText.localeCompare("Addresses List");
+
+       if (addressViewIsLoaded === 0) {
+              let addressId = $(this).children("td").children("input.table-field").eq(0).val();
+              $("input#address-id").val(addressId);
+       }
+
 
        deleteEntityCaseGetEntityId();
        //####################################################
@@ -419,6 +428,11 @@ $(".table-sortBtn").on('click', function () {
 
 $(function () {
        changeSortButtons();
+
+       if ($("#addresses-table-div").prop("hidden") == false) {
+
+              attachDetachBtnsAreDisabled($("input.checkAddressType"));
+       }
 });
 
 function changeSortButtons() {
@@ -479,47 +493,85 @@ $("#delete-entity-btn").on("click", function () {
        return confirm("\" Do you want to delete the selected record ? \"");
 });
 
-$("#go-back-btn.employees").on("click", backToEmployeesIndex);
-
-$("#go-back-btn.diplomas").on("click", backToPersons);
-function backToEmployeesIndex() {
+$("#go-back-btn.employees").on("click", function(){
        document.location = "/Employees/Index";
-}
+});
 
-function backToPersons() {
+$("#go-back-btn.diplomas").on("click", function () {
        document.location = "/Persons/AllPersons";
-}
+});
+
 
 //**************************************************************/
 // -- > Address View <--
 
-$("#show-add-address-form").on("click", function () {
-       var changeForm = $("#change-address-form");
-
-       let hideShowAtrr = changeForm.attr("style");
-
-       let colonIndex = hideShowAtrr.indexOf(":");
-
-       let displayValue = hideShowAtrr.slice(colonIndex + 1);
-
-       if (displayValue == "none") {
-              
-              changeForm.attr("style", "display:initial");
-       }
-       else {
-              
-              changeForm.attr("style", "display:none");
-       }
+$("button.manage-btn").on("click", function () {
+       $(this).trigger("blur");
 });
 
+$("#create-address").on("click", function () {
+       showHideElement($("#change-address-form"));
+});
 
-//var attr = changeForm.attr("hidden");
+$("#edit-address").on("click", function () {
+       showHideElement($("#change-address-form"));
+});
 
-//if (typeof attr !== 'undefined' && attr !== false) {
-//       changeForm.removeAttr("hidden");
-//}
-//else {
-//       changeForm.attr("hidden", true);
-//}
+$("#showAddressesBtn").on("click", function () {
+       showHideElement($("#addresses-table-div"));
+});
 
-//$("#msform").attr("style", "display:none");
+$("input.checkAddressType").on("click", function () {
+       let arrayChecks = $("input.checkAddressType").toArray();
+
+       if ($(this).is(":checked") == true) {
+             
+              let checkBoxIndex = $("input.checkAddressType").index($(this));
+
+              $.each(arrayChecks, function (index, value) {
+                     if (index != checkBoxIndex) {
+                            $(value).prop("checked", false);
+                     }
+              });
+
+              if ($("#addresses-table-div").prop("hidden") == false) {
+                     $("#attachAddressButton").prop("disabled", false);
+                     $("#detachAddressButton").prop("disabled", false);
+              }
+
+              $("input#attachAddressType").val($(this).val());
+              $("input#detachAddressType").val($(this).val());
+       }
+
+       attachDetachBtnsAreDisabled($("input.checkAddressType"));
+});
+
+function attachDetachBtnsAreDisabled(checkBoxElements) {
+       let arrayCheckBoxes = $(checkBoxElements).toArray();
+
+       let isChecked = (element) => $(element).is(":checked") == false;
+
+       let allCheckBoxIsUnchecked = arrayCheckBoxes.every(isChecked);
+
+       if (allCheckBoxIsUnchecked == true) {
+              $("#attachAddressButton").prop("disabled", true);
+              $("#detachAddressButton").prop("disabled", true);
+
+              $("input#attachAddressType").val("");
+              $("input#detachAddressType").val("");
+       }
+};
+
+function showHideElement(element) {
+       let propHiddenValue = $(element).prop("hidden");
+
+       if (propHiddenValue == true) {
+              $(element).prop("hidden",false);
+       }
+       else {
+              $(element).prop("hidden",true);
+       }
+};
+
+
+

@@ -6,21 +6,28 @@ using Payroll.ViewModels.PersonViewModels;
 
 namespace Payroll.Services.UtilitiesServices
 {
-       public class ContactsCollectionFactory : IContactInfoCollectionFactory
+       public class FactoryContactsCollection : IFactorySortCollection<ContactInfoVM>
        {
               private IMapEntity mapper;
               private IRepository<ContactInfo> repository;
               private Dictionary<string, IQueryable<ContactInfoVM>> sortedContactsCollection;
 
-              public ContactsCollectionFactory( IMapEntity mapper, IRepository<ContactInfo> contactsRopository )
+              public FactoryContactsCollection( IMapEntity mapper, IRepository<ContactInfo> contactsRopository )
               {
                      this.mapper = mapper;
 
                      this.repository = contactsRopository;
               }
 
-              public IQueryable<ContactInfoVM>? SortedCollection( int? personId, string? sortParam )
+              public IQueryable<ContactInfoVM>? SortedCollection( string? sortParam, params object[] items )
               {
+                     //if ( items.Length < 1 )
+                     //{
+                     //       return Enumerable.Empty<ContactInfoVM>().AsQueryable();
+                     //}
+
+                     int personId = (int) items[ 0 ];
+
                      IQueryable<ContactInfo>? personContacts = this.repository
                                                                                                             .AllAsNoTracking()
                                                                                                             .Where( x => x.PersonId == personId &&
@@ -34,6 +41,7 @@ namespace Payroll.Services.UtilitiesServices
 
                      return this.sortedContactsCollection[ sortParam ];
               }
+
               //#######################################################################
               private void SetContactsDictionary( IQueryable<ContactInfo>? personContacts )
               {

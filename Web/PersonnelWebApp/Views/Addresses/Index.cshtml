@@ -14,8 +14,6 @@
 
        int? personId = Model.PersonId;
 
-       AddressVM newEntity = Model.Addresses.Entity;
-
        bool modelState = ViewContext.ViewData.ModelState.IsValid;
        string divStyle = modelState == true ? "display:none" : "display:list-item";
 }
@@ -52,7 +50,7 @@
                      <partial name="_PartialTableAddresses" model="@Model"></partial>
               </div>
               <div>
-                     <partial name="_PartialAddAddress" model="@newEntity"></partial>
+                     <partial name="_PartialAddAddress" model="@Model"></partial>
               </div>
        </div>     
 </div>

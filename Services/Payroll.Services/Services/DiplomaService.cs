@@ -12,10 +12,10 @@ namespace Payroll.Services.Services
        {
               private IRepository<Diploma> repository;
               private IMapEntity mapper;
-              private IDiplomasCollectionFactory diplomaSortFactory;
+              private IFactorySortCollection<DiplomaVM> diplomaSortFactory;
 
               public DiplomaService( IRepository<Diploma> diplomasRepo, IMapEntity mapper,
-                                                                      IDiplomasCollectionFactory diplomaSortFactory )
+                     IFactorySortCollection<DiplomaVM> diplomaSortFactory )
               {
                      repository = diplomasRepo;
 
@@ -41,7 +41,7 @@ namespace Payroll.Services.Services
                             return null;
                      }
 
-                     IQueryable<DiplomaVM>? sortedDiplomas = this.diplomaSortFactory.SortedCollection( personId, sortParam );
+                     IQueryable<DiplomaVM>? sortedDiplomas = this.diplomaSortFactory.SortedCollection( sortParam, personId );
 
                      return sortedDiplomas;
               }

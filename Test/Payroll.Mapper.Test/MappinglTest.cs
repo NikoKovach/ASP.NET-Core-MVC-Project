@@ -170,7 +170,7 @@ namespace Test.Payroll
                      object? result = genericMethod.Invoke( this.service, new object[] { source } );
                      //var result = this.service.Map<TSource, TDestination>( source );
 
-                     PropertyInfo? resultPropId = result.GetType().GetProperty( "Id" );
+                     PropertyInfo? resultPropId = result.GetType().GetProperty( "Id" ); // AddressId
                      int? resultId = (int?) resultPropId.GetValue( result );
 
                      PropertyInfo? sourcePropId = source.GetType().GetProperty( "Id" );

@@ -5,47 +5,24 @@
 
 @{
        string? prevDisabled = !Model.Addresses.HasPreviousPage ? "disabled" : "";
+
        string? nextDisabled = !Model.Addresses.HasNextPage ? "disabled" : "";
-
-       // AddressVM? firstAddress= Model.Addresses.ItemsCollection[ 0 ];
-
-       // PropertyInfo[]? fieldsName = firstAddress.GetType().GetProperties();
 
        string? sortText = Model.Addresses.SortValue;
        int? personId = Model.PersonId;
-       // int? personId = ( Model.ItemsCollection.Count > 0 ) ? firstAddress.PersonId : null;
-
-       // bool modelState = ViewContext.ViewData.ModelState.IsValid;
-       // string divStyle = modelState == true ? "display:none" : "display:list-item";
 }
 
-<div>
+<div id="addresses-table-div" >
        <div>
               <div>
-                     <div class="d-flex form-control justify-content-start p-1 m-0 h-50">
-                            <div class="d-inline mx-1">
-                                   <form asp-action="Index" method="post">
-                                          <input type="submit" class="btn btn-success border-0 px-1 py-0 col-sm-12" value="..." />
-                                          <input type="hidden" value=@personId name="personId" />
-                                   </form>
-                            </div>
-                            <div class="d-inline mx-1">
-                                   <form asp-action="Index" method="post">
-                                          <input asp-for="@Model.Addresses.PageSize" type="text" class="border-1 col-md-2 px-1 py-0"
-                                                 name="pageSize" />
-                                          <label>Table rows</label>
-                                          <input type="hidden" value="@Model.Addresses.PageIndex" name="pageIndex" />
-                                          <input type="hidden" value=@Model.Addresses.SortValue name="sortParam" />
-                                          <input type="hidden" value=@personId name="personId" />
-                                   </form>
-                            </div>
-                     </div>
+                     <partial name="_PartialAddressSearch" model="@Model"></partial>
               </div>
        </div>
+
        <div class="table-responsive">
               <table id="privateTable" class="table  table-hover table-responsive-sm">
-                     <partial name="_AddressesTableHead" model="@Model"></partial>
-                     <partial name="_AddressesTableBody" model="@Model.Addresses.ItemsCollection"></partial>
+                     <partial name="_PartialAddressTableHead" model="@Model"></partial>
+                     <partial name="_PartialAddressTableBody" model="@Model.Addresses.ItemsCollection"></partial>
               </table>
        </div>
        <div class="row col-sm-3 px-0 mx-0">
@@ -86,3 +63,41 @@
        </div>
        <hr class="my-1" />
 </div>
+
+@* <div>
+       <dialog id="addressTypeDialog" class="w-25 h-25">
+              <form asp-action="Attach" id="attachAddressForm" method="post">
+                     <p>
+                            <label class="w-100">
+                                   Address Type:
+                                   <select class="w-50" name="addressType">
+                                          <option>Permanent</option>
+                                          <option>Current</option>
+                                   </select>
+                            </label>
+                     </p>
+                     <input type="hidden" value="@Model.PersonId" name="personId" />
+                     <input type="hidden" value="@Model.Addresses.PageIndex" name="pageIndex" />
+                     <input type="hidden" value="@Model.Addresses.PageSize" name="pageSize" />
+                     <input type="hidden" id="address-id" name="addressId" />
+              </form>
+              <menu class="mx-4 mt-5 px-5">
+                     <button form="attachAddressForm" type="submit"
+                             class="px-0 border-0 col-sm-5 btn btn-sm btn-success manage-btn">
+                            Confirm
+                     </button>
+                     <button class="px-0 border-0 col-sm-5 btn btn-sm btn-primary manage-btn"
+                             onclick="closeAddressTypeDialog()">
+                            Cancel
+                     </button>
+              </menu>
+       </dialog>
+</div> *@
+
+ @*       // AddressVM? firstAddress= Model.Addresses.ItemsCollection[ 0 ];
+
+       // PropertyInfo[]? fieldsName = firstAddress.GetType().GetProperties();
+       // int? personId = ( Model.ItemsCollection.Count > 0 ) ? firstAddress.PersonId : null;
+
+       // bool modelState = ViewContext.ViewData.ModelState.IsValid;
+       // string divStyle = modelState == true ? "display:none" : "display:list-item"; *@

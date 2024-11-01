@@ -12,6 +12,7 @@ using Payroll.Services.Services.ServiceContracts;
 using Payroll.Services.UtilitiesServices;
 using Payroll.Services.UtilitiesServices.EntityValidateServices;
 using Payroll.ViewModels;
+using Payroll.ViewModels.PersonViewModels;
 using PersonnelWebApp.Utilities;
 
 namespace PersonnelWebApp
@@ -45,24 +46,21 @@ namespace PersonnelWebApp
 
                      services.AddTransient<IPersonService, PersonService>();
 
-                     services.AddTransient<IPersonsCollectionFactory, PersonsCollectionFactory>();
-
                      services.AddTransient<IDiplomaService, DiplomaService>();
-
-                     services.AddTransient<IDiplomasCollectionFactory, DiplomasCollectionFactory>();
 
                      services.AddTransient<IContactInfoService, ContactInfoService>();
 
-                     services.AddTransient<IContactInfoCollectionFactory, ContactsCollectionFactory>();
-
                      services.AddTransient<IAddressService, AddressService>();
 
-                     services.AddTransient<IAddressesCollectionFactory, AddressesCollectionFactory>();
-
                      //##################################################################
-                     services.AddTransient<ICalculateExperience, CalculateExperience>();
 
-                     services.AddTransient<IViewModelLimitationsFactory, RestrictionsFactory>();
+                     services.AddTransient( typeof( IFactorySortCollection<PersonVM> ), typeof( FactoryPersonsCollection ) );
+
+                     services.AddTransient( typeof( IFactorySortCollection<DiplomaVM> ), typeof( FactoryDiplomasCollection ) );
+
+                     services.AddTransient( typeof( IFactorySortCollection<ContactInfoVM> ), typeof( FactoryContactsCollection ) );
+
+                     services.AddTransient( typeof( IFactorySortCollection<AddressVM> ), typeof( FactoryAddressesCollection ) );
 
                      //##################################################################
                      services.AddTransient<IValidate<ValidateBaseModel>, ValidateEmployeeVMService>();
@@ -79,6 +77,11 @@ namespace PersonnelWebApp
                      services.AddKeyedTransient<IValidate<ValidateBaseModel>, ValidateAddressVMService>
                                                                                                                                                     ( "AddressValidate" );
 
+                     //##################################################################
+
+                     services.AddTransient<ICalculateExperience, CalculateExperience>();
+
+                     services.AddTransient<IViewModelLimitationsFactory, RestrictionsFactory>();
               }
        }
 }

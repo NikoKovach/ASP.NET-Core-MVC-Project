@@ -11,10 +11,10 @@ namespace Payroll.Services.Services
        {
               private IRepository<ContactInfo> repository;
               private IMapEntity mapper;
-              private IContactInfoCollectionFactory contactsCollectionFactory;
+              private IFactorySortCollection<ContactInfoVM> contactsCollectionFactory;
 
               public ContactInfoService( IRepository<ContactInfo> contactRepository, IMapEntity mapper,
-                                                                       IContactInfoCollectionFactory contactsCollectionFactory )
+                                                                       IFactorySortCollection<ContactInfoVM> contactsCollectionFactory )
               {
                      repository = contactRepository;
 
@@ -41,7 +41,7 @@ namespace Payroll.Services.Services
                      }
 
                      IQueryable<ContactInfoVM>? sortedContacts =
-                                                                      this.contactsCollectionFactory.SortedCollection( personId, sortParam );
+                                                                      this.contactsCollectionFactory.SortedCollection( sortParam, personId );
 
                      return sortedContacts;
               }

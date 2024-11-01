@@ -86,15 +86,6 @@ namespace Payroll.Services.Services
                      await repository.SaveChangesAsync();
               }
 
-              public async Task UpdateAsync( ICollection<CompanyViewModel> viewModels )
-              {
-                     List<Company>? companyList = mapEntity.Map<List<CompanyViewModel>, List<Company>>( viewModels.ToList() );
-
-                     repository.Update( companyList );
-
-                     await repository.SaveChangesAsync();
-              }
-
               public void CreateUpdateCompanyFolder( string appFolderPath, CompanyViewModel viewModel,
                [CallerMemberName] string actionName = "", params string[] viewModelOld )
               {
@@ -159,3 +150,12 @@ namespace Payroll.Services.Services
               }
        }
 }
+
+//public async Task UpdateAsync( ICollection<CompanyViewModel> viewModels )
+//{
+//       List<Company>? companyList = mapEntity.Map<List<CompanyViewModel>, List<Company>>( viewModels.ToList() );
+
+//       repository.Update( companyList );
+
+//       await repository.SaveChangesAsync();
+//}

@@ -30,46 +30,79 @@ namespace PersonnelWebApp.Controllers
                      [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List .'")]
                      int? personId, int? pageIndex, int? pageSize, string? sortParam, SearchAddressVM? filter )
               {
-
                      if ( !ModelState.IsValid )
                             return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
+
+                     // TODO : Edit Filter function - text in two or more filter fields gives wrong result
+
 
                      return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
               }
 
-              // POST: ModelesController/Create
               [HttpPost]
-              public async Task<IActionResult> Create( AddressVM? addressVM )
+              public async Task<IActionResult> Create(
+                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List .'")]
+                     int? personId,
+                     int? pageIndex, int? pageSize, string? sortParam, SearchAddressVM? filter, AddressVM? addressVM )
               {
-                     //if ( !ModelState.IsValid )
-                     //       return await ResultAsync( addressVM.PersonId );
 
-                     //await this.service.AddAsync( addressVM );
+                     //addressVM.PersonId - invalid
+                     if ( !ModelState.IsValid )
+                            return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
 
-                     //return await ResultAsync( addressVM.PersonId );
+                     if ( addressVM != null )
+                            await this.service.AddAsync( addressVM );
 
-                     return View();
+                     return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
               }
 
-              // POST: ModelesController/Edit/
               [HttpPost]
-              public async Task<IActionResult> Edit( AddressVM? addressVM )
+              public async Task<IActionResult> Edit(
+                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List .'")]
+                     int? personId,
+                     int? pageIndex, int? pageSize, string? sortParam, SearchAddressVM? filter, AddressVM? addressVM )
               {
-                     //if ( !ModelState.IsValid )
-                     //       return await ResultAsync( addressVM.PersonId );
+                     if ( !ModelState.IsValid )
+                            return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
 
-                     //await this.service.UpdateAsync( addressVM );
+                     if ( addressVM != null )
+                            await this.service.UpdateAsync( addressVM );
 
-                     //return await ResultAsync( addressVM.PersonId );
-
-                     return View();
+                     return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
               }
 
-              // POST: ModelesController/Delete/
               [HttpPost]
-              public ActionResult Delete( int id )
+              public async Task<IActionResult> Attach(
+                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List .'")]
+                     int? personId,
+                     int? pageIndex, int? pageSize, string? sortParam, SearchAddressVM? filter,
+                     [Required(ErrorMessage ="Select an address from the table with addresses.")]
+                     int? addressId,
+                     [Required(ErrorMessage ="Select an address type from the check boxes.")]
+                     string? addressType )
               {
-                     return View();
+                     if ( !ModelState.IsValid )
+                            return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
+
+                     await this.service.AttachAddressAsync( personId, addressId, addressType );
+
+                     return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
+              }
+
+              [HttpPost]
+              public async Task<IActionResult> Detach(
+                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List .'")]
+                     int? personId,
+                     int? pageIndex, int? pageSize, string? sortParam, SearchAddressVM? filter,
+                     [Required(ErrorMessage ="Select an address type from the check boxes.")]
+                     string? addressType )
+              {
+                     if ( !ModelState.IsValid )
+                            return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
+
+                     await this.service.DetachAddressAsync( personId, addressType );
+
+                     return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
               }
 
               //################################################################
@@ -109,3 +142,10 @@ namespace PersonnelWebApp.Controllers
               }
        }
 }
+
+// POST: ModelesController/Delete/
+//[HttpPost]
+//public ActionResult Delete( int id )
+//{
+//       return View();
+//}

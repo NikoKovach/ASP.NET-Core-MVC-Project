@@ -2,12 +2,14 @@
 
 namespace Payroll.Services.Services.ServiceContracts
 {
-       public interface IAddressService : IAddUpdate<AddressVM>, IDelete
+       public interface IAddressService : IBasicAddUpdate<AddressVM>
        {
-              //IQueryable<ModelVM>? All( int? personId );
-
               Task<AddressesOfPersonVM>? AllRealAsync( int? personId );
 
               IQueryable<AddressVM>? AllAddresses( string? sortParam, SearchAddressVM? filter );
+
+              Task AttachAddressAsync( int? personId, int? addressId, string? addressType );
+
+              Task DetachAddressAsync( int? personId, string? addressType );
        }
 }

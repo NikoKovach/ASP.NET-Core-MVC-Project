@@ -96,13 +96,9 @@ namespace TestPersonnel.Demo
 
               public static void PersonPartTest( PayrollContext context, IMapper autoMapper )
               {
-                     //IRepository<Diploma> repoDiplomas = new Repository<Diploma>( context );
-
-                     //var eduTypes = repoDiplomas.Context.EducationTypes.Select( x => x.Type ).ToList();
-
                      IRepository<Person> repo = new Repository<Person>( context );
                      var mapper = new MapEntity( autoMapper );
-                     var personsFactory = new PersonsCollectionFactory( mapper, repo );
+                     var personsFactory = new FactoryPersonsCollection( mapper, repo );
 
                      var firstPerson = repo.AllAsNoTracking().FirstOrDefault();
                      var mappedPerson = mapper.Map<Person, SearchPersonVM>( firstPerson );
@@ -126,48 +122,62 @@ namespace TestPersonnel.Demo
 
                      //var person = mapper.Map<PersonVM, Person>( personVM );
 
-                     //var genderCaseOne = repo.Context.Genders.Where( x => x.Type == personVM.GenderType ).FirstOrDefault();
-
-                     //if ( genderCaseOne != null && genderCaseOne.Id > 0 )
-                     //{
-                     //       person.Gender = genderCaseOne;
-                     //}
-
-                     //repo.Update( person );
-
-                     //repo.SaveChangesAsync().GetAwaiter().GetResult();
-
                      Console.WriteLine();
-
-
               }
 
               public static void AddressValidateTest( PayrollContext context, IMapper autoMapper )
               {
+                     //List<AddressType>? addressTypesList = Enum.GetValues( typeof( AddressType ) ).Cast<AddressType>().ToList();
+
+                     //string datalistOptions = string.Empty;
+
+                     //foreach ( var item in addressTypesList )
+                     //{
+                     //       datalistOptions += $"<option>{item}</option>";
+                     //}
+
+                     //Console.WriteLine( datalistOptions );
                      IRepository<Address> repository = new Repository<Address>( context );
-                     var mapper = new MapEntity( autoMapper );
 
-                     //IQueryable<AddressVM>? defaultCollection =
-                     //     mapper.ProjectTo<Address, AddressVM>( repository.AllAsNoTracking() );
-
-                     var modelState = new ModelStateDictionary();
-                     var ModelVm = new AddressVM
+                     var filter = new SearchAddressVM
                      {
-                            Country = "Bulgaria",
-                            Region = "Tarnovo",
-                            City = "Tarnovo",
-                            Street = "Green Meadow",
-                            Number = 8,
-                            Floor = 4,
-                            HasBeenDeleted = false,
-                            AddressType = "permanent",
-                            PersonId = 19
+                            Region = "plov",
+                            City = "plov"
                      };
 
-                     var validateService = new ValidateAddressVMService( repository );
+                     var result = repository.AllAsNoTracking();
 
-                     validateService.Validate( modelState, ModelVm );
+                     if ( !string.IsNullOrEmpty( filter.Country ) )
+                     {
+                            result = result.Where( x => x.Country.Contains( filter.Country ) );
+                     }
 
+                     if ( !string.IsNullOrEmpty( filter.Region ) )
+                     {
+                            result = result.Where( x => x.Region.Contains( filter.Region ) );
+                     }
+
+                     if ( !string.IsNullOrEmpty( filter.City ) )
+                     {
+                            result = result.Where( x => x.City.Contains( filter.City ) );
+                     }
+
+                     //var filterAddresses = repository.AllAsNoTracking()
+                     //                                                        .Where( x => ( filter.Country != null && x.Country.Contains( filter.Country ) ) &&
+                     //                                                                              x.Region.Contains( filter.Region ) &&
+                     //                                                                               x.City.Contains( filter.City ) ).ToList();
+
+                     var mapper = new MapEntity( autoMapper );
+
+                     var factory = new FactoryAddressesCollection( mapper, repository );
+
+
+                     string sort = "Country_desc";
+
+
+                     factory.SortedCollection( sort, filter );
+
+                     Console.WriteLine();
               }
 
               public static void AnyServiceTest( PayrollContext context, IMapper autoMapper )

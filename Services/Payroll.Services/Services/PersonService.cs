@@ -12,10 +12,10 @@ namespace Payroll.Services.Services
        {
               private IRepository<Person> repository;
               private IMapEntity mapper;
-              private IPersonsCollectionFactory collectionsFactory;
+              private IFactorySortCollection<PersonVM> collectionsFactory;
 
               public PersonService( IRepository<Person> personsRepo, IMapEntity mapper,
-                                                        IPersonsCollectionFactory personsCollectionFactory )
+                                                       IFactorySortCollection<PersonVM> personsCollectionFactory )
               {
                      repository = personsRepo;
 
@@ -36,22 +36,7 @@ namespace Payroll.Services.Services
 
               public IQueryable<PersonVM> All( string? sortParam, PersonFilterVM? filter )
               {
-                     if ( filter.PersonId == null && string.IsNullOrEmpty( filter.SearchName )
-                            && string.IsNullOrEmpty( filter.CivilID ) )
-                            filter = null;
-
-                     if ( string.IsNullOrEmpty( sortParam ) && filter == null )
-                            return this.All();
-
-                     if ( filter == null )
-                     {
-                            IQueryable<PersonVM> sortedPersons =
-                           this.collectionsFactory.SortedPersonsCollection[ sortParam ];
-
-                            return sortedPersons;
-                     }
-
-                     IQueryable<PersonVM> filteredPersonsList = this.collectionsFactory.Filtrate( filter, sortParam );
+                     IQueryable<PersonVM>? filteredPersonsList = this.collectionsFactory.SortedCollection( sortParam, filter );
 
                      return filteredPersonsList;
               }

@@ -1,6 +1,11 @@
 ﻿@using Payroll.ViewModels.PersonViewModels
 @model AddressesOfPersonVM?
 
+@{
+       string? sortText = Model.Addresses.SortValue;
+       int? personId = Model.PersonId;
+}
+
 <div>
        <fieldset id="actual-addresses-fieldset" class="border-2">
               <legend class="col-sm-2 fs-5">Actual Addresses:</legend>
@@ -8,50 +13,61 @@
                      <div class="d-inline-block col-sm-8 px-1">
                             <div class="col-sm-12">
                                    <label asp-for="@Model.PermanentAddress"
-                                          class="col-sm-3 text-end px-1"></label>
+                                          class="col-sm-2 text-end px-1"></label>
                                    <input asp-for="@Model.PermanentAddress"
                                           class="col-sm-8 mx-0 my-1 p-1" readonly />
+                                   <input type="checkbox" class="col-sm-1 m-0 p-0 checkAddressType" 
+                                               value="Permanent" />
                             </div>
                             <div class="col-sm-12">
                                    <label asp-for="@Model.CurrentAddress"
-                                          class="col-sm-3 text-end px-1"></label>
+                                          class="col-sm-2 text-end px-1"></label>
                                    <input asp-for="@Model.CurrentAddress"
                                           class="col-sm-8 mx-0 my-1 p-1" readonly />
+                                   <input type="checkbox" class="col-sm-1 m-0 p-0 checkAddressType"
+                                          value="Current" />
                             </div>
                      </div>
                      <div class="d-inline-block col-sm-4 px-1">
                             <div class="btn-toolbar justify-content-left">
                                    <div class="px-0 col-sm-3">
-                                          <button id="show-add-address-form" 
-                                                        class="px-0 col-sm-11 btn btn-sm btn-primary border-0 final-btn">
-                                                 Create New</button>
+                                          <button class="px-0 border-0 col-sm-11 btn btn-sm btn-primary manage-btn" 
+                                                        id="showAddressesBtn">
+                                                 Show Addresses
+                                          </button>
                                    </div>
-                                   <div class="px-0 col-sm-5">
-                                          <button id="show-add-address-form"
-                                                  class="px-0 col-sm-11 btn btn-sm btn-primary border-0 final-btn">
-                                                 Add From The Existing
+                                   <div class="px-0 col-sm-3">
+                                          <button class="px-0 border-0 col-sm-11 btn btn-sm btn-primary manage-btn"
+                                                        id="create-address">
+                                                 Create Address</button>
+                                   </div>
+                                   <div class="px-0 col-sm-3">
+                                          <button class="px-0 border-0 col-sm-11 btn btn-sm btn-primary manage-btn"
+                                                        id="edit-address">
+                                                 Edit Address
                                           </button>
                                    </div>
                             </div>
                             <div class="btn-toolbar justify-content-left">
                                    <div class="px-0 col-sm-3">
-                                          <button class="px-0 col-sm-11 btn btn-sm btn-primary border-0 final-btn">
-                                                 Edit
+                                          <button class="px-0 border-0 col-sm-11 btn btn-sm btn-primary manage-btn"
+                                                         id="attachAddressButton"
+                                                         form="attachAddressForm" 
+                                                         type="submit">
+                                                 Attach Address
                                           </button>
                                    </div>
-                                   <div class="px-0 col-sm-2">
-                                          <form asp-action="Delete" method="post">
-                                                 <button id="delete-entity-btn"
-                                                         type="submit"
-                                                         class="px-0 col-sm-11 btn btn-sm btn-primary border-0 final-btn">
-                                                        Remove
-                                                 </button>
-                                          </form>
+                                   <div class="px-0 col-sm-3">
+                                          <button class="px-0 border-0 col-sm-11 btn btn-sm btn-primary manage-btn"
+                                                         id="detachAddressButton"
+                                                         form="detachAddressForm"
+                                                         type="submit">
+                                                 Detach Address
+                                          </button>
                                    </div>
                                    <div class="px-0 col-sm-3">
                                           <form method="post" asp-action="AllPersons" asp-controller="Persons">
-                                                 <button id="go-back-btn"
-                                                         class="px-0 col-sm-10 btn btn-sm btn-primary border-0 final-btn employees">
+                                                 <button class="px-0 border-0 col-sm-11 btn btn-sm btn-primary manage-btn">
                                                         Persons List
                                                  </button>
                                           </form>
@@ -62,3 +78,32 @@
               
        </fieldset>
 </div>
+
+<div hidden>
+       <form asp-action="Attach" id="attachAddressForm" method="post">
+              <input type="hidden" value="@Model.PersonId" name="personId" />
+              <input type="hidden" value="@Model.Addresses.PageIndex" name="pageIndex" />
+              <input type="hidden" value="@Model.Addresses.PageSize" name="pageSize" />
+              <input type="hidden" id="address-id" name="addressId" />
+              <input type="hidden" id="attachAddressType" name="addressType" />
+       </form>
+</div>
+
+<div hidden>
+       <form asp-action="Detach" id="detachAddressForm" method="post">
+              <input type="hidden" value="@Model.PersonId" name="personId" />
+              <input type="hidden" value="@Model.Addresses.PageIndex" name="pageIndex" />
+              <input type="hidden" value="@Model.Addresses.PageSize" name="pageSize" />
+              <input type="hidden" id="detachAddressType" name="addressType" />
+       </form>
+</div>
+
+@* <p>
+       <label class="w-100">
+              Address Type:
+              <select class="w-50" name="addressType">
+                     <option>Permanent</option>
+                     <option>Current</option>
+              </select>
+       </label>
+</p> *@

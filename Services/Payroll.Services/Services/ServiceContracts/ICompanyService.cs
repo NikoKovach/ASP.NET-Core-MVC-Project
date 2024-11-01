@@ -2,7 +2,7 @@
 
 namespace Payroll.Services.Services.ServiceContracts
 {
-       public interface ICompanyService : IAddUpdate<CompanyViewModel>
+       public interface ICompanyService : IBasicAddUpdate<CompanyViewModel>
        {
               IQueryable<CompanyViewModel> All();
 

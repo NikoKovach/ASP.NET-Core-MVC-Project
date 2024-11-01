@@ -2,7 +2,7 @@
 
 namespace Payroll.Services.Services.ServiceContracts
 {
-       public interface IDiplomaService : IAddUpdate<DiplomaVM>, IDelete
+       public interface IDiplomaService : IBasicAddUpdate<DiplomaVM>, IBasicUpdateCollection<DiplomaVM>, IBasicDelete
        {
               IQueryable<DiplomaVM>? All( int? personId );
 

@@ -6,25 +6,32 @@ using Payroll.ViewModels.PersonViewModels;
 
 namespace Payroll.Services.UtilitiesServices
 {
-       public class DiplomasCollectionFactory : IDiplomasCollectionFactory
+       public class FactoryDiplomasCollection : IFactorySortCollection<DiplomaVM>
        {
               private IMapEntity mapper;
               private IRepository<Diploma> ropository;
               private Dictionary<string, IQueryable<DiplomaVM>> sortedDiplomasCollection;
 
-              public DiplomasCollectionFactory( IMapEntity mapper, IRepository<Diploma> diplomasRopository )
+              public FactoryDiplomasCollection( IMapEntity mapper, IRepository<Diploma> diplomasRopository )
               {
                      this.mapper = mapper;
 
                      this.ropository = diplomasRopository;
               }
 
-              public IQueryable<DiplomaVM>? SortedCollection( int? personId, string? sortParam )
+              public IQueryable<DiplomaVM>? SortedCollection( string? sortParam, params object[] items )
               {
+                     //if ( items.Length < 1 )
+                     //{
+                     //       return Enumerable.Empty<DiplomaVM>().AsQueryable();
+                     //}
+
+                     int personId = (int) items[ 0 ];
+
                      IQueryable<Diploma>? personDiplomas = this.ropository
-                                                                                           .AllAsNoTracking()
-                                                                                           .Where( x => x.PersonId == personId &&
-                                                                                                                   x.HasBeenDeleted == false );
+                                                                                          .AllAsNoTracking()
+                                                                                          .Where( x => x.PersonId == personId &&
+                                                                                                                  x.HasBeenDeleted == false );
 
                      SetDiplomasDictionary( personDiplomas );
 
@@ -89,6 +96,11 @@ namespace Payroll.Services.UtilitiesServices
                                                      .OrderBy( x => x.DiplomaRegNumber );
 
                      return diplomas;
+              }
+
+              public IQueryable<T>? SortedCollection<T>( string? sortParam, params object[] items )
+              {
+                     throw new NotImplementedException();
               }
        }
 }

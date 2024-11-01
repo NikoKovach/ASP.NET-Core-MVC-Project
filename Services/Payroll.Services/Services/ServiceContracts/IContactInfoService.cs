@@ -2,7 +2,8 @@
 
 namespace Payroll.Services.Services.ServiceContracts
 {
-       public interface IContactInfoService : IAddUpdate<ContactInfoVM>, IDelete
+       public interface IContactInfoService : IBasicAddUpdate<ContactInfoVM>,
+                                                                          IBasicUpdateCollection<ContactInfoVM>, IBasicDelete
        {
               IQueryable<ContactInfoVM>? All( int? personId );
 

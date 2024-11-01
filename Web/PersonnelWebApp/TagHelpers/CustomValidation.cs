@@ -18,25 +18,38 @@ namespace PersonnelWebApp.TagHelpers
               {
                      ModelStateDictionary mState = ViewContext.ModelState;
 
-                     ModelStateEntry? element = mState.Where( x => x.Value.ValidationState == ModelValidationState.Invalid
-                                                                                                                              && x.Key.Contains( FieldName ) )
-                                                             .Select( x => x.Value )
-                                                             .FirstOrDefault();
+                     var invalidElement = mState.Where( x => x.Value.ValidationState == ModelValidationState.Invalid
+                                                                                                 && x.Key.Contains( FieldName ) )
+                                                                       .Select( x => x )
+                                                                       .FirstOrDefault();
 
-
-                     if ( element != null && element.Errors.Count > 0 )
+                     if ( invalidElement.Value != null && invalidElement.Value.Errors.Count > 0 )
                      {
-                            string span = "<span  class=\"text-danger\"  style=\"color:#f44336;font-size: 14px;\" > *</span>";
-                            output.PostElement.AppendHtml( span );
+                            string kvpKey = invalidElement.Key;
 
-                            output.Attributes.RemoveAll( "style" );
-                            output.Attributes.Add( new TagHelperAttribute( "style", "background-color:rgb(255, 179, 179);" ) );
+                            string? valueNameAttr = output.Attributes.Where( x => x.Name.Equals( "name" ) )
+                                                                                                       .Select( x => x.Value )
+                                                                                                       .FirstOrDefault()
+                                                                                                       .ToString();
+
+                            if ( valueNameAttr != null && valueNameAttr.Equals( kvpKey ) )
+                            {
+                                   string span = "<span  class=\"text-danger\"  style=\"color:#f44336;font-size: 14px;\" > *</span>";
+                                   output.PostElement.AppendHtml( span );
+
+                                   output.Attributes.RemoveAll( "style" );
+                                   output.Attributes.Add( new TagHelperAttribute( "style", "background-color:rgb(255, 179, 179);" ) );
+                            }
                      }
               }
        }
 }
 
 //background-color: #f44336;
-/*
 
+/*
+//ModelStateEntry? element = mState.Where( x => x.Value.ValidationState == ModelValidationState.Invalid
+                     //                                                                                                         && x.Key.Contains( FieldName ) )
+                     //                                        .Select( x => x.Value )
+                     //                                        .FirstOrDefault();
 */

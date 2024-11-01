@@ -7,12 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Addresses\_AddressesTableBody.cshtml" />
     <Content Remove="Views\Shared\_MobileMenuPartial.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Addresses\_AddressesTableBody.cshtml" />
     <None Include="Views\Shared\_MobileMenuPartial.cshtml" />
     <None Include="wwwroot\css\.DS_Store" />
     <None Include="wwwroot\css\bootstrap-grid.css.map" />

@@ -7,6 +7,7 @@ namespace Payroll.ViewModels.PersonViewModels
 {
        public class AddressVM : AddressEmpVM
        {
+              [Display( Name = "Id" )]
               public int Id { get; set; }
 
               [StringLength( 100, MinimumLength = 3 )]

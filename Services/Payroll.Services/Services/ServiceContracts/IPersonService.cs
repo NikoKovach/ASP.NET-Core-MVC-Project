@@ -2,7 +2,7 @@
 
 namespace Payroll.Services.Services.ServiceContracts
 {
-       public interface IPersonService : IAddUpdate<PersonVM>, IEntityName
+       public interface IPersonService : IBasicAddUpdate<PersonVM>, IBasicUpdateCollection<PersonVM>, IEntityName
        {
               IQueryable<SearchPersonVM> AllActive_SearchPersonVM();
 

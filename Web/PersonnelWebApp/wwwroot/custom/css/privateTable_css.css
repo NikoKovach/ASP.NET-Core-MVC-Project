@@ -14,3 +14,7 @@ button.final-btn{
 .person-item-btn:hover {
        font-weight: bold;
 }
+
+button.manage-btn {
+       font-size: 0.7em; /*8px;*/
+}

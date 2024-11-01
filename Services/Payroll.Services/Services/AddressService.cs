@@ -2,6 +2,7 @@
 using Payroll.Data.Common;
 using Payroll.Mapper.AutoMapper;
 using Payroll.Models;
+using Payroll.Models.EnumTables;
 using Payroll.Services.Services.ServiceContracts;
 using Payroll.ViewModels.PersonViewModels;
 
@@ -11,16 +12,16 @@ namespace Payroll.Services.Services
        {
               private IRepository<Person> personRepository;
               private IMapEntity mapper;
-              private IAddressesCollectionFactory addressesListFactory;
+              private IFactorySortCollection<AddressVM> addressesFactory;
 
               public AddressService( IRepository<Person> personRepo, IMapEntity mapper,
-                     IAddressesCollectionFactory addressesFactory )
+                     IFactorySortCollection<AddressVM> addressesFactory )
               {
                      this.personRepository = personRepo;
 
                      this.mapper = mapper;
 
-                     this.addressesListFactory = addressesFactory;
+                     this.addressesFactory = addressesFactory;
               }
 
               public async Task<AddressesOfPersonVM>? AllRealAsync( int? personId )
@@ -49,38 +50,69 @@ namespace Payroll.Services.Services
 
               public IQueryable<AddressVM>? AllAddresses( string? sortParam, SearchAddressVM? filter )
               {
-                     IQueryable<AddressVM>? sortedList = this.addressesListFactory.SortedCollection( sortParam, filter );
+                     IQueryable<AddressVM>? sortedList = this.addressesFactory.SortedCollection( sortParam, filter );
 
                      return sortedList;
+              }
+
+              public async Task AttachAddressAsync( int? personId, int? addressId, string? addressType )
+              {
+                     Person? person = await this.personRepository.All()
+                                                                                                       .Where( x => x.Id == personId )
+                                                                                                       .FirstOrDefaultAsync();
+
+                     if ( addressType.Equals( AddressType.Permanent.ToString() ) )
+                     {
+                            person.PermanentAddressId = addressId;
+                     }
+                     else if ( addressType.Equals( AddressType.Current.ToString() ) )
+                     {
+                            person.CurrentAddressId = addressId;
+                     }
+
+                     await this.personRepository.SaveChangesAsync();
+              }
+
+              public async Task DetachAddressAsync( int? personId, string? addressType )
+              {
+                     Person? person = await this.personRepository.All()
+                                                                                                       .Where( x => x.Id == personId )
+                                                                                                       .FirstOrDefaultAsync();
+
+                     if ( addressType.Equals( AddressType.Permanent.ToString() ) )
+                     {
+                            if ( person.PermanentAddressId != null )
+                            {
+                                   person.PermanentAddressId = null;
+                            }
+                     }
+                     else if ( addressType.Equals( AddressType.Current.ToString() ) )
+                     {
+                            if ( person.CurrentAddressId != null )
+                            {
+                                   person.CurrentAddressId = null;
+                            }
+                     }
+
+                     EntityState personState = this.personRepository.Context.Entry( person ).State;
+
+                     if ( personState == EntityState.Modified )
+                     {
+                            await this.personRepository.SaveChangesAsync();
+                     }
               }
 
               public async Task AddAsync( AddressVM viewModel )
               {
                      Address? address = this.mapper.Map<AddressVM, Address>( viewModel );
 
-                     Person? person = await this.personRepository.All()
-                                                    .Where( x => x.Id == viewModel.PersonId )
-                                                    .FirstOrDefaultAsync();
+                     if ( address != null )
+                     {
+                            this.personRepository.Context.Addresses.Add( address );
 
-                     if ( IsExist( address ) )
-                     {
-                            personRepository.Context.Addresses.Entry( address ).State = EntityState.Unchanged;
-                     }
-                     else
-                     {
-                            personRepository.Context.Addresses.Entry( address ).State = EntityState.Added;
+                            await personRepository.SaveChangesAsync();
                      }
 
-                     if ( viewModel.AddressType.Equals( "permanent" ) )
-                     {
-                            person.PermanentAddress = address;
-                     }
-                     else if ( viewModel.AddressType.Equals( "current" ) )
-                     {
-                            person.CurrentAddress = address;
-                     }
-
-                     await personRepository.SaveChangesAsync();
               }
 
               public async Task UpdateAsync( AddressVM viewModel )
@@ -94,25 +126,16 @@ namespace Payroll.Services.Services
                                                                                     .FirstOrDefaultAsync();
               }
 
-              public async Task UpdateAsync( ICollection<AddressVM> viewModel )
-              {
-                     return;
-              }
-
-              public async Task DeleteAsync( int? entityId, int? parentEntityId = null )
-              {
-                     return;
-              }
 
               //******************************************************************
 
-              private bool IsExist( Address addressVM )
+              private bool IsExist( Address address )
               {
-                     string? modelCountry = addressVM.Country;
-                     string? modelRegion = addressVM.Region;
-                     string? modelCity = addressVM.City;
-                     string? modelSreet = addressVM.Street;
-                     int? modelNumber = addressVM.Number;
+                     string? modelCountry = address.Country;
+                     string? modelRegion = address.Region;
+                     string? modelCity = address.City;
+                     string? modelSreet = address.Street;
+                     int? modelNumber = address.Number;
 
                      List<Address>? addresses = this.personRepository.Context.Addresses
                                                                            .Where( x => x.Country.Equals( modelCountry )
@@ -123,11 +146,9 @@ namespace Payroll.Services.Services
                                                                                          )
                                                                            .ToList();
 
-                     string propName = addressVM.GetType().Name;
-
-                     foreach ( var address in addresses )
+                     foreach ( var item in addresses )
                      {
-                            if ( address.ApartmentNumber == addressVM.ApartmentNumber )
+                            if ( item.ApartmentNumber == address.ApartmentNumber )
                             {
                                    return true;
                             }
@@ -135,32 +156,31 @@ namespace Payroll.Services.Services
 
                      return false;
               }
+
+              private void AttachAddress()
+              {
+                     //Person? person = await this.personRepository.All()
+                     //                               .Where( x => x.Id == viewModel.PersonId )
+                     //                               .FirstOrDefaultAsync();
+
+                     //if ( IsExist( address ) )
+                     //{
+                     //       personRepository.Context.Addresses.Entry( address ).State = EntityState.Unchanged;
+                     //}
+                     //else
+                     //{
+                     //       personRepository.Context.Addresses.Entry( address ).State = EntityState.Added;
+                     //}
+
+                     //if ( viewModel.AddressType.Equals( "permanent" ) )
+                     //{
+                     //       person.PermanentAddress = address;
+                     //}
+                     //else if ( viewModel.AddressType.Equals( "current" ) )
+                     //{
+                     //       person.CurrentAddress = address;
+                     //}
+              }
        }
 }
 
-
-//var permanentVM = this.mapper.Map<Model, ModelVM>( permanentModel );
-//var currentVM = this.mapper.Map<Model, ModelVM>( currentModel );
-
-//permanentVM.PersonId = personId;
-//currentVM.PersonId = personId;
-
-//public IQueryable<ModelVM>? All( int? personId )
-//{
-//       IQueryable<Diploma>? diplomas = repository.AllAsNoTracking()
-//                                                                                        .Where( x => x.PersonId == personId );
-
-//       IQueryable<DiplomaVM>? diplomasVM = mapper.ProjectTo<Diploma, DiplomaVM>( diplomas );
-
-//       return null;
-//}
-
-//AllReal()
-//if ( personId == null )
-//{
-//       return null;
-//}
-
-//IQueryable<DiplomaVM>? sortedDiplomas = this.diplomaSortFactory.SortedCollection( personId, sortParam );
-
-//return null;
