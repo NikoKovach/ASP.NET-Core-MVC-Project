@@ -124,17 +124,43 @@ namespace Payroll.Services.UtilitiesServices
 
                      if ( HasData( filter ) )
                      {
-                            IQueryable<Person>? collection = this.repository
-                                                                                           .AllAsNoTracking()
-                                                                                           .Where
-                                                                                           ( x => x.FirstName.ToLower().StartsWith( filter.FirstName ) ||
-                                                                                                      x.MiddleName.ToLower().StartsWith( filter.MiddleName ) ||
-                                                                                                      x.LastName.ToLower().StartsWith( filter.LastName ) ||
-                                                                                                      x.EGN.StartsWith( filter.CivilID ) ||
-                                                                                                      x.Id == filter.PersonId
-                                                                                           );
+                            IQueryable<Person>? resultPersons = this.repository.AllAsNoTracking();
 
-                            return collection;
+                            if ( !string.IsNullOrEmpty( filter.FirstName ) )
+                            {
+                                   if ( !string.IsNullOrEmpty( filter.LastName ) && filter.FirstName.Equals( filter.LastName ) )
+                                   {
+                                          resultPersons = resultPersons.Where( x => x.FirstName.Contains( filter.FirstName )
+                                                                                                                 || x.LastName.Contains( filter.LastName ) );
+
+                                   }
+                                   else
+                                   {
+                                          resultPersons = resultPersons.Where( x => x.FirstName.Contains( filter.FirstName ) );
+                                   }
+                            }
+
+                            if ( !string.IsNullOrEmpty( filter.MiddleName ) )
+                            {
+                                   resultPersons = resultPersons.Where( x => x.MiddleName.Contains( filter.MiddleName ) );
+                            }
+
+                            if ( !string.IsNullOrEmpty( filter.LastName ) && !filter.LastName.Equals( filter.FirstName ) )
+                            {
+                                   resultPersons = resultPersons.Where( x => x.LastName.Contains( filter.LastName ) );
+                            }
+
+                            if ( !string.IsNullOrEmpty( filter.CivilID ) )
+                            {
+                                   resultPersons = resultPersons.Where( x => x.EGN.Contains( filter.CivilID ) );
+                            }
+
+                            if ( filter.PersonId != null && filter.PersonId > 0 )
+                            {
+                                   resultPersons = resultPersons.Where( x => x.Id == filter.PersonId );
+                            }
+
+                            return resultPersons;
                      }
 
                      return this.repository.AllAsNoTracking();

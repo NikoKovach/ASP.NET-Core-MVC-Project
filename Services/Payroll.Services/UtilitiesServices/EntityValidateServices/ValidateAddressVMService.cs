@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Payroll.Data.Common;
 using Payroll.Models;
 using Payroll.Services.UtilitiesServices.Messages;
@@ -16,50 +17,87 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                      this.repository = ModelRepo;
               }
 
-              public override void Validate( ModelStateDictionary modelState, ValidateBaseModel viewModel )
+              public override void Validate( ModelStateDictionary modelState, ValidateBaseModel viewModel,
+                                                        [CallerMemberName] string actionName = "", params object[] parameters )
               {
                      base.ModelState = modelState;
 
                      AddressVM? addressVM = (AddressVM) viewModel;
 
-                     IsExist( addressVM );
+                     if ( actionName.Equals( "Create" ) )
+                     {
+                            AddressIdIsCreaterThanZero( addressVM );
+                     }
+
+                     if ( actionName.Equals( "Edit" ) )
+                     {
+                            AddressIdExistsInDatabase( addressVM );
+                     }
+
+                     if ( actionName.Equals( "EditAttach" ) )
+                     {
+                            AddressIdExistsInDatabase( addressVM );
+
+                            AddressTypeIsSelected( addressVM );
+                     }
+
+                     if ( actionName.Equals( "CreateAttach" ) )
+                     {
+                            AddressIdIsCreaterThanZero( addressVM );
+
+                            AddressTypeIsSelected( addressVM );
+                     }
               }
 
               //*******************************************************************
 
-              private void IsExist( AddressVM addressVM )
+              private void AddressIdIsCreaterThanZero( AddressVM addressVM )
               {
                      this.FieldErrors.Clear();
 
-                     string? modelCountry = addressVM.Country;
-                     string? modelRegion = addressVM.Region;
-                     string? modelCity = addressVM.City;
-                     string? modelSreet = addressVM.Street;
-                     int? modelNumber = addressVM.Number;
-
-                     List<Address>? addresses = this.repository.AllAsNoTracking()
-                                                                           .Where( x => x.Country.Equals( modelCountry )
-                                                                                            && x.Region.Equals( modelRegion )
-                                                                                            && x.City.Equals( modelCity )
-                                                                                            && x.Street.Equals( modelSreet )
-                                                                                            && x.Number == modelNumber
-                                                                                         )
-                                                                           .ToList();
-
-                     string propName = addressVM.GetType().Name;
-
-                     foreach ( var address in addresses )
+                     if ( addressVM.Id > 0 )
                      {
-                            if ( address.ApartmentNumber == addressVM.ApartmentNumber )
-                            {
-                                   string error = string.Format( OutputMessages.ErrorAddressExists );
+                            string modelStateKey = $"{nameof( addressVM )}.{nameof( addressVM.Id )}";
 
-                                   this.FieldErrors.Add( error );
+                            string error = string.Format( OutputMessages.ErrorIDIsNotZero );
 
-                                   AddModelStateError( propName );
+                            this.FieldErrors.Add( error );
 
-                                   break;
-                            }
+                            AddModelStateError( nameof( addressVM.Id ), modelStateKey );
+                     }
+              }
+
+              private void AddressIdExistsInDatabase( AddressVM addressVM )
+              {
+                     this.FieldErrors.Clear();
+
+                     bool addressIdExists = this.repository.AllAsNoTracking()
+                                                                                       .Any( x => x.Id == addressVM.Id );
+                     if ( !addressIdExists )
+                     {
+                            string modelStateKey = $"{nameof( addressVM )}.{nameof( addressVM.Id )}";
+
+                            string error = string.Format( OutputMessages.ErrorAddressIdNotExists );
+
+                            this.FieldErrors.Add( error );
+
+                            AddModelStateError( nameof( addressVM.Id ), modelStateKey );
+                     }
+              }
+
+              private void AddressTypeIsSelected( AddressVM addressVM )
+              {
+                     this.FieldErrors.Clear();
+
+                     if ( string.IsNullOrEmpty( addressVM.AddressType ) )
+                     {
+                            string modelStateKey = $"{nameof( addressVM )}.{nameof( addressVM.AddressType )}";
+
+                            string error = string.Format( OutputMessages.ErrorAddressType );
+
+                            this.FieldErrors.Add( error );
+
+                            AddModelStateError( nameof( addressVM.AddressType ), modelStateKey );
                      }
               }
        }

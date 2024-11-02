@@ -24,6 +24,10 @@
 
               public const string ErrorFieldIsRequired = "The field '{0}' is required !";
 
-              public const string ErrorAddressExists = "The addressl exists !";
+              public const string ErrorAddressIdNotExists = "There is no record with the given 'ID' in Address table !";
+
+              public const string ErrorAddressType = "The type of address is not selected !";
+
+              public const string ErrorIDIsNotZero = "The property value is invalid  !";
        }
 }

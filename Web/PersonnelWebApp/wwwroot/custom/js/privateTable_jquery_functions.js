@@ -509,12 +509,18 @@ $("button.manage-btn").on("click", function () {
        $(this).trigger("blur");
 });
 
-$("#create-address").on("click", function () {
+$("#create-address-btn").on("click", function () {
        showHideElement($("#change-address-form"));
+
+       clearAddressFotm();
 });
 
-$("#edit-address").on("click", function () {
+$("#edit-address-btn").on("click", function () {
        showHideElement($("#change-address-form"));
+
+       let addressForEdit = getAddress();
+
+       fillAddressForm(addressForEdit);
 });
 
 $("#showAddressesBtn").on("click", function () {
@@ -573,5 +579,59 @@ function showHideElement(element) {
        }
 };
 
+function getAddress() {
+       let address = {};
+
+       if (currentRowIndex > -1) {
+              let selectedRow = $("#customTableBody > tr").eq(currentRowIndex);
+
+              let addressFields = $(selectedRow).children("td").children(".table-field");
+
+              $(addressFields).each(function (i) {
+                     let dotIndex = $(this).attr("name").indexOf(".");
+
+                     let modelName = $(this).attr("name").slice(dotIndex +1);
+                     let modelValue = $(this).val();
+
+                     address[modelName] = modelValue;
+              });
+
+              return address;
+       }
+
+       return address;
+};
+
+function fillAddressForm(addressForEdit) {
+       for (let x in addressForEdit) {
+              let resultInput = $("#newAddressForm input[id$='" + x + "']");
+
+              $(resultInput).val(addressForEdit[x]);
+       };
+};
+
+function clearAddressFotm() {
+       let inputsInForm = $("#newAddressForm input.address-field");
+
+       $(inputsInForm).each(function (i) {
+
+              let attrId = $(this).attr("id");
+
+              if (attrId.endsWith("Id")) {
+                     $(this).val(0);
+              }
+              else {
+                     $(this).val("");
+              }
+       });
+};
 
 
+/*resultText += $(resultInput).val() + " ; ";*/
+/*text += addressForEdit[x] + " ";*/
+/* text += x + " ; ";*/
+
+//let resultInput = $("#newAddressForm input[id$='Id']");
+/* "input[name~='man']"*/
+/*  let resultInput = $(inputsInForm).filter("input[id~='" + x + "']");*/
+//console.log($(resultInput).attr("id"));

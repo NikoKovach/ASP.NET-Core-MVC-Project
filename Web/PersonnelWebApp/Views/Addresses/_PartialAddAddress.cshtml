@@ -25,7 +25,7 @@
                                    <div class="col-sm-8 px-1">
                                           <div class="input-group">
                                                  <input asp-for="@addressVM.AddressType" list="address-type-list"
-                                                        class="form-control my-1 py-0"
+                                                        class="form-control my-1 py-0 address-field"
                                                         validate field-name="@nameof(addressVM.AddressType)">
                                                         <datalist id="address-type-list" options-list>
                                                         </datalist>
@@ -41,7 +41,7 @@
                                    <div class="col-sm-8 px-1">
                                           <div class="input-group">
                                                  <input asp-for="@addressVM.Id" type="text"
-                                                        class="form-control my-1 py-0" readonly
+                                                        class="form-control my-1 py-0 address-field" readonly
                                                         validate field-name="@nameof(addressVM.Id)">
                                           </div>
                                    </div>
@@ -54,7 +54,7 @@
                                    <div class="col-sm-8 px-1">
                                           <div class="input-group">
                                                  <input asp-for="@addressVM.Country" 
-                                                        class="form-control my-1 py-0"
+                                                        class="form-control my-1 py-0 address-field"
                                                         placeholder="Required" type="text"
                                                         validate field-name="@nameof(addressVM.Country)">
                                           </div>
@@ -68,7 +68,7 @@
                                    <div class="col-sm-8 px-1">
                                           <div class="input-group">
                                                  <input asp-for="@addressVM.Region" 
-                                                        class="form-control my-1 py-0" type="text"
+                                                        class="form-control my-1 py-0 address-field" type="text"
                                                         placeholder="Required"
                                                         validate field-name="@nameof(addressVM.Region)">
                                           </div>
@@ -82,7 +82,7 @@
                                    <div class="col-sm-8 px-1">
                                           <div class="input-group">
                                                  <input asp-for="@addressVM.Municipality"
-                                                        class="form-control my-1 py-0" type="text"
+                                                        class="form-control my-1 py-0  address-field" type="text"
                                                         validate field-name="@nameof(addressVM.Municipality)">
                                           </div>
                                    </div>
@@ -95,7 +95,7 @@
                                    <div class="col-sm-8 px-1">
                                           <div class="input-group">
                                                  <input asp-for="@addressVM.City"
-                                                        class="form-control my-1 py-0" type="text"
+                                                        class="form-control my-1 py-0 address-field" type="text"
                                                         placeholder="Required"
                                                         validate field-name="@nameof(addressVM.City)">
                                           </div>
@@ -109,7 +109,7 @@
                                    <div class="col-sm-8 px-1">
                                           <div class="input-group">
                                                  <input asp-for="@addressVM.Street"
-                                                        class="form-control my-1 py-0" type="text"
+                                                        class="form-control my-1 py-0 address-field" type="text"
                                                         placeholder="Required"
                                                         validate field-name="@nameof(addressVM.Street)">
                                           </div>
@@ -123,7 +123,7 @@
                                    <div class="col-sm-8 px-1">
                                           <div class="input-group">
                                                  <input asp-for="@addressVM.Number"
-                                                        class="form-control my-1 py-0" type="text"
+                                                        class="form-control my-1 py-0 address-field" type="text"
                                                         placeholder="Required"
                                                         validate field-name="@nameof(addressVM.Number)">
                                           </div>
@@ -137,7 +137,7 @@
                                    <div class="col-sm-8 px-1">
                                           <div class="input-group">
                                                  <input asp-for="@addressVM.Entrance"
-                                                        class="form-control my-1 py-0" type="text"
+                                                        class="form-control my-1 py-0 address-field" type="text"
                                                         validate field-name="@nameof(addressVM.Entrance)">
                                           </div>
                                    </div>
@@ -150,7 +150,7 @@
                                    <div class="col-sm-8 px-1">
                                           <div class="input-group">
                                                  <input asp-for="@addressVM.Floor"
-                                                        class="form-control my-1 py-0" type="text"
+                                                        class="form-control my-1 py-0 address-field" type="text"
                                                         validate field-name="@nameof(addressVM.Floor)">
                                           </div>
                                    </div>
@@ -163,23 +163,20 @@
                                    <div class="col-sm-8 px-1">
                                           <div class="input-group">
                                                  <input asp-for="@addressVM.ApartmentNumber"
-                                                        class="form-control my-1 py-0" type="text"
+                                                        class="form-control my-1 py-0 address-field" type="text"
                                                         validate field-name="@nameof(addressVM.ApartmentNumber)">
                                           </div>
                                    </div>
                             </div>
 
-                            <input asp-for="@addressVM.PersonId" value="@Model.PersonId" hidden>
+                            <input type="hidden" value="@Model.PersonId" name="addressVM.PersonId">
                             <input type="hidden" value="@Model.PersonId" name="personId" />
                             <input type="hidden" value="@Model.Addresses.PageIndex" name="pageIndex" />
                             <input type="hidden" value="@Model.Addresses.PageSize" name="pageSize" />
-
-                            <!-- Button -->
-                            
                      </div>
               </form>
 
-              <div class="mx-5 mt-4 mb-1 col-sm-9">
+              <div class="mx-4 mt-4 mb-1 col-sm-9">
                      <div class="col-sm-12 row mx-5 my-1">
                             <div class="d-inline-block col-sm-5 mx-2 px-1">
                                    <button 
@@ -203,13 +200,17 @@
                      <div class="col-sm-12 row mx-5">
                             <div class="d-inline-block col-sm-5 mx-2 px-1">
                                    <button class="col-sm-11 mx-4 px-1 border-0 btn btn-sm btn-success manage-btn"
-                                           type="submit">
+                                           type="submit"
+                                           form="newAddressForm"
+                                           formaction="/Addresses/CreateAttach">
                                           Create & attach
                                    </button>
                             </div>
                             <div class="d-inline-block col-sm-5 mx-2 px-1">
                                    <button class="col-sm-11 px-1 border-0 btn btn-sm btn-success manage-btn"
-                                           type="submit">
+                                           type="submit"
+                                           form="newAddressForm"
+                                           formaction="/Addresses/EditAttach">
                                           Update & attach
                                    </button>
                             </div>

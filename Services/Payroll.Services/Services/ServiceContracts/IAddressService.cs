@@ -11,5 +11,9 @@ namespace Payroll.Services.Services.ServiceContracts
               Task AttachAddressAsync( int? personId, int? addressId, string? addressType );
 
               Task DetachAddressAsync( int? personId, string? addressType );
+
+              Task AddAndAttachAsync( AddressVM addressVM );
+
+              Task UpdateAndAttachAsync( AddressVM addressVM );
        }
 }

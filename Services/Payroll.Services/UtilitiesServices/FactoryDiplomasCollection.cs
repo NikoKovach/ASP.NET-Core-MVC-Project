@@ -21,11 +21,6 @@ namespace Payroll.Services.UtilitiesServices
 
               public IQueryable<DiplomaVM>? SortedCollection( string? sortParam, params object[] items )
               {
-                     //if ( items.Length < 1 )
-                     //{
-                     //       return Enumerable.Empty<DiplomaVM>().AsQueryable();
-                     //}
-
                      int personId = (int) items[ 0 ];
 
                      IQueryable<Diploma>? personDiplomas = this.ropository
@@ -96,11 +91,6 @@ namespace Payroll.Services.UtilitiesServices
                                                      .OrderBy( x => x.DiplomaRegNumber );
 
                      return diplomas;
-              }
-
-              public IQueryable<T>? SortedCollection<T>( string? sortParam, params object[] items )
-              {
-                     throw new NotImplementedException();
               }
        }
 }

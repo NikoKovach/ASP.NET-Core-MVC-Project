@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Payroll.Services.Services.ServiceContracts;
+using Payroll.Services.UtilitiesServices.EntityValidateServices;
+using Payroll.ViewModels;
 using Payroll.ViewModels.PagingViewModels;
 using Payroll.ViewModels.PersonViewModels;
 using PersonnelWebApp.Utilities;
@@ -15,12 +17,16 @@ namespace PersonnelWebApp.Controllers
 
               private IAddressService service;
               private IConfigurationRoot? privateConfig;
+              private IValidate<ValidateBaseModel> validateService;
 
-              public AddressesController( IAddressService addressService, IPrivateConfiguration configuration )
+              public AddressesController( IAddressService addressService, IPrivateConfiguration configuration,
+                     [FromKeyedServices( "AddressValidate" )] IValidate<ValidateBaseModel> validateService )
               {
                      this.service = addressService;
 
                      this.privateConfig = configuration.PrivateConfig();
+
+                     this.validateService = validateService;
 
                      SetPagingVariables();
               }
@@ -33,9 +39,6 @@ namespace PersonnelWebApp.Controllers
                      if ( !ModelState.IsValid )
                             return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
 
-                     // TODO : Edit Filter function - text in two or more filter fields gives wrong result
-
-
                      return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
               }
 
@@ -45,13 +48,30 @@ namespace PersonnelWebApp.Controllers
                      int? personId,
                      int? pageIndex, int? pageSize, string? sortParam, SearchAddressVM? filter, AddressVM? addressVM )
               {
+                     this.validateService.Validate( ModelState, addressVM, nameof( Create ) );
 
-                     //addressVM.PersonId - invalid
                      if ( !ModelState.IsValid )
                             return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
 
-                     if ( addressVM != null )
+                     if ( !string.IsNullOrEmpty( addressVM.Country ) )
                             await this.service.AddAsync( addressVM );
+
+                     return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
+              }
+
+              [HttpPost]
+              public async Task<IActionResult> CreateAttach(
+                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List .'")]
+                     int? personId,
+                     int? pageIndex, int? pageSize, string? sortParam, SearchAddressVM? filter, AddressVM? addressVM )
+              {
+                     this.validateService.Validate( ModelState, addressVM, nameof( CreateAttach ) );
+
+                     if ( !ModelState.IsValid )
+                            return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
+
+                     if ( !string.IsNullOrEmpty( addressVM.Country ) )
+                            await this.service.AddAndAttachAsync( addressVM );
 
                      return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
               }
@@ -62,11 +82,30 @@ namespace PersonnelWebApp.Controllers
                      int? personId,
                      int? pageIndex, int? pageSize, string? sortParam, SearchAddressVM? filter, AddressVM? addressVM )
               {
+                     this.validateService.Validate( ModelState, addressVM, nameof( Edit ) );
+
                      if ( !ModelState.IsValid )
                             return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
 
-                     if ( addressVM != null )
+                     if ( addressVM.Id > 0 )
                             await this.service.UpdateAsync( addressVM );
+
+                     return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
+              }
+
+              [HttpPost]
+              public async Task<IActionResult> EditAttach(
+                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List .'")]
+                     int? personId,
+                     int? pageIndex, int? pageSize, string? sortParam, SearchAddressVM? filter, AddressVM? addressVM )
+              {
+                     this.validateService.Validate( ModelState, addressVM, nameof( EditAttach ) );
+
+                     if ( !ModelState.IsValid )
+                            return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
+
+                     if ( addressVM.Id > 0 )
+                            await this.service.UpdateAndAttachAsync( addressVM );
 
                      return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
               }
@@ -118,11 +157,6 @@ namespace PersonnelWebApp.Controllers
                      {
                             this._pageIndex = int.Parse( this.privateConfig[ "Paging:PageIndex" ] );
                      }
-
-                     //if ( !string.IsNullOrEmpty( this.privateConfig[ "Paging:Count" ] ) )
-                     //{
-                     //       this._count = int.Parse( this.privateConfig[ "Paging:Count" ] );
-                     //}
               }
 
               private async Task<IActionResult> ResultAsync( int? personId, int? pageIndex, int? pageSize,
@@ -143,9 +177,7 @@ namespace PersonnelWebApp.Controllers
        }
 }
 
-// POST: ModelesController/Delete/
-//[HttpPost]
-//public ActionResult Delete( int id )
+//if ( !string.IsNullOrEmpty( this.privateConfig[ "Paging:Count" ] ) )
 //{
-//       return View();
+//       this._count = int.Parse( this.privateConfig[ "Paging:Count" ] );
 //}

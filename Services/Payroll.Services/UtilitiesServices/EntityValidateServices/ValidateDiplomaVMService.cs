@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Payroll.Services.UtilitiesServices.Messages;
 using Payroll.ViewModels;
@@ -9,9 +10,9 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
        public class ValidateDiplomaVMService : ValidateBaseClass, IValidate<ValidateBaseModel>
        {
 
-              public override void Validate( ModelStateDictionary modelState, ValidateBaseModel viewModel )
+              public override void Validate( ModelStateDictionary modelState, ValidateBaseModel viewModel,
+                                                 [CallerMemberName] string actionName = "", params object[] parameters )
               {
-                     //key = personVM.MiddleName
                      base.ModelState = modelState;
 
                      DiplomaVM? diplomaVM = (DiplomaVM) viewModel;

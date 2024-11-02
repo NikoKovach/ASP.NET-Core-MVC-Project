@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Payroll.Data.Common;
 using Payroll.Models;
@@ -17,7 +18,8 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                      this.persons = personsRepo.AllAsNoTracking();
               }
 
-              public override void Validate( ModelStateDictionary modelState, ValidateBaseModel viewModel )
+              public override void Validate( ModelStateDictionary modelState, ValidateBaseModel viewModel,
+                                                        [CallerMemberName] string actionName = "", params object[] parameters )
               {
                      base.ModelState = modelState;
 

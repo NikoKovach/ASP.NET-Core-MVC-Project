@@ -6,7 +6,6 @@ using Payroll.Data.Common;
 using Payroll.Mapper.AutoMapper;
 using Payroll.Mapper.CustomMap;
 using Payroll.Models;
-using Payroll.Services.Services;
 using Payroll.Services.UtilitiesServices;
 using Payroll.Services.UtilitiesServices.EntityValidateServices;
 using Payroll.ViewModels.CustomValidation;
@@ -100,17 +99,25 @@ namespace TestPersonnel.Demo
                      var mapper = new MapEntity( autoMapper );
                      var personsFactory = new FactoryPersonsCollection( mapper, repo );
 
-                     var firstPerson = repo.AllAsNoTracking().FirstOrDefault();
-                     var mappedPerson = mapper.Map<Person, SearchPersonVM>( firstPerson );
+                     var filter = new PersonFilterVM
+                     {
+                            SearchName = "asen",
+                            CivilID = "870",
 
-                     var searchPersons = mapper
-                            .ProjectTo<Person, SearchPersonVM>( repo.AllAsNoTracking() )
-                            .OrderBy( x => x.FirstName )
-                            .ThenBy( x => x.LastName ).ToList();
+                     };
 
-                     var personService = new PersonService( repo, mapper, personsFactory );
+                     personsFactory.SortedCollection( "", filter );
+                     //var firstPerson = repo.AllAsNoTracking().FirstOrDefault();
+                     //var mappedPerson = mapper.Map<Person, SearchPersonVM>( firstPerson );
 
-                     var result = personService.AllActive_SearchPersonVM().ToList();
+                     //var searchPersons = mapper
+                     //       .ProjectTo<Person, SearchPersonVM>( repo.AllAsNoTracking() )
+                     //       .OrderBy( x => x.FirstName )
+                     //       .ThenBy( x => x.LastName ).ToList();
+
+                     //var personService = new PersonService( repo, mapper, personsFactory );
+
+                     //var result = personService.AllActive_SearchPersonVM().ToList();
                      //var personVM = new PersonVM
                      //{
                      //       Id = 7,

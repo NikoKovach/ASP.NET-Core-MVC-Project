@@ -21,11 +21,6 @@ namespace Payroll.Services.UtilitiesServices
 
               public IQueryable<ContactInfoVM>? SortedCollection( string? sortParam, params object[] items )
               {
-                     //if ( items.Length < 1 )
-                     //{
-                     //       return Enumerable.Empty<ContactInfoVM>().AsQueryable();
-                     //}
-
                      int personId = (int) items[ 0 ];
 
                      IQueryable<ContactInfo>? personContacts = this.repository

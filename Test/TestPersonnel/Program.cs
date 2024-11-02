@@ -16,10 +16,10 @@ public class Program
               //ServiceTest.TestCustomMapper( context );
               //ServiceTest.TestValidate( context, mapper );
 
-              ServiceTest.AddressValidateTest( context, mapper );
+              //ServiceTest.AddressValidateTest( context, mapper );
 
               //ServiceTest.ConfigurationTest();
-              //ServiceTest.PersonPartTest( context, mapper );
+              ServiceTest.PersonPartTest( context, mapper );
 
               Console.WriteLine();
        }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Payroll.ViewModels;
@@ -19,9 +20,14 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
 
               protected List<string> FieldErrors { get; set; }
 
-              public abstract void Validate( ModelStateDictionary modelState, ValidateBaseModel viewModel );
+              public virtual void Validate( ModelStateDictionary modelState, ValidateBaseModel viewModel,
+                                                 [CallerMemberName] string actionName = "", params object[] parameters )
+              {
+                     return;
+              }
 
-              public virtual void Validate( ModelStateDictionary modelState, IEnumerable<ValidateBaseModel> viewModelsCollection )
+              public virtual void Validate( ModelStateDictionary modelState,
+                                                               IEnumerable<ValidateBaseModel> viewModelsCollection )
               {
                      return;
               }
@@ -32,7 +38,7 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
               {
                      string generalError = GenerateErrorString( this.FieldErrors, propName );
 
-                     if ( keyString is null )
+                     if ( keyString == default )
                      {
                             keyString = propName;
                      }

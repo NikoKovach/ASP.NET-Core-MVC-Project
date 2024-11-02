@@ -61,16 +61,12 @@ namespace Payroll.Services.Services
                                                                                                        .Where( x => x.Id == personId )
                                                                                                        .FirstOrDefaultAsync();
 
-                     if ( addressType.Equals( AddressType.Permanent.ToString() ) )
+                     if ( person.Id > 0 && addressId > 0 && !string.IsNullOrEmpty( addressType ) )
                      {
-                            person.PermanentAddressId = addressId;
-                     }
-                     else if ( addressType.Equals( AddressType.Current.ToString() ) )
-                     {
-                            person.CurrentAddressId = addressId;
-                     }
+                            AttachAddressToPerson( addressType, person, addressId.GetValueOrDefault() );
 
-                     await this.personRepository.SaveChangesAsync();
+                            await this.personRepository.SaveChangesAsync();
+                     }
               }
 
               public async Task DetachAddressAsync( int? personId, string? addressType )
@@ -112,20 +108,70 @@ namespace Payroll.Services.Services
 
                             await personRepository.SaveChangesAsync();
                      }
-
               }
 
               public async Task UpdateAsync( AddressVM viewModel )
               {
-                     var address = this.mapper.Map<AddressVM, Address>( viewModel );
+                     Address? address = this.mapper.Map<AddressVM, Address>( viewModel );
 
-                     Address? permanentModel = await this.personRepository
-                                                                                    .AllAsNoTracking()
-                                                                                    .Where( x => x.Id == viewModel.PersonId )
-                                                                                    .Select( x => x.PermanentAddress )
-                                                                                    .FirstOrDefaultAsync();
+                     if ( !IsExist( address ) )
+                     {
+                            this.personRepository.Context.Entry( address ).State = EntityState.Modified;
+
+                            await personRepository.SaveChangesAsync();
+                     }
               }
 
+              public async Task AddAndAttachAsync( AddressVM addressVM )
+              {
+                     Person? person = await this.personRepository.All()
+                                                    .Where( x => x.Id == addressVM.PersonId )
+                                                    .FirstOrDefaultAsync();
+
+                     Address? address = this.mapper.Map<AddressVM, Address>( addressVM );
+
+                     if ( IsExist( address ) )
+                     {
+                            this.personRepository.Context.Addresses.Entry( address ).State = EntityState.Unchanged;
+                     }
+                     else
+                     {
+                            this.personRepository.Context.Addresses.Entry( address ).State = EntityState.Added;
+                     }
+
+                     if ( person.Id > 0 && address.Id < 1 && !string.IsNullOrEmpty( addressVM.AddressType ) )
+                     {
+                            CreateAttachAddressToPerson( addressVM.AddressType, person, address );
+
+                            await this.personRepository.SaveChangesAsync();
+                     }
+              }
+
+              public async Task UpdateAndAttachAsync( AddressVM addressVM )
+              {
+                     //person = null - > addressVM.PersonId = 22 
+                     Person? person = await this.personRepository.All()
+                                                    .Where( x => x.Id == addressVM.PersonId )
+                                                    .FirstOrDefaultAsync();
+
+                     Address? address = this.mapper.Map<AddressVM, Address>( addressVM );
+
+                     if ( !IsExist( address ) )
+                     {
+                            this.personRepository.Context.Entry( address ).State = EntityState.Modified;
+                     }
+                     else
+                     {
+                            this.personRepository.Context.Addresses.Entry( address ).State = EntityState.Unchanged;
+                     }
+
+                     if ( person.Id > 0 && address.Id > 0 && !string.IsNullOrEmpty( addressVM.AddressType ) )
+                     {
+                            AttachAddressToPerson( addressVM.AddressType, person, address.Id );
+
+                            await this.personRepository.SaveChangesAsync();
+                     }
+              }
 
               //******************************************************************
 
@@ -157,30 +203,35 @@ namespace Payroll.Services.Services
                      return false;
               }
 
-              private void AttachAddress()
+              private void AttachAddressToPerson( string addressType, Person? person, int addressId )
               {
-                     //Person? person = await this.personRepository.All()
-                     //                               .Where( x => x.Id == viewModel.PersonId )
-                     //                               .FirstOrDefaultAsync();
+                     if ( addressType.Equals( AddressType.Permanent.ToString() ) )
+                     {
+                            person.PermanentAddressId = addressId;
+                     }
+                     else if ( addressType.Equals( AddressType.Current.ToString() ) )
+                     {
+                            person.CurrentAddressId = addressId;
+                     }
+              }
 
-                     //if ( IsExist( address ) )
-                     //{
-                     //       personRepository.Context.Addresses.Entry( address ).State = EntityState.Unchanged;
-                     //}
-                     //else
-                     //{
-                     //       personRepository.Context.Addresses.Entry( address ).State = EntityState.Added;
-                     //}
-
-                     //if ( viewModel.AddressType.Equals( "permanent" ) )
-                     //{
-                     //       person.PermanentAddress = address;
-                     //}
-                     //else if ( viewModel.AddressType.Equals( "current" ) )
-                     //{
-                     //       person.CurrentAddress = address;
-                     //}
+              private void CreateAttachAddressToPerson( string addressType, Person? person, Address address )
+              {
+                     if ( addressType.Equals( AddressType.Permanent.ToString() ) )
+                     {
+                            person.PermanentAddress = address;
+                     }
+                     else if ( addressType.Equals( AddressType.Current.ToString() ) )
+                     {
+                            person.CurrentAddress = address;
+                     }
               }
        }
 }
+
+/*
+
+*/
+
+
 
