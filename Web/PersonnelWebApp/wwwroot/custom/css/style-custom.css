@@ -255,9 +255,8 @@ div.staff .send_bt.modify-company a:hover {
 	font-size: 0.8em;
 }
 
-/*********End Employees ******************/
+input.emp-manage-btn:hover {
+       font-weight: bold;
+}
 
-/*
-#privateTable-body {
-       background-color: chocolate;
-}*/
+/*********End Employees ******************/

@@ -15,17 +15,17 @@
                                    <div class="d-flex justify-content-center p-1 m-0">
                                           <div class="d-inline mx-1">
                                                  <form asp-action="AllPersons" method="post">
-                                                        <input type="submit" class="btn btn-success border-0 px-1 py-0 col-sm-12" value="..." />
+                                                        <input type="submit" 
+                                                                    class="btn btn-success border-0 px-1 py-0 col-sm-12" value="..." />
                                                  </form>
                                           </div>
                                           <div class="d-inline mx-1">
                                                  <form asp-action="AllPersons" method="post">
                                                         <input asp-for="@Model.PageSize" type="text" name="pageSize"
-                                                               class="border-1 col-sm-4 px-1 py-0" />
+                                                                      class="border-1 col-sm-4 px-1 py-0" />
                                                         <label>Table rows</label>
                                                         <input type="hidden" value="@Model.PageIndex" name="pageIndex" />
                                                         <input type="hidden" value=@Model.SortValue name="sortParam" />
-                                                        @* <input type="hidden" value=@personId name="personId" /> *@
                                                  </form>
                                           </div>
                                    </div>
@@ -43,22 +43,27 @@
                                           <div class="row mx-0 w-100">
                                                  <div class="form-group col-md-2 p-0">
                                                         <label asp-for="@filter.PersonId" class="col-sm-11"></label>
-                                                        <input asp-for="@filter.PersonId" class="col-sm-11 border-1 px-1 py-0" type="text"
+                                                        <input asp-for="@filter.PersonId" 
+                                                               class="col-sm-11 border-1 px-1 py-0" type="text"
                                                                validate field-name="@nameof(filter.PersonId)" />
                                                  </div>
                                                  <div class="form-group col-md-5 p-0">
                                                         <label asp-for="@filter.SearchName" class="col-sm-11"></label>
-                                                        <input asp-for="@filter.SearchName" class="col-sm-11 border-1 px-1 py-0" type="text"
+                                                        <input asp-for="@filter.SearchName" 
+                                                               class="col-sm-11 border-1 px-1 py-0" type="text"
                                                                validate field-name="@nameof(filter.SearchName)" />
                                                  </div>
                                                  <div class="form-group col-md-2 p-0">
                                                         <label asp-for="@filter.CivilID" class="col-sm-11"></label>
-                                                        <input asp-for="@filter.CivilID" class="col-sm-11 border-1 px-1 py-0" type="text"
+                                                        <input asp-for="@filter.CivilID" 
+                                                               class="col-sm-11 border-1 px-1 py-0" type="text"
                                                                validate field-name="@nameof(filter.CivilID)" />
                                                  </div>
                                                  <div class="form-group col-md-2 p-0">
                                                         <label class="col-md-12"></label>
-                                                        <input type="submit" class="btn btn-success h-50 border-0 col-sm-7 p-0 " value="Search" />
+                                                        <input type="submit" 
+                                                               class="btn btn-success h-50 border-0 col-sm-7 p-0 " 
+                                                               value="Search" />
                                                  </div>
                                           </div>
                                    </div>

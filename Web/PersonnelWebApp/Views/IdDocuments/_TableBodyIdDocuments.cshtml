@@ -1,0 +1,133 @@
+﻿@using Payroll.Services.Services
+@using Payroll.ViewModels.PersonViewModels
+@using System.Globalization
+@model List<IdDocumentVM>?
+
+@{
+       List<IdDocumentVM>? entitiesForEdit = Model;
+}
+
+<tbody id="customTableBody">
+       @{
+              int rows = entitiesForEdit.Count;
+              for ( int i = 0; i < rows; i++ )
+              {
+                     int rowNumber = i + 1;
+
+                     string isValid = entitiesForEdit[ i ].IsValid ? "true" : "false";
+                     string deleted = entitiesForEdit[i].HasBeenDeleted ? "true" : "false";
+
+                     <tr>
+                            <td class="py-1 text-center">
+                                   <input type="checkbox" class="edit-checkbox" />
+                            </td>
+                            <td class="py-1 text-center">@rowNumber</td>
+                            <td class="py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].Id" readonly entity-id
+                                   class="border-0 text-center table-field" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].DocumentName" readonly
+                                          class="text-center border-0 px-1 table-field"
+                                          list="idDocument-name-list"
+                                          placeholder="Required" />
+                                   <vc:id-document-types></vc:id-document-types>
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].DocumentNumber" readonly
+                                          class="text-center border-0 px-1 table-field" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].Nationality" readonly
+                                          class="text-center border-0 px-1 table-field" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].DateOfBirth" type="date" readonly
+                                          class="text-center border-0 px-1 table-field" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].DateOfExpire" type="date" readonly
+                                          class="text-center border-0 px-1 table-field" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].PlaceOfBirth" readonly
+                                          class="text-center border-0 px-1 table-field" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].Height" readonly
+                                          class="text-center border-0 px-1 table-field" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].ColorOfEyes" readonly
+                                          class="text-center border-0 px-1 table-field" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].IssuingAuthority" readonly
+                                          class="text-center border-0 px-1 table-field" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].DateOfIssue" type="date" readonly
+                                          class="text-center border-0 px-1 table-field" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].VehicleCategory" readonly
+                                          class="text-center border-0 px-1 table-field" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].DateOfAcquisitionOfTheCategory" type="date" readonly
+                                          class="text-center border-0 px-1 table-field" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].IsValid" type="text" readonly
+                                          class="text-center border-0 px-1 table-field" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].HasBeenDeleted" type="text" readonly
+                                          class="text-center border-0 px-1 table-field" />
+                            </td>
+
+                            <td hidden>
+                                   <input asp-for="@entitiesForEdit[i].PersonId" readonly
+                                          class="col-md-11 text-center border-0 table-field" hidden />
+                            </td>
+                            <td hidden>
+                                   <input asp-for="@entitiesForEdit[ i ].ViewTableRow" readonly 
+                                   class="border-0 not-table-field" hidden />
+                            </td>
+                     </tr>
+              }
+       }
+</tbody>
+
+@*
+       <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].DateOfIssue" readonly
+                                          class="col-sm-11 text-center border-0 table-field" type="text" />
+                            </td>
+<td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].Seria" readonly
+                                          class="col-sm-11 text-center border-0 table-field" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].SerialNumber" readonly
+                                          class="col-sm-11 text-center border-0 table-field" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].EducationTypeName" readonly
+                                          class="col-sm-11 text-center border-0 table-field" list="education-list" />
+                                    <vc:education-name></vc:education-name>
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].Speciality" readonly
+                                          class="col-sm-11 text-center border-0 table-field" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].Profession" readonly
+                                          class="col-md-11 text-center border-0 table-field" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].HasBeenDeleted" type="text" readonly
+                                          class="col-md-11 text-center border-0 table-field" />
+                            </td>
+
+*@

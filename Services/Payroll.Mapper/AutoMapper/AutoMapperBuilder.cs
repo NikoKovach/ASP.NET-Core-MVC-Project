@@ -24,5 +24,3 @@ namespace Payroll.Mapper.AutoMapper
               }
        }
 }
-
-//config.AssertConfigurationIsValid();

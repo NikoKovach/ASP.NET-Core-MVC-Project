@@ -84,7 +84,7 @@ namespace Payroll.Services.Services
                      await this.repository.SaveChangesAsync();
               }
 
-              public async Task DeleteAsync( int? id, int? personId )
+              public async Task DeleteAsync( int? id, int? personId = null )
               {
                      if ( id == null || personId == null )
                      {

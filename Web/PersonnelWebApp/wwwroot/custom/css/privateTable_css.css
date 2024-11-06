@@ -7,8 +7,16 @@ button.final-btn{
        font-size:12px;
 }
 
+#privateTable th {
+       font-size: 0.8em;
+}
+
 #privateTable th > label {
        font-size: 0.8em;
+}
+
+#privateTable th  button > label{
+       font-size: 0.7em;
 }
 
 .person-item-btn:hover {

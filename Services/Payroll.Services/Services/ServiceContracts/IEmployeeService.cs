@@ -20,6 +20,5 @@ namespace Payroll.Services.Services.ServiceContracts
 
               Task UpdatePersonAsync( int personId, string? employeeFolder, string? relativeFolder, string? appFolder );
 
-              //Task<int?> DeleteEmployee( int? employeeId );
        }
 }

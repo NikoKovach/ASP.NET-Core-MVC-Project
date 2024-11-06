@@ -146,6 +146,7 @@ namespace Test.Payroll
               }
 
               //######################################################################
+
               [TestCaseSource( nameof( IsInstanceOf_MethodParameters ) )]
               public void Result_IsInstanceOf_Source( Type sourceType, Type destinationType, object source )
               {
@@ -186,17 +187,17 @@ namespace Test.Payroll
 
               private static object[] IsInstanceOf_MethodParameters()
               {
-                     object[] methodParams2 = new object[ DestinationTypesList().Count ];
+                     object[] methodParameters = new object[ DestinationTypesList().Count ];
 
                      if ( DestinationTypesList().Count == SourceTypesList().Count )
                      {
                             for ( int i = 0; i < DestinationTypesList().Count; i++ )
                             {
-                                   methodParams2[ i ] = new object[] { SourceTypesList()[ i ], DestinationTypesList()[ i ], SourceList()[ i ] };
+                                   methodParameters[ i ] = new object[] { SourceTypesList()[ i ], DestinationTypesList()[ i ], SourceList()[ i ] };
                             }
                      }
 
-                     return methodParams2;
+                     return methodParameters;
               }
 
               private static IEnumerable<List<Person>> GetPersonsLists()
@@ -361,7 +362,3 @@ namespace Test.Payroll
        }
 }
 
-//Gender
-//Id	Type
-//5	man
-//6	woman

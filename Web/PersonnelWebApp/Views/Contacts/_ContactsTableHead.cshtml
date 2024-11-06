@@ -32,39 +32,28 @@
                             value="@fieldsName[0]"></label>
               </th>
               <th class="px-1 py-0 text-center">
-                     <form asp-action="Index" id="formGoToPage">
-                            <div>
-                                   <input type="hidden" value=@sortText name="sortParam" class="input-sort" />
-                                   <input type="hidden" value="@Model.PageIndex" class="page-number" name="pageIndex" />
-                                   <input type="hidden" value=@Model.PageSize name="pageSize" />
-                                   <input type="hidden" value="@personId" name="personId" />
-                                   <button id="btn-sort-FName" class="btn table-sortBtn px-0">
-                                          <label asp-for="@firstContact.PhoneNumberOne" 
-                                          class="fw-bold column-lbl text-decoration-underline"  
-                                          value="@fieldsName[1]"></label>
-                                   </button>
-                            </div>
-                     </form>
+                     <button class="px-1 py-1 btn new-sort-btn"
+                                    form="formGoToPage"
+                                    type="submit">
+                            <label asp-for="@firstContact.PhoneNumberOne"
+                                          class="fw-bold column-lbl text-decoration-underline"
+                                          value="@fieldsName[1]">
+                            </label>
+                     </button>
               </th>
               <th class="px-1 py-0 text-center">
                      <label asp-for="@firstContact.PhoneNumberTwo" class="fw-bold column-lbl"
                             value="@fieldsName[2]"></label>
               </th>
               <th class="px-1 py-0 text-center">
-                     <form asp-action="Index">
-                            <div>
-                                   <input type="hidden" value=@sortText name="sortParam" class="input-sort" />
-                                   <input type="hidden" value="@Model.PageIndex" class="page-number" name="pageIndex" />
-                                   <input type="hidden" value=@Model.PageSize name="pageSize" />
-                                   <input type="hidden" value="@personId" name="personId" />
-
-                                   <button id="btn-sort-FName" class="btn table-sortBtn px-0">
-                                          <label asp-for="@firstContact.E_MailAddress1" 
-                                          class="fw-bold column-lbl text-decoration-underline" 
-                                          value="@fieldsName[3]"></label>
-                                   </button>
-                            </div>
-                     </form>
+                     <button class="px-1 py-1 btn new-sort-btn"
+                             form="formGoToPage"
+                             type="submit">
+                            <label asp-for="@firstContact.E_MailAddress1"
+                                          class="fw-bold column-lbl text-decoration-underline"
+                                          value="@fieldsName[3]">
+                            </label>
+                     </button>
               </th>
               <th class="px-1 py-0 text-center">
                      <label asp-for="@firstContact.E_MailAddress2" class="fw-bold column-lbl"
@@ -85,12 +74,13 @@
        </tr>
 </thead>
 
+<div id="div-formGoToPage">
+       <form asp-action="Index" id="formGoToPage">
+              <input type="hidden" value="@personId" name="personId" />
+              <input type="hidden" value="@Model.PageIndex" name="pageIndex" class="page-number" />
+              <input type="hidden" value="@Model.PageSize" name="pageSize" />
+              <input type="hidden" value="@sortText" name="sortParam" id="new-input-sort" />
+       </form>
+</div>
 
-@*               <th class="px-1 py-0 text-center">
-                     <label asp-for="@firstDiploma.Speciality" class="fw-bold column-lbl"
-                            value="@fieldsName[6].Name"></label>
-              </th>
-              <th class="px-1 py-0 text-center">
-                     <label asp-for="@firstDiploma.Profession" class="fw-bold column-lbl"
-                            value="@fieldsName[7].Name"></label>
-              </th> *@
+

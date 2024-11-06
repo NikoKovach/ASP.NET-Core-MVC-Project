@@ -9,8 +9,8 @@ namespace Payroll.Mapper.AutoMapper.MapperProfiles
               public IdDocumentProfile()
               {
                      CreateMap<IdDocument, IdDocumentVM>()
-                          .ForPath( m => m.DocumentName,
-                                          opt => opt.MapFrom( s => s.DocumentType.DocumentName ) )
+                          .ForMember( m => m.DocumentName,
+                                                  opt => opt.MapFrom( s => s.DocumentType.DocumentName ) )
                           .ReverseMap();
               }
        }

@@ -13,7 +13,6 @@ namespace PersonnelWebApp.Controllers
        {
               private int _pageSize;
               private int _pageIndex;
-              //private int _count;
 
               private IAddressService service;
               private IConfigurationRoot? privateConfig;
@@ -33,7 +32,7 @@ namespace PersonnelWebApp.Controllers
 
               [HttpPost]
               public async Task<IActionResult> Index(
-                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List .'")]
+                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List' .")]
                      int? personId, int? pageIndex, int? pageSize, string? sortParam, SearchAddressVM? filter )
               {
                      if ( !ModelState.IsValid )
@@ -44,7 +43,7 @@ namespace PersonnelWebApp.Controllers
 
               [HttpPost]
               public async Task<IActionResult> Create(
-                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List .'")]
+                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List' .")]
                      int? personId,
                      int? pageIndex, int? pageSize, string? sortParam, SearchAddressVM? filter, AddressVM? addressVM )
               {
@@ -61,7 +60,7 @@ namespace PersonnelWebApp.Controllers
 
               [HttpPost]
               public async Task<IActionResult> CreateAttach(
-                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List .'")]
+                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List' .")]
                      int? personId,
                      int? pageIndex, int? pageSize, string? sortParam, SearchAddressVM? filter, AddressVM? addressVM )
               {
@@ -78,7 +77,7 @@ namespace PersonnelWebApp.Controllers
 
               [HttpPost]
               public async Task<IActionResult> Edit(
-                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List .'")]
+                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List' .")]
                      int? personId,
                      int? pageIndex, int? pageSize, string? sortParam, SearchAddressVM? filter, AddressVM? addressVM )
               {
@@ -95,7 +94,7 @@ namespace PersonnelWebApp.Controllers
 
               [HttpPost]
               public async Task<IActionResult> EditAttach(
-                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List .'")]
+                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List' .")]
                      int? personId,
                      int? pageIndex, int? pageSize, string? sortParam, SearchAddressVM? filter, AddressVM? addressVM )
               {
@@ -112,7 +111,7 @@ namespace PersonnelWebApp.Controllers
 
               [HttpPost]
               public async Task<IActionResult> Attach(
-                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List .'")]
+                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List' .")]
                      int? personId,
                      int? pageIndex, int? pageSize, string? sortParam, SearchAddressVM? filter,
                      [Required(ErrorMessage ="Select an address from the table with addresses.")]
@@ -130,7 +129,7 @@ namespace PersonnelWebApp.Controllers
 
               [HttpPost]
               public async Task<IActionResult> Detach(
-                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List .'")]
+                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List' .")]
                      int? personId,
                      int? pageIndex, int? pageSize, string? sortParam, SearchAddressVM? filter,
                      [Required(ErrorMessage ="Select an address type from the check boxes.")]
@@ -176,8 +175,3 @@ namespace PersonnelWebApp.Controllers
               }
        }
 }
-
-//if ( !string.IsNullOrEmpty( this.privateConfig[ "Paging:Count" ] ) )
-//{
-//       this._count = int.Parse( this.privateConfig[ "Paging:Count" ] );
-//}

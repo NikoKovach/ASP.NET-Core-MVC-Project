@@ -27,7 +27,7 @@ namespace PersonnelWebApp.Controllers
 
               [HttpPost]
               public async Task<IActionResult> Index(
-                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List .'")]
+                     [Required(ErrorMessage ="Select person from person's table ! Go back to 'Persons List' .")]
                      int? personId,
                      int? pageIndex, int? pageSize, string? sortParam )
               {

@@ -24,30 +24,39 @@
                             <td class="px-4 py-1"></td>
                             <td class="px-4 py-1"></td>
                             <td class="px-1 py-1">
-                                   <input asp-for="@personVM.FirstName" type="text" placeholder="Required"
-                                          class="border-1 p-0 col-sm-11" validate field-name="@nameof(personVM.FirstName)" />
+                                   <input asp-for="@personVM.FirstName" type="text" 
+                                                 placeholder="Required"
+                                                 class="border-1 p-0 col-sm-11" validate 
+                                                 field-name="@nameof(personVM.FirstName)" />
                             </td>
                             <td class="px-1 py-1">
-                                   <input asp-for="@personVM.MiddleName" type="text" class="border-1 p-0 col-sm-11"
-                                          validate field-name="@nameof(personVM.MiddleName)" />
+                                   <input asp-for="@personVM.MiddleName" type="text" 
+                                                 class="border-1 p-0 col-sm-11" validate 
+                                                 field-name="@nameof(personVM.MiddleName)" />
                             </td>
                             <td class="px-1 py-1">
-                                   <input asp-for="@personVM.LastName" type="text" placeholder="Required"
-                                          class="border-1 p-0 col-sm-11" validate field-name="@nameof(personVM.LastName)" />
+                                   <input asp-for="@personVM.LastName" type="text" 
+                                                 placeholder="Required"
+                                                 class="border-1 p-0 col-sm-11" validate 
+                                                 field-name="@nameof(personVM.LastName)" />
                             </td>
                             <td class="px-1 py-1">
-                                   <input asp-for="@personVM.GenderType" type="text" 
-                                          placeholder="Required" class="border-1 p-0 col-sm-11"
-                                          list="gender-list" validate field-name="@nameof(personVM.GenderType)" />
-                                          <vc:gender-types></vc:gender-types>
+                                   <input asp-for="@personVM.GenderType" type="text"
+                                                 placeholder="Required" list="gender-list"
+                                                 class="border-1 p-0 col-sm-11" validate 
+                                                 field-name="@nameof(personVM.GenderType)" />
+                                                 <vc:gender-types></vc:gender-types>
                             </td>
                             <td class="px-1 py-1">
-                                   <input asp-for="@personVM.CivilNumber" type="text" placeholder="Required"
-                                          class="border-1 p-0 col-sm-11" validate field-name="@nameof(personVM.CivilNumber)" />
+                                   <input asp-for="@personVM.CivilNumber" type="text" 
+                                                 placeholder="Required"
+                                                 class="border-1 p-0 col-sm-11" validate 
+                                                 field-name="@nameof(personVM.CivilNumber)" />
                             </td>
                             <td class="px-1 py-1">
-                                   <input asp-for="@personVM.PhotoFilePath" type="text" class="border-1 p-0 col-sm-11"
-                                          validate field-name="@nameof(personVM.PhotoFilePath)" />
+                                   <input asp-for="@personVM.PhotoFilePath" type="text" 
+                                                 class="border-1 p-0 col-sm-11" validate 
+                                                 field-name="@nameof(personVM.PhotoFilePath)" />
                             </td>
                      </tr>
               </tbody>

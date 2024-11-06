@@ -52,6 +52,8 @@ namespace PersonnelWebApp
 
                      services.AddTransient<IAddressService, AddressService>();
 
+                     services.AddTransient<IDocumentsService, IdDocumentsService>();
+
                      //##################################################################
 
                      services.AddTransient( typeof( IFactorySortCollection<PersonVM> ), typeof( FactoryPersonsCollection ) );
@@ -61,6 +63,8 @@ namespace PersonnelWebApp
                      services.AddTransient( typeof( IFactorySortCollection<ContactInfoVM> ), typeof( FactoryContactsCollection ) );
 
                      services.AddTransient( typeof( IFactorySortCollection<AddressVM> ), typeof( FactoryAddressesCollection ) );
+
+                     services.AddTransient( typeof( IFactorySortCollection<IdDocumentVM> ), typeof( FactoryIdDocumentsCollection ) );
 
                      //##################################################################
                      services.AddTransient<IValidate<ValidateBaseModel>, ValidateEmployeeVMService>();

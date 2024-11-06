@@ -27,71 +27,50 @@
                      <label asp-for="@firstAddress.Id" class="fw-bold column-lbl" value="@fieldsName[0]"></label>
               </th>
               <th class="px-1 py-0 text-center">
-                     <form asp-action="Index">
-                            <div>
-                                   <input type="hidden" value=@sortText name="sortParam" class="input-sort" />
-                                   <input type="hidden" value="@Model.Addresses.PageIndex" class="page-number" name="pageIndex" />
-                                   <input type="hidden" value=@Model.Addresses.PageSize name="pageSize" />
-                                   <input type="hidden" value="@Model.PersonId" name="personId" />
-
-                                   <button id="btn-sort-FName" class="btn table-sortBtn px-0">
-                                          <label asp-for="@firstAddress.Country"
-                                                 class="fw-bold column-lbl text-decoration-underline"
-                                                 value="@fieldsName[1]"></label>
-                                   </button>
-                            </div>
-                     </form>
+                     <button class="px-1 py-1 btn new-sort-btn"
+                                    form="formGoToPage"
+                                    type="submit">
+                            <label asp-for="@firstAddress.Country"
+                                          class="fw-bold column-lbl text-decoration-underline"
+                                          value="@fieldsName[1]">
+                            </label>
+                     </button>
               </th>
               <th class="px-1 py-0 text-center">
-                     <form asp-action="Index">
-                            <div>
-                                   <input type="hidden" value=@sortText name="sortParam" class="input-sort" />
-                                   <input type="hidden" value="@Model.Addresses.PageIndex" class="page-number" name="pageIndex" />
-                                   <input type="hidden" value=@Model.Addresses.PageSize name="pageSize" />
-                                   <input type="hidden" value="@Model.PersonId" name="personId" />
-
-                                   <button id="btn-sort-FName" class="btn table-sortBtn px-0">
-                                          <label asp-for="@firstAddress.Region"
-                                                 class="fw-bold column-lbl text-decoration-underline"
-                                                 value="@fieldsName[2]"></label>
-                                   </button>
-                            </div>
-                     </form>
+                     <button class="px-1 py-1 btn new-sort-btn"
+                                    form="formGoToPage"
+                                    type="submit">
+                            <label asp-for="@firstAddress.Region"
+                                          class="fw-bold column-lbl text-decoration-underline"
+                                          value="@fieldsName[2]">
+                            </label>
+                     </button>
               </th>
               <th class="px-1 py-0 text-center">
-                     <label asp-for="@firstAddress.Municipality" class="fw-bold column-lbl" value="@fieldsName[3]"></label>
+                     <label asp-for="@firstAddress.Municipality" 
+                                   class="fw-bold column-lbl" 
+                                   value="@fieldsName[3]">
+                     </label>
               </th>
               <th class="px-1 py-0 text-center">
-                     <form asp-action="Index">
-                            <div>
-                                   <input type="hidden" value=@sortText name="sortParam" class="input-sort" />
-                                   <input type="hidden" value="@Model.Addresses.PageIndex" class="page-number" name="pageIndex" />
-                                   <input type="hidden" value=@Model.Addresses.PageSize name="pageSize" />
-                                   <input type="hidden" value="@Model.PersonId" name="personId" />
-
-                                   <button id="btn-sort-FName" class="btn table-sortBtn px-0 w-100">
-                                          <label asp-for="@firstAddress.City"
-                                                 class="fw-bold column-lbl text-decoration-underline"
-                                                 value="@fieldsName[4]"></label>
-                                   </button>
-                            </div>
-                     </form>
+                     <button class="px-1 py-1 btn new-sort-btn"
+                                    form="formGoToPage"
+                                    type="submit">
+                            <label asp-for="@firstAddress.City"
+                                          class="fw-bold column-lbl text-decoration-underline"
+                                          value="@fieldsName[4]">
+                            </label>
+                     </button>
               </th>
               <th class="px-1 py-0 text-center">
-                     <form asp-action="Index">
-                            <div>
-                                   <input type="hidden" value=@sortText name="sortParam" class="input-sort" />
-                                   <input type="hidden" value="@Model.Addresses.PageIndex" class="page-number" name="pageIndex" />
-                                   <input type="hidden" value=@Model.Addresses.PageSize name="pageSize" />
-                                   <input type="hidden" value="@Model.PersonId" name="personId" />
-
-                                   <button id="btn-sort-FName" class="btn table-sortBtn px-0">
-                                          <label asp-for="@firstAddress.Street"
-                                                 class="fw-bold column-lbl text-decoration-underline"
-                                                 value="@fieldsName[5]"></label>
-                                   </button>
-                            </div>
-                     </form>
+                     <button class="px-1 py-1 btn new-sort-btn"
+                                    form="formGoToPage"
+                                    type="submit">
+                            <label asp-for="@firstAddress.Street"
+                                          class="fw-bold column-lbl text-decoration-underline"
+                                          value="@fieldsName[5]">
+                            </label>
+                     </button>
               </th>
               <th class="px-1 py-0 text-center">
                      <label asp-for="@firstAddress.Number" class="fw-bold column-lbl"></label>
@@ -105,8 +84,72 @@
               <th class="px-1 py-0 text-center">
                      <label asp-for="@firstAddress.ApartmentNumber" class="fw-bold column-lbl"></label>
               </th>
-@*               <th class="px-1 py-0 text-center">
-                     <label asp-for="@firstAddress.HasBeenDeleted" class="fw-bold column-lbl"></label>
-              </th> *@
        </tr>
 </thead>
+
+<div id="div-formGoToPage">
+       <form asp-action="Index" id="formGoToPage">
+              <input type="hidden" value="@Model.PersonId" name="personId" />
+              <input type="hidden" value="@Model.Addresses.PageIndex" name="pageIndex" class="page-number" />
+              <input type="hidden" value="@Model.Addresses.PageSize" name="pageSize" />
+              <input type="hidden" value="@sortText" name="sortParam" id="new-input-sort" />
+       </form>
+</div>
+
+@* <form asp-action="Index">
+                            <div>
+                                   <input type="hidden" value=@sortText name="sortParam" class="input-sort" />
+                                   <input type="hidden" value="@Model.Addresses.PageIndex" class="page-number" name="pageIndex" />
+                                   <input type="hidden" value=@Model.Addresses.PageSize name="pageSize" />
+                                   <input type="hidden" value="@Model.PersonId" name="personId" />
+
+                                   <button id="btn-sort-FName" class="btn table-sortBtn px-0">
+                                          <label asp-for="@firstAddress.Country"
+                                                 class="fw-bold column-lbl text-decoration-underline"
+                                                 value="@fieldsName[1]"></label>
+                                   </button>
+                            </div>
+                     </form> *@
+
+@* <form asp-action="Index">
+                            <div>
+                                   <input type="hidden" value=@sortText name="sortParam" class="input-sort" />
+                                   <input type="hidden" value="@Model.Addresses.PageIndex" class="page-number" name="pageIndex" />
+                                   <input type="hidden" value=@Model.Addresses.PageSize name="pageSize" />
+                                   <input type="hidden" value="@Model.PersonId" name="personId" />
+
+                                   <button id="btn-sort-FName" class="btn table-sortBtn px-0">
+                                          <label asp-for="@firstAddress.Region"
+                                                 class="fw-bold column-lbl text-decoration-underline"
+                                                 value="@fieldsName[2]"></label>
+                                   </button>
+                            </div>
+                     </form> *@
+@* <form asp-action="Index">
+                            <div>
+                                   <input type="hidden" value=@sortText name="sortParam" class="input-sort" />
+                                   <input type="hidden" value="@Model.Addresses.PageIndex" class="page-number" name="pageIndex" />
+                                   <input type="hidden" value=@Model.Addresses.PageSize name="pageSize" />
+                                   <input type="hidden" value="@Model.PersonId" name="personId" />
+
+                                   <button id="btn-sort-FName" class="btn table-sortBtn px-0 w-100">
+                                          <label asp-for="@firstAddress.City"
+                                                 class="fw-bold column-lbl text-decoration-underline"
+                                                 value="@fieldsName[4]"></label>
+                                   </button>
+                            </div>
+                     </form> *@
+@*  <form asp-action="Index">
+                            <div>
+                                   <input type="hidden" value=@sortText name="sortParam" class="input-sort" />
+                                   <input type="hidden" value="@Model.Addresses.PageIndex" class="page-number" name="pageIndex" />
+                                   <input type="hidden" value=@Model.Addresses.PageSize name="pageSize" />
+                                   <input type="hidden" value="@Model.PersonId" name="personId" />
+
+                                   <button id="btn-sort-FName" class="btn table-sortBtn px-0">
+                                          <label asp-for="@firstAddress.Street"
+                                                 class="fw-bold column-lbl text-decoration-underline"
+                                                 value="@fieldsName[5]"></label>
+                                   </button>
+                            </div>
+                     </form> *@

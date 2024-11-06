@@ -1,0 +1,163 @@
+﻿@using Payroll.ViewModels.PagingViewModels
+@using Payroll.ViewModels.PersonViewModels
+@model PagingListSorted<IdDocumentVM>
+
+@{
+       IdDocumentVM? documentVM = Model.Entity;
+
+       string? sortText = Model.SortValue;
+       int? personId = ( Model.ItemsCollection.Count > 0 ) ? Model.ItemsCollection[ 0 ].PersonId : null;
+       string? nameAttrInputPersonId = $"{nameof( documentVM )}.{nameof( personId )}";
+}
+
+<form asp-action="Create">
+       <input type="hidden" value=@personId name="personId" />
+       <input type="hidden" value="@Model.PageIndex" name="pageIndex" />
+       <input type="hidden" value=@Model.PageSize name="pageSize" />
+       <input type="hidden" value=@sortText name="sortParam" />
+       
+       <div class="table-responsive">
+              <table class="table table-hover table-responsive-sm" id="table-add-entity" hidden>
+                     <thead>
+                            <tr>
+                                   @* <th class="px-1 py-1" hidden>
+                                          <label asp-for="@documentVM.Id" class="px-1"></label>
+                                   </th> *@
+                                   <th class="px-1 py-1">
+                                          <label asp-for="@documentVM.DocumentName" class="px-1"></label>
+                                   </th>
+                                   <th class="px-1 py-1">
+                                          <label asp-for="@documentVM.DocumentNumber" class="px-1"></label>
+                                   </th>
+                                   <th class="px-1 py-1">
+                                          <label asp-for="@documentVM.Nationality" class="px-1"></label>
+                                   </th>
+                                   <th class="px-1 py-1">
+                                          <label asp-for="@documentVM.DateOfBirth" class="px-1"></label>
+                                   </th>
+                                   <th class="px-1 py-1">
+                                          <label asp-for="@documentVM.PlaceOfBirth" class="px-1"></label>
+                                   </th>
+                                   <th class="px-1 py-1">
+                                          <label asp-for="@documentVM.DateOfExpire" class="px-1"></label>
+                                   </th>
+                                   <th class="px-1 py-1">
+                                          <label asp-for="@documentVM.Height" class="px-1"></label>
+                                   </th>
+                                   <th class="px-1 py-1">
+                                          <label asp-for="@documentVM.ColorOfEyes" class="px-1"></label>
+                                   </th>
+                                   <th class="px-1 py-1">
+                                          <label asp-for="@documentVM.IssuingAuthority" class="px-1"></label>
+                                   </th>
+                                   <th class="px-1 py-1">
+                                          <label asp-for="@documentVM.DateOfIssue" class="px-1"></label>
+                                   </th>
+                                   <th class="px-1 py-1">
+                                          <label asp-for="@documentVM.VehicleCategory" class="px-1"></label>
+                                   </th>
+                                   <th class="px-1 py-1">
+                                          <label asp-for="@documentVM.DateOfAcquisitionOfTheCategory" class="px-1"></label>
+                                   </th>
+                                   <th class="px-1 py-1">
+                                          <label asp-for="@documentVM.IsValid" class="px-1"></label>
+                                   </th>
+
+                                   <th class="px-1 py-1">
+                                          <label asp-for="@documentVM.HasBeenDeleted" class="px-1"></label>
+                                   </th>
+                            </tr>
+                     </thead>
+                     <tbody>
+                            <tr>
+                                   @* <td class="px-1 py-1" hidden>
+                                          <input asp-for="@documentVM.Id" type="text" 
+                                                 class="border-1 px-1"/>
+                                   </td> *@
+                                   <td class="px-1 py-1">
+                                          <input asp-for="@documentVM.DocumentName"
+                                                        class="border-1 px-1" validate
+                                                        field-name="@nameof(documentVM.DocumentName)"
+                                                        list="idDocument-name-list"
+                                                        placeholder="Required" />
+                                                        <vc:id-document-types></vc:id-document-types>
+                                   </td>
+                                   <td class="px-1 py-1">
+                                          <input asp-for="@documentVM.DocumentNumber"
+                                                       class="border-1 px-1" validate
+                                                       field-name="@nameof(documentVM.DocumentNumber)"
+                                                        placeholder="Required" />
+                                   </td>
+                                    <td class="px-1 py-1">
+                                          <input asp-for="@documentVM.Nationality"
+                                                       class="border-1 px-1" validate
+                                                       field-name="@nameof(documentVM.Nationality)" />
+                                   </td>   
+                                    <td class="px-1 py-1">
+                                          <input asp-for="@documentVM.DateOfBirth" type="date"
+                                                       class="border-1 px-1" validate
+                                                       field-name="@nameof(documentVM.DateOfBirth)" />
+                                   </td>
+                                   <td class="px-1 py-1">
+                                          <input asp-for="@documentVM.PlaceOfBirth"
+                                                 class="border-1 px-1" validate
+                                                 field-name="@nameof(documentVM.PlaceOfBirth)" />
+                                   </td>
+                                    <td class="px-1 py-1">
+                                          <input asp-for="@documentVM.DateOfExpire" type="date"
+                                                       class="border-1 px-1" validate
+                                                       field-name="@nameof(documentVM.DateOfExpire)"
+                                                        placeholder="Required" />
+                                   </td>   
+                                    <td class="px-1 py-1">
+                                          <input asp-for="@documentVM.Height"
+                                                       class="border-1 px-1" validate
+                                                       field-name="@nameof(documentVM.Height)" />
+                                   </td>
+                                    <td class="px-1 py-1">
+                                          <input asp-for="@documentVM.ColorOfEyes"
+                                                       class="border-1 px-1" validate
+                                                       field-name="@nameof(documentVM.ColorOfEyes)" />
+                                   </td>
+                                   <td class="px-1 py-1">
+                                          <input asp-for="@documentVM.IssuingAuthority"
+                                                       class="border-1 px-1" validate
+                                                       field-name="@nameof(documentVM.IssuingAuthority)"
+                                                        placeholder="Required" />
+                                   </td>
+                                    <td class="px-1 py-1">
+                                          <input asp-for="@documentVM.DateOfIssue" type="date"
+                                                       class="border-1 px-1" validate
+                                                       field-name="@nameof(documentVM.DateOfIssue)"
+                                                        placeholder="Required" />
+                                   </td>
+                                   <td class="px-1 py-1">
+                                          <input asp-for="@documentVM.VehicleCategory"
+                                                       class="border-1 px-1" validate
+                                                       field-name="@nameof(documentVM.VehicleCategory)" />
+                                   </td>
+                                    <td class="px-1 py-1">
+                                          <input asp-for="@documentVM.DateOfAcquisitionOfTheCategory" type="date"
+                                                       class="border-1 px-1" validate
+                                                       field-name="@nameof(documentVM.DateOfAcquisitionOfTheCategory)" />
+                                   </td>
+                                   <td class="px-1 py-1">
+                                          <input asp-for="@documentVM.IsValid" type="text"
+                                                       class="border-1 px-1" validate
+                                                       field-name="@nameof(documentVM.IsValid)" />
+                                   </td>
+                                    <td class="px-1 py-1">
+                                          <input asp-for="@documentVM.HasBeenDeleted" type="text"
+                                                       class="border-1 px-1" validate
+                                                       field-name="@nameof(documentVM.HasBeenDeleted)" />
+                                   </td>
+                                   <td class="px-1 py-1">
+                                          <input type="hidden" value="@personId" name="documentVM.PersonId" class="border-0 px-1" />
+                                   </td>
+                            </tr>
+                     </tbody>
+              </table>
+       </div>
+
+       <input id="add-record" type="submit" class="btn btn-success h-50 border-0 col-sm-7 " value="Create" hidden />
+</form>

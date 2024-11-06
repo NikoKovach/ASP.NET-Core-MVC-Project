@@ -1,0 +1,150 @@
+﻿@using Payroll.ViewModels.PagingViewModels
+@using Payroll.ViewModels.PersonViewModels
+@using System.Reflection
+@model PagingListSorted<IdDocumentVM>
+
+@section Styles
+{
+       <link rel="stylesheet" type="text/css" href="~/custom/css/privateTable_css.css" asp-append-version="true" />
+       <link rel="stylesheet" type="text/css" href="~/custom/css/alertMessage.css" asp-append-version="true" />
+}
+
+@{
+       ViewData[ "Title" ] = "Id Documents";
+       Layout = "~/Views/Shared/_LayoutLight.cshtml";
+
+       string? prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+       string? nextDisabled = !Model.HasNextPage ? "disabled" : "";
+
+       IdDocumentVM? firstDocument = Model.ItemsCollection[ 0 ];
+
+       PropertyInfo[]? fieldsName = firstDocument.GetType().GetProperties();
+
+       string? sortText = Model.SortValue;
+       int? personId = ( Model.ItemsCollection.Count > 0 ) ? firstDocument.PersonId : null;
+
+       bool modelState = ViewContext.ViewData.ModelState.IsValid;
+       string divStyle = modelState == true ? "display:none" : "display:list-item";
+}
+
+<div class="payroll-table">
+       <div class="col">
+              <div class="navbar-custom">
+                     <div class="row">
+                            <div class="d-flex justify-content-center">
+                                   <div class="d-inline-block">
+                                          <h4 id="private-header" class="text-justify text-dark">Id Documents List</h4>
+                                   </div>
+                                   <div class="d-inline-block">
+                                          <vc:person-name person-id="@personId"></vc:person-name>
+                                   </div>
+                            </div>
+                     </div>
+              </div>
+              <hr class="my-2" />
+              <div asp-validation-summary="All" class="alert alert-danger alert-dismissible px-1 py-2 mb-2" style="@divStyle">
+                     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+              </div>
+
+              <div id="edit-success" class="alert alert-success alert-dismissible px-1 py-2 mb-2" style="display:none">
+                     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                     <p class="mx-4 my-2"> Editing is successful </p>
+              </div>
+              <div>
+                     <partial name="_DocumentsNavigation" model="@Model"></partial>
+              </div>
+              <hr class="my-2" />
+       </div>
+
+       <div class="table-responsive">
+              <table id="privateTable" class="table  table-hover table-responsive-sm">
+                     <partial name="_TableHeadIdDocuments" model="@Model"></partial>
+                     <partial name="_TableBodyIdDocuments" model="@Model.ItemsCollection"></partial>
+              </table>
+       </div>
+
+       <div class="add-document-table table-responsive">
+              <partial name="_IdDocumentAddPartial" model="@Model"></partial>
+       </div>
+
+       <div class="row col-sm-3 px-0 mx-0">
+              <div class="col-sm-2 pl-0 pr-1">
+                     <form asp-action="AllDocuments">
+                            <input type="hidden" value="@personId" name="personId" />
+                            <input type="hidden" value="@(Model.PageIndex - 1)" name="pageIndex" />
+                            <input type="hidden" value="@Model.PageSize" name="pageSize" />
+                            <input type="hidden" value="@sortText" name="sortParam" />
+                            <button type="submit" class="btn btn-primary @prevDisabled px-2 py-0">
+                                   <span aria-hidden="true">&laquo;</span>
+                            </button>
+                     </form>
+              </div>
+              <div class="col-sm-5 px-1">
+                     <form asp-action="AllDocuments">
+                            <input type="hidden" value="@personId" name="personId" />
+                            <input type="hidden" value="@Model.PageSize" name="pageSize" />
+                            <input type="hidden" value="@sortText" name="sortParam" />
+                            <input id="go-to-page" 
+                                          class="text-center col-sm-6 h-75 border-white px-0 py-0"
+                                          value="@Model.PageIndex" name="pageIndex" />
+                            <label id="lblTotalPages" 
+                                          class="text-left col-sm-4 h-75 border-white px-1">
+                                   / @Model.TotalPages
+                            </label>
+                     </form>
+              </div>
+              <div class="col-sm-2 px-0">
+                     <form asp-action="AllDocuments">
+                            <input type="hidden" value="@personId" name="personId" />
+                            <input type="hidden" value="@Model.PageSize" name="pageSize" />
+                            <input type="hidden" value=@sortText name="sortParam" />
+                            <input type="hidden" value="@(Model.PageIndex + 1)" name="pageIndex" />
+                            <button type="submit" class="btn btn-primary @nextDisabled px-2 py-0">
+                                   <span aria-hidden="true">&raquo;</span>
+                            </button>
+                     </form>
+              </div>
+       </div>
+
+       <hr class="my-1" />
+
+       <div class="btn-toolbar justify-content-md-start" role="toolbar">
+              <div class="px-1">
+                     <button id="add-entity" class="btn btn-sm btn-primary border-0 final-btn">
+                            Add
+                     </button>
+              </div>
+              <div class="px-1">
+                     <button id="edit-entities-btn" value="@Model.RouteEdit"
+                             class="btn btn-sm btn-primary border-0 final-btn">
+                            Edit
+                     </button>
+              </div>
+              <div class="px-1">
+                     <form asp-action="Delete" method="post">
+                            <input type="hidden" value="@personId" name="personId" />
+                            <input type="hidden" value="@Model.PageIndex" name="pageIndex" class="page-number" />
+                            <input type="hidden" value=@Model.PageSize name="pageSize" />
+                            <input type="hidden" value=@sortText name="sortParam" class="input-sort" />
+                            <input type="hidden" name="documentId" id="entity-id-number" />
+
+                            <button id="delete-entity-btn" type="submit" class="btn btn-sm btn-primary border-0 final-btn">
+                                   Delete
+                            </button>
+                     </form>
+              </div>
+              <div>
+                     <form method="post" asp-action="AllPersons" asp-controller="Persons">
+                            <button class="btn btn-sm btn-primary border-0 final-btn">
+                                   Persons List
+                            </button>
+                     </form>
+              </div>
+       </div>
+</div>
+
+<!-- Javascript files-->
+@section Scripts
+{
+       <script src="~/custom/js/privateTable_jquery_functions.js" asp-append-version="true"></script>
+}
