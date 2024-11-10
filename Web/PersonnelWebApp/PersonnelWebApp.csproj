@@ -41,7 +41,10 @@
 
   <ItemGroup>
     <Folder Include="AppFolder\" />
+    <Folder Include="Areas\LaborContracts\Models\" />
+    <Folder Include="Areas\Vacations\Models\" />
     <Folder Include="BetaFolder\" />
+    <Folder Include="Views\Leave\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -85,10 +88,6 @@
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 	  </Content>
-	  <Content Update="Views\IdDocuments\_zzzIdDocumentsTableHead.cshtml">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-	  </Content>
 	  <Content Update="wwwroot\custom\css\alertMessage.css">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -98,6 +97,10 @@
 	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 	  </Content>
 	  <Content Update="wwwroot\custom\js\BackUp_privateTable_jquery_functions.js">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	  <Content Update="wwwroot\custom\js\contracts_table_jquery.js">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 	  </Content>

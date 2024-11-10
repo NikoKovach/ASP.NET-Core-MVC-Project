@@ -714,10 +714,12 @@ h1.watchs_taital::after {
     width: 100%;
     float: left;
 }
+
 .mail_section_1 {
     width: 84%;
     float: right;
 }
+
 .mail_text {
     width: 100%;
     float: left;
@@ -729,12 +731,6 @@ h1.watchs_taital::after {
     margin-top: 20px;
     border-radius: 30px;
 }
-
-/*.company .mail_text {*/
-         /*font-size: 10px;
-         color: crimson;*/
-         /*background-color: darkorange;
-}*/
 
 input.mail_text::placeholder {
     color: #696868;
@@ -750,14 +746,17 @@ input.mail_text::placeholder {
     margin-top: 30px;
     border-radius: 40px;
 }
+
 textarea#comment::placeholder {
     color: #696868;
 }
+
 .send_bt {
     width: 170px;
     float: left;
     margin-top: 40px;
 }
+
 .send_bt a {
     width: 100%;
     float: left;
@@ -769,6 +768,7 @@ textarea#comment::placeholder {
     border-radius: 40px;
     font-weight: bold;
 }
+
 .send_bt a:hover {
     background-color: #ffffff;
     color: #696868;
@@ -791,6 +791,7 @@ textarea#comment::placeholder {
     padding-bottom: 40px;
     background-repeat: no-repeat;
 }
+
 .follow_text{
     width: 100%;
     float: left;
@@ -807,12 +808,14 @@ textarea#comment::placeholder {
     margin: 0 auto;
     text-align: center;
 }
+
 .social_icon ul {
     margin: 0px;
     padding: 0px;
     display: inline-block;
     text-align: center;
 }
+
 .social_icon li {
     float: left;
     padding: 30px 15px;
@@ -823,30 +826,37 @@ textarea#comment::placeholder {
     margin: 0 auto;
     text-align: center;
 }
+
 .location_left {
     width: 33.3%;
     float: left;
 }
+
 .location_middle {
     width: 33.3%;
     float: left;
 }
+
 .location_right {
     width: 33.3%;
     float: left;
 }
+
 .call_text {
     width: 100%;
     float: left;
     font-size: 16px;
     color: #5e5e5e;
 }
+
 .call_text a {
     color: #5e5e5e;
 }
+
 .call_text a:hover {
     color: #a40514;
 }
+
 .call_padding {
     padding-left: 15px;
 }
@@ -868,9 +878,11 @@ textarea#comment::placeholder {
     font-size: 16px;
     margin-left: 0px;
 }
+
 .copyright_text a{
     color: #1c1b1b;
 }
+
 .copyright_text a:hover{
     color: #b60213;
 }

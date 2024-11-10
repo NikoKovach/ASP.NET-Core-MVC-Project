@@ -25,7 +25,7 @@ namespace Payroll.Mapper.CustomMap
                                    PermanentAddress = x.Person.PermanentAddress.GetAddress,
                                    CurrentAddress = x.Person.CurrentAddress.GetAddress,
                             },
-                            ContactInfo = new ContactsEmpVM
+                            ContactInfo = new LaborContactVM
                             {
                                    PhoneNumberOne = x.Person.ContactInfoList
                                                                .OrderBy( x => x.Id )

@@ -40,6 +40,10 @@ namespace PersonnelWebApp.ViewComponents
                             {
                                    return View( "IndexEmployees", companyList );
                             }
+                            if ( parentView.Equals( "IndexContracts" ) )
+                            {
+                                   return View( parentView, companyList );
+                            }
                      }
 
                      return View( companyList );

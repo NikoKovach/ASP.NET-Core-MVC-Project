@@ -142,14 +142,19 @@ div.company .form-group {
 
 div.company .form-group span{
     padding-left: 15px;
+    font-size: 0.7rem;
 }
 
 div.company .form-group input{
     max-width: 386px;
 }
+
+div.edit-company input{
+       font-size: 0.8rem;
+}
 /****************************************************************/
 div.all {
-         padding-bottom: 60px;
+       padding-bottom: 60px;
 }
 
 .all h1{
@@ -182,6 +187,7 @@ div.send_bt.modify-company button {
 	max-width: 125px;
 	padding: 10px 1px;
 	background-color: #b60213;
+       font-size: 0.8rem;
 }
 
 div.staff {
@@ -255,8 +261,7 @@ div.staff .send_bt.modify-company a:hover {
 	font-size: 0.8em;
 }
 
-input.emp-manage-btn:hover {
+.emp-manage-btn:hover{
        font-weight: bold;
 }
-
 /*********End Employees ******************/

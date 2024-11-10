@@ -23,9 +23,8 @@ namespace PersonnelWebApp.Controllers
 
               public async Task<IActionResult> AllActual()
               {
-                     ICollection<CompanyViewModel> companyList = await this.service
-                                                                                                                              .AllActive()
-                                                                                                                              .ToListAsync();
+                     ICollection<CompanyViewModel> companyList =
+                            await this.service.AllActive().ToListAsync();
 
                      if ( companyList == null )
                      {
@@ -41,7 +40,6 @@ namespace PersonnelWebApp.Controllers
               }
 
               [HttpPost]
-              [ValidateAntiForgeryToken]
               public async Task<IActionResult> Create( CompanyViewModel modelDto )
               {
                      if ( !ModelState.IsValid )
@@ -63,14 +61,14 @@ namespace PersonnelWebApp.Controllers
               [HttpPost]
               public async Task<IActionResult> Edit( string? uniqueIdentifier )
               {
-                     if ( string.IsNullOrWhiteSpace( uniqueIdentifier ) )
+                     //if ( string.IsNullOrWhiteSpace( uniqueIdentifier ) )
+                     if ( !ModelState.IsValid )
                      {
                             return RedirectToAction( "Error", "Home" );
                      }
 
-                     CompanyViewModel? company = await this.service
-                                                                                                    .AllActive( uniqueIdentifier )
-                                                                                                    .FirstOrDefaultAsync();
+                     CompanyViewModel? company =
+                            await this.service.AllActive( uniqueIdentifier ).FirstOrDefaultAsync();
 
                      if ( company == null )
                      {
@@ -81,9 +79,7 @@ namespace PersonnelWebApp.Controllers
               }
 
               [HttpPost]
-              [ValidateAntiForgeryToken]
-              public async Task<IActionResult> EditCompany( CompanyViewModel modelDto,
-                     string oldName )
+              public async Task<IActionResult> EditCompany( CompanyViewModel modelDto, string oldName )
               {
                      if ( !ModelState.IsValid )
                      {
@@ -109,14 +105,14 @@ namespace PersonnelWebApp.Controllers
               [HttpPost]
               public async Task<IActionResult> Details( string? uniqueIdentifier )
               {
-                     if ( string.IsNullOrWhiteSpace( uniqueIdentifier ) )
+                     //if ( string.IsNullOrWhiteSpace( uniqueIdentifier ) )
+                     if ( !ModelState.IsValid )
                      {
                             return RedirectToAction( "Error", "Home" );
                      }
 
-                     CompanyViewModel? company = await this.service
-                                                                                                    .AllActive( uniqueIdentifier )
-                                                                                                    .FirstOrDefaultAsync();
+                     CompanyViewModel? company =
+                            await this.service.AllActive( uniqueIdentifier ).FirstOrDefaultAsync();
 
                      return View( company );
               }

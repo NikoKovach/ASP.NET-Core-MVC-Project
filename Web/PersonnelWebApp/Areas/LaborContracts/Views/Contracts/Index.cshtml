@@ -1,0 +1,142 @@
+﻿
+
+@section Styles
+{
+       <link rel="stylesheet" type="text/css" href="~/custom/css/privateTable_css.css" asp-append-version="true" />
+       <link rel="stylesheet" type="text/css" href="~/custom/css/alertMessage.css" asp-append-version="true" />
+}
+
+@{
+       ViewData["Title"] = "Labor Contracts";
+       Layout = "~/Views/Shared/_LayoutLight.cshtml";
+
+       bool modelState = ViewContext.ViewData.ModelState.IsValid;
+       string divStyle = modelState == true ? "display:none" : "display:list-item";
+}
+
+<div class="payroll-table">
+       <div class="col">
+              <div class="row navbar-custom">
+                     <div class="col-sm-2 px-1 py-1">
+                            <h4 class="text-justify text-dark text-center my-0 py-2">Contracts List</h4>
+                     </div>
+                     <div class="col-sm-10 px-1">
+                            <nav class="navbar navbar-custom navbar-expand-sm navbar-light justify-content-center">
+                                   <ul class="navbar-nav">
+                                          <li class="nav-item">
+                                                 <a href="#">Action 0</a>
+                                          </li>
+                                          <li class="nav-item">
+                                                 <a href="#">Action 1</a>
+                                          </li>
+                                   </ul>
+                            </nav>
+                     </div>
+              </div>
+              <hr class="my-2" />
+              <div asp-validation-summary="All" class="alert alert-danger alert-dismissible" style="@divStyle">
+                     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+              </div>
+              <div id="edit-success" class="alert alert-success alert-dismissible px-1 py-2 mb-2" style="display:none">
+                     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                     <p class="mx-4 my-2"> Editing is successful </p>
+              </div>
+
+              <div>
+                     <partial name="_ContractsSearchPartial" model="@Model"></partial>
+              </div>
+              <hr class="my-2" />
+       </div>
+
+       <div>
+              <table id="privateTable" class="table  table-hover table-responsive-sm ">
+                     <partial name="_ContractsTableHead"></partial>
+                     <partial name="_ContractsTableBody" ></partial>
+              </table>
+       </div>
+
+       <div class="row col-sm-3">
+              <div class="col-sm-2">
+                     @* <form asp-action="AllPersons">
+                            <input type="hidden" value="@(Model.PageIndex - 1)" name="pageIndex" />
+                            <input type="hidden" value="@sortText" name="sortParam" />
+                            <input type="hidden" value="@Model.PageSize" name="pageSize" />
+                            <input type="hidden" value="@Model.FilterVM.PersonId" name="Id" />
+                            <input type="hidden" value="@Model.FilterVM.SearchName" name="SearchName" />
+                            <input type="hidden" value="@Model.FilterVM.CivilID" name="EGN" />
+                            <button type="submit" class="btn btn-primary @prevDisabled">
+                                   <span aria-hidden="true">&laquo;</span>
+                            </button>
+                     </form> *@
+              </div>
+              <div class="col-sm-8">
+                     @* <form asp-action="AllPersons">
+                            <input id="go-to-page" class="text-center col-sm-7 h-75 border-white"
+                                   value="@Model.PageIndex" name="pageIndex" />
+                            <input type="hidden" value="@sortText" name="sortParam" />
+                            <input type="hidden" value="@Model.PageSize" name="pageSize" />
+                            <input type="hidden" value="@Model.FilterVM.PersonId" name="Id" />
+                            <input type="hidden" value="@Model.FilterVM.SearchName" name="SearchName" />
+                            <input type="hidden" value="@Model.FilterVM.CivilID" name="EGN" />
+                            <label id="lblTotalPages" class="text-center col-sm-3 h-75 border-white">
+                                   / @Model.TotalPages
+                            </label>
+                     </form> *@
+              </div>
+              <div class="col-sm-2">
+                     @* <form asp-action="AllPersons">
+                            <input type="hidden" value="@(Model.PageIndex + 1)" name="pageIndex" />
+                            <input type="hidden" value="@sortText" name="sortParam" />
+                            <input type="hidden" value="@Model.PageSize" name="pageSize" />
+                            <input type="hidden" value="@Model.FilterVM.PersonId" name="Id" />
+                            <input type="hidden" value="@Model.FilterVM.SearchName" name="SearchName" />
+                            <input type="hidden" value="@Model.FilterVM.CivilID" name="EGN" />
+                            <button type="submit" class="btn btn-primary @nextDisabled">
+                                   <span aria-hidden="true">&raquo;</span>
+                            </button>
+                     </form> *@
+              </div>
+       </div>
+       <hr />
+</div>
+
+
+<!-- Javascript files-->
+@section Scripts
+{
+       <script src="~/custom/js/contracts_table_jquery.js" asp-append-version="true"></script>
+}
+
+
+@* <div class="dropdown">
+       <button class="nav-link btn emp-manage-btn dropdown-toggle"
+               data-bs-toggle="dropdown">
+              Sections
+       </button>
+       <ul class="dropdown-menu">
+              <li>
+                     <a asp-area="LaborContracts" asp-controller="Contracts" asp-action="Index"
+                        class="dropdown-item">
+                            Contracts and Annexes
+                     </a>
+              </li>
+              <li>
+                     <a asp-area="Vacations" asp-controller="Leave" asp-action="Index"
+                        class="dropdown-item">
+                            Leave and Temporary Disability
+                     </a>
+              </li>
+              <li><a class="dropdown-item" href="#">Link 3</a></li>
+       </ul>
+</div> 
+
+<form asp-controller="Employees" asp-action="AllPresent">
+                                                 <input id="show-all" type="hidden" name="companyId" />
+                                                 <input id="all-employees-submit"
+                                                        class="nav-link btn emp-manage-btn"
+                                                        type="submit"
+                                                        value="All Employees" />
+                                          </form>
+
+*@
+

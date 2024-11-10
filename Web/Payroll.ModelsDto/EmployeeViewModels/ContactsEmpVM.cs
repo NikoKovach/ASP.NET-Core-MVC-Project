@@ -3,7 +3,7 @@ using Payroll.ViewModels.CustomValidation;
 
 namespace Payroll.ViewModels.EmployeeViewModels
 {
-       public class ContactsEmpVM : ValidateBaseModel
+       public class LaborContactVM : ValidateBaseModel
        {
               [Display( Name = "Phone number" )]
               [StringLength( 20, MinimumLength = 3 )]

@@ -205,7 +205,7 @@ namespace PersonnelWebApp.Controllers
                      GetEmployeeVM defaultItem = new GetEmployeeVM()
                      {
                             Person = new PersonEmpVM(),
-                            ContactInfo = new ContactsEmpVM(),
+                            ContactInfo = new LaborContactVM(),
                             IdCardPassport = new IdDocumentEmpVM(),
                             ContractInfo = new ContractEmpVM(),
                      };

@@ -16,6 +16,7 @@ namespace Payroll.Mapper.AutoMapper
                             new ContactInfoProfile(),
                             new AddressProfile(),
                             new IdDocumentProfile(),
+                            new LaborContractProfile(),
                      };
 
                      var config = new MapperConfiguration( cfg => cfg.AddProfiles( mapperProfiles ) );

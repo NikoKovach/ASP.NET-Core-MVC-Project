@@ -12,92 +12,72 @@
 	<div class="contact_section_2">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-6">
-					<form asp-action="Edit">
-						<div class="mail_section_1">
-							<div class="form-group">
-								<label asp-for="Name" class="control-label">
-								</label>
-								<label class="form-control mail_text">
-									@Model.Name
-								</label>
-							</div>
-							<div class="form-group company-name">
-								<label asp-for="UniqueIdentifier"
-									  class="control-label"></label>
-								<label class="form-control mail_text">
-									@Model.UniqueIdentifier
-								</label>
-								<input asp-for="UniqueIdentifier" 
-									type="hidden" name="uniqueIdentifier" 
-									class="form-control" />
-							</div>
-							<div class="form-group">
-								<label asp-for="VATRegNumber"
-									  class="control-label"></label>
-								<label class="form-control mail_text">
-									@Model.VATRegNumber
-								</label>
-							</div>
-							 <div class="form-group">
-								<label asp-for="CompanyHeadquarter" 
-								class="control-label"></label>
-								<label class="form-control mail_text">
-									@Model.CompanyHeadquarter
-								</label>
-							</div>
-							<div class="form-group">
-								<label asp-for="AddressOfManagement" 
-								class="control-label"></label>
-								<label class="form-control mail_text">
-									@Model.AddressOfManagement
-								</label>
-							</div>
-							<div class="form-group">
-								<label asp-for="RepresentedBy" 
-								class="control-label"></label>
-								<label class="form-control mail_text">
-									@Model.RepresentedBy
-								</label>
-							</div>
-							 <div class="form-group">
-								<label asp-for="RepresentativeIdNumber" 
-								class="control-label"></label>
-								<label class="form-control mail_text">
-									@Model.RepresentativeIdNumber
-								</label>
-							</div>
-							<div class="form-group">
-								<label asp-for="CompanyCaseNumber" 
-								class="control-label">
-								</label>
-								<label class="form-control mail_text">
-									@Model.CompanyCaseNumber
-								</label>
-							</div>
-							<div class="form-group">
-								<label asp-for="HasBeenDeleted"
-									  class="control-label"></label>
-								<label class="form-control mail_text">
-									@Model.HasBeenDeleted
-								</label>
-							</div>
-							<div class="send_bt modify-company">
-								<button asp-area="" asp-controller="Companies"
-								asp-action="AllActual">
-									Back to List
-								</button>
-							</div>
-							<div class="form-group send_bt modify-company">
-								<button id="edit-company" type="submit" 
-								asp-controller="Companies" asp-action="Edit">
-									Edit
-								</button>
-							</div>
+				<div class="col-md-5 px-1">
+				       <div class="mail_section_1">
+					 	<div class="form-group my-1">
+						       <label asp-for="Name" class="control-label"></label>
+                                                 <input asp-for="@Model.Name" readonly
+                                                        class="form-control mail_text py-1 h-75 w-75" />
 						</div>
-					</form>
+					 	<div class="form-group my-1">
+                                                 <form asp-action="Edit" method="post"
+                                                        id="goto-company-edit">
+								<label asp-for="UniqueIdentifier"class="control-label"></label>
+								<input asp-for="UniqueIdentifier" name="uniqueIdentifier" readonly
+                                                               class="form-control mail_text py-1 h-75 w-75" />
+                                                 </form>
+							</div>
+					 	<div class="form-group my-1">
+						       <label asp-for="VATRegNumber" class="control-label"></label>
+                                                 <input asp-for="@Model.VATRegNumber" readonly
+                                                        class="form-control mail_text py-1 h-75 w-75" />
+						</div>
+					 	<div class="form-group my-1">
+						       <label asp-for="CompanyHeadquarter" class="control-label"></label>
+                                                 <input asp-for="@Model.CompanyHeadquarter" readonly
+                                                        class="form-control mail_text py-1 h-75 w-75" />
+						</div>
+					 	<div class="form-group my-1">
+						       <label asp-for="AddressOfManagement" class="control-label"></label>
+                                                 <input asp-for="@Model.AddressOfManagement" readonly
+                                                        class="form-control mail_text py-1 h-75 w-75" />
+						</div>
+					 	<div class="form-group my-1">
+						       <label asp-for="RepresentedBy" class="control-label"></label>
+                                                 <input asp-for="@Model.RepresentedBy" readonly
+                                                        class="form-control mail_text py-1 h-75 w-75" />
+						</div>
+					 	<div class="form-group my-1">
+						       <label asp-for="RepresentativeIdNumber" class="control-label"></label>
+                                                 <input asp-for="@Model.RepresentativeIdNumber" readonly
+                                                        class="form-control mail_text py-1 h-75 w-75" />
+						</div>
+					 	<div class="form-group my-1">
+						       <label asp-for="CompanyCaseNumber" class="control-label"></label>
+                                                 <input asp-for="@Model.CompanyCaseNumber" readonly
+                                                        class="form-control mail_text py-1 h-75 w-75" />
+						</div>
+					 	<div class="form-group my-1">
+								<label asp-for="HasBeenDeleted" class="control-label"></label>
+                                                        <input asp-for="@Model.HasBeenDeleted" type="text" readonly
+                                                               class="form-control mail_text py-1 h-75 w-75" />
+							</div>
+					 	<div class="send_bt modify-company">
+                                                 <form asp-controller="Companies" asp-action="AllActual" method="post">
+                                                        <button>Back to List</button>
+                                                  </form>
+						</div>
+					 	<div class="form-group send_bt modify-company">
+								<button id="edit-company"
+                                                                       form="goto-company-edit"
+                                                                       type="submit">
+									       Edit
+								</button>
+							</div>
+					 </div>
 				</div>
-				<div class="col-md-6 padding_right_0">
+				<div class="col-md-6 px-1">
+                                   @*class="col-md-6 padding_right_0"*@
 					<div class="map_section">
 						<img src="/images/map-img-2.png">
 					</div>

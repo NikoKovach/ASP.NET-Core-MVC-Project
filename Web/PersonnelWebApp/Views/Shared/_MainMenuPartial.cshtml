@@ -19,13 +19,13 @@
 								<form asp-controller="Employees" asp-action="Create" 
 									method="post" id="PersonnelStaffCreateForm">
 									<a class="dropdown-item" href="#"
-									   onclick="document.getElementById('PersonnelStaffCreateForm').submit()"
-									   >Add Employee</a>
+									   onclick="document.getElementById('PersonnelStaffCreateForm').submit()">
+                                                                      Add Employee
+                                                               </a>
 								</form>
-                                                        <a asp-controller="Employees" asp-action="AllPresent"
-                                                        class="dropdown-item">All Employees</a>
-                                                        <a  asp-controller="Employees"
-                                                           asp-action="Index">Files</a>
+                                                        <a  asp-controller="Employees" asp-action="Index">
+                                                               Files
+                                                        </a>
 							</div>
 						</div>
 					</li>
@@ -38,6 +38,27 @@
                                                  </form>
 						</div>
 					</li>
+                                   <li>
+                                          <div class="dropdown dropright read_bt">
+                                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                        Employee Sections
+                                                 </a>
+                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                        <form asp-area="LaborContracts" asp-controller="Contracts" asp-action="Index"
+                                                              method="post" id="LaborContractsForm">
+                                                               <a class="dropdown-item" href="#"
+                                                                  onclick="document.getElementById('LaborContractsForm').submit()">
+                                                                      Contracts and Annexes
+                                                               </a>
+                                                        </form>
+
+                                                        <a asp-area="Vacations" asp-controller="Leave" asp-action="Index"
+                                                           class="dropdown-item">
+                                                               Leave and Temporary Disability
+                                                        </a>
+                                                 </div>
+                                          </div>
+                                   </li>
 				</ul>
 			</div>
 		</li>

@@ -13,7 +13,7 @@ namespace Payroll.ViewModels.EmployeeViewModels
 
               public PersonEmpVM? Person { get; set; }
 
-              public ContactsEmpVM? ContactInfo { get; set; }
+              public LaborContactVM? ContactInfo { get; set; }
 
               public IdDocumentEmpVM? IdCardPassport { get; set; }
 

@@ -5,6 +5,7 @@ var indexMouseOver = -1;
 
 /* Company View */
 $('#tbody').on('click', 'tr', onRowClick);
+
 function onRowClick()
 {
 	if (prevItemIndex > -1) {

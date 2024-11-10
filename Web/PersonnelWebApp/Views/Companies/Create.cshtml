@@ -9,7 +9,7 @@
 <div class="background_bg">
 	<div class="about_section layout_padding company">
 		<div class="container">
-			<h1 class="watchs_taital">Create Company</h1>
+			<h1 class="watchs_taital px-5 mx-5">Create Company</h1>
 		</div>
 		<div class="contact_section_2">
 			<div class="container-fluid">
@@ -18,90 +18,66 @@
 						<form asp-action="Create">
 							<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 							<div class="mail_section_1">
-								<div class="form-group">
-									<label asp-for="Name" class="control-label">
-									</label>
-									<input asp-for="Name" type="text"
-										  class="form-control mail_text"
-										  placeholder="Required" />
-									<span asp-validation-for="Name" 
-									class="text-danger">
-									</span>
+								<div class="form-group my-0">
+									<label asp-for="Name" class="control-label"></label>
+                                                               <input asp-for="Name" type="text" placeholder="Required"
+										  class="form-control mail_text py-1 h-75"/>
+									<span asp-validation-for="Name" class="text-danger"></span>
 								</div>
-								<div class="form-group company-name">
-									<label asp-for="CompanyHeadquarter"
-										  class="control-label"></label>
-									<input asp-for="CompanyHeadquarter"
-										  type="text" 
-										  class="form-control mail_text"
-										  placeholder="Required" />
+								<div class="form-group my-0">
+									<label asp-for="CompanyHeadquarter" class="control-label"></label>
+                                                               <input asp-for="CompanyHeadquarter" placeholder="Required"
+                                                                      class="form-control mail_text py-1 h-75" />
 									<span asp-validation-for="CompanyHeadquarter"
-									class="field-validation-error text-danger">
+									       class="field-validation-error text-danger">
 									</span>
 								</div>
-								<div class="form-group">
-									<label asp-for="AddressOfManagement"
-										  class="control-label"></label>
+								<div class="form-group my-0">
+									<label asp-for="AddressOfManagement" class="control-label"></label>
 									<input asp-for="AddressOfManagement"
-										  type="text" 
-										  class="form-control mail_text" />
+                                                                      class="form-control mail_text py-1 h-75" />
 									<span asp-validation-for="AddressOfManagement"
-										 class="text-danger">
-									</span>
-								</div>
-								<div class="form-group">
-									<label asp-for="UniqueIdentifier"
-										  class="control-label"></label>
-									<input asp-for="UniqueIdentifier" type="text"
-										  class="form-control mail_text"
-										  placeholder="Required" />
-									<span asp-validation-for="UniqueIdentifier"
 										 class="text-danger"></span>
 								</div>
-								<div class="form-group">
-									<label asp-for="VATRegNumber" 
-									class="control-label">
-									</label>
-									<input asp-for="VATRegNumber" type="text"
-										  class="form-control mail_text" />
-									<span></span>
+								<div class="form-group my-0">
+									<label asp-for="UniqueIdentifier"class="control-label"></label>
+                                                               <input asp-for="UniqueIdentifier" placeholder="Required"
+                                                                      class="form-control mail_text py-1 h-75" />
+									<span asp-validation-for="UniqueIdentifier" class="text-danger"></span>
 								</div>
-								<div class="form-group">
-									<label asp-for="RepresentedBy" 
-									class="control-label"></label>
-									<input asp-for="RepresentedBy" type="text"
-										  class="form-control mail_text"
-										  placeholder="Required" />
-									<span asp-validation-for="RepresentedBy"
-										 class="text-danger"></span>
+								<div class="form-group my-0">
+									<label asp-for="VATRegNumber" class="control-label"></label>
+									<input asp-for="VATRegNumber"
+                                                                      class="form-control mail_text py-1 h-75" />
+									<span asp-validation-for="VATRegNumber"></span>
 								</div>
-								<div class="form-group">
-									<label asp-for="RepresentativeIdNumber"
-										  class="control-label"></label>
+								<div class="form-group my-0">
+									<label asp-for="RepresentedBy" class="control-label"></label>
+                                                               <input asp-for="RepresentedBy" placeholder="Required"
+                                                                      class="form-control mail_text py-1 h-75" />
+									<span asp-validation-for="RepresentedBy"class="text-danger"></span>
+								</div>
+								<div class="form-group my-0">
+									<label asp-for="RepresentativeIdNumber"class="control-label"></label>
 									<input asp-for="RepresentativeIdNumber"
-										  type="text" 
-										  class="form-control mail_text" />
-									<span></span>
+                                                                      class="form-control mail_text py-1 h-75" />
+									<span asp-validation-for="RepresentativeIdNumber"></span>
 								</div>
-								<div class="form-group">
-									<label asp-for="CompanyCaseNumber"
-										  class="control-label"></label>
+								<div class="form-group my-0">
+									<label asp-for="CompanyCaseNumber" class="control-label"></label>
 									<input asp-for="CompanyCaseNumber"
-										  type="text" 
-										  class="form-control mail_text" />
-									<span></span>
+                                                                      class="form-control mail_text py-1 h-75" />
+									<span asp-validation-for="CompanyCaseNumber"></span>
 								</div>
 								<div class="send_bt modify-company">
-									<button type="submit" 
-									asp-controller="Companies"
-									asp-action="Create">
+									<button asp-controller="Companies" asp-action="Create" type="submit">
 										Create
 									</button>
 								</div>
 							</div>
 						</form>
 					</div>
-					<div class="col-md-6 padding_right_0">
+					<div class="col-md-6 px-5">
 						<div class="map_section">
 							<img src="/images/map-img-2.png">
 						</div>

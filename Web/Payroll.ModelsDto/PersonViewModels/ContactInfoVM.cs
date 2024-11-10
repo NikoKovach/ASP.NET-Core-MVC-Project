@@ -5,7 +5,7 @@ using Payroll.ViewModels.EmployeeViewModels;
 
 namespace Payroll.ViewModels.PersonViewModels
 {
-       public class ContactInfoVM : ContactsEmpVM
+       public class ContactInfoVM : LaborContactVM
        {
               public int? Id { get; set; }
 

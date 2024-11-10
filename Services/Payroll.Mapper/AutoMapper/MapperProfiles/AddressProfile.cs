@@ -9,9 +9,6 @@ namespace Payroll.Mapper.AutoMapper.MapperProfiles
               public AddressProfile()
               {
                      CreateMap<Address, AddressVM>().ReverseMap();
-                     //.ForMember( m => m.AddressId, opt => opt.MapFrom( s => s.Id ) )
-
-                     //.ForMember( m => m.Id, opt => opt.MapFrom( s => s.AddressId ) );
               }
        }
 }

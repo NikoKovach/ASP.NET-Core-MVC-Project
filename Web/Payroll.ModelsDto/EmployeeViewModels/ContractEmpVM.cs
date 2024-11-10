@@ -32,28 +32,3 @@ namespace Payroll.ViewModels.EmployeeViewModels
        }
 }
 
-//public static ContractEmpVM? Create( IQueryable<> employee )
-//{
-//       ContractEmpVM? viewModel = new ContractEmpVM
-//       {
-//              JobTitle = employee.EmploymentContract.JobTitle,
-//              DepartmentName = employee.EmploymentContract.Department.Name,
-//              ContractType = employee.EmploymentContract.ContractType.Type,
-//              ContractNumber = employee.EmploymentContract.ContractNumber,
-//              ContractDate = employee.EmploymentContract.ContractDate.ToShortDateString(),
-//              LastAnnex = employee.EmploymentContract
-//                                   .SupplementaryAgreements
-//                                   .Select( a => new AnnexJobTitleVM
-//                                   {
-//                                          Id = a.Id,
-//                                          JobTitle = a.JobTitle,
-//                                          DepartmentName = a.Department.Name
-//                                   } )
-//                                   .OrderBy( x => x.Id )
-//                                  .LastOrDefault()
-
-
-//       };
-
-//       return viewModel;
-//}

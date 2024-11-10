@@ -35,8 +35,7 @@ namespace Payroll.Mapper.AutoMapper
               {
                      try
                      {
-                            IQueryable<TResult> query = dbSet.ProjectTo<TResult>
-                                                               ( mapper.ConfigurationProvider );
+                            IQueryable<TResult> query = dbSet.ProjectTo<TResult>( mapper.ConfigurationProvider );
 
                             return query;
                      }
