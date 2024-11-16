@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Payroll.Data;
 
@@ -11,9 +12,11 @@ using Payroll.Data;
 namespace Payroll.Data.Migrations
 {
     [DbContext(typeof(PayrollContext))]
-    partial class PayrollContextModelSnapshot : ModelSnapshot
+    [Migration("20241110211538_AddRelationshipBetweenAddressAndEmpContractTables")]
+    partial class AddRelationshipBetweenAddressAndEmpContractTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -456,7 +459,7 @@ namespace Payroll.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<byte?>("AdditionalPaidAnnualLeaveInDays")
+                    b.Property<byte>("AdditionalPaidAnnualLeaveInDays")
                         .HasColumnType("tinyint");
 
                     b.Property<DateTime>("ContractDate")
@@ -483,7 +486,7 @@ namespace Payroll.Data.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<int?>("EmployeeId")
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<bool>("HasBeenDeleted")
@@ -501,7 +504,7 @@ namespace Payroll.Data.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<int?>("LaborCodeArticleId")
+                    b.Property<int>("LaborCodeArticleId")
                         .HasColumnType("int");
 
                     b.Property<string>("NCOP")
@@ -521,10 +524,10 @@ namespace Payroll.Data.Migrations
                     b.Property<int?>("PlaceId")
                         .HasColumnType("int");
 
-                    b.Property<byte?>("ProbationInMonths")
+                    b.Property<byte>("ProbationInMonths")
                         .HasColumnType("tinyint");
 
-                    b.Property<bool?>("ReceivedAJobDescription")
+                    b.Property<bool>("ReceivedAJobDescription")
                         .HasColumnType("bit");
 
                     b.Property<decimal>("Salary")
@@ -561,8 +564,7 @@ namespace Payroll.Data.Migrations
                     b.HasIndex("DeparmentId");
 
                     b.HasIndex("EmployeeId")
-                        .IsUnique()
-                        .HasFilter("[EmployeeId] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("LaborCodeArticleId");
 
@@ -1444,12 +1446,14 @@ namespace Payroll.Data.Migrations
                     b.HasOne("Payroll.Models.Employee", "Employee")
                         .WithOne("EmploymentContract")
                         .HasForeignKey("Payroll.Models.EmploymentContract", "EmployeeId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Payroll.Models.EnumTables.LaborCodeArticle", "LaborCodeArticle")
                         .WithMany("Contracts")
                         .HasForeignKey("LaborCodeArticleId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Payroll.Models.Address", "PlaceOfRegistration")
                         .WithMany("EmploymentContracts")

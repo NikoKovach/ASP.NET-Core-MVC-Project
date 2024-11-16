@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using AutoMapper;
+using Newtonsoft.Json;
 using Payroll.Data;
 using Payroll.Mapper.AutoMapper;
 using TestPersonnel.Demo;
@@ -9,17 +10,17 @@ public class Program
        {
               var context = new PayrollContext();
               var config = new AutoMapperBuilder().CreateMapperConfig();
-              var mapper = config.CreateMapper();
+              IMapper mapper = config.CreateMapper();
 
               //**************************************************************
-              //ServiceTest.AutoMapperTest( context, mapper );
+              ServiceTest.AutoMapperTest( context, mapper );
               //ServiceTest.TestCustomMapper( context );
               //ServiceTest.TestValidate( context, mapper );
 
               //ServiceTest.AddressValidateTest( context, mapper );
 
               //ServiceTest.ConfigurationTest();
-              ServiceTest.PersonPartTest( context, mapper );
+              //ServiceTest.PersonPartTest( context, mapper );
 
               Console.WriteLine();
        }

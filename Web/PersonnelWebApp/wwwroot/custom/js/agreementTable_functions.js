@@ -12,8 +12,7 @@ const descArray = "&#11167;";
 const underscore = "_";
 const rightArrayError = "&#129170;";
 
-
-$('#customTableBody').on('click','tr' ,onRowClick);
+$('#customTableBody').on('click', 'tr', onRowClick);
 
 $('#customTableBody').on("mouseover", 'tr', function () {
        indexMouseOver = $(this).index();
@@ -24,11 +23,11 @@ $(".edit-checkbox").on("click", function () {
 
        var inputs = $(this).parents("tr").find("input.table-field");
 
-       if (isChecked) { 
+       if (isChecked) {
               inputs.removeAttr("readonly");
        }
        else {
-              inputs.attr("readonly",true);
+              inputs.attr("readonly", true);
        }
 });
 
@@ -42,7 +41,7 @@ $("#edit-entities-btn").on("click", function () {
        console.log(actionData["entitiesForEdit"]);
 
        if (actionData["entitiesForEdit"].length > 0) {
-              postRequest(actionData,formAction);
+              postRequest(actionData, formAction);
        }
 });
 
@@ -69,13 +68,13 @@ function onRowClick() {
 
        changeCurrentRowBgColor($(this));
 
-       //let headerText = $("#private-header").text();
-       //let personViewIsLoaded = headerText.localeCompare("Persons List");
+       let headerText = $("#private-header").text();
+       let personViewIsLoaded = headerText.localeCompare("Persons List");
 
-       //if (personViewIsLoaded === 0) {
-       //       let id = $(this).children("td").children("input.table-field").eq(0).val();
-       //       $("input.person-id").val(id);
-       //}
+       if (personViewIsLoaded === 0) {
+              let id = $(this).children("td").children("input.table-field").eq(0).val();
+              $("input.person-id").val(id);
+       }
 
        //let addressViewIsLoaded = headerText.localeCompare("Addresses List");
 
@@ -87,7 +86,7 @@ function onRowClick() {
        deleteEntityCaseGetEntityId();
        //####################################################
 
-   //Employees->AllPresent View
+       ////Employees->AllPresent View
        //var inputEditCount = $("#edit-entity-id").length;
        //var inputDeleteCount = $("#delete-entity-id").length;
 
@@ -112,20 +111,20 @@ function deleteEntityCaseGetEntityId() {
 };
 
 function getActionParameters() {
-       var data = { };
+       var data = {};
 
        let inputToken = $("#div-formGoToPage").children(' input[name="__RequestVerificationToken"]');
        let keyToken = inputToken.attr("name");
        let valueToken = inputToken.val();
        data[keyToken] = valueToken;
 
-       let inputPageIndex = $("#div-formGoToPage").children("input[name='pageIndex']"); 
+       let inputPageIndex = $("#div-formGoToPage").children("input[name='pageIndex']");
        let keyPageIndex = inputPageIndex.attr("name");
        let valuePageIndex = inputPageIndex.val();
        data[keyPageIndex] = valuePageIndex;
 
        let inputSort = $("#div-formGoToPage").children("input[name='sortParam']");
-       let keySort= inputSort.attr("name");
+       let keySort = inputSort.attr("name");
        let valueSort = inputSort.val();
        data[keySort] = valueSort;
 
@@ -162,7 +161,7 @@ function getEntitiesForEdit() {
        var colsTitleArray = [];
 
        for (var d = 0; d < columnsLabel.length; d++) {
-              colsTitleArray.push(columnsLabel[d].getAttribute("value") );
+              colsTitleArray.push(columnsLabel[d].getAttribute("value"));
        }
 
        if (rowsForEdit.length > 0) {
@@ -172,7 +171,7 @@ function getEntitiesForEdit() {
 
                      var textValuesArr = [];
 
-                     for (var i = 0; i < entityElements.length ; i++) {
+                     for (var i = 0; i < entityElements.length; i++) {
                             if (!entityElements.eq(i).val() == "") {
                                    textValuesArr.push(entityElements.eq(i).val());
                             }
@@ -184,7 +183,7 @@ function getEntitiesForEdit() {
                      var entityForEdit = {};
 
                      if (colsTitleArray.length == textValuesArr.length) {
-                            for (var i = 0; i < textValuesArr.length ; i++) {
+                            for (var i = 0; i < textValuesArr.length; i++) {
                                    entityForEdit[colsTitleArray[i]] = textValuesArr[i];
                             }
                      }
@@ -197,14 +196,14 @@ function getEntitiesForEdit() {
                                    let attrName = notTableElements[i].getAttribute("name");
                                    let dotIndex = attrName.indexOf(".");
 
-                                   let key = attrName.slice(dotIndex +1);
+                                   let key = attrName.slice(dotIndex + 1);
                                    let value = notTableElements[i].getAttribute("value");
 
                                    if (key.startsWith("ViewTableRow")) {
                                           entityForEdit[key] = attrName;
                                    }
                                    else {
-                                          entityForEdit[key] = (value =="")? null : value;
+                                          entityForEdit[key] = (value == "") ? null : value;
                                    }
                             }
                      }
@@ -239,7 +238,7 @@ function postRequest(actionData, formAction) {
 };
 
 function postResponse(data) {
-       var enumValid = {isValid:2, isNotValid:1};
+       var enumValid = { isValid: 2, isNotValid: 1 };
 
        var arrModelState = [];
 
@@ -255,19 +254,19 @@ function postResponse(data) {
               let dotIndexKey = item.key.indexOf(".");
               let dotIndexValue = item.value.rawValue.indexOf(".");
 
-              let rowKey = item.key.slice(0,dotIndexKey);
-              let rowValue = item.value.rawValue.slice(0,dotIndexValue);
+              let rowKey = item.key.slice(0, dotIndexKey);
+              let rowValue = item.value.rawValue.slice(0, dotIndexValue);
 
               arrTableRowsName.push({ key: rowKey, value: rowValue });
        });
 
-       var invalidItems = arrModelState.filter(x => x.value.validationState == enumValid.isNotValid );
+       var invalidItems = arrModelState.filter(x => x.value.validationState == enumValid.isNotValid);
 
        if (invalidItems.length > 0) {
               $("div.alert ul li").remove();
 
               $.each(invalidItems, function (index, item) {
-                    var itemErrors = $.map(item.value.errors,function (x) {
+                     var itemErrors = $.map(item.value.errors, function (x) {
                             return x;
                      });
 
@@ -284,8 +283,9 @@ function postResponse(data) {
                      let rowText = replacement.value.substring(leftBracket + 1, rightBracket);
 
                      let actualTableRow = parseInt(rowText) + 1;
+                     /*                     console.log(actualTableRow);*/
 
-                     var errorsMsgString = "<li><p>Property : " + fieldNameText + " - row " + actualTableRow  + " of the table :</p>";
+                     var errorsMsgString = "<li><p>Property : " + fieldNameText + " - row " + actualTableRow + " of the table :</p>";
 
                      for (var z = 0; z < itemErrors.length; z++) {
                             var anyError = "<p>" + rightArrayError + "  " + itemErrors[z].errorMessage + "</p>";
@@ -309,14 +309,14 @@ function postResponse(data) {
               });
 
               $("div.alert").css("display", 'list-item');
-              $("div.alert").show();  
+              $("div.alert").show();
 
               $("#edit-success").css("display", 'none');
        }
 
        if (invalidItems.length == 0) {
               $("div.alert").css("display", 'none');
-              $("div.alert").hide();  
+              $("div.alert").hide();
 
               $("#edit-success").css("display", 'list-item');
               $("#edit-success").show();
@@ -325,7 +325,7 @@ function postResponse(data) {
 
               $(".edit-checkbox:checked").prop("checked", false);
 
-             var inputTableFields = $("#customTableBody").find("input.table-field");
+              var inputTableFields = $("#customTableBody").find("input.table-field");
 
               console.log(inputTableFields.length);
 
@@ -363,7 +363,7 @@ function upArrowPress() {
 
 function downArrowPress() {
        var tableRowCount = $('#customTableBody tr').length;
-       if (currentRowIndex < tableRowCount -1) {
+       if (currentRowIndex < tableRowCount - 1) {
               currentRowIndex += 1;
               $('#customTableBody tr').eq(currentRowIndex).trigger("click");
 
@@ -377,7 +377,7 @@ function leftArrowPress() {
 
        if (currentFieldIndex > 1) {
               currentFieldIndex -= 1;
-              rowTextFields.eq(currentFieldIndex).trigger("focus"); 
+              rowTextFields.eq(currentFieldIndex).trigger("focus");
        }
 };
 
@@ -385,7 +385,7 @@ function rightArrowPress() {
        var rowTextFields = $('#customTableBody tr').eq(currentRowIndex).find("input.table-field");
        var textFieldsCount = rowTextFields.length;
 
-       if (currentFieldIndex < textFieldsCount-1) {
+       if (currentFieldIndex < textFieldsCount - 1) {
               currentFieldIndex += 1;
               rowTextFields.eq(currentFieldIndex).trigger("focus");
        }
@@ -426,7 +426,6 @@ $("button.new-sort-btn").on('click', function () {
        $(this).trigger("blur");
 });
 
-
 $(function () {
        changeNewSortButtons();
 
@@ -465,11 +464,8 @@ function addArraySymbolSpan(button, arraySymbol) {
 };
 
 /*############################################## */
-$(".final-btn").on("click", function () {
-       $(this).trigger("blur");
-});
 
-$(".person-item-btn").on("click", function () {
+$(".final-btn").on("click", function () {
        $(this).trigger("blur");
 });
 
@@ -484,7 +480,7 @@ $("#add-entity").on("click", function () {
               addRow.removeAttr("hidden");
        }
        else {
-              addRow.attr("hidden",true);
+              addRow.attr("hidden", true);
        }
 
        if (typeof tableAddAttrHidden !== 'undefined' && tableAddAttrHidden !== false) {
@@ -503,146 +499,62 @@ $("#delete-entity-btn").on("click", function () {
        return confirm("\" Do you want to delete the selected record ? \"");
 });
 
-
-//********************************************************************* */
-
-
-//$("#go-back-btn.employees").on("click", function(){
-//       document.location = "/Employees/Index";
-//});
-
-//$("#go-back-btn.diplomas").on("click", function () {
-//       document.location = "/Persons/AllPersons";
-//});
+$("#go-back-btn.employees").on("click", function () {
+       document.location = "/Employees/Index";
+});
 
 //**************************************************************/
 
+function moveToNextPage() {
+       
+       let inputPageIndex = document.getElementById("go-to-page");
 
-// -- > Address View <--
+       let pageIndexValue = Number.parseInt(inputPageIndex.getAttribute("value"));
 
-//$("button.manage-btn").on("click", function () {
-//       $(this).trigger("blur");
-//});
+       inputPageIndex.setAttribute("value", pageIndexValue + 1);
 
-//$("#create-address-btn").on("click", function () {
-//       showHideElement($("#change-address-form"));
+       let value = inputPageIndex.getAttribute("value");
+       console.log(value);
 
-//       clearAddressFotm();
-//});
+       document.getElementById("main-paging-form").submit();
+};
 
-//$("#edit-address-btn").on("click", function () {
-//       showHideElement($("#change-address-form"));
+function moveToPreviousPage() {
 
-//       let addressForEdit = getAddress();
+       let inputPageIndex = document.getElementById("go-to-page");
 
-//       fillAddressForm(addressForEdit);
-//});
+       let pageIndexValue = Number.parseInt(inputPageIndex.getAttribute("value"));
 
-//$("#showAddressesBtn").on("click", function () {
-//       showHideElement($("#addresses-table-div"));
-//});
+       inputPageIndex.setAttribute("value", pageIndexValue - 1);
 
-//$("input.checkAddressType").on("click", function () {
-//       let arrayChecks = $("input.checkAddressType").toArray();
+       let value = inputPageIndex.getAttribute("value");
+       console.log(value);
 
-//       if ($(this).is(":checked") == true) {
-             
-//              let checkBoxIndex = $("input.checkAddressType").index($(this));
+       document.getElementById("main-paging-form").submit();
+};
 
-//              $.each(arrayChecks, function (index, value) {
-//                     if (index != checkBoxIndex) {
-//                            $(value).prop("checked", false);
-//                     }
-//              });
+function clearSearchFilterSettings() {
 
-//              if ($("#addresses-table-div").prop("hidden") == false) {
-//                     $("#attachAddressButton").prop("disabled", false);
-//                     $("#detachAddressButton").prop("disabled", false);
-//              }
+       let searchInputsList= document.getElementsByClassName("input-baseSearchForm");
 
-//              $("input#attachAddressType").val($(this).val());
-//              $("input#detachAddressType").val($(this).val());
-//       }
+       for (let i = 0; i < searchInputsList.length; i++) {
 
-//       attachDetachBtnsAreDisabled($("input.checkAddressType"));
-//});
+              searchInputsList[i].setAttribute("value", "");
+       }
 
-//function attachDetachBtnsAreDisabled(checkBoxElements) {
-//       let arrayCheckBoxes = $(checkBoxElements).toArray();
+       document.getElementById("agreement-base-search-form").submit();
+};
 
-//       let isChecked = (element) => $(element).is(":checked") == false;
+function onCompanyChange() {
+       document.getElementById("changeCompanyForm").submit();
+};
 
-//       let allCheckBoxIsUnchecked = arrayCheckBoxes.every(isChecked);
-
-//       if (allCheckBoxIsUnchecked == true) {
-//              $("#attachAddressButton").prop("disabled", true);
-//              $("#detachAddressButton").prop("disabled", true);
-
-//              $("input#attachAddressType").val("");
-//              $("input#detachAddressType").val("");
-//       }
-//};
-
-//function showHideElement(element) {
-//       let propHiddenValue = $(element).prop("hidden");
-
-//       if (propHiddenValue == true) {
-//              $(element).prop("hidden",false);
-//       }
-//       else {
-//              $(element).prop("hidden",true);
-//       }
-//};
-
-//function getAddress() {
-//       let address = {};
-
-//       if (currentRowIndex > -1) {
-//              let selectedRow = $("#customTableBody > tr").eq(currentRowIndex);
-
-//              let addressFields = $(selectedRow).children("td").children(".table-field");
-
-//              $(addressFields).each(function (i) {
-//                     let dotIndex = $(this).attr("name").indexOf(".");
-
-//                     let modelName = $(this).attr("name").slice(dotIndex +1);
-//                     let modelValue = $(this).val();
-
-//                     address[modelName] = modelValue;
-//              });
-
-//              return address;
-//       }
-
-//       return address;
-//};
-
-//function fillAddressForm(addressForEdit) {
-//       for (let x in addressForEdit) {
-//              let resultInput = $("#newAddressForm input[id$='" + x + "']");
-
-//              $(resultInput).val(addressForEdit[x]);
-//       };
-//};
-
-//function clearAddressFotm() {
-//       let inputsInForm = $("#newAddressForm input.address-field");
-
-//       $(inputsInForm).each(function (i) {
-
-//              let attrId = $(this).attr("id");
-
-//              if (attrId.endsWith("Id")) {
-//                     $(this).val(0);
-//              }
-//              else {
-//                     $(this).val("");
-//              }
-//       });
-//};
-
-//******************************************************************* */
+function submitAgreementBaseSearchForm() {
+       document.getElementById("agreement-base-search-form").submit();
+};
 
 
 
- 
+
+
+

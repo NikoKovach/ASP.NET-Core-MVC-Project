@@ -1,36 +1,42 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Payroll.ViewModels.LaborContractViewModels
+namespace Payroll.ViewModels.EmpContractViewModels
 {
-       public class LaborContractVM : ValidateBaseModel
+       public class LaborAgreementVM
        {
               [Display( Name = "Contract Id" )]
               public int? Id { get; set; }
+
+              [Display( Name = "Employee Name" )]
+              public string? FirstLastName { get; set; }
 
               [Required]
               [Display( Name = "Is Active" )]
               public bool? IsActive { get; set; }
 
               [Required]
-              [Display( Name = "Contract type" )]
+              [Display( Name = "Contract Type" )]
               public string? ContractType { get; set; }
 
               [Required]
               [StringLength( 20, MinimumLength = 1 )]
-              [Display( Name = "Contract number" )]
+              [Display( Name = "Contract Number" )]
               public string? ContractNumber { get; set; }
 
               [Required]
               [DataType( DataType.Date )]
-              [Display( Name = "Contract date" )]
+              [Display( Name = "Contract Date" )]
               public DateTime? ContractDate { get; set; }
 
               [StringLength( 20, MinimumLength = 2 )]
               [Display( Name = "Work Experience" )]
               public string? WorkExperience { get; set; }
 
+              /// <summary>
+              /// Specialty Work Experience
+              /// </summary>
               [StringLength( 20, MinimumLength = 2 )]
-              [Display( Name = "Specialty Work Experience" )]
+              [Display( Name = "SWE" )]
               public string? SpecialtyWorkExperience { get; set; }
 
               [Required]
@@ -47,7 +53,7 @@ namespace Payroll.ViewModels.LaborContractViewModels
 
               [Required]
               [StringLength( 250, MinimumLength = 3 )]
-              [Display( Name = "Job title" )]
+              [Display( Name = "Job Title" )]
               public string? JobTitle { get; set; }
 
               [Required]
@@ -74,8 +80,6 @@ namespace Payroll.ViewModels.LaborContractViewModels
               public byte? WorkTime { get; set; }
 
               [Required]
-              [Range( typeof( decimal ), "50.00", "10 000 000.00" )]
-              //[Column( TypeName = "decimal(18,2)" )]
               [Display( Name = "Labor Reward" )]
               public decimal? Salary { get; set; }
 
@@ -96,29 +100,41 @@ namespace Payroll.ViewModels.LaborContractViewModels
               /// <summary>
               /// Additional Paid Annual Leave In Days 
               /// </summary>
-              [Display( Name = "Additional Paid Annual Leave " )]
+              [Display( Name = "APAL" )]
               public byte? AdditionalPaidAnnualLeaveInDays { get; set; }
 
-              [Display( Name = "Trial Period in Months" )]
+              /// <summary>
+              /// Trial Period in Months
+              /// </summary>
+              [Display( Name = "TP in Months" )]
               public byte? ProbationInMonths { get; set; }
 
+              /// <summary>
+              /// Notice Period In Days
+              /// </summary>
               [Required]
-              [Display( Name = "Notice Period In Days" )]
+              [Display( Name = "NP in Days" )]
               public byte? NoticePeriodInDays { get; set; }
 
-              [Display( Name = "Received a Job Description" )]
+              /// <summary>
+              /// Received a Job Description
+              /// </summary>
+              [Display( Name = "RJD" )]
               public bool? ReceivedAJobDescription { get; set; }
 
+              /// <summary>
+              ///  Starting Work Date
+              /// </summary>
               [Required]
               [DataType( DataType.Date )]
-              [Display( Name = "Starting Work Date" )]
+              [Display( Name = "SW Date" )]
               public DateTime? StartingWorkDate { get; set; }
 
               /// <summary>
               /// Date of receipt of contract
               /// </summary>
               [DataType( DataType.Date )]
-              [Display( Name = "Date of Receipt of the Contract" )]
+              [Display( Name = "Date of RC" )]
               public DateTime? DateOfReceipt { get; set; }
 
               [Display( Name = "Employee Id" )]
@@ -127,16 +143,21 @@ namespace Payroll.ViewModels.LaborContractViewModels
               /// <summary>
               /// Place of conclusion of the employment contract
               /// </summary>
-              [Display( Name = "Place of conclusion" )]
+              [Display( Name = "PCEC Id" )]
               public int? PlaceId { get; set; }
 
               /// <summary>
               /// Employee work place
               /// </summary>
-              [Display( Name = "Employee work place" )]
+              [Display( Name = "EWP Id" )]
               public int? WorkPlaceId { get; set; }
 
               public bool? HasBeenDeleted { get; set; }
+
+              public string? FirstName { get; set; }
+
+              public string? LastName { get; set; }
+
        }
 }
 

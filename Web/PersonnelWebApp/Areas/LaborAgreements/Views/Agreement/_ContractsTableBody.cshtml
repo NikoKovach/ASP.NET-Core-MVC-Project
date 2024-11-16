@@ -1,0 +1,168 @@
+﻿@using Payroll.ViewModels.EmpContractViewModels
+@model List<LaborAgreementVM>?
+
+@{
+       List<LaborAgreementVM>? entitiesForEdit = Model;
+}
+
+<tbody id="customTableBody">
+       @{
+              int rows = entitiesForEdit.Count;
+
+              for ( int i = 0; i <rows; i++ )
+              {
+                     int rowNumber = i + 1;
+                     string? salary = entitiesForEdit[i].Salary.ToString();
+                     <tr>
+                            <td class="px-1 py-1 text-center"><input type="checkbox" class="edit-checkbox" /></td>
+                            <td class="px-1 py-1 text-center">@rowNumber</td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].Id"
+                                          class="text-sm-center border-0 table-field" readonly
+                                          style="width: 75px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].FirstLastName"
+                                          class="text-sm-center border-0 table-field" readonly
+                                          style="width: 120px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].IsActive" type="text"
+                                          class="text-sm-center border-0 table-field" readonly
+                                          style="width: 75px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].ContractType"
+                                          class="text-sm-center border-0 table-field" readonly
+                                          style="width: 100px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].ContractNumber"
+                                          class="text-sm-center border-0 table-field" readonly
+                                          style="width: 120px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].ContractDate" type="text"
+                                          class="text-sm-center border-0 table-field" readonly
+                                          style="width: 110px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].WorkExperience"
+                                                 class="text-sm-center border-0 table-field" readonly
+                                                 style="width: 100px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].SpecialtyWorkExperience"
+                                                 class="text-sm-center border-0 table-field" readonly
+                                                 style="width: 100px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].LaborCodeArticle" 
+                                                 class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                                 style="width: 100px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].TrialPeriod"
+                                                 class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                                 style="width: 75px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].IsNegotiatedInFavorOf" 
+                                                 class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                                 style="width: 100px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].JobTitle"
+                                                 class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                                 style="width: 100px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].DepartmentName"
+                                                 class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                                 style="width: 100px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].EAC"
+                                                 class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                          style="width: 75px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].NCOP"
+                                                 class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                          style="width: 75px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].WorkTime"
+                                                 class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                                 style="width: 75px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].Salary"
+                                                 class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                                 style="width: 120px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].PercentSWE" 
+                                                 class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                                 style="width: 75px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].SalaryDayOfTheMonth"
+                                                 class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                                 style="width: 50px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].PaidLeaveInDays" 
+                                                 class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                                 style="width: 75px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].AdditionalPaidAnnualLeaveInDays"
+                                                 class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                                 style="width: 75px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].ProbationInMonths"
+                                                 class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                                 style="width: 85px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].NoticePeriodInDays"
+                                                 class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                                 style="width: 85px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].ReceivedAJobDescription"
+                                                 class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                                 style="width: 75px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].StartingWorkDate" type="text"
+                                                 class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                                 style="width: 75px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].DateOfReceipt" type="text"
+                                                 class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                                 style="width: 75px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].EmployeeId"
+                                                 class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                                 style="width: 75px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].PlaceId"
+                                          class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                          style="width: 75px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].WorkPlaceId"
+                                          class="text-sm-center col-sm-11 border-0 table-field" readonly
+                                          style="width: 75px;" />
+                            </td>
+                     </tr>
+              }
+       }
+</tbody>
+

@@ -1,6 +1,9 @@
 ﻿
 
-/*$("#btnSave").on("click", insertStudent); */
+$("input").on("click", function () {
+       $("label").prop();
+
+}); 
 
 /*$("#btnSave").on("click", postMethod);*/
 function LoadData() {

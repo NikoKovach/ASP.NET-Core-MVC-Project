@@ -70,7 +70,7 @@ namespace Payroll.Data
 
               public DbSet<LaborCodeArticle> LaborCodeArticles { get; set; }
 
-              public DbSet<PlaceOfRegistration> PlaceOfRegistrations { get; set; }
+              //public DbSet<PlaceOfRegistration> PlaceOfRegistrations { get; set; }
 
               public DbSet<TypeSickSheet> TypeSickSheets { get; set; }
 
@@ -139,13 +139,4 @@ namespace Payroll.Data
 }
 
 
-/*
-   //string dirPath = Directory.GetCurrentDirectory(+@"/../../../..Payroll.DataServices/" ;
-   //string jsonPath= dirPath + @"Services/Connection.json";
 
-   //string dirPath = @"D:\SoftUni Courses\A Exercises\AA Git Projects\Payroll-RPV-Web\Payroll.Data\Services\";
-
-   //optionsBuilder.UseSqlServer("Ser\SQLEXPRESS;InitialCatalog=Payroll;IntegratedSecurity=SSPI;TrustServerCertificate=True;");
-   //"Server=KOVACHACER\\SQLEXPRESS;Initial Catalog=FastFood;Integrated Security=SSPI;TrustServerCertificate=True"
- 
- */

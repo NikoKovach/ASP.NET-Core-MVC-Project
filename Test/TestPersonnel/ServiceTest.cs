@@ -4,12 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Payroll.Data;
 using Payroll.Data.Common;
 using Payroll.Mapper.AutoMapper;
-using Payroll.Mapper.CustomMap;
 using Payroll.Models;
 using Payroll.Services.UtilitiesServices;
 using Payroll.Services.UtilitiesServices.EntityValidateServices;
 using Payroll.ViewModels.CustomValidation;
-using Payroll.ViewModels.EmployeeViewModels;
+using Payroll.ViewModels.EmpContractViewModels;
 using Payroll.ViewModels.PersonViewModels;
 
 namespace TestPersonnel.Demo
@@ -40,18 +39,18 @@ namespace TestPersonnel.Demo
 
               public static void TestCustomMapper( PayrollContext context )
               {
-                     IRepository<Employee> repository = new Repository<Employee>( context );
+                     //IRepository<Employee> repository = new Repository<Employee>( context );
 
-                     //var result = new ProfileGetEmployeeVM()
-                     //                     .Projection( repository.AllAsNoTracking() )
-                     //                     .ToList();
+                     ////var result = new ProfileGetEmployeeVM()
+                     ////                     .Projection( repository.AllAsNoTracking() )
+                     ////                     .ToList();
 
-                     var projections = new CustomProjections();
-                     var result = (IQueryable<AllEmployeeVM>) projections
-                            .EmployeeProjections[ "AllEmployees" ]( repository.AllAsNoTracking() );
+                     //var projections = new CustomProjections();
+                     //var result = (IQueryable<AllEmployeeVM>) projections
+                     //       .EmployeeProjections[ "AllEmployees" ]( repository.AllAsNoTracking() );
 
 
-                     Console.WriteLine( result.ToList()[ 0 ].FullName );
+                     //Console.WriteLine( result.ToList()[ 0 ].FullName );
               }
 
               public static void TestValidate( PayrollContext context, IMapper autoMapper )
@@ -80,17 +79,27 @@ namespace TestPersonnel.Demo
 
               public static void AutoMapperTest( PayrollContext context, IMapper autoMapper )
               {
-                     IRepository<Person> repository = new Repository<Person>( context );
+                     var genericMapper = new MapEntity( autoMapper );
 
-                     var mapper = new MapEntity( autoMapper );
+                     //IRepository<Person> personsRepo = new Repository<Person>( context );
+                     //var person = personsRepo.AllAsNoTracking().FirstOrDefault();
 
-                     var persons = repository.AllAsNoTracking();
+                     //var personVM = autoMapper.Map<PersonVM>( person );
 
-                     var personList = mapper.ProjectTo<Person, SearchPersonVM>( persons )
-                                                             .OrderBy( c => c.FirstName )
-                                                             .ToList();
+                     //var config = new MapperConfiguration( cfg =>
+                     //       cfg.CreateMap<EmploymentContract, LaborContractVM>() );
+                     //var autoMapper = config.CreateMapper();
 
-                     Console.WriteLine( personList[ 0 ].ToString() );
+                     IRepository<EmploymentContract> repository = new Repository<EmploymentContract>( context );
+
+                     var contract = repository.AllAsNoTracking().Where( x => x.Id == 5 );
+
+                     var result = autoMapper.ProjectTo<LaborAgreementVM>( contract ).ToList();
+
+                     var resultGenericMapper = genericMapper
+                                   .ProjectTo<EmploymentContract, LaborAgreementVM>( contract ).ToList();
+
+                     Console.WriteLine();
               }
 
               public static void PersonPartTest( PayrollContext context, IMapper autoMapper )
@@ -373,4 +382,40 @@ namespace TestPersonnel.Demo
 
                     //using var stream = new MemoryStream( File.ReadAllBytes( file ).ToArray() );
                     //var formFile = new FormFile( stream, 0, stream.Length, "streamFile", file.Split( @"\" ).Last() );
+
+
+//var laborVM = new LaborAgreementVM
+                     //{
+                     //       Id = 5,
+                     //       IsActive = true,
+                     //       ContractType = "Labor Contract",
+                     //       ContractNumber = "123456",
+                     //       ContractDate = DateTime.Parse( "10.10.2024 " ),
+                     //       WorkExperience = null,
+                     //       SpecialtyWorkExperience = null,
+                     //       LaborCodeArticle = "chl.67",
+                     //       TrialPeriod = null,
+                     //       IsNegotiatedInFavorOf = null,
+                     //       JobTitle = "Accountant",
+                     //       DepartmentName = "Accountig",
+                     //       EAC = null,
+                     //       NCOP = null,
+                     //       WorkTime = 8,
+                     //       Salary = 3000.00m,
+                     //       PercentSWE = 0.06,
+                     //       SalaryDayOfTheMonth = 22,
+                     //       PaidLeaveInDays = 25,
+                     //       AdditionalPaidAnnualLeaveInDays = null,
+                     //       ProbationInMonths = 3,
+                     //       NoticePeriodInDays = 60,
+                     //       ReceivedAJobDescription = true,
+                     //       StartingWorkDate = DateTime.Parse( "1.12.2024 " ),
+                     //       DateOfReceipt = DateTime.Parse( "1.12.2024" ),
+                     //       EmployeeId = 12,
+                     //       PlaceId = 22,
+                     //       WorkPlaceId = 22,
+                     //       HasBeenDeleted = false,
+                     //};
+
+                     //var mapSesult = genericMapper.Map<LaborAgreementVM, EmploymentContract>( laborVM );
 */

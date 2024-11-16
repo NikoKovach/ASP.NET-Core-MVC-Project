@@ -34,9 +34,14 @@
                                                  </button>
                                                  <ul class="dropdown-menu">
                                                         <li>
-                                                               <a asp-area="LaborContracts" asp-controller="Contracts" asp-action="Index"
-                                                                      class="dropdown-item">Contracts and Annexes
-                                                               </a>
+                                                               <form asp-area="LaborAgreements"
+                                                                     asp-controller="Agreement" asp-action="Index"
+                                                                     method="post" id="AgreementForm">
+                                                                      <a class="dropdown-item" href="#"
+                                                                         onclick="document.getElementById('AgreementForm').submit()">
+                                                                             Contracts and Annexes
+                                                                      </a>
+                                                               </form>
                                                         </li>
                                                         <li>
                                                                <a asp-area="Vacations" asp-controller="Leave" asp-action="Index"

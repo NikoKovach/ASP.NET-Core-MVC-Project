@@ -12,6 +12,7 @@ using Payroll.Services.Services.ServiceContracts;
 using Payroll.Services.UtilitiesServices;
 using Payroll.Services.UtilitiesServices.EntityValidateServices;
 using Payroll.ViewModels;
+using Payroll.ViewModels.EmpContractViewModels;
 using Payroll.ViewModels.PersonViewModels;
 using PersonnelWebApp.Utilities;
 
@@ -54,6 +55,8 @@ namespace PersonnelWebApp
 
                      services.AddTransient<IDocumentsService, IdDocumentsService>();
 
+                     services.AddTransient<ILaborAgreementService, LaborAgreementService>();
+
                      //##################################################################
 
                      services.AddTransient( typeof( IFactorySortCollection<PersonVM> ), typeof( FactoryPersonsCollection ) );
@@ -64,7 +67,12 @@ namespace PersonnelWebApp
 
                      services.AddTransient( typeof( IFactorySortCollection<AddressVM> ), typeof( FactoryAddressesCollection ) );
 
-                     services.AddTransient( typeof( IFactorySortCollection<IdDocumentVM> ), typeof( FactoryIdDocumentsCollection ) );
+                     services.AddTransient( typeof( IFactorySortCollection<IdDocumentVM> ),
+                                                              typeof( FactoryIdDocumentsCollection ) );
+
+                     services.AddTransient( typeof( IFactorySortCollection<LaborAgreementVM> ),
+                                                              typeof( FactoryLaborAgreements ) );
+
 
                      //##################################################################
                      services.AddTransient<IValidate<ValidateBaseModel>, ValidateEmployeeVMService>();

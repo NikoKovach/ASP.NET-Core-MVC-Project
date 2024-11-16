@@ -26,3 +26,50 @@ button.final-btn{
 button.manage-btn {
        font-size: 0.7em; /*8px;*/
 }
+
+
+.payroll-table .filter-label {
+       font-size: 0.7em;
+}
+/*********************************************************/
+a.tip {
+       color: red;
+       font-size: 0.8rem;
+}
+
+a.tip span{
+       color: red;
+       font-size: 0.7rem;
+}
+
+a.tip {
+       border-bottom: 1px dashed;
+       text-decoration: none
+}
+
+a.tip:hover {
+       cursor:pointer;
+       position: relative
+}
+
+a.tip span {
+       display: none
+}
+
+       a.tip:hover span {
+              border: #c0c0c0 1px dotted;
+              border-radius: 10px;
+              padding: 1px 1px 1px 1px;
+              display: block;
+              z-index: 100;
+              background: #ffffcc;
+              left: -270px;
+              margin: 10px;
+              width: 230px;
+              position: absolute;
+
+              top: -25px;
+              text-decoration: none
+       }
+
+/*********************************************************/

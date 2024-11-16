@@ -1,19 +1,18 @@
 ﻿namespace Payroll.ViewModels.PagingViewModels
 {
-       public class PagingListSortedFiltered<T, TFilter> : PagingListSorted<T>
+       public class PagingListForContracts<T, TFilter> : PagingListSortedFiltered<T, TFilter>
               where T : new()
               where TFilter : new()
        {
-              public PagingListSortedFiltered( List<T> items, int maxTotalPagest, int pageIndex, int pageSize,
-                                                                                           string? sortValue, TFilter? filter ) :
-                     base( items, maxTotalPagest, pageIndex, pageSize, sortValue )
+              public PagingListForContracts( List<T> items, int maxTotalPagest, int pageIndex,
+                                                                       int pageSize, string? sortValue, TFilter? filter )
+                     : base( items, maxTotalPagest, pageIndex, pageSize, sortValue, filter )
               {
-                     this.FilterVM = filter;
               }
 
-              public TFilter FilterVM { get; set; }
+              public int? CompanyId { get; set; }
 
-              public static async Task<PagingListSortedFiltered<T, TFilter>> CreateSortedCollectionAsync
+              public static async Task<PagingListForContracts<T, TFilter>> CreateAgreementsCollectionAsync
               ( IQueryable<T> source, int pageIndex, int? pageSize, string? sortParam, TFilter? filter )
               {
                      int totalPages = await GetTotalPages( source, pageSize ?? 1 );
@@ -22,7 +21,7 @@
 
                      List<T> items = await GetItemsList( source, validPageIndex, pageSize ?? 1 );
 
-                     return new PagingListSortedFiltered<T, TFilter>( items, totalPages, validPageIndex,
+                     return new PagingListForContracts<T, TFilter>( items, totalPages, validPageIndex,
                                                                                                                 pageSize ?? 1, sortParam, filter );
               }
        }

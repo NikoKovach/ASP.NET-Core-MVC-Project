@@ -33,7 +33,7 @@ namespace Payroll.Models
 
 
               [ForeignKey( "LaborCodeArticle" )]
-              public int LaborCodeArticleId { get; set; }
+              public int? LaborCodeArticleId { get; set; }
               public LaborCodeArticle? LaborCodeArticle { get; set; }
 
               public int? TrialPeriod { get; set; }
@@ -84,14 +84,14 @@ namespace Payroll.Models
               [Column( "PaidAnnualLeaveInDays" )]
               public byte PaidLeaveInDays { get; set; }
 
-              public byte AdditionalPaidAnnualLeaveInDays { get; set; }
+              public byte? AdditionalPaidAnnualLeaveInDays { get; set; }
 
-              public byte ProbationInMonths { get; set; }
+              public byte? ProbationInMonths { get; set; }
 
               [Required]
               public byte NoticePeriodInDays { get; set; }
 
-              public bool ReceivedAJobDescription { get; set; }
+              public bool? ReceivedAJobDescription { get; set; }
 
               [Required]
               [Column( TypeName = "date" )]
@@ -103,22 +103,22 @@ namespace Payroll.Models
               [Column( TypeName = "date" )]
               public DateTime? DateOfReceipt { get; set; }
 
-              public int EmployeeId { get; set; }
-              public Employee Employee { get; set; }
+              public int? EmployeeId { get; set; }
+              public Employee? Employee { get; set; }
 
               /// <summary>
               /// Place of conclusion of the employment contract
               /// </summary>
               public int? PlaceId { get; set; }
-              public PlaceOfRegistration? PlaceOfRegistration { get; set; }
+              public Address? PlaceOfRegistration { get; set; }
 
               /// <summary>
               /// Employee work place
               /// </summary>
               public int? WorkPlaceId { get; set; }
-              public PlaceOfRegistration? WorkPlace { get; set; }
+              public Address? WorkPlace { get; set; }
 
-              public ICollection<Annex> SupplementaryAgreements { get; set; } = new HashSet<Annex>();
+              public ICollection<Annex>? SupplementaryAgreements { get; set; } = new HashSet<Annex>();
 
               public bool HasBeenDeleted { get; set; }
 

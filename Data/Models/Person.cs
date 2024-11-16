@@ -53,5 +53,7 @@ namespace Payroll.Models
               public ICollection<Diploma>? Diplomas { get; set; } = new HashSet<Diploma>();
 
               public string? FullName => $"{this.FirstName} {this.MiddleName} {this.LastName}";
+
+              public string? FirstLastName => $"{this.FirstName} {this.LastName}";
        }
 }

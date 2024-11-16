@@ -16,7 +16,7 @@ namespace PersonnelWebApp.ViewComponents
                      this.service = companyService;
               }
 
-              public async Task<IViewComponentResult> InvokeAsync( string? parentView )
+              public async Task<IViewComponentResult> InvokeAsync( string? parentView, string? companyId = "" )
               {
                      CompanyListViewModel? companyList = new CompanyListViewModel();
 
@@ -40,8 +40,10 @@ namespace PersonnelWebApp.ViewComponents
                             {
                                    return View( "IndexEmployees", companyList );
                             }
+
                             if ( parentView.Equals( "IndexContracts" ) )
                             {
+                                   companyList.CompanyId = ( companyId == "" ) ? 0 : int.Parse( companyId );
                                    return View( parentView, companyList );
                             }
                      }

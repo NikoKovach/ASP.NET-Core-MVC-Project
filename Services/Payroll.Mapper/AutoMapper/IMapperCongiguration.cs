@@ -2,8 +2,8 @@
 
 namespace Payroll.Mapper.AutoMapper
 {
-     public interface IMapperCongiguration
-     {
-          MapperConfiguration CreateMapperConfig();
-     }
+       public interface IMapperCongiguration
+       {
+              MapperConfiguration CreateMapperConfig();
+       }
 }

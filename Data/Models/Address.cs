@@ -45,6 +45,15 @@ namespace Payroll.Models
               [InverseProperty( "CurrentAddress" )]
               public ICollection<Person> PersonCurrentAddresses { get; set; } = new List<Person>();
 
+
+              [InverseProperty( "PlaceOfRegistration" )]
+              public ICollection<EmploymentContract> EmploymentContracts { get; set; } =
+                         new HashSet<EmploymentContract>();
+
+              [InverseProperty( "WorkPlace" )]
+              public ICollection<EmploymentContract> WorkPlaceEmploymentContracts { get; set; } =
+                         new HashSet<EmploymentContract>();
+
               public bool HasBeenDeleted { get; set; }
 
               public DateTime? DeletionDate { get; set; }

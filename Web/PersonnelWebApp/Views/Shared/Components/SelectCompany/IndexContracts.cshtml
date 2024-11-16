@@ -1,6 +1,29 @@
 ﻿@using Payroll.ViewModels
 @model CompanyListViewModel
 
-<select asp-items="@Model.Companies" name="companyId" id="selectCompany">
-	<option value="-1">Please select one</option>
+@{
+       string? companyId = Model.CompanyId.ToString();
+}
+
+<select name="companyId" id="selectCompany" onchange="onCompanyChange()">
+       <option value="-1">Please select one</option>
+       @{
+              for ( int i = 0; i < Model.Companies.Count; i++ )
+              {
+                     bool isSelected = false;
+
+                     if ( Model.Companies[ i ].Value.Equals(companyId) )
+                     {
+                            isSelected = true;
+                     }
+
+                     <option value="@Model.Companies[i].Value" selected ="@isSelected">
+                            @Model.Companies[ i ].Text
+                     </option>
+              }
+       }
 </select>
+
+@* <select asp-items="@Model.Companies" name="companyId" id="selectCompany">
+	<option value="-1">Please select one</option>
+</select> *@

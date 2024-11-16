@@ -21,5 +21,25 @@
 
                      return config;
               }
+
+              public void SetPagingVariables( ref int _pageIndex, ref int _pageSize, ref int _count )
+              {
+                     IConfigurationRoot? privateConfig = PrivateConfig();
+
+                     if ( !string.IsNullOrEmpty( privateConfig[ "Paging:PageSize" ] ) )
+                     {
+                            _pageSize = int.Parse( privateConfig[ "Paging:PageSize" ] );
+                     }
+
+                     if ( !string.IsNullOrEmpty( privateConfig[ "Paging:PageIndex" ] ) )
+                     {
+                            _pageIndex = int.Parse( privateConfig[ "Paging:PageIndex" ] );
+                     }
+
+                     if ( !string.IsNullOrEmpty( privateConfig[ "Paging:Count" ] ) )
+                     {
+                            _count = int.Parse( privateConfig[ "Paging:Count" ] );
+                     }
+              }
        }
 }

@@ -1,0 +1,106 @@
+﻿@using Payroll.ViewModels.EmpContractViewModels
+@using Payroll.ViewModels.PagingViewModels
+@model PagingListForContracts<LaborAgreementVM, FilterAgreementVM>
+
+@section Styles
+{
+       <link rel="stylesheet" type="text/css" href="~/custom/css/privateTable_css.css" asp-append-version="true" />
+       <link rel="stylesheet" type="text/css" href="~/custom/css/alertMessage.css" asp-append-version="true" />
+}
+
+@{
+       ViewData["Title"] = "Labor Contracts";
+       Layout = "~/Views/Shared/_LayoutLight.cshtml";
+
+       string? prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+       string? nextDisabled = !Model.HasNextPage ? "disabled" : "";
+
+       string? sortText = Model.SortValue;
+
+       bool modelState = ViewContext.ViewData.ModelState.IsValid;
+       string divStyle = modelState == true ? "display:none" : "display:list-item";
+}
+
+<div class="payroll-table">
+       <div class="col">
+              <div class="navbar-custom">
+                     <div class="row">
+                            <div class="d-flex justify-content-center">
+                                   <div class="d-inline-block">
+                                          <h4 id="private-header" class="text-justify text-dark">Contracts List</h4>
+                                   </div>
+                            </div>
+                     </div>
+              </div>
+              <hr class="my-2" />
+              <div asp-validation-summary="All" class="alert alert-danger alert-dismissible" style="@divStyle">
+                     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+              </div>
+              <div id="edit-success" class="alert alert-success alert-dismissible px-1 py-2 mb-2" style="display:none">
+                     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                     <p class="mx-4 my-2"> Editing is successful </p>
+              </div>
+
+              <div>
+                     <partial name="_ContractsSearchPartial" model="@Model"></partial>
+              </div>
+              <hr class="my-2" />
+       </div>
+
+       <div class="table-responsive">
+              <table id="privateTable" class="table  table-hover table-responsive-sm ">
+                     <partial name="_ContractsTableHead" model="@Model"></partial>
+                     <partial name="_ContractsTableBody" model="@Model.ItemsCollection"></partial>
+              </table>
+       </div>
+
+       <div class="row col-sm-3 px-0 mx-0">
+              <div class="col-sm-2 pl-0 pr-1">
+                     <button id="prevBtn-general"
+                                    class="final-btn btn btn-primary @prevDisabled px-2 py-0"
+                                    onclick="moveToPreviousPage()">
+                            <span aria-hidden="true">&laquo;</span>
+                     </button>
+              </div>
+              <div class="col-sm-5 px-1">
+                     <input id="go-to-page" class="text-center col-sm-7 h-75 border-white"
+                                 value="@Model.PageIndex"
+                                 form="main-paging-form" name="pageIndex" />
+                     <label id="lblTotalPages" class="text-center col-sm-3 h-75 border-white">
+                            / @Model.TotalPages
+                     </label>
+              </div>
+              <div class="col-sm-2 px-0">
+                     <button id="nextBtn-general"
+                                   class="final-btn btn btn-primary @nextDisabled px-2 py-0"
+                                   onclick="moveToNextPage()">
+                            <span aria-hidden="true">&raquo;</span>
+                     </button>
+              </div>
+
+              <div hidden>
+                     <form asp-action="Index" id="main-paging-form" method="post">
+                            <input hidden id="companyId-input" 
+                                        value="@Model.CompanyId" name="companyId" />
+
+                            <input hidden value="@Model.PageSize" name="pageSize" />
+                            <input hidden value="@sortText" name="sortParam" />
+
+                            <input hidden value="@Model.FilterVM.SearchName" name="SearchName" />
+                            <input hidden value="@Model.FilterVM.ContractNumber" name="ContractNumber" />
+                            <input hidden value="@Model.FilterVM.JobTitle" name="JobTitle" />
+                            <input hidden value="@Model.FilterVM.Department" name="Department" />
+                            <input hidden value="@Model.FilterVM.StartContractDate" name="StartContractDate" />
+                            <input hidden value="@Model.FilterVM.EndContractDate" name="EndContractDate" />
+                     </form>
+              </div>
+       </div>
+       <hr class="my-1" />
+</div>
+
+<!-- Javascript files-->
+@section Scripts
+{
+       <script src="~/custom/js/agreementTable_functions.js" asp-append-version="true"></script>
+}
+
