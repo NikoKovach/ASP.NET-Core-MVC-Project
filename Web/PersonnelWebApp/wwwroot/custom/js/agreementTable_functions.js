@@ -514,7 +514,6 @@ function moveToNextPage() {
        inputPageIndex.setAttribute("value", pageIndexValue + 1);
 
        let value = inputPageIndex.getAttribute("value");
-       console.log(value);
 
        document.getElementById("main-paging-form").submit();
 };
@@ -528,7 +527,6 @@ function moveToPreviousPage() {
        inputPageIndex.setAttribute("value", pageIndexValue - 1);
 
        let value = inputPageIndex.getAttribute("value");
-       console.log(value);
 
        document.getElementById("main-paging-form").submit();
 };
@@ -545,7 +543,10 @@ function clearSearchFilterSettings() {
        document.getElementById("agreement-base-search-form").submit();
 };
 
+//##################################################################
+
 function onCompanyChange() {
+
        document.getElementById("changeCompanyForm").submit();
 };
 
@@ -553,8 +554,8 @@ function submitAgreementBaseSearchForm() {
        document.getElementById("agreement-base-search-form").submit();
 };
 
+function getCompanyId() {
+       let selCompanyValue = document.getElementById("selectCompany").value;
 
-
-
-
-
+       document.getElementById("inputCompanyId").setAttribute("value", selCompanyValue);
+};

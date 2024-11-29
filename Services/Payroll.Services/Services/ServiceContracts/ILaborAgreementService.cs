@@ -2,7 +2,7 @@
 
 namespace Payroll.Services.Services.ServiceContracts
 {
-       public interface ILaborAgreementService
+       public interface ILaborAgreementService : IBasicAddUpdate<LaborAgreementVM>
        {
               IQueryable<LaborAgreementVM>? All( int? companyId );
 

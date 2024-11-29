@@ -1,0 +1,62 @@
+﻿
+.stylish-btn {
+       border: none;
+       background-color: #0000b3;
+       color: #ffff;
+       padding: 5px 20px;
+       font-size: 11px;
+       width: 90px;
+       border-radius: 8px;
+       margin: auto;
+       position: relative;
+       box-shadow: 5px 5px 5px #c299ff;
+       transition: all 0.3s ease;
+}
+
+.save-btn {
+       background-color: #008000;
+}
+
+.stylish-btn:hover {
+       box-shadow: 0px 2px 12px #4c0080;   
+       top: 2px;
+}
+
+.stylish-btn:active {
+       box-shadow: none;
+       top: 5px;
+}
+
+/**************************************************************/
+
+
+/*   new 1 : #6b00b3   origin value : #A20A3C*/
+/*box-shadow: 0px 2px 20px #4c0080; */
+/* #ccccff , #9999ff*/
+
+/*.stylish-btn {
+       border: none;
+       background-color: #F891B3;
+       color: #ffff;
+       padding: 5px 20px;
+       font-size: 11px;
+       width: 80px;
+       border-radius: 8px;
+       margin: auto;
+       position: relative;
+       box-shadow: 5px 5px 5px #FBC1D4;
+       transition: all 0.3s ease;
+}
+
+
+.stylish-btn:hover {
+       box-shadow: 0px 2px 20px #A20A3C;
+       top: 3px;
+}
+
+.stylish-btn:active {
+       box-shadow: none;
+       top: 5px;
+}
+
+*/

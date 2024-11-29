@@ -8,7 +8,7 @@ using Payroll.Models;
 using Payroll.Services.UtilitiesServices;
 using Payroll.Services.UtilitiesServices.EntityValidateServices;
 using Payroll.ViewModels.CustomValidation;
-using Payroll.ViewModels.EmpContractViewModels;
+using Payroll.ViewModels.EmployeeViewModels;
 using Payroll.ViewModels.PersonViewModels;
 
 namespace TestPersonnel.Demo
@@ -81,23 +81,14 @@ namespace TestPersonnel.Demo
               {
                      var genericMapper = new MapEntity( autoMapper );
 
-                     //IRepository<Person> personsRepo = new Repository<Person>( context );
-                     //var person = personsRepo.AllAsNoTracking().FirstOrDefault();
+                     IRepository<Employee> repository = new Repository<Employee>( context );
 
-                     //var personVM = autoMapper.Map<PersonVM>( person );
+                     var empList = repository.AllAsNoTracking().Where( x => x.CompanyId == 5 );
 
-                     //var config = new MapperConfiguration( cfg =>
-                     //       cfg.CreateMap<EmploymentContract, LaborContractVM>() );
-                     //var autoMapper = config.CreateMapper();
-
-                     IRepository<EmploymentContract> repository = new Repository<EmploymentContract>( context );
-
-                     var contract = repository.AllAsNoTracking().Where( x => x.Id == 5 );
-
-                     var result = autoMapper.ProjectTo<LaborAgreementVM>( contract ).ToList();
+                     var result = autoMapper.ProjectTo<SearchEmployeeVM>( empList ).ToList();
 
                      var resultGenericMapper = genericMapper
-                                   .ProjectTo<EmploymentContract, LaborAgreementVM>( contract ).ToList();
+                                   .ProjectTo<Employee, SearchEmployeeVM>( empList ).ToList();
 
                      Console.WriteLine();
               }

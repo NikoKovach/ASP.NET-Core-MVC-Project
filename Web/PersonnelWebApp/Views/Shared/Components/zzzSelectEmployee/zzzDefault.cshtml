@@ -1,0 +1,11 @@
+﻿@* @model List<SelectListItem>
+
+
+<datalist id="employee-list">
+       @foreach ( var employee in Model )
+       {
+              <option value="@employee.Value">@employee.Text </option>
+       }
+</datalist>
+ *@
+		

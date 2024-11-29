@@ -198,6 +198,17 @@ namespace PersonnelWebApp.Controllers
                                                                                                             .ToListAsync();
                      return View( employeeList );
               }
+
+              [HttpGet]
+              public async Task<IActionResult> GetEmloyeesByCompany( int? id )
+              {
+                     List<SearchEmployeeVM>? result = await this.empService
+                             .AllActive_SearchEmployeeVM( id )
+                             .ToListAsync();
+
+                     return Json( result );
+              }
+
               //*******************************************************************
 
               private List<GetEmployeeVM> EmptyEmpoyeesCollection()

@@ -47,7 +47,7 @@ namespace Payroll.Services.Services
 
                      IQueryable<GetEmployeeVM>? result =
                             (IQueryable<GetEmployeeVM>) customProjections
-                                                                                             .EmployeeProjections[ "GetEmployeeVM" ]( employees );
+                            .EmployeeProjections[ "GetEmployeeVM" ]( employees );
 
                      return result;
               }
@@ -61,6 +61,18 @@ namespace Payroll.Services.Services
                                                                                            .EmployeeProjections[ "AllEmployees" ]( employees );
 
                      return result;
+              }
+
+              public IQueryable<SearchEmployeeVM> AllActive_SearchEmployeeVM( int? companyId )
+              {
+                     IQueryable<Employee>? employees = repository
+                                                                                         .AllAsNoTracking()
+                                                                                         .Where( x => x.CompanyId == companyId );
+
+                     IQueryable<SearchEmployeeVM>? empResultList =
+                            this.mapper.ProjectTo<Employee, SearchEmployeeVM>( employees );
+
+                     return empResultList;
               }
 
               public async Task<EmployeeVM?> GetEntityAsync( int? entityId )
@@ -94,14 +106,14 @@ namespace Payroll.Services.Services
                      await repository.SaveChangesAsync();
               }
 
-              public async Task UpdateAsync( ICollection<EmployeeVM> viewModels )
-              {
-                     List<Employee>? employees = mapper.Map<List<EmployeeVM>, List<Employee>>( viewModels.ToList() );
+              //public async Task UpdateAsync( ICollection<EmployeeVM> viewModels )
+              //{
+              //       List<Employee>? employees = mapper.Map<List<EmployeeVM>, List<Employee>>( viewModels.ToList() );
 
-                     repository.Update( employees );
+              //       repository.Update( employees );
 
-                     await repository.SaveChangesAsync();
-              }
+              //       await repository.SaveChangesAsync();
+              //}
 
               public async Task<bool> CreateEmployeeFolderAsync( string appFolder,
                      int personId, int companyId )

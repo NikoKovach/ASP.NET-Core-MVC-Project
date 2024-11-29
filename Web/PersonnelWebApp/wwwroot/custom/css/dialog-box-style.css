@@ -1,0 +1,33 @@
+﻿
+.dialog-create-edit-form dialog {
+       background-color: #ccffcc;
+       z-index: 3;
+       margin: auto;
+}
+
+.wider dialog{
+       width:25rem;
+       top:15rem;
+}
+
+.dialog-create-edit-form input:focus,select:focus {
+       outline: none;
+}
+
+
+/**************************************************************/
+
+/*[aria-label="close"] {
+       appearance: none;
+       float: right;
+       border: 1px solid;
+       border-radius: 50%;
+}*/
+
+/*.dialog-create-edit-form {
+       background-color: aqua;
+       z-index: 3;
+              /*top:20rem;
+       left:20rem;
+}*/
+

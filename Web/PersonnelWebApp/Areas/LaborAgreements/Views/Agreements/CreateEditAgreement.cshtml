@@ -1,0 +1,85 @@
+﻿@using Payroll.ViewModels.EmpContractViewModels
+@model LaborAgreementVM
+
+@section Styles
+{
+       <link rel="stylesheet" type="text/css" href="~/custom/css/privateTable_css.css" asp-append-version="true" />
+       <link rel="stylesheet" type="text/css" href="~/custom/css/alertMessage.css" asp-append-version="true" />
+       <link  rel="stylesheet" type="text/css" href="~/custom/css/3d-button.css" asp-append-version="true"/>
+       <link rel="stylesheet" type="text/css" href="~/custom/css/dialog-box-style.css" asp-append-version="true" />
+}
+
+@{
+       ViewData[ "Title" ] = "Modify Labor Agreement";
+       Layout = "~/Views/Shared/_LayoutLight.cshtml";
+
+       string? contractId = default;
+
+       if ( Model.Id != null && Model.Id > 0)
+       {
+              contractId = @Model.Id.ToString();
+       }
+
+       bool modelState = ViewContext.ViewData.ModelState.IsValid;
+
+       string divStyle = modelState == true ? "display:none" : "display:list-item";
+
+       string? controllerName = this.ViewContext.RouteData.Values[ "controller" ].ToString();
+}
+
+
+<div>
+       <div asp-validation-summary="All" class="alert alert-danger alert-dismissible px-1 py-2 mb-2" style="@divStyle">
+              <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+       </div>
+       <div id="edit-success" class="alert alert-success alert-dismissible px-1 py-2 mb-2" style="display:none">
+              <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+              <p class="mx-4 my-2"> Editing is successful </p>
+       </div>
+</div>
+
+<div class="d-flex justify-content-center crud-div">
+       <fieldset class="border border-3 p-2 col-sm-10 px-sm-2">
+              <legend class="float-none w-auto p-2 my-0">
+                     <label entity-id="@contractId" controller-name="@controllerName" create-edit-heading>
+                            Create / Edit Agreement:
+                     </label>
+              </legend>
+
+              <div class="d-flex col-sm-11 justify-content-end mb-2">
+                     <div class="d-inline col-sm-8"></div>
+                     <div class="d-flex d-inline col-sm-4 justify-content-end">
+                            <div class="d-inline col-sm-6 d-flex justify-content-end">
+                                   <div class="d-inline col-sm-6">
+                                          <button asp-action="AddAgreement"
+                                                  form="create-edit-contract-form" type="submit"
+                                                  class="btn-success px-0 border-0 stylish-btn save-btn">Create</button>
+                                   </div>
+                            </div>
+                            <div class="d-inline col-sm-6 d-flex justify-content-center">
+                                   <div class="d-inline col-sm-6">
+                                          <button asp-action="EditAgreement"
+                                                  form="create-edit-contract-form" type="submit"
+                                                  class="btn-success px-0 border-0 stylish-btn save-btn">Edit</button>
+                                   </div>
+                            </div>
+                     </div>
+              </div>
+              
+              <div class="d-flex justify-content-center">
+                     <partial name="_PartialLeftCreateDiv" model="@Model"></partial>
+                     <partial name="_PartialRightCreateDiv" model="@Model"></partial>
+              </div>
+
+              <div hidden>
+                     <form  id="create-edit-contract-form" method="post">
+                     </form>
+              </div>
+
+       </fieldset>
+</div>
+
+@section Scripts
+{
+       <script src="~/custom/js/enum_tables_functions.js" asp-append-version="true"></script>
+}

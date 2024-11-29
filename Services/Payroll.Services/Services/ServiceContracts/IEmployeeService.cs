@@ -12,6 +12,8 @@ namespace Payroll.Services.Services.ServiceContracts
 
               IQueryable<AllEmployeeVM> AllActive_AllEmployeeVM( int? companyId );
 
+              IQueryable<SearchEmployeeVM> AllActive_SearchEmployeeVM( int? companyId );
+
               IQueryable<GetEmployeeVM> AllEmployees( int companyId );
 
               Task<bool> CreateEmployeeFolderAsync( string rootFolder, int PersonId, int CompanyId );

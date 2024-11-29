@@ -57,6 +57,9 @@ namespace PersonnelWebApp
 
                      services.AddTransient<ILaborAgreementService, LaborAgreementService>();
 
+                     services.AddTransient<IAgreementTypeService, AgreementService>();
+
+                     services.AddTransient<ILaborCodeArticleService, LaborCodeArticleService>();
                      //##################################################################
 
                      services.AddTransient( typeof( IFactorySortCollection<PersonVM> ), typeof( FactoryPersonsCollection ) );

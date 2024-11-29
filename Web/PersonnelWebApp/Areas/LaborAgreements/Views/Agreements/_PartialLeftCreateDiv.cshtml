@@ -1,0 +1,278 @@
+﻿@using Payroll.ViewModels.EmpContractViewModels
+@model LaborAgreementVM
+
+@{
+}
+
+<div class="d-inline col-sm-6 px-1">
+
+       <div class="d-flex justify-content-start my-1 mx-1">
+              <div class="form-group d-inline col-sm-3"></div>
+              <div class="form-group d-inline col-sm-1"></div>
+              <div class="form-group d-inline d-flex col-sm-8">
+                     <label asp-for="@Model.Id"
+                            class="d-inline col-sm-4 py-1 text-end">
+                     </label>
+                     <div class="d-inline col-sm-8 px-1">
+                            <input asp-for="@Model.Id" type="text"
+                                   form="create-edit-contract-form"
+                                   class="col-sm-11 rounded-pill border-1 px-2" readonly
+                                   validate field-name="@nameof(Model.Id)" />
+                     </div>
+              </div>
+       </div>
+
+       <div class="d-flex justify-content-start my-1 mx-1">
+              <div class="form-group d-inline col-sm-3"></div>
+              <div class="form-group d-inline col-sm-1"></div>
+              <div class="form-group d-inline d-flex col-sm-8">
+                     <label asp-for="@Model.IsActive"
+                            class="d-inline col-sm-4 py-1 text-end">
+                     </label>
+                     <div class="d-inline col-sm-8 px-1">
+                            <input asp-for="@Model.IsActive" type="text" list="isActive-list"
+                                   form="create-edit-contract-form"
+                                   class="col-sm-11 rounded-pill border-1 px-2"
+                                   validate field-name="@nameof(Model.IsActive)" />
+                            <datalist id="isActive-list">
+                                   <option value="True"></option>
+                                   <option value="False"></option>
+                            </datalist>
+                     </div>
+              </div>
+       </div>
+
+       <div class="d-flex justify-content-start my-1 mx-1">
+              <div class="form-group d-inline col-sm-3">
+                     <partial name="_DialogCompanyId"></partial>
+                     <button id="btnOpenCompanyIdDialog"
+                            class="btn-primary px-0 border-0 stylish-btn">Company Id</button>
+              </div>
+              <div class="form-group d-inline col-sm-1">
+                     <label class="col-sm-12 text-center fs-5">&#11176;</label>
+              </div>
+              <div class="form-group d-inline d-flex col-sm-8">
+                     <label asp-for="@Model.CompanyId"
+                            class="d-inline col-sm-4 py-1 text-end"></label>
+                     <div class="d-inline col-sm-8 px-1">
+                            <input asp-for="@Model.CompanyId" type="text"
+                                   form="create-edit-contract-form"
+                                   class="col-sm-11 rounded-pill border-1 px-2"
+                                   validate field-name="@nameof(Model.CompanyId)" />
+                     </div>
+              </div>
+       </div>
+
+       <div class="d-flex justify-content-start my-1 mx-1">
+              <div class="form-group d-inline col-sm-3">
+                     <partial name="_DialogEmployeeId"></partial>
+                     <button id="btn-getEmpId" onclick="openEmployeeIdDialog()"
+                                    class="btn-primary px-0 border-0 stylish-btn">
+                            Employee Id
+                     </button>
+              </div>
+              <div class="form-group d-inline col-sm-1">
+                     <label class="col-sm-12 text-center fs-5">&#11176;</label>
+              </div>
+              <div class="form-group d-inline d-flex col-sm-8">
+                     <label asp-for="@Model.EmployeeId"
+                            class="d-inline col-sm-4 py-1 text-end"></label>
+                     <div class="d-inline col-sm-8 px-1">
+                            <input asp-for="@Model.EmployeeId" type="text"
+                                   form="create-edit-contract-form"
+                                   class="col-sm-11 rounded-pill border-1 px-2"
+                                   validate field-name="@nameof(Model.EmployeeId)" />
+                     </div>
+              </div>
+       </div>
+
+       <div class="d-flex justify-content-start my-1 mx-1">
+              <div class="form-group d-inline col-sm-3">
+                     <partial name="_DialogContractTypeId"></partial>
+                     <button onclick="openContractTypeDialog()"
+                                    class="btn-primary px-0 border-0 stylish-btn">Contract Type
+                     </button>
+              </div>
+              <div class="form-group d-inline col-sm-1">
+                     <label class="col-sm-12 text-center fs-5">&#11176;</label>
+              </div>
+              <div class="form-group d-inline d-flex col-sm-8">
+                     <label asp-for="@Model.ContractTypeId" 
+                            class="d-inline col-sm-4 py-1 text-end">
+                     </label>
+                     <div class="d-inline col-sm-8 px-1">
+                            <input asp-for="@Model.ContractTypeId" type="text"
+                                   form="create-edit-contract-form"
+                                   onmouseover="getAgreementTypeFunction()"
+                                   class="col-sm-11 rounded-pill border-1 px-2 sub-message"
+                                   validate field-name="@nameof(Model.ContractTypeId)" />
+                            <span id="agreementType-span"></span>
+                     </div>
+              </div>
+       </div>
+
+       <div class="d-flex justify-content-start my-1 mx-1">
+              <div class="form-group d-inline col-sm-3"></div>
+              <div class="form-group d-inline col-sm-1"></div>
+              <div class="form-group d-inline d-flex col-sm-8">
+                     <label asp-for="@Model.ContractNumber" 
+                            class="d-inline col-sm-4 py-1 text-end">
+                     </label>
+                     <div class="d-inline col-sm-8 px-1">
+                            <input asp-for="@Model.ContractNumber" type="text"
+                                   form="create-edit-contract-form"
+                                   class="col-sm-11 rounded-pill border-1 px-2"
+                                   validate field-name="@nameof(Model.ContractNumber)" />
+                     </div>
+              </div>
+       </div>
+
+       <div class="d-flex justify-content-start my-1 mx-1">
+              <div class="form-group d-inline col-sm-3"></div>
+              <div class="form-group d-inline col-sm-1"></div>
+              <div class="form-group d-inline d-flex col-sm-8">
+                     <label asp-for="@Model.ContractDate" 
+                            class="d-inline col-sm-4 py-1 text-end">
+                     </label>
+                     <div class="d-inline col-sm-8 px-1">
+                            <input asp-for="@Model.ContractDate" type="text"
+                                   form="create-edit-contract-form"
+                                   class="col-sm-11 rounded-pill border-1 px-2"
+                                   validate field-name="@nameof(Model.ContractDate)" />
+                     </div>
+              </div>
+       </div>
+
+       <div class="d-flex justify-content-start my-1 mx-1">
+              <div class="form-group d-inline col-sm-3"></div>
+              <div class="form-group d-inline col-sm-1"></div>
+              <div class="form-group d-inline d-flex col-sm-8">
+                     <label asp-for="@Model.WorkExperience" 
+                            class="d-inline col-sm-4 py-1 text-end">
+                     </label>
+                     <div class="d-inline col-sm-8 px-1">
+                            <input asp-for="@Model.WorkExperience" type="text"
+                                   form="create-edit-contract-form"
+                                   class="col-sm-11 rounded-pill border-1 px-2"
+                                   validate field-name="@nameof(Model.WorkExperience)" />
+                     </div>
+              </div>
+       </div>
+
+       <div class="d-flex justify-content-start my-1 mx-1">
+              <div class="form-group d-inline col-sm-3"></div>
+              <div class="form-group d-inline col-sm-1"></div>
+              <div class="form-group d-inline d-flex col-sm-8">
+                     <a href="#"
+                            class="tip left-tip create-update py-0 border-0 fw-bold col-sm-1 text-end px-1">
+                            !<span>Specialty Work Experience</span>
+                     </a>
+                     <label asp-for="@Model.SpecialtyWorkExperience"
+                            class="d-inline col-sm-3 py-1 text-end">
+                     </label>
+                     <div class="d-inline col-sm-8 px-1">
+                            <input asp-for="@Model.SpecialtyWorkExperience" type="text"
+                                   form="create-edit-contract-form"
+                                   class="col-sm-11 rounded-pill border-1 px-2"
+                                   validate field-name="@nameof(Model.SpecialtyWorkExperience)" />
+                     </div>
+              </div>
+       </div>
+
+       <div class="d-flex justify-content-start my-1 mx-1">
+              <div class="form-group d-inline col-sm-3">
+                     <partial name="_DialogLaborCode"></partial>
+                     <button onclick="openLaborCodeDialog()"
+                            class="btn-primary px-0 border-0 stylish-btn">
+                            Labor Code Id
+                     </button>
+              </div>
+              <div class="form-group d-inline col-sm-1">
+                     <label class="col-sm-10 text-center fs-5">&#11176;</label>
+              </div>
+              <div class="form-group d-inline d-flex col-sm-8">
+                     <a href="#"
+                        class="tip left-tip create-update py-0 px-1 border-0 fw-bold col-sm-1 text-end">
+                            !<span>Labor Code Article Id</span>
+                     </a>
+                     <label asp-for="@Model.LaborCodeArticleId"
+                            class="d-inline col-sm-3 py-1 text-end">
+                     </label>
+                     <div class="d-inline col-sm-8 px-1">
+                            <input asp-for="@Model.LaborCodeArticleId" type="text"
+                                   form="create-edit-contract-form"
+                                   onmouseover="getLaborCodeArticle()"
+                                   class="col-sm-11 rounded-pill border-1 px-2 sub-message"
+                                   validate field-name="@nameof(Model.LaborCodeArticleId)" />
+                            <span id="articleText-span"></span>
+                     </div>
+              </div>
+       </div>
+
+       <div class="d-flex justify-content-start my-1 mx-1">
+              <div class="form-group d-inline col-sm-3"></div>
+              <div class="form-group d-inline col-sm-1"></div>
+              <div class="form-group d-inline d-flex col-sm-8">
+                     <label asp-for="@Model.TrialPeriod" 
+                            class="d-inline col-sm-4 py-1 text-end">
+                     </label>
+                     <div class="d-inline col-sm-8 px-1">
+                            <input asp-for="@Model.TrialPeriod" type="text"
+                                   form="create-edit-contract-form"
+                                   class="col-sm-11 rounded-pill border-1 px-2"
+                                   validate field-name="@nameof(Model.TrialPeriod)" />
+                     </div>
+              </div>
+       </div>
+
+       <div class="d-flex justify-content-start my-1 mx-1">
+              <div class="form-group d-inline col-sm-3"></div>
+              <div class="form-group d-inline col-sm-1"></div>
+              <div class="form-group d-inline d-flex col-sm-8">
+                     <label asp-for="@Model.IsNegotiatedInFavorOf" 
+                            class="d-inline col-sm-4 py-1 text-end px-1">
+                     </label>
+                     <div class="d-inline col-sm-8 px-1">
+                            <input asp-for="@Model.IsNegotiatedInFavorOf"
+                                   form="create-edit-contract-form"
+                                   class="col-sm-11 rounded-pill border-1 px-2"
+                                   validate field-name="@nameof(Model.IsNegotiatedInFavorOf)" />
+                     </div>
+              </div>
+       </div>
+
+       <div class="d-flex justify-content-start my-1 mx-1">
+              <div class="form-group d-inline col-sm-3"></div>
+              <div class="form-group d-inline col-sm-1"> </div>
+              <div class="form-group d-inline d-flex col-sm-8">
+                     <label asp-for="@Model.JobTitle"
+                            class="d-inline col-sm-4 py-1 text-end"></label>
+                     <div class="d-inline col-sm-8 px-1">
+                            <input asp-for="@Model.JobTitle" type="text"
+                                   form="create-edit-contract-form"
+                                   class="col-sm-11 rounded-pill border-1 px-2"
+                                   validate field-name="@nameof(Model.JobTitle)" />
+                     </div>
+              </div>
+       </div>
+
+       <div class="d-flex justify-content-start my-1 mx-1">
+              <div class="form-group d-inline col-sm-3">
+                     <button class="btn-primary px-0 border-0 stylish-btn">Department Id</button>
+              </div>
+              <div class="form-group d-inline col-sm-1">
+                     <label class="col-sm-12 text-center fs-5">&#11176;</label>
+              </div>
+              <div class="form-group d-inline d-flex col-sm-8">
+                     <label asp-for="@Model.DepartmentDepartmentID"
+                            class="d-inline col-sm-4 py-1 text-end"></label>
+                     <div class="d-inline col-sm-8 px-1">
+                            <input asp-for="@Model.DepartmentDepartmentID" type="text"
+                                   form="create-edit-contract-form"
+                                   class="col-sm-11 rounded-pill border-1 px-2"
+                                   validate field-name="@nameof(Model.DepartmentDepartmentID)" />
+                     </div>
+              </div>
+       </div>
+
+</div>

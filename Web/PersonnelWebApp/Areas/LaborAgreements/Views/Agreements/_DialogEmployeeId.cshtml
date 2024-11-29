@@ -1,0 +1,27 @@
+﻿
+
+<div class="dialog-create-edit-form">
+       <dialog id="selectEmployeeDialog" class="pt-2 agreement-dialod">
+              <div>
+                     <span class="closebtn btnCloseDialog" onclick="closeDialogBox()">&times;</span>
+              </div>
+              <br />
+              <div>
+                     <h5 class="text-center">Select Employee Id</h5>
+                     <div>
+                            <label class="col-sm-5 text-end"> Employee Id</label>
+                            <input id="selEmployeeId-input" type="text" value=""
+                                        list="employees-list"
+                                       class="col-sm-5 rounded-pill border-1 py-0 h-75" />
+                            <datalist id="employees-list"></datalist>
+                     </div>
+              </div>
+
+              <div class="mt-4 mb-1 d-flex justify-content-center">
+                     <button onclick="getEmployeeIdFunction()"
+                                    class="btn-primary px-0 border-0 stylish-btn justify-content-center">
+                            Get Id
+                     </button>
+              </div>
+       </dialog>
+</div>

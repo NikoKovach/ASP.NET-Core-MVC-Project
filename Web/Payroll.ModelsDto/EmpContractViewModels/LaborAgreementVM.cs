@@ -14,7 +14,6 @@ namespace Payroll.ViewModels.EmpContractViewModels
               [Display( Name = "Is Active" )]
               public bool? IsActive { get; set; }
 
-              [Required]
               [Display( Name = "Contract Type" )]
               public string? ContractType { get; set; }
 
@@ -39,7 +38,6 @@ namespace Payroll.ViewModels.EmpContractViewModels
               [Display( Name = "SWE" )]
               public string? SpecialtyWorkExperience { get; set; }
 
-              [Required]
               [StringLength( 200, MinimumLength = 1 )]
               [Display( Name = "Labor Code Article" )]
               public string? LaborCodeArticle { get; set; }
@@ -137,6 +135,7 @@ namespace Payroll.ViewModels.EmpContractViewModels
               [Display( Name = "Date of RC" )]
               public DateTime? DateOfReceipt { get; set; }
 
+              [Required]
               [Display( Name = "Employee Id" )]
               public int? EmployeeId { get; set; }
 
@@ -158,17 +157,21 @@ namespace Payroll.ViewModels.EmpContractViewModels
 
               public string? LastName { get; set; }
 
+              [Required]
+              [Display( Name = "Company Id" )]
+              public int? CompanyId { get; set; }
+
+              [Required]
+              [Display( Name = "Contract Type Id" )]
+              public int? ContractTypeId { get; set; }
+
+              [Required]
+              [Display( Name = "LCA Id" )]
+              public int? LaborCodeArticleId { get; set; }
+
+              [Display( Name = "Department Id" )]
+              public int? DepartmentDepartmentID { get; set; }
+
        }
 }
 
-
-//public int? AgreementsCount { get; set; }
-
-//public AnnexJobTitleVM? LastAnnex { get; set; }
-
-//[Display( Name = "Job Title" )]
-//public string? CurrentJobTitle => ( this.LastAnnex != null ) ? this.LastAnnex.JobTitle : this.JobTitle;
-
-//[Display( Name = "Department" )]
-//public string? CurrentDepartmentName =>
-//       ( this.LastAnnex != null ) ? this.LastAnnex.DepartmentName : this.DepartmentName;

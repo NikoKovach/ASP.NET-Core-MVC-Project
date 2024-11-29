@@ -37,6 +37,16 @@ a.tip {
        font-size: 0.8rem;
 }
 
+a.tip.create-update {
+       color: red;
+       font-size: 0.9rem;
+}
+
+a.tip.create-update span{
+       color: red;
+       font-size: 0.8rem;
+}
+
 a.tip span{
        color: red;
        font-size: 0.7rem;
@@ -56,20 +66,64 @@ a.tip span {
        display: none
 }
 
-       a.tip:hover span {
-              border: #c0c0c0 1px dotted;
-              border-radius: 10px;
-              padding: 1px 1px 1px 1px;
-              display: block;
-              z-index: 100;
-              background: #ffffcc;
-              left: -270px;
-              margin: 10px;
-              width: 230px;
-              position: absolute;
+a.tip:hover span {
+       border: #c0c0c0 1px dotted;
+       border-radius: 10px;
+       padding: 1px 1px 1px 1px;
+       display: block;
+       z-index: 100;
+       background: #ffffcc;
+       left: -270px;
+       margin: 10px;
+       width: 230px;
+       position: absolute;
+       top: -25px;
+       text-decoration: none
+}
 
-              top: -25px;
-              text-decoration: none
-       }
+a.tip.left-tip.create-update:hover span {
+       left: -220px;
+       top: -30px;
+       width: 230px;
+       background: #ffff66;
+       text-align: center;
+}
+
+a.tip.right-tip.create-update:hover span {
+       left: 0px;
+       top: -30px;
+       width: 230px;
+       background: #ffff66;
+       text-align: center;
+       box-shadow: 2px 2px 5px #c299ff; 
+}
 
 /*********************************************************/
+
+input.sub-message + span {
+       display: none;
+}
+
+input.sub-message:hover + span {
+/*       left: 400px;
+       top: 430px;*/
+       display: block;
+       position: absolute;
+       width: 175px;
+       background: #1aff1a;
+       text-align: center;
+       font-size: 0.8rem;
+       border: #c0c0c0 1px dotted;
+       border-radius: 10px;
+}
+
+
+
+/*********************************************************/
+.crud-div label, button, td, a {
+       font-size: 0.8em;
+}
+
+.crud-div input {
+       font-size: 0.8em;
+}

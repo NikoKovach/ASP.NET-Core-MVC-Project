@@ -25,10 +25,17 @@
               </div>
               <div class="col-sm-4 d-inline-block px-1 py-1">
                      <div class="btn-toolbar justify-content-md-center" role="toolbar">
+                            <div hidden>
+                                   <form asp-action="Create" method="post" id="openCreateEditView-form">
+                                          <input hidden id="inputCompanyId" name="companyId" value="" />
+                                   </form>
+                            </div>
                             <div class="px-1">
-                                   <button class="btn btn-sm btn-primary border-0 final-btn">
-                                          Create
-                                   </button>
+                                          <button onclick="getCompanyId()"
+                                                 class="btn btn-sm btn-primary border-0 final-btn"
+                                                 form="openCreateEditView-form">
+                                                 Create</button>
+                                   @* form="openCreateEditView-form" *@
                             </div>
                             <div class="px-1">
                                    <button class="btn btn-sm btn-primary border-0 final-btn"

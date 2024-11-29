@@ -58,6 +58,16 @@ namespace Payroll.Services.Services
 
                      return activeAgreements;
               }
+
+              public Task AddAsync( LaborAgreementVM viewModel )
+              {
+                     throw new NotImplementedException();
+              }
+
+              public Task UpdateAsync( LaborAgreementVM viewModel )
+              {
+                     throw new NotImplementedException();
+              }
        }
 }
 

@@ -7,7 +7,7 @@ using PersonnelWebApp.Utilities;
 namespace PersonnelWebApp.Areas.Contracts.Controllers
 {
        [Area( "LaborAgreements" )]
-       public class AgreementController : Controller
+       public class AgreementsController : Controller
        {
               private int _pageSize;
               private int _pageIndex;
@@ -16,7 +16,7 @@ namespace PersonnelWebApp.Areas.Contracts.Controllers
               private readonly ILaborAgreementService service;
               //private readonly IValidate<ValidateBaseModel> validateService;
 
-              public AgreementController( ILaborAgreementService agreementService, IPrivateConfiguration configuration )
+              public AgreementsController( ILaborAgreementService agreementService, IPrivateConfiguration configuration )
               {
                      this.service = agreementService;
 
@@ -34,33 +34,62 @@ namespace PersonnelWebApp.Areas.Contracts.Controllers
               }
 
               [HttpPost]
-              public ActionResult Create( int? companyId )
+              public ActionResult Create( LaborAgreementVM? agreementForEdit )
               {
-                     try
+                     if ( agreementForEdit.Id > 0 && agreementForEdit.CompanyId > 0 )
                      {
-                            return RedirectToAction( nameof( Index ) );
+                            return View( "CreateEditAgreement", agreementForEdit );
                      }
-                     catch
+
+                     if ( agreementForEdit.Id == null || agreementForEdit.Id < 1 )
                      {
-                            return View();
+                            ModelState.Clear();
                      }
+
+                     agreementForEdit.CompanyId = ( agreementForEdit.CompanyId < 1 ) ? null : agreementForEdit.CompanyId;
+
+                     return View( "CreateEditAgreement", agreementForEdit );
               }
 
               [HttpPost]
-              public ActionResult Edit( int? companyId, int? employeeId )
+              public async Task<IActionResult> AddAgreement( LaborAgreementVM? agreementVM )
               {
-                     try
+                     if ( !ModelState.IsValid )
                      {
-                            return RedirectToAction( nameof( Index ) );
+                            return View( "CreateEditAgreement", agreementVM );
                      }
-                     catch
-                     {
-                            return View();
-                     }
+
+                     await this.service.AddAsync( agreementVM );
+
+                     return await ResultAsync( agreementVM.CompanyId, this._pageIndex, this._pageSize, default, default );
               }
 
               [HttpPost]
-              public ActionResult Delete( int? companyId, int? agreementId )
+              public ActionResult Edit( LaborAgreementVM? agreementForEdit )
+              {
+                     if ( !ModelState.IsValid )
+                     {
+                            return View( "CreateEditAgreement", agreementForEdit );
+                     }
+
+                     return View( "CreateEditAgreement", agreementForEdit );
+              }
+
+              [HttpPost]
+              public async Task<IActionResult> EditAgreement( LaborAgreementVM? agreementVM )
+              {
+                     if ( !ModelState.IsValid )
+                     {
+                            return View( "CreateEditAgreement", agreementVM );
+                     }
+
+                     await this.service.UpdateAsync( agreementVM );
+
+                     return await ResultAsync( agreementVM.CompanyId, this._pageIndex, this._pageSize, default, default );
+              }
+
+              [HttpPost]
+              public ActionResult Delete( int? companyId, int? employeeId )
               {
                      try
                      {
@@ -75,7 +104,7 @@ namespace PersonnelWebApp.Areas.Contracts.Controllers
               //*********************************************************
 
               private async Task<IActionResult> ResultAsync( int? companyId, int? pageIndex, int? pageSize,
-                                                                                                  string? sortParam, FilterAgreementVM filter )
+                                                                                                  string? sortParam, FilterAgreementVM? filter )
               {
                      var sortedList = await GetAgreementListOfPagesAsync( companyId, pageIndex, pageSize, sortParam, filter );
 

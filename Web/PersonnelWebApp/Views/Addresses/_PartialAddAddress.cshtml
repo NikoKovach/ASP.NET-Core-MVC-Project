@@ -7,9 +7,6 @@
        bool modelState = ViewContext.ViewData.ModelState.IsValid;
 
        string attrHidden = modelState == true ? "hidden" : string.Empty;
-
-       // string attrHidden = "hidden";
-       // string attrHidden = "";
 }
 
 <div class="container" id="change-address-form" @attrHidden>

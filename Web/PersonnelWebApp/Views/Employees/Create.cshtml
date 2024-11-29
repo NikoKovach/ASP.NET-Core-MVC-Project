@@ -30,7 +30,9 @@
 <div >
        <div>
               <div class="col-md-4">
-                     <h3 employee-id="@empId" create-edit-heading="">Create/Edit Employee</h3>
+                     <h3 entity-id="@empId" controller-name="@controllerName" create-edit-heading>
+                            Create/Edit Employee
+                     </h3>
                      <hr />
                      <div asp-validation-summary="All" class="alert alert-danger alert-dismissible" style="display:@divStyle">
                             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
@@ -44,7 +46,9 @@
                                            <div class="form-control">
                                                  <partial name="_CreateEditRadioButtonsPartial" model="@empId" />
                                                  <input id="controller-name" type="text" value="@controllerName" hidden />
+
                                                  <hr />
+
                                                  <form class="create-edit-form" method="post" enctype="multipart/form-data">
                                                         <div class="form-group">
                                                                <label asp-for="Id"></label>
