@@ -45,14 +45,14 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
               {
                      this.checkDictionary = new Dictionary<string, Func<string, string, Task>>();
 
-                     this.checkDictionary[ "DepartmentVMName" ] = DepartmentNameExists;
+                     this.checkDictionary[ "DepartmentVMName" ] = DepartmentNameExistsAsync;
 
-                     this.checkDictionary[ "LaborCodeArticleVMArticle" ] = LaborCodeArticleExists;
+                     this.checkDictionary[ "LaborCodeArticleVMArticle" ] = LaborCodeArticleExistsAsync;
 
-                     this.checkDictionary[ "AgreementTypeVMType" ] = AgreementTypeExists;
+                     this.checkDictionary[ "AgreementTypeVMType" ] = AgreementTypeExistsAsync;
               }
 
-              private async Task DepartmentNameExists( string propertyName, string propertyValue )
+              private async Task DepartmentNameExistsAsync( string propertyName, string propertyValue )
               {
                      string? departmentName = await this.repository.Context.Departments
                                                                       .Where( x => x.Name == propertyValue )
@@ -62,7 +62,7 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                      this.SetModelStateError( departmentName, propertyName, propertyValue );
               }
 
-              private async Task LaborCodeArticleExists( string propertyName, string propertyValue )
+              private async Task LaborCodeArticleExistsAsync( string propertyName, string propertyValue )
               {
                      string? laborCodeArticle = await this.repository.Context.LaborCodeArticles
                                                                       .Where( x => x.Article == propertyValue )
@@ -72,7 +72,7 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                      this.SetModelStateError( laborCodeArticle, propertyName, propertyValue );
               }
 
-              private async Task AgreementTypeExists( string propertyName, string propertyValue )
+              private async Task AgreementTypeExistsAsync( string propertyName, string propertyValue )
               {
                      string? agreementType = await this.repository.Context.ContractTypes
                                                                       .Where( x => x.Type == propertyValue )
