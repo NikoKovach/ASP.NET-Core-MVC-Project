@@ -2,7 +2,7 @@
 
 namespace Payroll.ViewModels.EmpContractViewModels
 {
-       public class AgreementTypeVM
+       public class AgreementTypeVM : ValidateBaseModel
        {
               public int? Id { get; set; }
 

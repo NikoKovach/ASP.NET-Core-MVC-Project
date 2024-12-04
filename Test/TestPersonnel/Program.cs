@@ -13,14 +13,13 @@ public class Program
               IMapper mapper = config.CreateMapper();
 
               //**************************************************************
-              ServiceTest.AutoMapperTest( context, mapper );
+              //ServiceTest.AutoMapperTest( context, mapper );
               //ServiceTest.TestCustomMapper( context );
               //ServiceTest.TestValidate( context, mapper );
-
               //ServiceTest.AddressValidateTest( context, mapper );
-
               //ServiceTest.ConfigurationTest();
               //ServiceTest.PersonPartTest( context, mapper );
+              ServiceTest.PerformanceTest( context, mapper );
 
               Console.WriteLine();
        }

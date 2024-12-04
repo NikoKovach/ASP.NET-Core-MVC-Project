@@ -25,6 +25,8 @@ namespace Payroll.Mapper.AutoMapper.MapperProfiles
                      CreateMap<ContractType, AgreementTypeVM>().ReverseMap();
 
                      CreateMap<LaborCodeArticle, LaborCodeArticleVM>().ReverseMap();
+
+                     CreateMap<Department, DepartmentVM>().ReverseMap();
               }
        }
 }

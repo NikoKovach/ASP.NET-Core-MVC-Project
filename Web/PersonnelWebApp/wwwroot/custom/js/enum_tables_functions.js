@@ -10,22 +10,29 @@ const dialogGetCompanyId = document.getElementById("selectCompanyDialog");
 const dialogGetEmployeeId = document.getElementById("selectEmployeeDialog");
 const dialogGetAgreementTypeId = document.getElementById("selectAgreementTypeDialog");
 const dialogGetLaborCodeArticle = document.getElementById("selectLaborCodeArticleDialog");
+const dialogDepartments = document.getElementById("DepartmentsDialog");
 
 const btnOpenCompanyDialog = document.getElementById("btnOpenCompanyIdDialog");
 const btnGetCompanyId = document.getElementById("btnGetCompanyId");
 const btnAddEditPactType = document.getElementById("btnAddEditAgreementType");
 const btnAddEditLaborArticle = document.getElementById("btnAddEditArticle");
+const btnAddDepartment = document.getElementById("btnAddEditDepartment");
 
 const inputSelCompanyId = document.getElementById("selCompanyId-input");
 const inputSelEmployeeId = document.getElementById("selEmployeeId-input");
 const inputAgreementType = document.getElementById("createAgreementType-input");
-const inputLaborArticleType = document.getElementById("createLaborCode-input");
+const inputLaborArticleType = document.getElementById("createLaborCodeArticle-input");
+const inputDepartmentName = document.getElementById("createDepartmentName-input");
 
 const selectTagContractType = document.getElementById("agreementType-select");
 const selectLaborCodeArticle = document.getElementById("articleLaborCode-select");
+const selectDepartments = document.getElementById("department-select");
 
 const checkboxEditAgreementType = document.getElementById("checkbox-edit-contractType");
 const checkboxEditLaborArticle = document.getElementById("checkbox-edit-laborCode");
+const checkboxEditDepartment = document.getElementById("checkbox-edit-department");
+
+const errorDiv = document.getElementById("error-alert-div");
 
 // Event listener to open the dialog
 
@@ -88,6 +95,20 @@ checkboxEditLaborArticle.addEventListener("change", function () {
        }
 });
 
+checkboxEditDepartment.addEventListener("change", function () {
+       let departmentForEdit = selectDepartments.options[selectDepartments.selectedIndex].text;
+
+       if (checkboxEditDepartment.checked == true) {
+              inputDepartmentName.value = departmentForEdit;
+              btnAddDepartment.innerHTML = "Edit";
+       }
+       else {
+              inputDepartmentName.value = "";
+              btnAddDepartment.innerHTML = "Add";
+       }
+});
+
+//Event listener select tags
 selectTagContractType.addEventListener("change", function (e) {
        let selectTagText = e.currentTarget.options[e.currentTarget.selectedIndex].text;
 
@@ -105,6 +126,13 @@ selectLaborCodeArticle.addEventListener("change", function (e) {
        }
 });
 
+selectDepartments.addEventListener("change", function (e) {
+       let selectTagText = e.currentTarget.options[e.currentTarget.selectedIndex].text;
+
+       if (checkboxEditDepartment.checked == true) {
+              inputDepartmentName.value = selectTagText;
+       }
+});
 //####################################################################
 
 function openEmployeeIdDialog() {
@@ -160,7 +188,6 @@ function openContractTypeDialog() {
        let formAction = "/AgreementTypes/GetTypes";
 
        let responseBody = getRequestAgreement(formAction, "");
-/*       console.log(responseBody);*/
 
        responseBody
               .then((value) => {
@@ -178,6 +205,9 @@ function openContractTypeDialog() {
 };
 
 function chooseAgreementType() {
+       clearErrorAlertDiv(inputAgreementType);
+       clearSuccsessDivFunction();
+
        let selValue = selectTagContractType.value;
 
        document.getElementById("ContractTypeId").setAttribute("value",selValue);
@@ -213,7 +243,6 @@ function addAgreementType() {
               let token = document.querySelector('input[name="__RequestVerificationToken"]').getAttribute("value");
 
               let agreementType = { Id: entityId, Type: contractTypeString };
-              console.log(agreementType);
 
               const request = new Request(url, {
                      method: "POST",
@@ -230,8 +259,11 @@ function addAgreementType() {
                      .then((value) => {
                             if (Array.isArray(value)) {
                                    generateAgreementTypesDatalist(value);
-
-                                   console.log(value);
+                                   clearErrorAlertDiv(inputAgreementType);
+                                   showSuccsessDivFunction(textBtnAddType);
+                            }
+                            else {
+                                   modelStateHandlerFunction(value, inputAgreementType);
                             }
                      })
                      .catch((err) => {
@@ -282,6 +314,7 @@ function showAgreementType(agreementTypeVM) {
               span.innerHTML = contractTypeValue;
        }
 };
+
 //######################################################################
 
 function openLaborCodeDialog() {
@@ -297,7 +330,6 @@ function openLaborCodeDialog() {
               })
               .catch((err) => {
                      console.error(err);
-
                      alert(err);
               });
 
@@ -305,6 +337,9 @@ function openLaborCodeDialog() {
 };
 
 function chooseLaborCodeArticle() {
+       clearErrorAlertDiv(inputLaborArticleType);
+       clearSuccsessDivFunction();
+
        let articleValue = selectLaborCodeArticle.value;
 
        document.getElementById("LaborCodeArticleId").setAttribute("value", articleValue);
@@ -333,15 +368,12 @@ function addArticleType() {
               confirmText = "Do you want to create a new record ?";
               url = "/LaborCodeArticles/CreateType";
               entityId = "0";
-
-              console.log(entityId);
        }
        else {
               confirmText = "Do you want to edit the existing record ?";
               url = "/LaborCodeArticles/EditType";
 
               entityId = selectLaborCodeArticle.value;
-              console.log(entityId);
        }
 
        if (confirm(confirmText) == true) {
@@ -358,13 +390,18 @@ function addArticleType() {
                      },
                      body: JSON.stringify(articleType),
               });
-              console.log(request);
+
               let responseBody = post(request);
 
               responseBody
                      .then((value) => {
                             if (Array.isArray(value)) {
                                    generateArticlesDatalist(value);
+                                   clearErrorAlertDiv(inputLaborArticleType);
+                                   showSuccsessDivFunction(textBtnAddArticle);
+                            }
+                            else {
+                                   modelStateHandlerFunction(value, inputLaborArticleType);
                             }
                      })
                      .catch((err) => {
@@ -390,7 +427,6 @@ function getLaborCodeArticle() {
                      })
                      .catch((err) => {
                             console.error(err);
-
                             alert(err);
                      });
        }
@@ -406,9 +442,136 @@ function showLaborCodeArticle(laborCodeActicleVM) {
        }
 };
 
-function isObjectLike(value) {
-       return value != null && typeof value == 'object' && !Array.isArray(value);
-}
+//#######################################################################
+
+function openDepartmentDialog() {
+       let formAction = "/Departments/Get";
+
+       let responseBody = getRequestAgreement(formAction, "");
+
+       responseBody
+              .then((value) => {
+                     if (Array.isArray(value)) {
+                            generateDepartmentsDatalist(value);
+                     }
+              })
+              .catch((err) => {
+                     console.error(err);
+                     alert(err);
+              });
+
+       dialogDepartments.show();
+};
+
+function generateDepartmentsDatalist(departmetList) {
+       let selectTagOptions = "";
+
+       departmetList.forEach((element) => {
+              selectTagOptions += `<option value=${element.departmentId}>${element.name}</option>`;
+       });
+
+       selectDepartments.innerHTML = selectTagOptions;
+};
+
+function chooseDepartment() {
+       clearErrorAlertDiv(inputDepartmentName);
+       clearSuccsessDivFunction();
+
+       let departmentId = selectDepartments.value;
+
+       document.getElementById("DepartmentDepartmentID").setAttribute("value", departmentId);
+
+       dialogDepartments.close();
+};
+
+function getDepartmentName() {
+       let departmentId = document.getElementById("DepartmentDepartmentID").getAttribute("value");
+
+       if (departmentId != "") {
+              let formAction = "/Departments/GetDepartment";
+
+              let responseBody = getRequestAgreement(formAction, departmentId)
+
+              responseBody
+                     .then((value) => {
+                            if (isObjectLike(value) == true) {
+                                    showDepartmentName(value);
+                            }
+                     })
+                     .catch((err) => {
+                            console.error(err);
+                            alert(err);
+                     });
+       }
+};
+
+function showDepartmentName(departmentVM) {
+       let departmentName = String(departmentVM.name);
+
+       let spanDepartmentName = document.getElementById("departmentText-span");
+
+       if (departmentName != "") {
+              spanDepartmentName.innerHTML = departmentName;
+       }
+};
+
+function addDepartmentFunction() {
+      /* let activeInput = document.activeElement.parentNode.parentNode.querySelector('[id*="Name"]');*/
+
+       let departmentName = String(inputDepartmentName.value);
+
+       let confirmText = "", url = "", entityId = "";
+
+       let textBtnAddDepartment = btnAddDepartment.innerHTML.trim();
+
+       if (textBtnAddDepartment === "Add") {
+              confirmText = "Do you want to create a new record ?";
+              url = "/Departments/Create";
+              entityId = "0";
+       }
+       else {
+              confirmText = "Do you want to edit the existing record ?";
+              url = "/Departments/Edit";
+
+              entityId = selectDepartments.value;
+       }
+
+       if (confirm(confirmText) == true) {
+
+              let token = document.querySelector('input[name="__RequestVerificationToken"]').getAttribute("value");
+
+              let departmentVM = { DepartmentId: entityId, Name: departmentName };
+
+              const request = new Request(url, {
+                     method: "POST",
+                     headers: {
+                            RequestVerificationToken: token,
+                            "Content-Type": "application/json",
+                     },
+                     body: JSON.stringify(departmentVM),
+              });
+
+              let responseBody = post(request);
+              
+              responseBody
+                     .then((value) => {
+                            if (Array.isArray(value)) {
+                                   generateDepartmentsDatalist(value);
+                                   clearErrorAlertDiv(inputDepartmentName);
+                                   showSuccsessDivFunction(textBtnAddDepartment);
+                            }
+                            else {
+                                   modelStateHandlerFunction(value, inputDepartmentName);
+                            }
+                     })
+                     .catch((err) => {
+                            console.error(err);
+                            alert(err);
+                     });
+       } 
+};
+
+
 //#######################################################################
 
 async function getRequestAgreement(formAction,id ) {
@@ -438,7 +601,7 @@ async function post(request) {
               const response = await fetch(request);
 
               const result = await response.json();
-              
+
               return result;
 
        } catch (error) {
@@ -447,11 +610,152 @@ async function post(request) {
        }
 };
 
+function isObjectLike(value) {
+       return value != null && typeof value == 'object' && !Array.isArray(value);
+}
+
+function modelStateHandlerFunction(modelState, activeInput) {
+       const validityValuesEnum = { isValid: 2, isNotValid: 1 };
+
+       let invalidItemsList = [];
+
+       for (let entityName in modelState) {
+              if (modelState[entityName].validationState != validityValuesEnum.isNotValid) {
+                     continue;
+              }
+
+              let keysArray = Object.keys(modelState[entityName]);
+
+              let errorMessages = [];
+
+              if (keysArray.includes("errors")) {
+                     let errorsList = modelState[entityName].errors;
+
+                     errorMessages = errorsList.map(function (item) {
+                                                               return String( item.errorMessage);
+                                                        });
+              }
+
+              invalidItemsList.push({key:entityName , errors : errorMessages});
+       }
+
+       if (invalidItemsList.length > 0) {
+              showErrorsAlertDiv(invalidItemsList, activeInput);
+       }
+};
+
+function showErrorsAlertDiv(invalidItemsList, activeInput) {
+       let errorsMsgString = "";
+       invalidItemsList.forEach(function (value, index, array) {
+              errorsMsgString = "<li><p>Property ' " + value.key + " ' :</p>";
+
+              value.errors.forEach(function (error) {
+                     errorsMsgString += "<p><span>-></span>" + error + "</p>";
+              });
+
+              errorsMsgString += "</li > ";
+
+              if (activeInput != undefined &&  String(activeInput.id).includes(value.key)) {
+                     changeInputStyleToRedAlert(activeInput);
+              }
+       });
+
+       let ulErrorDiv = errorDiv.querySelector("ul");
+
+       while (ulErrorDiv.hasChildNodes()) {
+              ulErrorDiv.removeChild(ulErrorDiv.firstChild);
+       }
+
+       ulErrorDiv.innerHTML = errorsMsgString;
+
+       errorDiv.style.display = "list-item";
+};
+
+function changeInputStyleToRedAlert(activeInput) {
+       let spanString = "<span  class='text-danger' style='color:#f44336;font-size: 12px;'> *</span>";
+
+       if (activeInput instanceof HTMLInputElement) {
+              removeSpanNextToInputTag(activeInput);
+              activeInput.insertAdjacentHTML("afterend", spanString);
+              activeInput.style.backgroundColor = "rgb(255, 179, 179)";
+       }
+};
+
+function removeSpanNextToInputTag(activeInput) {
+       let spanAfterInput = activeInput.parentNode.querySelector("span");
+
+       if (spanAfterInput != null) {
+              activeInput.parentNode.querySelector("span").remove();
+       }
+};
+
+function clearErrorAlertDiv(activeInput) {
+       let ulErrorDiv = errorDiv.querySelector("ul");
+
+       while (ulErrorDiv.hasChildNodes()) {
+              ulErrorDiv.removeChild(ulErrorDiv.firstChild);
+       }
+
+       errorDiv.style.display = "none";
+
+       if (activeInput instanceof HTMLInputElement) {
+              removeSpanNextToInputTag(activeInput);
+       }
+
+       activeInput.style.backgroundColor = "rgb(255, 255, 255)";
+};
+
+function showSuccsessDivFunction(buttonInnerText) {
+       let divInnerText = "";
+
+       if (typeof buttonInnerText == "string") {
+              if (buttonInnerText === "Add") {
+                     divInnerText = "' Create ' operation is successful !";
+              }
+              else {
+                     divInnerText = "' Edit ' operation is successful !";
+              }
+       }
+
+       let divSuccess = document.getElementById("edit-success");
+       let childParagraph = divSuccess.querySelector("p");
+
+       if (childParagraph != null) {
+              childParagraph.innerText = divInnerText;
+       }
+
+       divSuccess.style.display = "block";
+};
+
+function clearSuccsessDivFunction() {
+       let divSuccess = document.getElementById("edit-success");
+       let childParagraph = divSuccess.querySelector("p");
+
+       if (childParagraph != null && childParagraph.innerText !="") {
+              childParagraph.innerText = "";
+       }
+
+       divSuccess.style.display = "none";
+};
+
 //#######################################################################
 
 
+//var spanString = "<span  class=\"text-danger\"  style=\"color:#f44336;font-size: 14px;\" > *</span>";
+//var html = $.parseHTML(spanString);
 
+//$("#customTableBody input[name='" + newNameAttr + "']").parent("td").children("span").remove();
+//$("#customTableBody input[name='" + newNameAttr + "']").parent("td").append(html);
 
+//$("#customTableBody input[name='" + newNameAttr + "']").css("background-color", "rgb(255, 179, 179)");
+
+//$("div.alert ul").remove("li");
+//$("div.alert ul").append(html);
+
+//$("div.alert").css("display", 'list-item');
+//$("div.alert").show();
+
+//$("#edit-success").css("display", 'none');
 
 //######################################################################
 
@@ -469,8 +773,6 @@ async function post(request) {
               //       },
               //       body: JSON.stringify({ type: "example" }),
               //});
-
-//              /*console.log("Success:", result);*/
 
 //              //const response = await fetch(request);
 

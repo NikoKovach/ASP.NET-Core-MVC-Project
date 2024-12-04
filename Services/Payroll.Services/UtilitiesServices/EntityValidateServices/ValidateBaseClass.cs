@@ -32,6 +32,8 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                      return;
               }
 
+
+
               //########################################################################
 
               protected void AddModelStateError( string propName, string? keyString = null )
@@ -90,3 +92,9 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
               }
        }
 }
+
+//public virtual async Task Validate( ModelStateDictionary modelState, ValidateBaseModel viewModel,
+//                                   [CallerMemberName] string actionName = "", params object[] parameters )
+//{
+//        await Task.Run(() => { return; });
+//}

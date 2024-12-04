@@ -8,6 +8,7 @@ using Payroll.Models;
 using Payroll.Services.UtilitiesServices;
 using Payroll.Services.UtilitiesServices.EntityValidateServices;
 using Payroll.ViewModels.CustomValidation;
+using Payroll.ViewModels.EmpContractViewModels;
 using Payroll.ViewModels.EmployeeViewModels;
 using Payroll.ViewModels.PersonViewModels;
 
@@ -260,6 +261,29 @@ namespace TestPersonnel.Demo
 
 
                      Console.WriteLine();
+              }
+
+              public static void PerformanceTest( PayrollContext context, IMapper autoMapper )
+              {
+                     IRepository<EmploymentContract> repository = new Repository<EmploymentContract>( context );
+
+                     var vslidateService = new ValidateServiceStringValueExists( repository );
+
+                     var modelState = new ModelStateDictionary();
+                     var departmentVM = new DepartmentVM
+                     {
+                            DepartmentId = 1,
+                            Name = "General Staff",//"Innovations", // "Sales",
+                     };
+
+                     object[] checkDictionaryParams =
+                     { nameof( DepartmentVM ), nameof( departmentVM.Name ), departmentVM.Name };
+
+                     vslidateService.Validate( modelState, departmentVM, "", checkDictionaryParams );
+
+                     Console.WriteLine();
+
+
               }
        }
 }

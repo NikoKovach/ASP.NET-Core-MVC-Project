@@ -1,17 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Payroll.Services.Services.ServiceContracts;
+using Payroll.Services.UtilitiesServices.EntityValidateServices;
+using Payroll.ViewModels;
 using Payroll.ViewModels.EmpContractViewModels;
 
 namespace PersonnelWebApp.Areas.LaborAgreements.Controllers
 {
        public class AgreementTypesController : Controller
        {
-              private readonly IAgreementTypeService service;
+              private IAgreementTypeService service;
+              private IValidate<ValidateBaseModel> validateService;
 
-              public AgreementTypesController( IAgreementTypeService service )
+              public AgreementTypesController( IAgreementTypeService service,
+                      [FromKeyedServices( "StringValueExists" )] IValidate<ValidateBaseModel> validateService )
               {
                      this.service = service;
+
+                     this.validateService = validateService;
               }
 
               [HttpGet]
@@ -23,6 +29,11 @@ namespace PersonnelWebApp.Areas.LaborAgreements.Controllers
               [HttpPost]
               public async Task<IActionResult> CreateType( [FromBody] AgreementTypeVM? contractType )
               {
+                     object[] validateServiceDictionaryParams =
+                             { nameof( AgreementTypeVM ), nameof( contractType.Type ), contractType.Type };
+
+                     this.validateService.Validate( ModelState, contractType, "", validateServiceDictionaryParams );
+
                      if ( !ModelState.IsValid )
                      {
                             return Json( ModelState );
@@ -36,7 +47,11 @@ namespace PersonnelWebApp.Areas.LaborAgreements.Controllers
               [HttpPost]
               public async Task<IActionResult> EditType( [FromBody] AgreementTypeVM? contractType )
               {
-                     //  verification that contractType.Type not exist in DB
+                     object[] validateServiceDictionaryParams =
+                           { nameof( AgreementTypeVM ), nameof( contractType.Type ), contractType.Type };
+
+                     this.validateService.Validate( ModelState, contractType, "", validateServiceDictionaryParams );
+
                      if ( !ModelState.IsValid )
                      {
                             return Json( ModelState );

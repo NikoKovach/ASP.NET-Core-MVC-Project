@@ -7,12 +7,12 @@ using Payroll.ViewModels.EmpContractViewModels;
 
 namespace PersonnelWebApp.Areas.LaborAgreements.Controllers
 {
-       public class LaborCodeArticlesController : Controller
+       public class DepartmentsController : Controller
        {
-              private ILaborCodeArticleService service;
+              private IDepartmentService service;
               private IValidate<ValidateBaseModel> validateService;
 
-              public LaborCodeArticlesController( ILaborCodeArticleService service,
+              public DepartmentsController( IDepartmentService service,
                      [FromKeyedServices( "StringValueExists" )] IValidate<ValidateBaseModel> validateService )
               {
                      this.service = service;
@@ -21,65 +21,66 @@ namespace PersonnelWebApp.Areas.LaborAgreements.Controllers
               }
 
               [HttpGet]
-              public async Task<IActionResult> GetTypes()
+              public async Task<IActionResult> Get()
               {
                      return await ResultAsync();
               }
 
               [HttpPost]
-              public async Task<IActionResult> CreateType( [FromBody] LaborCodeArticleVM? articleTypeVM )
+              public async Task<IActionResult> Create( [FromBody] DepartmentVM? departmentVM )
               {
-                     object[] validateServiceDictionaryParams =
-                             { nameof( LaborCodeArticleVM ), nameof( articleTypeVM.Article ), articleTypeVM.Article };
+                     //  verification that Department Name not exist in DB
+                     object[] checkDictionaryParams =
+                            { nameof( DepartmentVM ), nameof( departmentVM.Name ), departmentVM.Name };
 
-                     this.validateService.Validate( ModelState, articleTypeVM, "", validateServiceDictionaryParams );
+                     this.validateService.Validate( ModelState, departmentVM, "", checkDictionaryParams );
 
                      if ( !ModelState.IsValid )
                      {
                             return Json( ModelState );
                      }
 
-                     await this.service.AddAsync( articleTypeVM );
+                     await this.service.AddAsync( departmentVM );
 
                      return await ResultAsync();
               }
 
               [HttpPost]
-              public async Task<IActionResult> EditType( [FromBody] LaborCodeArticleVM? articleTypeVM )
+              public async Task<IActionResult> Edit( [FromBody] DepartmentVM? departmentVM )
               {
-                     object[] validateServiceDictionaryParams =
-                            { nameof( LaborCodeArticleVM ), nameof( articleTypeVM.Article ), articleTypeVM.Article };
+                     object[] checkDictionaryParams =
+                           { nameof( DepartmentVM ), nameof( departmentVM.Name ), departmentVM.Name };
 
-                     this.validateService.Validate( ModelState, articleTypeVM, "", validateServiceDictionaryParams );
+                     this.validateService.Validate( ModelState, departmentVM, "", checkDictionaryParams );
 
                      if ( !ModelState.IsValid )
                      {
                             return Json( ModelState );
                      }
 
-                     await this.service.UpdateAsync( articleTypeVM );
+                     await this.service.UpdateAsync( departmentVM );
 
                      return await ResultAsync();
               }
 
               [HttpGet]
-              public async Task<IActionResult> GetLaborArticle( int? id )
+              public async Task<IActionResult> GetDepartment( int? id )
               {
                      if ( id == null || id < 1 )
                      {
                             return Json( string.Empty );
                      }
 
-                     LaborCodeArticleVM? articleVM = await this.service.GetEntity( id ).FirstOrDefaultAsync();
+                     DepartmentVM? departmentVM = await this.service.GetEntity( id ).FirstOrDefaultAsync();
 
-                     return Json( articleVM );
+                     return Json( departmentVM );
               }
 
               //######################################################
 
               private async Task<IActionResult> ResultAsync()
               {
-                     List<LaborCodeArticleVM>? articlesResult = await this.service.AllArticles().ToListAsync();
+                     List<DepartmentVM>? articlesResult = await this.service.All().ToListAsync();
 
                      return Json( articlesResult );
               }

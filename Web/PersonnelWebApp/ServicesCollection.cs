@@ -60,7 +60,10 @@ namespace PersonnelWebApp
                      services.AddTransient<IAgreementTypeService, AgreementService>();
 
                      services.AddTransient<ILaborCodeArticleService, LaborCodeArticleService>();
-                     //##################################################################
+
+                     services.AddTransient<IDepartmentService, DepartmentService>();
+
+                     //#################################################################################
 
                      services.AddTransient( typeof( IFactorySortCollection<PersonVM> ), typeof( FactoryPersonsCollection ) );
 
@@ -77,7 +80,7 @@ namespace PersonnelWebApp
                                                               typeof( FactoryLaborAgreements ) );
 
 
-                     //##################################################################
+                     //##############################################################################
                      services.AddTransient<IValidate<ValidateBaseModel>, ValidateEmployeeVMService>();
 
                      services.AddKeyedTransient<IValidate<ValidateBaseModel>, ValidateEmployeeVMService>
@@ -92,7 +95,9 @@ namespace PersonnelWebApp
                      services.AddKeyedTransient<IValidate<ValidateBaseModel>, ValidateAddressVMService>
                                                                                                                                                     ( "AddressValidate" );
 
-                     //##################################################################
+                     services.AddKeyedTransient<IValidate<ValidateBaseModel>, ValidateServiceStringValueExists>
+                                                                                                                                                    ( "StringValueExists" );
+                     //##############################################################################
 
                      services.AddTransient<ICalculateExperience, CalculateExperience>();
 

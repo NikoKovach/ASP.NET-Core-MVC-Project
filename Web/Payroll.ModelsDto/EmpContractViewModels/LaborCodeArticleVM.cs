@@ -2,7 +2,7 @@
 
 namespace Payroll.ViewModels.EmpContractViewModels
 {
-       public class LaborCodeArticleVM
+       public class LaborCodeArticleVM : ValidateBaseModel
        {
               public int? Id { get; set; }
 

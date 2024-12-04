@@ -12,11 +12,11 @@ namespace Payroll.Mapper.AutoMapper
                             new CompanyProfile(),
                             new PersonProfile(),
                             new EmployeeProfile(),
-                            new DiplomaProfile(),
-                            new ContactInfoProfile(),
                             new AddressProfile(),
-                            new IdDocumentProfile(),
                             new LaborContractProfile(),
+                            //new DiplomaProfile(),
+                            //new ContactInfoProfile(),
+                             //new IdDocumentProfile(),
                      };
 
                      var config = new MapperConfiguration( cfg => cfg.AddProfiles( mapperProfiles ) );

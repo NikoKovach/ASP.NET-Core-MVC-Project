@@ -38,8 +38,7 @@ $("#edit-entities-btn").on("click", function () {
        let actionData = getActionParameters();
 
        actionData["entitiesForEdit"] = getEntitiesForEdit();
-
-       console.log(actionData["entitiesForEdit"]);
+       /*console.log(actionData["entitiesForEdit"]);*/
 
        if (actionData["entitiesForEdit"].length > 0) {
               postRequest(actionData,formAction);
@@ -284,7 +283,6 @@ function postResponse(data) {
                      let rowText = replacement.value.substring(leftBracket + 1, rightBracket);
 
                      let actualTableRow = parseInt(rowText) + 1;
-/*                     console.log(actualTableRow);*/
 
                      var errorsMsgString = "<li><p>Property : " + fieldNameText + " - row " + actualTableRow  + " of the table :</p>";
 
@@ -327,8 +325,6 @@ function postResponse(data) {
               $(".edit-checkbox:checked").prop("checked", false);
 
              var inputTableFields = $("#customTableBody").find("input.table-field");
-
-              console.log(inputTableFields.length);
 
               inputTableFields.attr("readonly", true);
        }
@@ -410,8 +406,6 @@ $("button.new-sort-btn").on('click', function () {
 
        let inputSortValue = $("#new-input-sort").val();
 
-       /*       console.log(sortLabelValue);*/
-
        if (inputSortValue == "" || inputSortValue != sortNameDesc) {
               $("#new-input-sort").val(sortNameDesc);
        }
@@ -421,8 +415,7 @@ $("button.new-sort-btn").on('click', function () {
        else if (inputSortValue == sortNameAsc) {
               $("#new-input-sort").val(sortNameDesc);
        }
-
-       console.log("input  sort has value : " + $("#new-input-sort").val());
+/*       console.log("input  sort has value : " + $("#new-input-sort").val());*/
 
        $(this).trigger("blur");
 });
@@ -638,57 +631,5 @@ function clearAddressFotm() {
 
 //******************************************************************* */
 
-
-//$(".table-sortBtn").on('click', function () {
-//       var sortLabelValue = $(this.getElementsByTagName("label")).text();
-//       console.log(sortLabelValue);
-
-//       sortLabelValue = sortLabelValue.replace(/ /g, "");
-//       console.log(sortLabelValue);
-
-//       var sortNameAsc = sortLabelValue + ascending;
-//       var sortNameDesc = sortLabelValue + descending;
-
-//       var inputSort = $(this.parentElement.getElementsByClassName("input-sort"));
-//       var inputSortValue = $(this.parentElement.getElementsByClassName("input-sort")).val();
-
-
-//       if (inputSortValue == "" || inputSortValue != sortNameDesc) {
-//              inputSort.val(sortNameDesc);
-//       }
-//       else if (inputSortValue == sortNameDesc) {
-//              inputSort.val(sortNameAsc);
-//       }
-//       else if (inputSortValue == sortNameAsc) {
-//              inputSort.val(sortNameDesc);
-//       }
-
-//       console.log(inputSort.val());
-
-//       $(this).trigger("blur");
-//});
-
-//function changeSortButtons() {
-//       $(".table-sortBtn").each(function (index) {
-//              var sortLabelValue = $(this.getElementsByTagName("label")).text();
-//              sortLabelValue = sortLabelValue.replace(/ /g, "");
-
-//              var inputSortValue = $(this.parentElement.getElementsByClassName("input-sort")).val();
-//              var underscoreIndex = inputSortValue.indexOf(underscore);
-
-//              var modifiedSortVal = inputSortValue.substring(0, underscoreIndex);
-//              var sortType = underscore + inputSortValue.substring(underscoreIndex + 1);
-
-//              if (sortLabelValue == modifiedSortVal) {
-//                     $(this).css("color", 'rgb(204, 0, 82 )');
-//                     if (sortType == ascending) {
-//                            addArraySymbolSpan($(this), ascArray);
-//                     }
-//                     else {
-//                            addArraySymbolSpan($(this), descArray);
-//                     }
-//              }
-//       });
-//};
 
  

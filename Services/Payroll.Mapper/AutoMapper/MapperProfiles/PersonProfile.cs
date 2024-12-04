@@ -16,6 +16,16 @@ namespace Payroll.Mapper.AutoMapper.MapperProfiles
                      CreateMap<Person, SearchPersonVM>()
                             .ForMember( m => m.PersonId, opt => opt.MapFrom( s => s.Id ) )
                             .ForMember( m => m.CivilID, opt => opt.MapFrom( s => s.EGN ) );
+
+                     CreateMap<ContactInfo, ContactInfoVM>().ReverseMap();
+
+                     CreateMap<Diploma, DiplomaVM>()
+                           .ForMember( d => d.EducationTypeName, opt => opt.MapFrom( s => s.EducationType.Type ) )
+                           .ReverseMap();
+
+                     CreateMap<IdDocument, IdDocumentVM>()
+                         .ForMember( m => m.DocumentName, opt => opt.MapFrom( s => s.DocumentType.DocumentName ) )
+                         .ReverseMap();
               }
        }
 }
