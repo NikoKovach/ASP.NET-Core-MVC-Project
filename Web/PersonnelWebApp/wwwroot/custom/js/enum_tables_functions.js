@@ -1,13 +1,75 @@
-﻿//#################### JQuery script ###########################################
+﻿
+//##############################################################
+const fieldsetButtons = document.getElementById("fieldsetCreateAgreement").getElementsByTagName("button");
 
-$(".stylish-btn").on("click", function () {
-       $(this).trigger("blur");
-});
+for (let button of fieldsetButtons) {
+       button.addEventListener("focus", (event) => {
+              event.target.blur();
+       });
+};
 
-//################### Clear Java Script #################################
+const btnsListEnumDialog = document.getElementsByClassName("openEnumDialog-btn");
+
+for (let btnOpenDialog of btnsListEnumDialog) {
+       btnOpenDialog.addEventListener("click", (event) => {
+              let enumDialogId = event.target.getAttribute("enumdialog");
+              let subAction = event.target.getAttribute("subaction");
+
+              openEnumAgreementdialog(subAction, enumDialogId);     
+       });
+};
+
+const selectList = document.getElementsByClassName("enum-dialog-select");
+
+for (let selectTag of selectList) {
+       selectTag.addEventListener("change", (event) => {
+               let selectTagText = selectTag.options[ selectTag.selectedIndex ].text;
+               let selectTagId = selectTag.getAttribute("id");
+
+              let checkbox = document.querySelector(`dialog:has(select#${selectTagId})`)
+                                                                 .querySelector("input[type='checkbox']");
+
+              let addEditInput = document.querySelector(`dialog:has(select#${selectTagId})`)
+                     .querySelector("input.add-edit-input");
+
+              if (checkbox.checked == true) {
+                     addEditInput.value = selectTagText;
+              }
+       });
+};
+
+const checkboxList = document.getElementsByClassName("edit-enum-type");
+
+for (let checkBox of checkboxList) {
+       checkBox.addEventListener("change", (event) => {
+              let checkBoxId = checkBox.getAttribute("id");
+              let selectElement = document.querySelector(`dialog:has(input#${checkBoxId})`)
+                                                                    .querySelector("select");
+
+              let addEditInput = document.querySelector(`dialog:has(input#${checkBoxId})`)
+                                                                 .querySelector("input.add-edit-input");
+
+              let addEditBtn = document.querySelector(`dialog:has(input#${checkBoxId})`)
+                                                              .querySelector("button.add-edit-btn");
+
+              let valueForEdit = selectElement.options[selectElement.selectedIndex].text;
+
+              if (checkBox.checked == true) {
+                     addEditInput.value = valueForEdit;
+                     addEditBtn.innerHTML = "Edit";
+              }
+              else {
+                     addEditInput.value = "";
+                     addEditBtn.innerHTML = "Add";
+              }
+       });
+};
+
+//##########################################################################
 
 const dialogGetCompanyId = document.getElementById("selectCompanyDialog");
 const dialogGetEmployeeId = document.getElementById("selectEmployeeDialog");
+
 const dialogGetAgreementTypeId = document.getElementById("selectAgreementTypeDialog");
 const dialogGetLaborCodeArticle = document.getElementById("selectLaborCodeArticleDialog");
 const dialogDepartments = document.getElementById("DepartmentsDialog");
@@ -27,10 +89,6 @@ const inputDepartmentName = document.getElementById("createDepartmentName-input"
 const selectTagContractType = document.getElementById("agreementType-select");
 const selectLaborCodeArticle = document.getElementById("articleLaborCode-select");
 const selectDepartments = document.getElementById("department-select");
-
-const checkboxEditAgreementType = document.getElementById("checkbox-edit-contractType");
-const checkboxEditLaborArticle = document.getElementById("checkbox-edit-laborCode");
-const checkboxEditDepartment = document.getElementById("checkbox-edit-department");
 
 const errorDiv = document.getElementById("error-alert-div");
 
@@ -68,73 +126,30 @@ inputSelEmployeeId.addEventListener("change", function (e) {
        inputSelEmployeeId.setAttribute("value", e.target.value);
 });
 
-//Event listener chechbox
-checkboxEditAgreementType.addEventListener("change", function () {
-       let typeForEdit = selectTagContractType.options[selectTagContractType.selectedIndex].text;
-
-       if (checkboxEditAgreementType.checked == true) {
-              inputAgreementType.value = typeForEdit;
-              btnAddEditPactType.innerHTML = "Edit";
-       }
-       else {
-              inputAgreementType.value = "";
-              btnAddEditPactType.innerHTML = "Add";
-       }
-});
-
-checkboxEditLaborArticle.addEventListener("change", function () {
-       let articleForEdit = selectLaborCodeArticle.options[selectLaborCodeArticle.selectedIndex].text;
-
-       if (checkboxEditLaborArticle.checked == true) {
-              inputLaborArticleType.value = articleForEdit;
-              btnAddEditLaborArticle.innerHTML = "Edit";
-       }
-       else {
-              inputLaborArticleType.value = "";
-              btnAddEditLaborArticle.innerHTML = "Add";
-       }
-});
-
-checkboxEditDepartment.addEventListener("change", function () {
-       let departmentForEdit = selectDepartments.options[selectDepartments.selectedIndex].text;
-
-       if (checkboxEditDepartment.checked == true) {
-              inputDepartmentName.value = departmentForEdit;
-              btnAddDepartment.innerHTML = "Edit";
-       }
-       else {
-              inputDepartmentName.value = "";
-              btnAddDepartment.innerHTML = "Add";
-       }
-});
-
-//Event listener select tags
-selectTagContractType.addEventListener("change", function (e) {
-       let selectTagText = e.currentTarget.options[e.currentTarget.selectedIndex].text;
-
-       if (checkboxEditAgreementType.checked == true) {
-              inputAgreementType.value = selectTagText;
-       }
-});
-
-selectLaborCodeArticle.addEventListener("change", function (e) {
-
-       let selectTagText = e.currentTarget.options[e.currentTarget.selectedIndex].text;
-
-       if (checkboxEditLaborArticle.checked == true) {
-              inputLaborArticleType.value = selectTagText;
-       }
-});
-
-selectDepartments.addEventListener("change", function (e) {
-       let selectTagText = e.currentTarget.options[e.currentTarget.selectedIndex].text;
-
-       if (checkboxEditDepartment.checked == true) {
-              inputDepartmentName.value = selectTagText;
-       }
-});
 //####################################################################
+function getCompanyNameFunction() {
+       let companyIdValue = document.getElementById("CompanyId").getAttribute("value");
+       let spanCompanyName = document.getElementById("companyName-span");
 
+       if (companyIdValue != "") {
+              let formAction = "/Companies/GetCompany";
+
+              let responseBody = fetchGetRequest(formAction, companyIdValue)
+
+              responseBody
+                     .then((value) => {
+                            if (!stringIsNullOrEmpty(value)) {
+                                   showAgreementSpanText(value, spanCompanyName);
+                            }
+                     })
+                     .catch((err) => {
+                            console.error(err);
+                            alert(err);
+                     });
+       }
+};
+
+//###################################################################
 function openEmployeeIdDialog() {
        let valueCompanyId = document.getElementById("CompanyId").getAttribute("value");
 
@@ -146,7 +161,7 @@ function openEmployeeIdDialog() {
 
        let formAction = "/Employees/GetEmloyeesByCompany";
 
-       let response = getRequestAgreement(formAction, valueCompanyId);
+       let response = fetchGetRequest(formAction, valueCompanyId);
 
        response
               .then((value) => {
@@ -182,17 +197,51 @@ function generateEmployeesDatalist(emloyeesList) {
        datalist.innerHTML = datalistOptions;
 };
 
+function getEmployeeNameFunction() {
+       let employeeIdValue = document.getElementById("EmployeeId").getAttribute("value");
+       let spanEmpName = document.getElementById("employeeName-span");
+
+       if (employeeIdValue != "") {
+              let formAction = "/Employees/GetEmployee";
+
+              let responseBody = fetchGetRequest(formAction, employeeIdValue)
+
+              responseBody
+                     .then((value) => {
+                            if (!stringIsNullOrEmpty(value)) {
+                                   showAgreementSpanText(value, spanEmpName);
+                            }
+                     })
+                     .catch((err) => {
+                            console.error(err);
+                            //alert(err);
+                     });
+       }
+};
+
 //#####################################################################
 
-function openContractTypeDialog() {
-       let formAction = "/AgreementTypes/GetTypes";
+function openEnumAgreementdialog(controllerAction,enumDialogId) {
+       let areaName = "LaborAgreements";
+       let dialogId = String(enumDialogId);
 
-       let responseBody = getRequestAgreement(formAction, "");
+       let formAction = `/${areaName}${String(controllerAction)}`;
 
+       let enumDialog = document.getElementById(dialogId);
+       let selectTagInDialog = document.querySelector(`dialog#${dialogId} select`); // ?????????????
+
+       let responseBody = fetchGetRequest(formAction, ""); 
+
+       manageOpenEnumDialogResponseBody(responseBody,selectTagInDialog); 
+
+       enumDialog.show();
+};
+
+function manageOpenEnumDialogResponseBody(responseBody, selectTagInDialog) {
        responseBody
               .then((value) => {
                      if (Array.isArray(value)) {
-                            generateAgreementTypesDatalist(value);
+                            generateSelectDatalist(value, selectTagInDialog);
                      }
               })
               .catch((err) => {
@@ -200,10 +249,20 @@ function openContractTypeDialog() {
 
                      alert(err);
               });
-
-       dialogGetAgreementTypeId.show();
 };
 
+function generateSelectDatalist(typesList,selectTag) {
+       let selectTagOptions = "";
+
+       typesList.forEach((element) => {
+              let arrValues = Object.values(element);
+              selectTagOptions += `<option value=${arrValues[0]}>${arrValues[1]}</option>`;
+       });
+
+       selectTag.innerHTML = selectTagOptions; 
+};
+
+//################################################################3
 function chooseAgreementType() {
        clearErrorAlertDiv(inputAgreementType);
        clearSuccsessDivFunction();
@@ -229,12 +288,12 @@ function addAgreementType() {
 
        if (textBtnAddType === "Add") {
               confirmText = "Do you want to create a new record ?";
-              url = "/AgreementTypes/CreateType";
+              url = "/LaborAgreements/AgreementTypes/CreateType";
               entityId = "0";
        }
        else {
               confirmText = "Do you want to edit the existing record ?";
-              url = "/AgreementTypes/EditType";
+              url = "/LaborAgreements/AgreementTypes/EditType";
               entityId  = selectTagContractType.value;
        }
 
@@ -244,16 +303,9 @@ function addAgreementType() {
 
               let agreementType = { Id: entityId, Type: contractTypeString };
 
-              const request = new Request(url, {
-                     method: "POST",
-                     headers: {
-                            RequestVerificationToken: token,
-                            "Content-Type": "application/json",
-                     },
-                     body: JSON.stringify(agreementType),
-              });
+              const request = generatePostRequest(url, token, agreementType);
 
-              let responseBody = post(request);
+              let responseBody = fetchPost(request);
 
               responseBody
                      .then((value) => {
@@ -286,16 +338,17 @@ function generateAgreementTypesDatalist(typesList) {
 
 function getAgreementTypeFunction() {
        let contractIdValue = document.getElementById("ContractTypeId").getAttribute("value");
+       let spanAgreementType = document.getElementById("agreementType-span");
 
        if (contractIdValue != "") {
-              let formAction = "/AgreementTypes/GetAgreementType";
+              let formAction = "/LaborAgreements/AgreementTypes/GetAgreementType";
 
-              let responseBody = getRequestAgreement(formAction, contractIdValue)
+              let responseBody = fetchGetRequest(formAction, contractIdValue);
 
               responseBody
                      .then((value) => {
-                            if (isObjectLike(value) == true) {
-                                    showAgreementType(value);
+                            if (!stringIsNullOrEmpty(value)) {
+                                   showAgreementSpanText(value, spanAgreementType);
                             }
                      })
                      .catch((err) => {
@@ -305,47 +358,7 @@ function getAgreementTypeFunction() {
        }
 };
 
-function showAgreementType(agreementTypeVM) {
-       let contractTypeValue = String(agreementTypeVM.type);
-
-       let span = document.getElementById("agreementType-span");
-
-       if (contractTypeValue != "") {
-              span.innerHTML = contractTypeValue;
-       }
-};
-
 //######################################################################
-
-function openLaborCodeDialog() {
-       let formAction = "/LaborCodeArticles/GetTypes";
-
-       let responseBody = getRequestAgreement(formAction, "");
-
-       responseBody
-              .then((value) => {
-                     if (Array.isArray(value)) {
-                             generateArticlesDatalist(value);
-                     }
-              })
-              .catch((err) => {
-                     console.error(err);
-                     alert(err);
-              });
-
-       dialogGetLaborCodeArticle.show();
-};
-
-function chooseLaborCodeArticle() {
-       clearErrorAlertDiv(inputLaborArticleType);
-       clearSuccsessDivFunction();
-
-       let articleValue = selectLaborCodeArticle.value;
-
-       document.getElementById("LaborCodeArticleId").setAttribute("value", articleValue);
-
-       dialogGetLaborCodeArticle.close();
-};
 
 function generateArticlesDatalist(articlesList) {
        let selectTagOptions = "";
@@ -366,12 +379,12 @@ function addArticleType() {
 
        if (textBtnAddArticle === "Add") {
               confirmText = "Do you want to create a new record ?";
-              url = "/LaborCodeArticles/CreateType";
+              url = "/LaborAgreements/LaborCodeArticles/CreateType";
               entityId = "0";
        }
        else {
               confirmText = "Do you want to edit the existing record ?";
-              url = "/LaborCodeArticles/EditType";
+              url = "/LaborAgreements/LaborCodeArticles/EditType";
 
               entityId = selectLaborCodeArticle.value;
        }
@@ -382,16 +395,9 @@ function addArticleType() {
 
               let articleType = { Id: entityId, Article: laborArticleString };
 
-              const request = new Request(url, {
-                     method: "POST",
-                     headers: {
-                            RequestVerificationToken: token,
-                            "Content-Type": "application/json",
-                     },
-                     body: JSON.stringify(articleType),
-              });
+              const request = generatePostRequest(url, token, articleType);
 
-              let responseBody = post(request);
+              let responseBody = fetchPost(request);
 
               responseBody
                      .then((value) => {
@@ -413,16 +419,17 @@ function addArticleType() {
 
 function getLaborCodeArticle() {
        let articleIdValue = document.getElementById("LaborCodeArticleId").getAttribute("value");
+       let spanLaborArticle = document.getElementById("articleText-span");
 
        if (articleIdValue != "") {
-              let formAction = "/LaborCodeArticles/GetLaborArticle";
+              let formAction = "/LaborAgreements/LaborCodeArticles/GetLaborArticle";
 
-              let responseBody = getRequestAgreement(formAction, articleIdValue)
+              let responseBody = fetchGetRequest(formAction, articleIdValue)
 
               responseBody
                      .then((value) => {
-                            if (isObjectLike(value) == true ) {
-                                   showLaborCodeArticle(value);
+                            if (!stringIsNullOrEmpty(value) ) {
+                                   showAgreementSpanText(value, spanLaborArticle);
                             }
                      })
                      .catch((err) => {
@@ -432,36 +439,18 @@ function getLaborCodeArticle() {
        }
 };
 
-function showLaborCodeArticle(laborCodeActicleVM) {
-       let articleValue = String(laborCodeActicleVM.article);
+function chooseLaborCodeArticle() {
+       clearErrorAlertDiv(inputLaborArticleType);
+       clearSuccsessDivFunction();
 
-       let spanLaborArticle = document.getElementById("articleText-span");
+       let articleValue = selectLaborCodeArticle.value;
 
-       if (articleValue != "" ) {
-              spanLaborArticle.innerHTML = articleValue;
-       }
+       document.getElementById("LaborCodeArticleId").setAttribute("value", articleValue);
+
+       dialogGetLaborCodeArticle.close();
 };
 
 //#######################################################################
-
-function openDepartmentDialog() {
-       let formAction = "/Departments/Get";
-
-       let responseBody = getRequestAgreement(formAction, "");
-
-       responseBody
-              .then((value) => {
-                     if (Array.isArray(value)) {
-                            generateDepartmentsDatalist(value);
-                     }
-              })
-              .catch((err) => {
-                     console.error(err);
-                     alert(err);
-              });
-
-       dialogDepartments.show();
-};
 
 function generateDepartmentsDatalist(departmetList) {
        let selectTagOptions = "";
@@ -486,16 +475,17 @@ function chooseDepartment() {
 
 function getDepartmentName() {
        let departmentId = document.getElementById("DepartmentDepartmentID").getAttribute("value");
+       let spanDepartmentName = document.getElementById("departmentText-span");
 
        if (departmentId != "") {
-              let formAction = "/Departments/GetDepartment";
+              let formAction = "/LaborAgreements/Departments/GetDepartment";
 
-              let responseBody = getRequestAgreement(formAction, departmentId)
+              let responseBody = fetchGetRequest(formAction, departmentId)
 
               responseBody
                      .then((value) => {
-                            if (isObjectLike(value) == true) {
-                                    showDepartmentName(value);
+                            if ( !stringIsNullOrEmpty(value)) {
+                                   showAgreementSpanText(value, spanDepartmentName);
                             }
                      })
                      .catch((err) => {
@@ -505,18 +495,7 @@ function getDepartmentName() {
        }
 };
 
-function showDepartmentName(departmentVM) {
-       let departmentName = String(departmentVM.name);
-
-       let spanDepartmentName = document.getElementById("departmentText-span");
-
-       if (departmentName != "") {
-              spanDepartmentName.innerHTML = departmentName;
-       }
-};
-
 function addDepartmentFunction() {
-      /* let activeInput = document.activeElement.parentNode.parentNode.querySelector('[id*="Name"]');*/
 
        let departmentName = String(inputDepartmentName.value);
 
@@ -526,12 +505,12 @@ function addDepartmentFunction() {
 
        if (textBtnAddDepartment === "Add") {
               confirmText = "Do you want to create a new record ?";
-              url = "/Departments/Create";
+              url = "/LaborAgreements/Departments/Create";
               entityId = "0";
        }
        else {
               confirmText = "Do you want to edit the existing record ?";
-              url = "/Departments/Edit";
+              url = "/LaborAgreements/Departments/Edit";
 
               entityId = selectDepartments.value;
        }
@@ -542,16 +521,9 @@ function addDepartmentFunction() {
 
               let departmentVM = { DepartmentId: entityId, Name: departmentName };
 
-              const request = new Request(url, {
-                     method: "POST",
-                     headers: {
-                            RequestVerificationToken: token,
-                            "Content-Type": "application/json",
-                     },
-                     body: JSON.stringify(departmentVM),
-              });
+              const request = generatePostRequest(url, token, departmentVM);
 
-              let responseBody = post(request);
+              let responseBody = fetchPost(request);
               
               responseBody
                      .then((value) => {
@@ -571,10 +543,28 @@ function addDepartmentFunction() {
        } 
 };
 
+//######################################################################
 
-//#######################################################################
+//function chooseEnumType(inputTypeName) {
+//       let inputElement = HTMLInputElement(inputTypeName);
 
-async function getRequestAgreement(formAction,id ) {
+//       clearErrorAlertDiv(inputDepartmentName);
+//       clearSuccsessDivFunction();
+
+//       let departmentId = selectDepartments.value;
+
+//       document.getElementById("DepartmentDepartmentID").setAttribute("value", departmentId);
+
+//       dialogDepartments.close();
+//};
+
+function showAgreementSpanText(spanText,spanElement) {
+       if (String(spanText) != "" && isDomElement(spanElement)) {
+              spanElement.innerHTML = String(spanText);
+       }
+};
+
+async function fetchGetRequest(formAction,id ) {
        let url = formAction + "/" + id;
 
        if ((typeof id === 'string' || id instanceof String) && id == "" ) {
@@ -596,7 +586,7 @@ async function getRequestAgreement(formAction,id ) {
        }
 };
 
-async function post(request) {
+async function fetchPost(request) {
        try {
               const response = await fetch(request);
 
@@ -610,9 +600,53 @@ async function post(request) {
        }
 };
 
+function generatePostRequest(url, antiForgeryToken,bodyObject) {
+       return new Request(url, {
+              method: "POST",
+              headers: {
+                     RequestVerificationToken: antiForgeryToken,
+                     "Content-Type": "application/json",
+              },
+              body: JSON.stringify(bodyObject),
+       });
+};
+
+//###################################################################
 function isObjectLike(value) {
        return value != null && typeof value == 'object' && !Array.isArray(value);
 }
+
+function isObjectLikeArray(value) {
+       return value != null && typeof value == 'object' && Array.isArray(value);
+}
+
+function stringIsNullOrEmpty(value) {
+       if (value == null) return true;
+
+       if (typeof value == "string" && value != null &&  value == "") return true;
+
+       return false;
+}
+
+function valueIsModelState(value) {
+       let valueIsObject= (value != null && typeof value == 'object' && !Array.isArray(value)) ? true : false ;
+
+       if (valueIsObject) {
+              for (let x in value) {
+                     let keysArr = Object.keys(value[x]);
+                     let errorExists = keysArr.some(x => x == "errors");
+
+                     if (errorExists) return true;
+              }
+       }
+
+       return false;
+};
+
+function isDomElement(element) {
+       return element instanceof Element;
+};
+//#####################################################################
 
 function modelStateHandlerFunction(modelState, activeInput) {
        const validityValuesEnum = { isValid: 2, isNotValid: 1 };
@@ -741,24 +775,6 @@ function clearSuccsessDivFunction() {
 //#######################################################################
 
 
-//var spanString = "<span  class=\"text-danger\"  style=\"color:#f44336;font-size: 14px;\" > *</span>";
-//var html = $.parseHTML(spanString);
-
-//$("#customTableBody input[name='" + newNameAttr + "']").parent("td").children("span").remove();
-//$("#customTableBody input[name='" + newNameAttr + "']").parent("td").append(html);
-
-//$("#customTableBody input[name='" + newNameAttr + "']").css("background-color", "rgb(255, 179, 179)");
-
-//$("div.alert ul").remove("li");
-//$("div.alert ul").append(html);
-
-//$("div.alert").css("display", 'list-item');
-//$("div.alert").show();
-
-//$("#edit-success").css("display", 'none');
-
-//######################################################################
-
 //Archive = fetch() post with Antiforgery token
 //async function post(request) {
 //       try {
@@ -786,14 +802,3 @@ function clearSuccsessDivFunction() {
 //       }
 //};
 
-//######################################################################
-
-//$("#add-record").on("click", function () {
-//       return confirm("\" Do you want to create a new record ? \"");
-//});
-
-//$("#delete-entity-btn").on("click", function () {
-//       return confirm("\" Do you want to delete the selected record ? \"");
-//});
-
-//############################################## 

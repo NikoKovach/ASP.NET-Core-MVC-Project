@@ -1,0 +1,84 @@
+﻿@using Payroll.ViewModels.PersonViewModels
+
+
+@{
+       AddressVM? address = new AddressVM();
+}
+
+
+<div class="dialog-create-edit-form wider-largе">
+
+       <dialog id="selectAddressDialog" class="pt-2 agreement-dialod">
+              <div>
+                     <span class="closebtn btnCloseDialog" onclick="closeDialogBox()">&times;</span>
+              </div>
+              <br />
+              <div>
+                     <h5 class="text-center">Select Address</h5>
+              </div>
+              <hr class="mb-2"/>
+              <div class="text-end mx-1 mt-3 mb-2 px-1">
+                     <partial name="_DialogCreateAddress" model="@address"></partial>
+                     <button id="btnNewAddress" onclick="showAddAddressDialog()"
+                            class="btn-primary px-0 py-1 border-0 stylish-btn justify-content-center">
+                            New Address
+                     </button>
+              </div>
+              <div class="d-flex justify-content-center my-1" id="filter-address-div">
+                     <div class="d-flex d-inline col-sm-11">
+                            <div class="d-inline col-sm-3 px-0">
+                                   <label class="col-sm-10 text-start px-2">Country</label>
+                                   <div class="col-sm-12">
+                                          <input id="filter_Country" name="filter.Country"
+                                                 class="col-sm-12 rounded-pill border-1 h-75 px-2 py-0 filter-input" />
+                                   </div>
+                            </div>
+                            <div class="d-inline col-sm-3 px-1">
+                                   <label class="col-sm-10 text-start px-2">City</label>
+                                   <div class="col-sm-12">
+                                          <input id="filter_City" name="filter.City"
+                                                 class="col-sm-12 rounded-pill border-1 h-75 px-2 py-0 filter-input" />
+                                   </div>
+                            </div>
+                            <div class="d-inline col-sm-3 px-0">
+                                   <label class="col-sm-2 text-start px-2">Street</label>
+                                   <div class="col-sm-12">
+                                          <input id="filter_Street" name="filter.Street"
+                                                 class="col-sm-12 rounded-pill border-1 h-75 px-2 py-0 filter-input" />
+                                   </div>
+                            </div>
+                            <div class="d-inline col-sm-3 px-1">
+                                   <label class="col-sm-2 text-start px-2">No</label>
+                                   <div class="col-sm-12">
+                                          <input id="filter_Number" name="filter.Number"
+                                                 class="col-sm-12 rounded-pill border-1 h-75 px-2 py-0 filter-input" />
+                                   </div>
+                            </div>
+                     </div>
+                     <div class="d-inline justify-content-center col-sm-1">
+                            <button onclick="findAddressesFunction()"
+                                    class="btn-primary justify-content-center px-0 py-1 border-0 stylish-btn w-75 mt-4">
+                                   Find
+                            </button>
+                     </div>
+              </div>
+
+              <hr />
+               <div class="d-flex justify-content-start mt-4 mb-1">
+                     <div class="d-inline col-sm-9">
+                            <div class="d-flex col-sm-12 px-1">
+                                   <label class="col-sm-2 text-start">Address</label>
+                                   <select id="addressesList-select"
+                                          class="col-sm-10 rounded-pill border-1">
+                                   </select>
+                            </div>
+                     </div>
+                     <div class="d-inline col text-end px-2">
+                            <button onclick="chooseAddressIdfunction()"
+                                          class="btn-primary px-0 py-1 border-0 stylish-btn justify-content-center">
+                                   Get Id
+                            </button>
+                     </div>
+              </div>
+       </dialog>
+</div>

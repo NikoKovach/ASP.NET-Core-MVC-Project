@@ -75,16 +75,25 @@ namespace Payroll.Services.Services
                      return empResultList;
               }
 
-              public async Task<EmployeeVM?> GetEntityAsync( int? entityId )
+              public IQueryable<EmployeeVM>? GetEntity( int? entityId )
               {
-                     Employee? employee = await repository
-                                                                                .AllAsNoTracking()
-                                                                                .Where( x => x.IsPresent == true )
-                                                                                .FirstOrDefaultAsync( x => x.Id == entityId );
+                     IQueryable<Employee>? employee = repository
+                                                                                       .AllAsNoTracking()
+                                                                                       .Where( x => x.IsPresent == true && x.Id == entityId );
 
-                     EmployeeVM? empViewModel = mapper.Map<Employee, EmployeeVM>( employee );
+                     IQueryable<EmployeeVM>? empViewModel = mapper.ProjectTo<Employee, EmployeeVM>( employee );
 
                      return empViewModel;
+              }
+
+              public async Task<string?> GetEmployeeName( int? employeeId )
+              {
+                     string? name = await this.repository.AllAsNoTracking()
+                                                                    .Where( x => x.Id == employeeId && x.IsPresent == true )
+                                                                    .Select( x => x.Person.FullName )
+                                                                    .FirstOrDefaultAsync();
+
+                     return name;
               }
 
               //#############################################################
@@ -105,15 +114,6 @@ namespace Payroll.Services.Services
 
                      await repository.SaveChangesAsync();
               }
-
-              //public async Task UpdateAsync( ICollection<EmployeeVM> viewModels )
-              //{
-              //       List<Employee>? employees = mapper.Map<List<EmployeeVM>, List<Employee>>( viewModels.ToList() );
-
-              //       repository.Update( employees );
-
-              //       await repository.SaveChangesAsync();
-              //}
 
               public async Task<bool> CreateEmployeeFolderAsync( string appFolder,
                      int personId, int companyId )
@@ -262,6 +262,12 @@ namespace Payroll.Services.Services
 
                      return empFolderPath;
               }
+
+              //private async Task<Employee?> GetEmployeeAsync( int? empId )
+              //{
+              //       return await repository.AllAsNoTracking()
+              //                                                 .Where( x => x.IsPresent == true )
+              //                                                 .FirstOrDefaultAsync( x => x.Id == empId );
+              //}
        }
 }
-

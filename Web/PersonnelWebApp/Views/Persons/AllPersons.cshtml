@@ -1,7 +1,9 @@
-﻿@using Payroll.Services.Services
+﻿
+@using Payroll.Services.Services
 @using Payroll.ViewModels.PagingViewModels
 @using Payroll.ViewModels.PersonViewModels
 @model PagingListSortedFiltered<PersonVM,PersonFilterVM>
+
 
 @section Styles
 {
@@ -20,6 +22,8 @@
 
        bool modelState = ViewContext.ViewData.ModelState.IsValid;
        string divStyle = modelState == true ? "display:none" : "display:list-item";
+
+       // var envMode = Env.EnvironmentName;
 }
 
 <div class="payroll-table">

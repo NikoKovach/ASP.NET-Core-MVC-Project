@@ -55,6 +55,16 @@ namespace Payroll.Services.Services
                      return sortedList;
               }
 
+              public IQueryable<string>? GetEntity( int? addressId )
+              {
+                     IQueryable<string>? fullAddress = this.addressesFactory
+                                                                                         .SortedCollection( string.Empty )
+                                                                                         .Where( x => x.Id == addressId )
+                                                                                         .Select( x => x.ToString() );
+
+                     return fullAddress;
+              }
+
               public async Task AttachAddressAsync( int? personId, int? addressId, string? addressType )
               {
                      Person? person = await this.personRepository.All()

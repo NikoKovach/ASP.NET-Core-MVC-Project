@@ -13,14 +13,14 @@
                      <div class="d-inline col-sm-9">
                             <div class="d-flex col-sm-12 px-1">
                                    <label class="col-sm-4 text-start">Department</label>
-                                   <select id="department-select" 
-                                                class="col-sm-8 rounded-pill border-1">
+                                   <select id="department-select"
+                                                 class="col-sm-8 rounded-pill border-1 enum-dialog-select">
                                    </select>
                             </div>
                      </div>
                      <div class="d-inline d-flex justify-content-center col-sm-3 mx-1">
-                            <button onclick="chooseDepartment()"
-                                    class="btn-primary px-0 py-1 border-0 stylish-btn justify-content-center">
+                            <button onclick="chooseDepartment()" 
+                                           class="btn-primary px-0 py-1 border-0 stylish-btn justify-content-center">
                                    Get Id
                             </button>
                      </div>
@@ -29,7 +29,7 @@
                      <div class="d-inline col-sm-9">
                             <div class="d-flex col-sm-12 px-1">
                                    <label class="col-sm-4 text-start">Edit selected</label>
-                                   <input id="checkbox-edit-department" type="checkbox" class="mx-2"/>
+                                   <input id="checkbox-edit-department" type="checkbox" class="mx-2 edit-enum-type"/>
                             </div>
                      </div>
                      <div class="d-inline d-flex justify-content-center col-sm-3 mx-1"></div>
@@ -40,13 +40,13 @@
                             <div class="d-flex col-sm-12 px-1">
                                    <label class="col-sm-4 text-start">Department</label>
                                    <input id="createDepartmentName-input"
-                                          class="col-sm-8 rounded-pill border-1 px-2 py-0" value=""/>
+                                          class="col-sm-8 rounded-pill border-1 px-2 py-0 add-edit-input" value=""/>
                             </div>
                      </div>
                      <div class="d-flex justify-content-center d-inline col-sm-3 mx-1">
                             <button id="btnAddEditDepartment"
                                     onclick="addDepartmentFunction()"
-                                    class="btn-primary px-0 py-1 border-0 stylish-btn justify-content-center">
+                                    class="btn-primary px-0 py-1 border-0 justify-content-center stylish-btn add-edit-btn">
                                    Add
                             </button>
                      </div>

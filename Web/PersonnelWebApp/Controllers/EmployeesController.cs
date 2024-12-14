@@ -82,7 +82,9 @@ namespace PersonnelWebApp.Controllers
                             return View( empModel );
                      }
 
-                     EmployeeVM? empViewModel = await this.empService.GetEntityAsync( id );
+                     EmployeeVM? empViewModel = await this.empService
+                                                                                                  .GetEntity( id )
+                                                                                                  .FirstOrDefaultAsync();
 
                      return View( empViewModel );
               }
@@ -171,7 +173,10 @@ namespace PersonnelWebApp.Controllers
                             return View();
                      }
 
-                     EmployeeVM? empViewModel = await this.empService.GetEntityAsync( employeeId );
+                     EmployeeVM? empViewModel = await this.empService
+                                                                                                  .GetEntity( employeeId )
+                                                                                                  .FirstOrDefaultAsync();
+
                      empViewModel.IsPresent = false;
 
                      await this.empService.UpdateAsync( empViewModel );
@@ -207,6 +212,19 @@ namespace PersonnelWebApp.Controllers
                              .ToListAsync();
 
                      return Json( result );
+              }
+
+              [HttpGet]
+              public async Task<IActionResult> GetEmployee( int? id )
+              {
+                     if ( id == null || id < 1 )
+                     {
+                            return Json( string.Empty );
+                     }
+
+                     string? employeeFullName = await this.empService.GetEmployeeName( id );
+
+                     return Json( employeeFullName );
               }
 
               //*******************************************************************

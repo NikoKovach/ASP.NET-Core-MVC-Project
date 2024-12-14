@@ -631,5 +631,12 @@ function clearAddressFotm() {
 
 //******************************************************************* */
 
+//const btnEditAddress = document.getElementById("editAddressButton");
+
+//btnEditAddress.addEventListener('click', function () {
+//       let country = document.getElementById("addressVM_Country");
+
+//       console.log(country.value);
+//});
 
  

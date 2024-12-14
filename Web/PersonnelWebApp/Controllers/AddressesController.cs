@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Payroll.Services.Services.ServiceContracts;
 using Payroll.Services.UtilitiesServices.EntityValidateServices;
 using Payroll.ViewModels;
@@ -141,6 +142,40 @@ namespace PersonnelWebApp.Controllers
                      await this.service.DetachAddressAsync( personId, addressType );
 
                      return await ResultAsync( personId, pageIndex, pageSize, sortParam, filter );
+              }
+
+              [HttpPost]
+              public async Task<IActionResult> GetAddresses( [FromBody] SearchAddressVM? filterAddressVM )
+              {
+                     if ( !ModelState.IsValid )
+                     {
+                            return Json( ModelState );
+                     }
+
+                     IQueryable<AddressVM>? sortedAddressesList = this.service.AllAddresses( string.Empty, filterAddressVM );
+
+                     List<AddressStringVM>? addressesList = await sortedAddressesList
+                                                                                                        .Select( x => new AddressStringVM
+                                                                                                        {
+                                                                                                               Id = x.Id,
+                                                                                                               Address = x.ToString()
+                                                                                                        } )
+                                                                                                        .ToListAsync();
+
+                     return Json( addressesList );
+              }
+
+              [HttpGet]
+              public async Task<IActionResult> GetFullAddress( int? id )
+              {
+                     if ( id == null || id < 1 )
+                     {
+                            return Json( string.Empty );
+                     }
+
+                     string? fullAddress = await this.service.GetEntity( id ).FirstOrDefaultAsync();
+
+                     return Json( fullAddress );
               }
 
               //################################################################

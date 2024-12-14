@@ -4,7 +4,7 @@ using Payroll.ViewModels.EmployeeViewModels;
 
 namespace Payroll.Services.Services.ServiceContracts
 {
-       public interface IEmployeeService : IBasicAddUpdate<EmployeeVM>, IBasicGetEntity<EmployeeVM>
+       public interface IEmployeeService : IBasicAddUpdate<EmployeeVM>, IBasicGetEntityIQueryable<EmployeeVM>
        {
               IRepository<Employee> Repository { get; }
 
@@ -21,6 +21,8 @@ namespace Payroll.Services.Services.ServiceContracts
               Task<string?> UploadEmployeePictureAsync( EmployeeVM viewModel, string? employeeFolder );
 
               Task UpdatePersonAsync( int personId, string? employeeFolder, string? relativeFolder, string? appFolder );
+
+              Task<string?> GetEmployeeName( int? employeeId );
 
        }
 }

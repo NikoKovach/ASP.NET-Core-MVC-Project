@@ -44,7 +44,6 @@
     <Folder Include="Areas\LaborAgreements\Models\" />
     <Folder Include="Areas\Vacations\Models\" />
     <Folder Include="BetaFolder\" />
-    <Folder Include="Views\Leave\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -97,6 +96,10 @@
 	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 	  </Content>
 	  <Content Update="wwwroot\custom\css\3d-button.css">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	  <Content Update="wwwroot\custom\js\dialog_address_functions.js">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 	  </Content>

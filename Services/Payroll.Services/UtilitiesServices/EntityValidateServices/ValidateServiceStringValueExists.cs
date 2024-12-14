@@ -19,8 +19,8 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                      SetDictionary();
               }
 
-              public override void Validate( ModelStateDictionary modelState, ValidateBaseModel viewModel,
-                                                 [CallerMemberName] string actionName = "", params object[] parameters )
+              public override async Task ValidateAsync( ModelStateDictionary modelState, ValidateBaseModel viewModel,
+                     [CallerMemberName] string actionName = "", params object[] parameters )
               {
                      base.ModelState = modelState;
 
@@ -35,10 +35,9 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
 
                      if ( this.checkDictionary.ContainsKey( key ) && !string.IsNullOrEmpty( stringPropertyValue ) )
                      {
-                            this.checkDictionary[ key ]( viewModelPropertyName, stringPropertyValue ).GetAwaiter().GetResult();
+                            await this.checkDictionary[ key ]( viewModelPropertyName, stringPropertyValue );
                      }
               }
-
               //#####################################################################
 
               private void SetDictionary()
@@ -94,3 +93,22 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
        }
 }
 
+//public override void Validate( ModelStateDictionary modelState, ValidateBaseModel viewModel,
+//                                   [CallerMemberName] string actionName = "", params object[] parameters )
+//{
+//       base.ModelState = modelState;
+
+//       if ( parameters.Length < 3 )
+//              return;
+
+//       string viewModelType = (string) parameters[ 0 ];
+//       string viewModelPropertyName = (string) parameters[ 1 ];
+//       string stringPropertyValue = (string) parameters[ 2 ];
+
+//       string key = $"{viewModelType}{viewModelPropertyName}"; // string key = "DepartmentVMName";
+
+//       if ( this.checkDictionary.ContainsKey( key ) && !string.IsNullOrEmpty( stringPropertyValue ) )
+//       {
+//              this.checkDictionary[ key ]( viewModelPropertyName, stringPropertyValue ).GetAwaiter().GetResult();
+//       }
+//}

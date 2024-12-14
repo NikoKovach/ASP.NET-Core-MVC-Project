@@ -10,6 +10,18 @@
        top:15rem;
 }
 
+.wider-largе dialog {
+       width: 34rem;
+       top: 8rem;
+       left:15rem;
+}
+
+.wider-extra-largе dialog {
+       width: 38rem;
+       top: 5rem;
+       left:-7rem;
+}
+
 .dialog-create-edit-form input:focus,select:focus {
        outline: none;
 }

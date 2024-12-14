@@ -4,7 +4,10 @@
 			navbar-light justify-content-center">
 		<ul class="list-inline">
 			<li class="nav-item">
-				<a href="#" class="nav-link btn">Add Contract</a>
+				<a href="#" class="nav-link btn"
+                                 onclick="document.getElementById('openCreateEditAgreementView-form').submit()">
+                                   Add Contract
+                            </a>
 			</li>
 			<li class="nav-item">
 				<a href="#" class="nav-link btn">Vacations</a>
@@ -23,4 +26,12 @@
 			</li>
 		</ul>
 	</nav>
+</div>
+
+<div hidden>
+       <form asp-area="LaborAgreements" asp-controller="Agreements" asp-action="Create" 
+                  method="post" id="openCreateEditAgreementView-form">
+              <input hidden id="inputCompanyIdAgreement" name="companyId" value />
+              <input hidden id="inputEmployeeIdAgreement" name="employeeId" value />
+       </form>
 </div>

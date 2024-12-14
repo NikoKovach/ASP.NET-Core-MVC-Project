@@ -1,6 +1,6 @@
 ﻿
 
-fieldset {
+fieldset.person-fieldset {
        background-color: #eeeeee;
        display: block;
        margin-left: 2px;
@@ -17,17 +17,17 @@ fieldset#actual-addresses-fieldset {
               /*#e3fbf7*/
 }
 
-legend {
+fieldset.person-fieldset legend {
        background-color: gray;
        color: white;
        padding: 5px 10px;
 }
 
-input {
+fieldset.person-fieldset input {
        margin: 5px;
 }
 
-input,label,option{
+fieldset.person-fieldset input, label, option {
        font-size: 12px;
 }
 

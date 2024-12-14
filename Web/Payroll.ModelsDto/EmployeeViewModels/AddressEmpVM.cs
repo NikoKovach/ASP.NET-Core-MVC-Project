@@ -1,9 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace Payroll.ViewModels.EmployeeViewModels
 {
        public class AddressEmpVM : ValidateBaseModel
        {
+              private const string Comma = ", ";
+
               [Required]
               [StringLength( 200, MinimumLength = 3 )]
               public string? Country { get; set; }
@@ -32,5 +35,39 @@ namespace Payroll.ViewModels.EmployeeViewModels
 
               [Display( Name = "Apt Number" )]
               public int? ApartmentNumber { get; set; }
+
+              protected string FullAddress()
+              {
+                     if ( string.IsNullOrEmpty( this.Country ) || string.IsNullOrEmpty( this.City ) )
+                     {
+                            return string.Empty;
+                     }
+
+                     StringBuilder sb = new StringBuilder();
+
+                     sb.Append( this.Street );
+                     sb.Append( Comma + "No." + this.Number );
+
+                     if ( this.Entrance != null )
+                     {
+                            sb.Append( Comma + "Ent." + this.Entrance );
+                     }
+
+                     if ( this.Floor != null )
+                     {
+                            sb.Append( Comma + "Fl." + this.Floor );
+                     }
+
+                     if ( this.ApartmentNumber != null )
+                     {
+                            sb.Append( Comma + "Apt." + this.ApartmentNumber );
+                     }
+
+                     sb.Append( Comma + this.City + " City" );
+                     sb.Append( Comma + "Reg. " + this.Region );
+                     sb.Append( Comma + this.Country );
+                     //##################################################################
+                     return sb.ToString();
+              }
        }
 }

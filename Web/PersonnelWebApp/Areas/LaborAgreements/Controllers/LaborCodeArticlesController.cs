@@ -7,6 +7,7 @@ using Payroll.ViewModels.EmpContractViewModels;
 
 namespace PersonnelWebApp.Areas.LaborAgreements.Controllers
 {
+       [Area( "LaborAgreements" )]
        public class LaborCodeArticlesController : Controller
        {
               private ILaborCodeArticleService service;
@@ -32,7 +33,7 @@ namespace PersonnelWebApp.Areas.LaborAgreements.Controllers
                      object[] validateServiceDictionaryParams =
                              { nameof( LaborCodeArticleVM ), nameof( articleTypeVM.Article ), articleTypeVM.Article };
 
-                     this.validateService.Validate( ModelState, articleTypeVM, "", validateServiceDictionaryParams );
+                     await this.validateService.ValidateAsync( ModelState, articleTypeVM, "", validateServiceDictionaryParams );
 
                      if ( !ModelState.IsValid )
                      {
@@ -50,7 +51,7 @@ namespace PersonnelWebApp.Areas.LaborAgreements.Controllers
                      object[] validateServiceDictionaryParams =
                             { nameof( LaborCodeArticleVM ), nameof( articleTypeVM.Article ), articleTypeVM.Article };
 
-                     this.validateService.Validate( ModelState, articleTypeVM, "", validateServiceDictionaryParams );
+                     await this.validateService.ValidateAsync( ModelState, articleTypeVM, "", validateServiceDictionaryParams );
 
                      if ( !ModelState.IsValid )
                      {
@@ -70,9 +71,9 @@ namespace PersonnelWebApp.Areas.LaborAgreements.Controllers
                             return Json( string.Empty );
                      }
 
-                     LaborCodeArticleVM? articleVM = await this.service.GetEntity( id ).FirstOrDefaultAsync();
+                     string? articleName = await this.service.GetEntity( id ).FirstOrDefaultAsync();
 
-                     return Json( articleVM );
+                     return Json( articleName );
               }
 
               //######################################################

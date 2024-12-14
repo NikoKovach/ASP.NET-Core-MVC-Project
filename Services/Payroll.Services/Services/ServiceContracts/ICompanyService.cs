@@ -2,17 +2,17 @@
 
 namespace Payroll.Services.Services.ServiceContracts
 {
-       public interface ICompanyService : IBasicAddUpdate<CompanyViewModel>
+       public interface ICompanyService : IBasicAddUpdate<CompanyVM>, IBasicGetEntityIQueryable<string>
        {
-              IQueryable<CompanyViewModel> All();
+              IQueryable<CompanyVM> All();
 
-              IQueryable<CompanyViewModel> AllActive();
+              IQueryable<CompanyVM> AllActive();
 
-              IQueryable<CompanyViewModel> AllActive( string companyId );
+              IQueryable<CompanyVM> AllActive( string companyId );
 
               IQueryable<SearchCompanyVM> AllActive_SearchCompanyVM();
 
               void CreateUpdateCompanyFolder( string rootFolder,
-                     CompanyViewModel viewModel, string actionName, params string[] viewModelOld );
+                     CompanyVM viewModel, string actionName, params string[] viewModelOld );
        }
 }

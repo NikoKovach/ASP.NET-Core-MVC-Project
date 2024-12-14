@@ -3,7 +3,7 @@ using Payroll.Models;
 
 namespace Payroll.ViewModels
 {
-       public class CompanyViewModel
+       public class CompanyVM
        {
               public int Id { get; set; }
 

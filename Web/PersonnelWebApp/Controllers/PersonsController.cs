@@ -16,7 +16,7 @@ namespace PersonnelWebApp.Controllers
 
               private readonly IPersonService personService;
               private readonly IValidate<ValidateBaseModel> validateService;
-              private IConfigurationRoot? privateConfig;
+              private readonly IConfigurationRoot? privateConfig;
 
               public PersonsController(
                      IPersonService personService,
@@ -27,9 +27,7 @@ namespace PersonnelWebApp.Controllers
 
                      this.validateService = validateService;
 
-                     this.privateConfig = configuration.PrivateConfig();
-
-                     SetPagingVariables();
+                     configuration.SetPagingVariables( ref this._pageIndex, ref this._pageSize, ref this._count );
               }
 
               [HttpPost]
@@ -131,23 +129,6 @@ namespace PersonnelWebApp.Controllers
                      return sortedList;
               }
 
-              private void SetPagingVariables()
-              {
-                     if ( !string.IsNullOrEmpty( this.privateConfig[ "Paging:PageSize" ] ) )
-                     {
-                            this._pageSize = int.Parse( this.privateConfig[ "Paging:PageSize" ] );
-                     }
-
-                     if ( !string.IsNullOrEmpty( this.privateConfig[ "Paging:PageIndex" ] ) )
-                     {
-                            this._pageIndex = int.Parse( this.privateConfig[ "Paging:PageIndex" ] );
-                     }
-
-                     if ( !string.IsNullOrEmpty( this.privateConfig[ "Paging:Count" ] ) )
-                     {
-                            this._count = int.Parse( this.privateConfig[ "Paging:Count" ] );
-                     }
-              }
        }
 }
 

@@ -55,9 +55,11 @@ namespace Payroll.Services.Services
                      await this.repository.SaveChangesAsync();
               }
 
-              public IQueryable<DepartmentVM>? GetEntity( int? entityId )
+              public IQueryable<string?> GetEntity( int? entityId )
               {
-                     IQueryable<DepartmentVM>? departmentList = this.All().Where( x => x.DepartmentId == entityId );
+                     IQueryable<string?> departmentList = this.All()
+                                                                                                .Where( x => x.DepartmentId == entityId )
+                                                                                                .Select( x => x.Name );
 
                      return departmentList;
               }

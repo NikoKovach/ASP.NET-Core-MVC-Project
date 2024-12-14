@@ -4,11 +4,11 @@ namespace Payroll.Services.Test.EntitiesTests.Initial_Data
 {
        public static class CompanyInitialData
        {
-              public static List<CompanyViewModel> SetCompaniesDTO()
+              public static List<CompanyVM> SetCompaniesDTO()
               {
-                     List<CompanyViewModel> compantDto = new List<CompanyViewModel>()
+                     List<CompanyVM> compantDto = new List<CompanyVM>()
                      {
-                            new CompanyViewModel
+                            new CompanyVM
                             {
                                    Name                     = "AAA Company",
                                    CompanyHeadquarter       = "Plovdiv",
@@ -20,7 +20,7 @@ namespace Payroll.Services.Test.EntitiesTests.Initial_Data
                                    CompanyCaseNumber        = "BO20010101",
                                    HasBeenDeleted           = false,
                             },
-                            new CompanyViewModel
+                            new CompanyVM
                             {
                                    Name                     = "BBB Company",
                                    CompanyHeadquarter       = "Plovdiv",
@@ -32,7 +32,7 @@ namespace Payroll.Services.Test.EntitiesTests.Initial_Data
                                    CompanyCaseNumber        = "XYXY",
                                    HasBeenDeleted           = false,
                             },
-                            new CompanyViewModel
+                            new CompanyVM
                             {
                                  Name                     = "CCC Company",
                                  CompanyHeadquarter       = "Varna",

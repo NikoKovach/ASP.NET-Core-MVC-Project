@@ -2,7 +2,7 @@
 
 namespace Payroll.Services.Services.ServiceContracts
 {
-       public interface IAddressService : IBasicAddUpdate<AddressVM>
+       public interface IAddressService : IBasicAddUpdate<AddressVM>, IBasicGetEntityIQueryable<string>
        {
               Task<AddressesOfPersonVM>? AllRealAsync( int? personId );
 

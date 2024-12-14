@@ -1,8 +1,6 @@
 ﻿@using Payroll.ViewModels.EmpContractViewModels
 @model LaborAgreementVM
 
-@{
-}
 
 <div class="d-inline col-sm-6 px-1">
 
@@ -57,8 +55,10 @@
                      <div class="d-inline col-sm-8 px-1">
                             <input asp-for="@Model.CompanyId" type="text"
                                    form="create-edit-contract-form"
-                                   class="col-sm-11 rounded-pill border-1 px-2"
+                                   onmouseover="getCompanyNameFunction()"
+                                   class="col-sm-11 rounded-pill border-1 px-2 sub-message"
                                    validate field-name="@nameof(Model.CompanyId)" />
+                            <span id="companyName-span"></span>
                      </div>
               </div>
        </div>
@@ -80,8 +80,10 @@
                      <div class="d-inline col-sm-8 px-1">
                             <input asp-for="@Model.EmployeeId" type="text"
                                    form="create-edit-contract-form"
-                                   class="col-sm-11 rounded-pill border-1 px-2"
+                                   onmouseover="getEmployeeNameFunction()"
+                                   class="col-sm-11 rounded-pill border-1 px-2 sub-message"
                                    validate field-name="@nameof(Model.EmployeeId)" />
+                            <span id="employeeName-span"></span>
                      </div>
               </div>
        </div>
@@ -89,9 +91,11 @@
        <div class="d-flex justify-content-start my-1 mx-1">
               <div class="form-group d-inline col-sm-3">
                      <partial name="_DialogContractTypeId"></partial>
-                     <button onclick="openContractTypeDialog()"
-                                    class="btn-primary px-0 border-0 stylish-btn">Contract Type
+                     <button class="btn-primary px-0 border-0 stylish-btn openEnumDialog-btn"
+                             enumdialog="selectAgreementTypeDialog" subaction="/AgreementTypes/GetTypes">
+                                    Contract Type
                      </button>
+                     @* onclick="openContractTypeDialog()" *@
               </div>
               <div class="form-group d-inline col-sm-1">
                      <label class="col-sm-12 text-center fs-5">&#11176;</label>
@@ -182,8 +186,8 @@
        <div class="d-flex justify-content-start my-1 mx-1">
               <div class="form-group d-inline col-sm-3">
                      <partial name="_DialogLaborCode"></partial>
-                     <button onclick="openLaborCodeDialog()"
-                            class="btn-primary px-0 border-0 stylish-btn">
+                     <button class="btn-primary px-0 border-0 stylish-btn openEnumDialog-btn"
+                             enumdialog="selectLaborCodeArticleDialog" subaction="/LaborCodeArticles/GetTypes">
                             Labor Code Id
                      </button>
               </div>
@@ -259,8 +263,8 @@
        <div class="d-flex justify-content-start my-1 mx-1">
               <div class="form-group d-inline col-sm-3">
                      <partial name="_DialogDepartment"></partial>
-                     <button onclick="openDepartmentDialog()"
-                            class="btn-primary px-0 border-0 stylish-btn">
+                     <button class="btn-primary px-0 border-0 stylish-btn openEnumDialog-btn"
+                                    enumdialog="DepartmentsDialog" subaction="/Departments/GetTypes">
                             Department Id
                      </button>
               </div>

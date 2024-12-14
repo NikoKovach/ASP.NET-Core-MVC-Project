@@ -135,55 +135,12 @@ namespace TestPersonnel.Demo
 
               public static void AddressValidateTest( PayrollContext context, IMapper autoMapper )
               {
-                     //List<AddressType>? addressTypesList = Enum.GetValues( typeof( AddressType ) ).Cast<AddressType>().ToList();
 
-                     //string datalistOptions = string.Empty;
+                     var addresses = context.Addresses.AsNoTracking();
 
-                     //foreach ( var item in addressTypesList )
-                     //{
-                     //       datalistOptions += $"<option>{item}</option>";
-                     //}
+                     IQueryable<AddressVM>? defaultCollection = autoMapper.ProjectTo<AddressVM>( addresses );
 
-                     //Console.WriteLine( datalistOptions );
-                     IRepository<Address> repository = new Repository<Address>( context );
-
-                     var filter = new SearchAddressVM
-                     {
-                            Region = "plov",
-                            City = "plov"
-                     };
-
-                     var result = repository.AllAsNoTracking();
-
-                     if ( !string.IsNullOrEmpty( filter.Country ) )
-                     {
-                            result = result.Where( x => x.Country.Contains( filter.Country ) );
-                     }
-
-                     if ( !string.IsNullOrEmpty( filter.Region ) )
-                     {
-                            result = result.Where( x => x.Region.Contains( filter.Region ) );
-                     }
-
-                     if ( !string.IsNullOrEmpty( filter.City ) )
-                     {
-                            result = result.Where( x => x.City.Contains( filter.City ) );
-                     }
-
-                     //var filterAddresses = repository.AllAsNoTracking()
-                     //                                                        .Where( x => ( filter.Country != null && x.Country.Contains( filter.Country ) ) &&
-                     //                                                                              x.Region.Contains( filter.Region ) &&
-                     //                                                                               x.City.Contains( filter.City ) ).ToList();
-
-                     var mapper = new MapEntity( autoMapper );
-
-                     var factory = new FactoryAddressesCollection( mapper, repository );
-
-
-                     string sort = "Country_desc";
-
-
-                     factory.SortedCollection( sort, filter );
+                     var stringList = defaultCollection.Select( x => x.ToString() ).ToList();
 
                      Console.WriteLine();
               }
@@ -341,6 +298,47 @@ namespace TestPersonnel.Demo
                      //repository.SaveChangesAsync().GetAwaiter().GetResult();
 
 */
+
+/*
+                     //IRepository<Address> repository = new Repository<Address>( context );
+
+                     //var filter = new SearchAddressVM
+                     //{
+                     //       Region = "plov",
+                     //       City = "plov"
+                     //};
+
+                     //var result = repository.AllAsNoTracking();
+
+                     //if ( !string.IsNullOrEmpty( filter.Country ) )
+                     //{
+                     //       result = result.Where( x => x.Country.Contains( filter.Country ) );
+                     //}
+
+                     //if ( !string.IsNullOrEmpty( filter.Region ) )
+                     //{
+                     //       result = result.Where( x => x.Region.Contains( filter.Region ) );
+                     //}
+
+                     //if ( !string.IsNullOrEmpty( filter.City ) )
+                     //{
+                     //       result = result.Where( x => x.City.Contains( filter.City ) );
+                     //}
+
+                   
+                     //var mapper = new MapEntity( autoMapper );
+
+                     //var factory = new FactoryAddressesCollection( mapper, repository );
+
+
+                     //string sort = "Country_desc";
+
+
+                     //factory.SortedCollection( sort, filter );
+
+
+*/
+
 
 /*
 

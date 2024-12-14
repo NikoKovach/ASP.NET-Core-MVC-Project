@@ -7,6 +7,7 @@ using Payroll.ViewModels.EmpContractViewModels;
 
 namespace PersonnelWebApp.Areas.LaborAgreements.Controllers
 {
+       [Area( "LaborAgreements" )]
        public class AgreementTypesController : Controller
        {
               private IAgreementTypeService service;
@@ -32,7 +33,7 @@ namespace PersonnelWebApp.Areas.LaborAgreements.Controllers
                      object[] validateServiceDictionaryParams =
                              { nameof( AgreementTypeVM ), nameof( contractType.Type ), contractType.Type };
 
-                     this.validateService.Validate( ModelState, contractType, "", validateServiceDictionaryParams );
+                     await this.validateService.ValidateAsync( ModelState, contractType, "", validateServiceDictionaryParams );
 
                      if ( !ModelState.IsValid )
                      {
@@ -50,7 +51,7 @@ namespace PersonnelWebApp.Areas.LaborAgreements.Controllers
                      object[] validateServiceDictionaryParams =
                            { nameof( AgreementTypeVM ), nameof( contractType.Type ), contractType.Type };
 
-                     this.validateService.Validate( ModelState, contractType, "", validateServiceDictionaryParams );
+                     await this.validateService.ValidateAsync( ModelState, contractType, "", validateServiceDictionaryParams );
 
                      if ( !ModelState.IsValid )
                      {
@@ -70,10 +71,11 @@ namespace PersonnelWebApp.Areas.LaborAgreements.Controllers
                             return Json( string.Empty );
                      }
 
-                     AgreementTypeVM? agreementTypeVM = await this.service.GetAgreementType( id )
-                                                                                                                                 .FirstOrDefaultAsync();
+                     string? agreementTypeName = await this.service
+                                                                                               .GetEntity( id )
+                                                                                               .FirstOrDefaultAsync();
 
-                     return Json( agreementTypeVM );
+                     return Json( agreementTypeName );
               }
 
               //######################################################

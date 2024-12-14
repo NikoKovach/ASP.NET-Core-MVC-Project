@@ -2,10 +2,9 @@
 
 namespace Payroll.Services.Services.ServiceContracts
 {
-       public interface IAgreementTypeService : IBasicAddUpdate<AgreementTypeVM>
+       public interface IAgreementTypeService :
+                                  IBasicAddUpdate<AgreementTypeVM>, IBasicGetEntityIQueryable<string?>
        {
               IQueryable<AgreementTypeVM>? AllAgreements();
-
-              IQueryable<AgreementTypeVM>? GetAgreementType( int? id );
        }
 }

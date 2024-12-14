@@ -32,7 +32,11 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                      return;
               }
 
-
+              public virtual async Task ValidateAsync( ModelStateDictionary modelState, ValidateBaseModel viewModel,
+                                                 [CallerMemberName] string actionName = "", params object[] parameters )
+              {
+                     await Task.CompletedTask;
+              }
 
               //########################################################################
 

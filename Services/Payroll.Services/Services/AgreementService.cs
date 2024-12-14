@@ -58,12 +58,13 @@ namespace Payroll.Services.Services
                      await this.repository.SaveChangesAsync();
               }
 
-              public IQueryable<AgreementTypeVM>? GetAgreementType( int? id )
+              public IQueryable<string?>? GetEntity( int? entityId )
               {
-                     IQueryable<AgreementTypeVM>? agreementTypeVM = this.AllAgreements()
-                                                                                                        .Where( x => x.Id == id );
+                     IQueryable<string?>? agreementTypeName = this.AllAgreements()
+                                                                                                              .Where( x => x.Id == entityId )
+                                                                                                              .Select( x => x.Type );
 
-                     return agreementTypeVM;
+                     return agreementTypeName;
               }
        }
 }

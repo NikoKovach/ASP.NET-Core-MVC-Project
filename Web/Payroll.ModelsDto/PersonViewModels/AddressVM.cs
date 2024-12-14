@@ -20,10 +20,15 @@ namespace Payroll.ViewModels.PersonViewModels
               [Order( 25 )]
               public bool HasBeenDeleted { get; set; }
 
-              [Required]
+              //[Required]
               [Display( Name = "Person Id" )]
               [Ignore]
               [Order( 27 )]
               public int? PersonId { get; set; }
+
+              public override string ToString()
+              {
+                     return this.FullAddress();
+              }
        }
 }

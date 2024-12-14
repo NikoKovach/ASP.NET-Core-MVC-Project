@@ -4,10 +4,15 @@ var pageNumber;
 var totalPages;
 
 $("#selectCompany").on("change", function () {
-	$("#show-all").val($(this).val());
-	/*********************************** */
-	selectedCompanyId = $(this).val();
+       selectedCompanyId = $(this).val();
 
+       $("#show-all").val(selectedCompanyId);
+
+       $("#inputCompanyIdAgreement").val(selectedCompanyId);
+
+      /* console.log($("#inputCompanyIdAgreement").val());*/
+
+	/*********************************** */
 	let isANumber = Number.isInteger(parseInt(selectedCompanyId));
 
 	if (isANumber) {
@@ -79,7 +84,7 @@ function getEmployees() {
 			"pageNumber": pageNumber
 		},
 		success: function (response) {
-			setNavigationButtins(response);
+			setNavigationButtons(response);
 			setFormFields(response["itemsCollection"]);
 		},
 		error: function (response, status, error) {
@@ -88,7 +93,7 @@ function getEmployees() {
 	});
 }
 
-function setNavigationButtins(data) {
+function setNavigationButtons(data) {
 	pageNumber = data["pageIndex"];
 	totalPages = data["totalPages"];
 
@@ -110,6 +115,10 @@ function setNavigationButtins(data) {
 function setFormFields(items) {
 	var empId = items[0]["id"];
 
+       $("#inputEmployeeIdAgreement").val(empId);
+
+       console.log($("#inputEmployeeIdAgreement").val());
+
 	if (empId == 0) {
 		$("#isPresent").val("");
 	}
@@ -117,14 +126,16 @@ function setFormFields(items) {
 		$("#isPresent").val(items[0]["isPresent"]);
               $("#edit-entity-id").val(empId);
               $("#delete-entity-id").val(empId);
-	}
+       }
+
 	$("#numberFromTheList").val(items[0]["numberFromTheList"]);
 
 	setPersonFields(items[0]["person"],empId);
 
 	setConnectionFields(items[0]["contactInfo"]);
 
-	$("#cardPassport").val(items[0]["idCardPassport"]["documentName"]);
+       $("#cardPassport").val(items[0]["idCardPassport"]["documentName"]);
+
 	$("#cardPassportNumber").val(items[0]["idCardPassport"]["documentNumber"]);
 
 	setContractFields(items[0]["contractInfo"]);

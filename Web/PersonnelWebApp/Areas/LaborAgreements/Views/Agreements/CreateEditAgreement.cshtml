@@ -7,6 +7,7 @@
        <link rel="stylesheet" type="text/css" href="~/custom/css/alertMessage.css" asp-append-version="true" />
        <link  rel="stylesheet" type="text/css" href="~/custom/css/3d-button.css" asp-append-version="true"/>
        <link rel="stylesheet" type="text/css" href="~/custom/css/dialog-box-style.css" asp-append-version="true" />
+       <link rel="stylesheet" type="text/css" href="~/custom/css/fieldset_css.css" asp-append-version="true" />
 }
 
 @{
@@ -41,7 +42,7 @@
 </div>
 
 <div class="d-flex justify-content-center crud-div">
-       <fieldset class="border border-3 p-2 col-sm-10 px-sm-2">
+       <fieldset class="border border-2 border-dark p-2 col-sm-10 px-sm-2" id="fieldsetCreateAgreement">
               <legend class="float-none w-auto p-2 my-0">
                      <label entity-id="@contractId" controller-name="@controllerName" create-edit-heading>
                             Create / Edit Agreement:
@@ -84,4 +85,5 @@
 @section Scripts
 {
        <script src="~/custom/js/enum_tables_functions.js" asp-append-version="true"></script>
+       <script src="~/custom/js/dialog_address_functions.js" asp-append-version="true"></script>
 }

@@ -7,6 +7,7 @@ using Payroll.ViewModels.EmpContractViewModels;
 
 namespace PersonnelWebApp.Areas.LaborAgreements.Controllers
 {
+       [Area( "LaborAgreements" )]
        public class DepartmentsController : Controller
        {
               private IDepartmentService service;
@@ -21,7 +22,7 @@ namespace PersonnelWebApp.Areas.LaborAgreements.Controllers
               }
 
               [HttpGet]
-              public async Task<IActionResult> Get()
+              public async Task<IActionResult> GetTypes()
               {
                      return await ResultAsync();
               }
@@ -29,11 +30,10 @@ namespace PersonnelWebApp.Areas.LaborAgreements.Controllers
               [HttpPost]
               public async Task<IActionResult> Create( [FromBody] DepartmentVM? departmentVM )
               {
-                     //  verification that Department Name not exist in DB
                      object[] checkDictionaryParams =
                             { nameof( DepartmentVM ), nameof( departmentVM.Name ), departmentVM.Name };
 
-                     this.validateService.Validate( ModelState, departmentVM, "", checkDictionaryParams );
+                     await this.validateService.ValidateAsync( ModelState, departmentVM, "", checkDictionaryParams );
 
                      if ( !ModelState.IsValid )
                      {
@@ -51,7 +51,7 @@ namespace PersonnelWebApp.Areas.LaborAgreements.Controllers
                      object[] checkDictionaryParams =
                            { nameof( DepartmentVM ), nameof( departmentVM.Name ), departmentVM.Name };
 
-                     this.validateService.Validate( ModelState, departmentVM, "", checkDictionaryParams );
+                     await this.validateService.ValidateAsync( ModelState, departmentVM, "", checkDictionaryParams );
 
                      if ( !ModelState.IsValid )
                      {
@@ -71,9 +71,11 @@ namespace PersonnelWebApp.Areas.LaborAgreements.Controllers
                             return Json( string.Empty );
                      }
 
-                     DepartmentVM? departmentVM = await this.service.GetEntity( id ).FirstOrDefaultAsync();
+                     string? departmentName = await this.service
+                                                                                   .GetEntity( id )
+                                                                                   .FirstOrDefaultAsync();
 
-                     return Json( departmentVM );
+                     return Json( departmentName );
               }
 
               //######################################################
@@ -84,6 +86,5 @@ namespace PersonnelWebApp.Areas.LaborAgreements.Controllers
 
                      return Json( articlesResult );
               }
-
        }
 }

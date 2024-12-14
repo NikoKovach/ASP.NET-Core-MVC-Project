@@ -1,8 +1,8 @@
 ﻿@using Payroll.ViewModels.PersonViewModels
-@model AddressesOfPersonVM?
+@model AddressVM?
 
 @{
-       AddressVM addressVM = Model.Addresses.Entity;
+       AddressVM? addressVM = Model;
 
        bool modelState = ViewContext.ViewData.ModelState.IsValid;
 
@@ -10,7 +10,7 @@
 }
 
 <div class="container" id="change-address-form" @attrHidden>
-       <fieldset class="col-sm-5 px-sm-2">
+       <fieldset class="col-sm-5 px-sm-2 person-fieldset">
                      <!-- Form Name -->
               <legend class="fs-5 col-sm-9 text-center mx-5 px-5">Create / Update Address:</legend>
               <form id="newAddressForm" method="post">
@@ -165,11 +165,6 @@
                                           </div>
                                    </div>
                             </div>
-
-                            <input type="hidden" value="@Model.PersonId" name="addressVM.PersonId">
-                            <input type="hidden" value="@Model.PersonId" name="personId" />
-                            <input type="hidden" value="@Model.Addresses.PageIndex" name="pageIndex" />
-                            <input type="hidden" value="@Model.Addresses.PageSize" name="pageSize" />
                      </div>
               </form>
 
@@ -185,7 +180,7 @@
                                    </button>
                             </div>
                             <div class="d-inline-block col-sm-5 mx-2 px-1">
-                                   <button 
+                                   <button id="editAddressButton"
                                            class="col-sm-11 px-1 border-0 btn btn-sm btn-success manage-btn"
                                            type="submit"
                                            form="newAddressForm"
@@ -216,3 +211,7 @@
        </fieldset>
 </div>
 
+
+@* <input type="hidden" value="@addressVM.PersonId" name="personId" />
+                            <input type="hidden" value="@addressVM.Addresses.PageIndex" name="pageIndex" />
+                            <input type="hidden" value="@addressVM.Addresses.PageSize" name="pageSize" /> *@

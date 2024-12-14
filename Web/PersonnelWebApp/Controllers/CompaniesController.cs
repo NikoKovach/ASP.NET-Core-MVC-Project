@@ -23,7 +23,7 @@ namespace PersonnelWebApp.Controllers
 
               public async Task<IActionResult> AllActual()
               {
-                     ICollection<CompanyViewModel> companyList =
+                     ICollection<CompanyVM> companyList =
                             await this.service.AllActive().ToListAsync();
 
                      if ( companyList == null )
@@ -40,7 +40,7 @@ namespace PersonnelWebApp.Controllers
               }
 
               [HttpPost]
-              public async Task<IActionResult> Create( CompanyViewModel modelDto )
+              public async Task<IActionResult> Create( CompanyVM modelDto )
               {
                      if ( !ModelState.IsValid )
                      {
@@ -67,7 +67,7 @@ namespace PersonnelWebApp.Controllers
                             return RedirectToAction( "Error", "Home" );
                      }
 
-                     CompanyViewModel? company =
+                     CompanyVM? company =
                             await this.service.AllActive( uniqueIdentifier ).FirstOrDefaultAsync();
 
                      if ( company == null )
@@ -79,7 +79,7 @@ namespace PersonnelWebApp.Controllers
               }
 
               [HttpPost]
-              public async Task<IActionResult> EditCompany( CompanyViewModel modelDto, string oldName )
+              public async Task<IActionResult> EditCompany( CompanyVM modelDto, string oldName )
               {
                      if ( !ModelState.IsValid )
                      {
@@ -111,7 +111,7 @@ namespace PersonnelWebApp.Controllers
                             return RedirectToAction( "Error", "Home" );
                      }
 
-                     CompanyViewModel? company =
+                     CompanyVM? company =
                             await this.service.AllActive( uniqueIdentifier ).FirstOrDefaultAsync();
 
                      return View( company );
@@ -121,10 +121,21 @@ namespace PersonnelWebApp.Controllers
               {
                      return View( "About" );
               }
+
+              [HttpGet]
+              public async Task<IActionResult> GetCompany( int? id )
+              {
+                     if ( id == null || id < 1 )
+                     {
+                            return Json( string.Empty );
+                     }
+
+                     string? companyName = await this.service
+                                                                                  .GetEntity( id )
+                                                                                  .FirstOrDefaultAsync();
+
+                     return Json( companyName );
+              }
        }
 }
 
-//public IActionResult Error()
-//{
-//       throw new Exception();
-//}

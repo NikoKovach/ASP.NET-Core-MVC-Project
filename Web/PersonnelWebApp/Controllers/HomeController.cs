@@ -1,16 +1,13 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using PersonnelWebApp.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace PersonnelWebApp.Controllers
 {
        public class HomeController : Controller
        {
-              private readonly ILogger<HomeController> _logger;
 
-              public HomeController( ILogger<HomeController> logger )
+              public HomeController()
               {
-                     _logger = logger;
+
               }
 
               public IActionResult Index()
@@ -22,7 +19,17 @@ namespace PersonnelWebApp.Controllers
               [ResponseCache( Duration = 0, Location = ResponseCacheLocation.None, NoStore = true )]
               public IActionResult Error()
               {
-                     return View( new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier } );
+                     return View( "Error" );
+              }
+
+              public IActionResult StatusCodeError( int errorCode )
+              {
+                     if ( errorCode == 404 )
+                     {
+                            return View( "Error" );
+                     }
+
+                     return this.View();
               }
        }
 }

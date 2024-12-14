@@ -23,20 +23,20 @@ namespace Payroll.Services.Services
                      this.repository = repository;
               }
 
-              public IQueryable<CompanyViewModel> All()
+              public IQueryable<CompanyVM> All()
               {
                      var companiesList = mapEntity
-                                                                .ProjectTo<Company, CompanyViewModel>( repository.AllAsNoTracking() )
+                                                                .ProjectTo<Company, CompanyVM>( repository.AllAsNoTracking() )
                                                                 .OrderBy( c => c.Name )
                                                                 .ThenBy( c => c.Id );
 
                      return companiesList;
               }
 
-              public IQueryable<CompanyViewModel> AllActive()
+              public IQueryable<CompanyVM> AllActive()
               {
-                     var companiesList = mapEntity
-                                                                .ProjectTo<Company, CompanyViewModel>( repository.AllAsNoTracking() )
+                     IOrderedQueryable<CompanyVM>? companiesList = mapEntity
+                                                                .ProjectTo<Company, CompanyVM>( repository.AllAsNoTracking() )
                                                                 .Where( x => x.HasBeenDeleted == false )
                                                                 .OrderBy( c => c.Name )
                                                                 .ThenBy( c => c.Id );
@@ -44,49 +44,50 @@ namespace Payroll.Services.Services
                      return companiesList;
               }
 
-              public IQueryable<CompanyViewModel> AllActive( string companyId )
+              public IQueryable<CompanyVM> AllActive( string companyId )
               {
-                     var companies = repository
-                                                          .AllAsNoTracking()
-                                                          .Where( x => x.HasBeenDeleted == false &&
-                                                                                  x.UniqueIdentifier.Equals( companyId ) );
+                     IQueryable<Company?> companies = repository
+                                                                                        .AllAsNoTracking()
+                                                                                        .Where( x => x.HasBeenDeleted == false &&
+                                                                                                       x.UniqueIdentifier.Equals( companyId ) );
 
-                     IQueryable<CompanyViewModel>? company = mapEntity
-                            .ProjectTo<Company, CompanyViewModel>( companies );
+                     IQueryable<CompanyVM>? company = mapEntity
+                            .ProjectTo<Company?, CompanyVM>( companies );
 
                      return company;
               }
 
               public IQueryable<SearchCompanyVM> AllActive_SearchCompanyVM()
               {
-                     var companies = repository.AllAsNoTracking()
-                                                                     .Where( x => x.HasBeenDeleted == false );
+                     IQueryable<Company>? companies = repository.AllAsNoTracking()
+                                                                                                           .Where( x => x.HasBeenDeleted == false );
 
-                     var companyList = mapEntity.ProjectTo<Company, SearchCompanyVM>( companies )
-                                                                        .OrderBy( c => c.Name );
+                     IOrderedQueryable<SearchCompanyVM>? companyList =
+                             mapEntity.ProjectTo<Company, SearchCompanyVM>( companies )
+                                               .OrderBy( c => c.Name );
 
                      return companyList;
               }
 
-              public async Task AddAsync( CompanyViewModel viewModel )
+              public async Task AddAsync( CompanyVM viewModel )
               {
-                     var company = mapEntity.Map<CompanyViewModel, Company>( viewModel );
+                     Company? company = mapEntity.Map<CompanyVM, Company>( viewModel );
 
                      await repository.AddAsync( company );
 
                      await repository.SaveChangesAsync();
               }
 
-              public async Task UpdateAsync( CompanyViewModel viewModel )
+              public async Task UpdateAsync( CompanyVM viewModel )
               {
-                     var company = mapEntity.Map<CompanyViewModel, Company>( viewModel );
+                     Company? company = mapEntity.Map<CompanyVM, Company>( viewModel );
 
                      repository.Update( company );
 
                      await repository.SaveChangesAsync();
               }
 
-              public void CreateUpdateCompanyFolder( string appFolderPath, CompanyViewModel viewModel,
+              public void CreateUpdateCompanyFolder( string appFolderPath, CompanyVM viewModel,
                [CallerMemberName] string actionName = "", params string[] viewModelOld )
               {
                      if ( actionName.Equals( "Create" ) )
@@ -114,8 +115,16 @@ namespace Payroll.Services.Services
                      }
               }
 
+              public IQueryable<string>? GetEntity( int? companyId )
+              {
+                     IQueryable<string>? companyName = this.AllActive()
+                                                                                                .Where( x => x.Id == companyId )
+                                                                                                .Select( x => x.Name );
+                     return companyName;
+              }
+
               //**************************************************************************
-              private void CreateCompanyFolder( string appFolderPath, CompanyViewModel viewModel )
+              private void CreateCompanyFolder( string appFolderPath, CompanyVM viewModel )
               {
                      string? companyName = this.repository.AllAsNoTracking()
                             .Where( x => x.UniqueIdentifier == viewModel.UniqueIdentifier )

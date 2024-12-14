@@ -4,7 +4,7 @@
 @model PagingBaseList<GetEmployeeVM>
 
 @{
-	ViewData["Title"] = "Index Ajax";
+	ViewData["Title"] = "Employee records";
 	Layout = "~/Views/Shared/_LayoutLight.cshtml";
 }
 
@@ -72,6 +72,7 @@
 			</div>	
 		</div>
 	</div>
+
 	<div>
 		<partial name="_PartialEmployee" model="@Model.ItemsCollection[0]"></partial>
 		<br />

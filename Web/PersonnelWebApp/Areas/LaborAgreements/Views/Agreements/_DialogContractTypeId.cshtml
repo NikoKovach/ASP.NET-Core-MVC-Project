@@ -11,7 +11,6 @@
                      <span class="closebtn btnCloseDialog" onclick="closeDialogBox()">&times;</span>
               </div>
               <br />
-
               <div>
                      <h5 class="text-center">Select Agreement Type</h5>
               </div>
@@ -20,8 +19,8 @@
                      <div class="d-inline col-sm-9">
                             <div class="d-flex col-sm-12 px-1">
                                    <label class="col-sm-4 text-start">Type Id</label>
-                                   <select id="agreementType-select" 
-                                                class="col-sm-8 rounded-pill border-1">
+                                   <select id="agreementType-select"
+                                                 class="col-sm-8 rounded-pill border-1 enum-dialog-select">
                                    </select>
                             </div>
                      </div>
@@ -36,27 +35,25 @@
                      <div class="d-inline col-sm-9">
                             <div class="d-flex col-sm-12 px-1">
                                    <label class="col-sm-4 text-start">Edit selected</label>
-                                   <input id="checkbox-edit-contractType" type="checkbox" class="mx-2"/>
+                                   <input id="checkbox-edit-contractType" type="checkbox" class="mx-2 edit-enum-type" />
                             </div>
                      </div>
                      <div class="d-inline d-flex justify-content-center col-sm-3 mx-1"></div>
               </div>
 
               <hr />
-
               <div class="d-flex justify-content-center mt-1 mb-1">
                      <div class="d-inline col-sm-9">
                             <div class="d-flex col-sm-12 px-1">
                                    <label class="col-sm-4 text-start">Create Type</label>
                                    <input id="createAgreementType-input"
-                                          class="col-sm-8 rounded-pill border-1 px-2 py-0" value=""/>
-                                   
+                                          class="col-sm-8 rounded-pill border-1 px-2 py-0 add-edit-input" value="" />
                             </div>
                      </div>
                      <div class="d-flex justify-content-center d-inline col-sm-3 mx-1">
                             <button id="btnAddEditAgreementType"
-                                   onclick="addAgreementType()"
-                                    class="btn-primary px-0 py-1 border-0 stylish-btn justify-content-center">
+                                           onclick="addAgreementType()"
+                                           class="btn-primary px-0 py-1 border-0 justify-content-center stylish-btn add-edit-btn">
                                    Add
                             </button>
                      </div>

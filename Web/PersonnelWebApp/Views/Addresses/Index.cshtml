@@ -50,7 +50,17 @@
                      <partial name="_PartialTableAddresses" model="@Model"></partial>
               </div>
               <div>
-                     <partial name="_PartialAddAddress" model="@Model"></partial>
+                     <partial name="_PartialAddAddress" model="@Model.Addresses.Entity"></partial>
+                     <div hidden>
+                            <input type="hidden" value="@Model.PersonId" 
+                                         form="newAddressForm" name="addressVM.PersonId">
+                            <input type="hidden" value="@Model.PersonId"
+                                         form="newAddressForm" name="personId" />
+                            <input type="hidden" value="@Model.Addresses.PageIndex" 
+                                         form="newAddressForm" name="pageIndex" />
+                            <input type="hidden" value="@Model.Addresses.PageSize" 
+                                         form="newAddressForm" name="pageSize" />
+                     </div>
               </div>
        </div>     
 </div>

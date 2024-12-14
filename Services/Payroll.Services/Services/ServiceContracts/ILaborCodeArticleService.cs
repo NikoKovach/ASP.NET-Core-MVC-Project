@@ -2,10 +2,8 @@
 
 namespace Payroll.Services.Services.ServiceContracts
 {
-       public interface ILaborCodeArticleService : IBasicAddUpdate<LaborCodeArticleVM>
+       public interface ILaborCodeArticleService : IBasicAddUpdate<LaborCodeArticleVM>, IBasicGetEntityIQueryable<string?>
        {
               IQueryable<LaborCodeArticleVM>? AllArticles();
-
-              IQueryable<LaborCodeArticleVM>? GetEntity( int? entityId );
        }
 }

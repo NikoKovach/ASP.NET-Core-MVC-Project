@@ -4,6 +4,7 @@ namespace PersonnelWebApp
        using Microsoft.EntityFrameworkCore;
        using Microsoft.Extensions.FileProviders;
        using Payroll.Data;
+       using PersonnelWebApp.Filters;
 
        public class Startup
        {
@@ -22,7 +23,7 @@ namespace PersonnelWebApp
                      services.AddControllersWithViews( options =>
                      {
                             options.Filters.Add( new AutoValidateAntiforgeryTokenAttribute() );
-                            //options.Filters.Add( new ExceptionFilter() );
+                            options.Filters.Add( new ExceptionFilter() );
                      } ).AddRazorRuntimeCompilation();
               }
 
@@ -48,8 +49,10 @@ namespace PersonnelWebApp
                      else
                      {
                             app.UseExceptionHandler( "/Home/Error" );
-                            // The default HSTS value is 30 days. You may want to change this for	production scenarios, see https://aka.ms/aspnetcore-   hsts.
+                            app.UseStatusCodePagesWithRedirects( "/Home/StatusCodeError?errorCode={0}" );
+
                             app.UseHsts();
+                            // The default HSTS value is 30 days. You may want to change this for	production scenarios, see https://aka.ms/aspnetcore-   hsts.
                      }
 
                      app.UseHttpsRedirection();

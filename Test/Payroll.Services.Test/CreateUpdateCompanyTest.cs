@@ -14,7 +14,7 @@ namespace Payroll.Services.Test
        {
               private readonly DbContextOptions<PayrollContext> options;
               private IMapper mapper;
-              private List<CompanyViewModel> companyViews = CompanyInitialData.SetCompaniesDTO();
+              private List<CompanyVM> companyViews = CompanyInitialData.SetCompaniesDTO();
 
               public CreateUpdateCompanyTest()
               {

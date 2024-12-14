@@ -1,9 +1,6 @@
 ﻿@using Payroll.ViewModels.EmpContractViewModels
 @model LaborAgreementVM
 
-@{
-}
-
 
 <div class="d-inline col-sm-6 px-1">
 
@@ -229,8 +226,9 @@
                      <div class="d-inline col-sm-7 px-1">
                             <input asp-for="@Model.PlaceId" type=" text"
                                    form="create-edit-contract-form"
-                                   class="col-sm-11 rounded-pill border-1 px-2"
+                                   class="col-sm-11 rounded-pill border-1 px-2 address-input sub-message"
                                    validate field-name="@nameof(Model.PlaceId)" />
+                            <span id="placeIdSpan"></span>
                      </div>
                      <label asp-for="@Model.PlaceId"
                             class="d-inline col-sm-3 py-1 px-1 text-start">
@@ -243,7 +241,10 @@
                      <label class="col-sm-12 text-center fs-5">&#11179;</label>
               </div>
               <div class="form-group d-inline col-sm-3 d-flex justify-content-end">
-                     <button class="btn-primary px-0 border-0 stylish-btn">Place Id</button>
+                     <button class="btn-primary px-0 border-0 stylish-btn place-address-btn">
+                            Place Id
+                     </button>
+                     <partial name="_DialogAddresses"></partial>
               </div>
        </div>
 
@@ -252,8 +253,9 @@
                      <div class="d-inline col-sm-7 px-1">
                             <input asp-for="@Model.WorkPlaceId" type=" text"
                                    form="create-edit-contract-form"
-                                   class="col-sm-11 rounded-pill border-1 px-2"
+                                   class="col-sm-11 rounded-pill border-1 px-2 address-input sub-message"
                                    validate field-name="@nameof(Model.WorkPlaceId)" />
+                            <span id="workPlaceIdSpan"></span>
                      </div>
                      <label asp-for="@Model.WorkPlaceId"
                             class="d-inline col-sm-2 py-1 px-1 text-start">
@@ -266,7 +268,10 @@
                      <label class="col-sm-12 text-center fs-5">&#11179;</label>
               </div>
               <div class="form-group d-inline col-sm-3 d-flex justify-content-end">
-                     <button class="btn-primary px-0 border-0 stylish-btn">WP Id</button>
+                     <button class="btn-primary px-0 border-0 stylish-btn place-address-btn" >
+                            WP Id
+                     </button>
+                     <partial name="_DialogAddresses"></partial>
               </div>
        </div>
 

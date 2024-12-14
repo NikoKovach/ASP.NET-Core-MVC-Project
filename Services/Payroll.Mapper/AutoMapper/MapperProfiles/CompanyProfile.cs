@@ -8,7 +8,7 @@ namespace Payroll.Mapper.AutoMapper.MapperProfiles
        {
               public CompanyProfile()
               {
-                     CreateMap<Company, CompanyViewModel>()
+                     CreateMap<Company, CompanyVM>()
                             .ForMember( m => m.Employees, o => o.MapFrom( s => s.Employees ) )
                             .ReverseMap()
                             .ForMember( m => m.Employees, o => o.MapFrom( s => s.Employees ) );
