@@ -13,6 +13,7 @@
               {
                      int rowNumber = i + 1;
                      string? salary = entitiesForEdit[i].Salary.ToString();
+                     string isRegisterPropName = $"entitiesForEdit[{i}].IsRegistered";
                      <tr>
                             <td class="px-1 py-1 text-center"><input type="checkbox" class="edit-checkbox" /></td>
                             <td class="px-1 py-1 text-center">@rowNumber</td>
@@ -25,6 +26,11 @@
                                    <input asp-for="@entitiesForEdit[ i ].FirstLastName"
                                           class="text-sm-center border-0 table-field" readonly
                                           style="width: 120px;" />
+                            </td>
+                            <td class="px-1 py-1">
+                                   <input asp-for="@entitiesForEdit[ i ].IsRegistered"
+                                          class="text-sm-center col-sm-10 border-0 table-field" readonly
+                                          style="width: 75px;" validate field-name="@isRegisterPropName" />
                             </td>
                             <td class="px-1 py-1">
                                    <input asp-for="@entitiesForEdit[ i ].IsActive" type="text"
@@ -164,8 +170,9 @@
                             <td class="px-1 py-1">
                                    <input asp-for="@entitiesForEdit[ i ].CompanyId"
                                           class="text-sm-center col-sm-11 border-0 table-field" readonly
-                                          style="width: 75px;" />
+                                          style="width: 75px;"/>
                             </td>
+                            
                      </tr>
               }
        }

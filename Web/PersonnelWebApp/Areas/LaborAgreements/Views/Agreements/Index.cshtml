@@ -63,7 +63,7 @@
                      </button>
               </div>
               <div class="col-sm-5 px-1">
-                     <input id="go-to-page" class="text-center col-sm-7 h-75 border-white"
+                     <input id="go-to-page" class="text-center col-sm-7 h-75 border-white rounded-pill"
                                  value="@Model.PageIndex"
                                  form="main-paging-form" name="pageIndex" />
                      <label id="lblTotalPages" class="text-center col-sm-3 h-75 border-white">
@@ -92,6 +92,7 @@
                             <input hidden value="@Model.FilterVM.Department" name="Department" />
                             <input hidden value="@Model.FilterVM.StartContractDate" name="StartContractDate" />
                             <input hidden value="@Model.FilterVM.EndContractDate" name="EndContractDate" />
+                            <input hidden type="submit"/>
                      </form>
               </div>
        </div>
@@ -102,5 +103,6 @@
 @section Scripts
 {
        <script src="~/custom/js/agreementTable_functions.js" asp-append-version="true"></script>
+       <script src="~/custom/js/fetch_functions.js" asp-append-version="true"></script>
 }
 

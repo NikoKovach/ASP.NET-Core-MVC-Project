@@ -24,26 +24,26 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
 
                      AddressVM? addressVM = (AddressVM) viewModel;
 
-                     if ( actionName.Equals( "Create" ) )
+                     if ( actionName.Equals( "Create" ) || actionName.Equals( "Add" ) )
                      {
-                            AddressIdIsCreaterThanZero( addressVM );
+                            AddressIdIsGreaterThanZero( addressVM );
                      }
 
-                     if ( actionName.Equals( "Edit" ) )
+                     if ( actionName.Equals( "Edit" ) || actionName.Equals( "Update" ) )
                      {
-                            AddressIdExistsInDatabase( addressVM );
+                            AddressIdNotExistsInDatabase( addressVM );
                      }
 
                      if ( actionName.Equals( "EditAttach" ) )
                      {
-                            AddressIdExistsInDatabase( addressVM );
+                            AddressIdNotExistsInDatabase( addressVM );
 
                             AddressTypeIsSelected( addressVM );
                      }
 
                      if ( actionName.Equals( "CreateAttach" ) )
                      {
-                            AddressIdIsCreaterThanZero( addressVM );
+                            AddressIdIsGreaterThanZero( addressVM );
 
                             AddressTypeIsSelected( addressVM );
                      }
@@ -51,7 +51,7 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
 
               //*******************************************************************
 
-              private void AddressIdIsCreaterThanZero( AddressVM addressVM )
+              private void AddressIdIsGreaterThanZero( AddressVM addressVM )
               {
                      this.FieldErrors.Clear();
 
@@ -67,7 +67,7 @@ namespace Payroll.Services.UtilitiesServices.EntityValidateServices
                      }
               }
 
-              private void AddressIdExistsInDatabase( AddressVM addressVM )
+              private void AddressIdNotExistsInDatabase( AddressVM addressVM )
               {
                      this.FieldErrors.Clear();
 

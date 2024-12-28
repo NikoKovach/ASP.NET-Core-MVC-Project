@@ -4,7 +4,6 @@ namespace PersonnelWebApp
        using Microsoft.EntityFrameworkCore;
        using Microsoft.Extensions.FileProviders;
        using Payroll.Data;
-       using PersonnelWebApp.Filters;
 
        public class Startup
        {
@@ -23,7 +22,9 @@ namespace PersonnelWebApp
                      services.AddControllersWithViews( options =>
                      {
                             options.Filters.Add( new AutoValidateAntiforgeryTokenAttribute() );
-                            options.Filters.Add( new ExceptionFilter() );
+
+                            //Turn On in Production -> ENVIRONMENT
+                            //options.Filters.Add( new ExceptionFilter() );
                      } ).AddRazorRuntimeCompilation();
               }
 

@@ -97,6 +97,10 @@ namespace PersonnelWebApp
 
                      services.AddKeyedTransient<IValidate<ValidateBaseModel>, ValidateServiceStringValueExists>
                                                                                                                                                     ( "StringValueExists" );
+
+                     services.AddKeyedTransient<IValidate<ValidateBaseModel>, ValidateAgreementService>
+                                                                                                                                                    ( "AgreementValidate" );
+
                      //##############################################################################
 
                      services.AddTransient<ICalculateExperience, CalculateExperience>();

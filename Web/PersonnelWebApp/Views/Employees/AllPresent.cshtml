@@ -13,15 +13,13 @@
 
 
 <div class="navbar-custom">
-       <div class="row row-cols-6">
-              <div class="col-sm-3 py-2 px-0">
-                     <h5 class="text-center py-2 my-0">All Present Employees</h5>
+       <div class="d-flex cols-sm-12">
+              <div class="d-inline col-sm-2 py-1 px-0">
+                     <h6 class="text-center py-2 my-0">All Present Employees</h6>
               </div>
-              <div class="col-sm-6">
-                     <nav class="navbar navbar-custom navbar-expand-sm navbar-light justify-content-start">
-                            <ul class="navbar-nav">
-                                   <partial name="_PartialManageEmployees"></partial>
-                            </ul>
+              <div class="d-inline  col-sm-10 px-1">
+                     <nav class="navbar navbar-custom navbar-expand-sm navbar-light justify-content-end col-sm-12">
+                            <partial name="_PartialManageEmployees"></partial>
                      </nav>
               </div>
        </div>
@@ -67,7 +65,7 @@
 <div>
 	<form>
 		<div class="form-group">
-			<a asp-action="Index" class="btn btn-primary">Back to Files</a>
+			<a asp-action="Index" class="btn btn-sm btn-primary">Back to Files</a>
 		</div>
 	</form>
 </div>
@@ -76,4 +74,5 @@
 @section Scripts
 {
        <script src="~/custom/js/privateTable_jquery_functions.js" asp-append-version="true"></script>
+	<script src="~/custom/js/ajax_jquery_functions.js" asp-append-version="true"></script>
 }

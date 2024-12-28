@@ -40,14 +40,6 @@
                                                                <a asp-area="" asp-controller="Employees" asp-action="Index"
                                                                       class="dropdown-item">Files</a>
                                                         </li>
-                                                        <li><a class="dropdown-item" href="#"><hr /></a></li>
-                                                        <li>
-                                                               <a class="dropdown-item" href="#">Submenu 3 &raquo; </a>
-                                                               <ul class="submenu dropdown-menu">
-                                                                      <li><a class="dropdown-item" href="#">Multi level 1</a></li>
-                                                                      <li><a class="dropdown-item" href="#">Multi level 2</a></li>
-                                                               </ul>
-                                                        </li>
                                                  </ul>
                                           </li>
                                           <li>
@@ -63,14 +55,23 @@
                                                  </a>
                                                  <ul class="submenu dropdown-menu">
                                                         <li>
-                                                               <form asp-area="LaborAgreements" 
-                                                                           asp-controller="Agreements" asp-action="Index"
-                                                                           method="post" id="LaborContractsForm">
-                                                                      <a class="dropdown-item" href="#"
-                                                                         onclick="document.getElementById('LaborContractsForm').submit()">
-                                                                             Contracts and Annexes
-                                                                      </a>
-                                                               </form>
+                                                               <a class="dropdown-item" href="#">Contracts and Annexes &raquo; </a>
+                                                               <ul class="submenu dropdown-menu">
+                                                                      <li>
+                                                                             <form asp-area="LaborAgreements"
+                                                                                   asp-controller="Agreements" asp-action="Index"
+                                                                                   method="post" id="LaborContractsForm">
+                                                                                    <a class="dropdown-item"
+                                                                                         href="#"
+                                                                                         onclick="document.getElementById('LaborContractsForm').submit()">
+                                                                                           Contracts
+                                                                                    </a>
+                                                                             </form>
+                                                                       </li>
+                                                                      <li>
+                                                                             <a class="dropdown-item" href="#">Annexes</a>
+                                                                       </li>
+                                                               </ul>
                                                         </li>
                                                         <li>
                                                                <a asp-area="Vacations" asp-controller="Leave" asp-action="Index"
@@ -159,3 +160,12 @@
               </div>
        </div>
 </nav>
+
+@* <li><a class="dropdown-item" href="#"><hr /></a></li>
+<li>
+       <a class="dropdown-item" href="#">Submenu 3 &raquo; </a>
+       <ul class="submenu dropdown-menu">
+              <li><a class="dropdown-item" href="#">Multi level 1</a></li>
+              <li><a class="dropdown-item" href="#">Multi level 2</a></li>
+       </ul>
+</li> *@

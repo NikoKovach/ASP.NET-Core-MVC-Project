@@ -13,6 +13,10 @@
        transition: all 0.3s ease;
 }
 
+.stylish-btn.larg-btn{
+        width: 160px;
+}
+
 .save-btn {
        background-color: #008000;
 }

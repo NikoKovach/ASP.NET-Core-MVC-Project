@@ -38,7 +38,6 @@ $("#edit-entities-btn").on("click", function () {
        let actionData = getActionParameters();
 
        actionData["entitiesForEdit"] = getEntitiesForEdit();
-       /*console.log(actionData["entitiesForEdit"]);*/
 
        if (actionData["entitiesForEdit"].length > 0) {
               postRequest(actionData,formAction);
@@ -110,6 +109,7 @@ function deleteEntityCaseGetEntityId() {
        }
 };
 
+//##############################################################
 function getActionParameters() {
        var data = { };
 
@@ -330,6 +330,7 @@ function postResponse(data) {
        }
 };
 
+//################################################################
 function arrowKeysPress(key) {
 
        switch (key.which) {
@@ -395,7 +396,7 @@ function changeCurrentRowBgColor(currentRow) {
        rowInputs.css("background-color", 'rgb(231, 255, 245 )');
 };
 
-/*##########################################*/
+//##############################################################
 
 $("button.new-sort-btn").on('click', function () {
        let sortLabelValue = $(this).children("label").text();
@@ -419,7 +420,6 @@ $("button.new-sort-btn").on('click', function () {
 
        $(this).trigger("blur");
 });
-
 
 $(function () {
        changeNewSortButtons();
@@ -458,7 +458,7 @@ function addArraySymbolSpan(button, arraySymbol) {
        $(button).prepend(spanText);
 };
 
-/*############################################## */
+//##############################################################
 $(".final-btn").on("click", function () {
        $(this).trigger("blur");
 });
@@ -505,7 +505,7 @@ $("#go-back-btn.diplomas").on("click", function () {
        document.location = "/Persons/AllPersons";
 });
 
-//**************************************************************/
+//##############################################################
 // -- > Address View <--
 
 $("button.manage-btn").on("click", function () {
@@ -629,14 +629,7 @@ function clearAddressFotm() {
        });
 };
 
-//******************************************************************* */
+//##############################################################
 
-//const btnEditAddress = document.getElementById("editAddressButton");
-
-//btnEditAddress.addEventListener('click', function () {
-//       let country = document.getElementById("addressVM_Country");
-
-//       console.log(country.value);
-//});
 
  

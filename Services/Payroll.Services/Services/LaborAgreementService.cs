@@ -1,4 +1,5 @@
-﻿using Payroll.Data.Common;
+﻿using Microsoft.EntityFrameworkCore;
+using Payroll.Data.Common;
 using Payroll.Mapper.AutoMapper;
 using Payroll.Models;
 using Payroll.Services.Services.ServiceContracts;
@@ -8,14 +9,14 @@ namespace Payroll.Services.Services
 {
        public class LaborAgreementService : ILaborAgreementService
        {
-              private IRepository<Employee> empRepository;
+              private IRepository<EmploymentContract> repository;
               private IMapEntity mapper;
               private IFactorySortCollection<LaborAgreementVM> agreementsFactory;
 
-              public LaborAgreementService( IRepository<Employee> empRepository, IMapEntity mapper,
+              public LaborAgreementService( IRepository<EmploymentContract> empRepository, IMapEntity mapper,
                      IFactorySortCollection<LaborAgreementVM> contractsFactory )
               {
-                     this.empRepository = empRepository;
+                     this.repository = empRepository;
 
                      this.mapper = mapper;
 
@@ -24,11 +25,12 @@ namespace Payroll.Services.Services
 
               public IQueryable<LaborAgreementVM>? All( int? companyId )
               {
-                     var contracts = this.empRepository.AllAsNoTracking()
-                                                 .Where( x => x.CompanyId == companyId
-                                                                        && x.EmploymentContract.HasBeenDeleted == false
-                                                                        && x.EmploymentContract.ContractType.Type.Equals( "Labor Contract" ) )
-                                                 .Select<Employee, EmploymentContract>( x => x.EmploymentContract );
+                     var contracts = this.repository.Context.Employees
+                                                       .AsNoTracking()
+                                                       .Where( x => x.CompanyId == companyId
+                                                                              && x.EmploymentContract.HasBeenDeleted == false
+                                                                              && x.EmploymentContract.ContractType.Type.Equals( "Labor Contract" ) )
+                                                       .Select<Employee, EmploymentContract>( x => x.EmploymentContract );
 
                      var empContractsVM = this.mapper.ProjectTo<EmploymentContract, LaborAgreementVM>( contracts );
 
@@ -59,14 +61,38 @@ namespace Payroll.Services.Services
                      return activeAgreements;
               }
 
-              public Task AddAsync( LaborAgreementVM viewModel )
+              public IQueryable<LaborAgreementVM>? GetContract( int? contractId, int? companyId )
               {
-                     throw new NotImplementedException();
+                     IQueryable<LaborAgreementVM>? agreement = this.AllActive( companyId )
+                                                                                                                   .Where( x => x.Id == contractId );
+
+                     return agreement;
               }
 
-              public Task UpdateAsync( LaborAgreementVM viewModel )
+              public async Task AddAsync( LaborAgreementVM agreementVM )
               {
-                     throw new NotImplementedException();
+                     EmploymentContract? contract = this.mapper
+                                                                                        .Map<LaborAgreementVM, EmploymentContract>( agreementVM );
+
+                     if ( contract != null )
+                     {
+                            await this.repository.AddAsync( contract );
+
+                            await this.repository.SaveChangesAsync();
+                     }
+              }
+
+              public async Task UpdateAsync( LaborAgreementVM agreementVM )
+              {
+                     EmploymentContract? contract = this.mapper
+                                                                                        .Map<LaborAgreementVM, EmploymentContract>( agreementVM );
+
+                     if ( contract != null )
+                     {
+                            this.repository.Update( contract );
+
+                            await repository.SaveChangesAsync();
+                     }
               }
        }
 }

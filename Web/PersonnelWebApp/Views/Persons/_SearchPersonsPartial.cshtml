@@ -20,22 +20,20 @@
                                                  </form>
                                           </div>
                                           <div class="d-inline mx-1">
-                                                 <form asp-action="AllPersons" method="post">
-                                                        <input asp-for="@Model.PageSize" type="text" name="pageSize"
-                                                                      class="border-1 col-sm-4 px-1 py-0" />
-                                                        <label>Table rows</label>
-                                                        <input type="hidden" value="@Model.PageIndex" name="pageIndex" />
-                                                        <input type="hidden" value=@Model.SortValue name="sortParam" />
-                                                 </form>
+                                                 <input  class="border-1 col-sm-4 px-1 py-0" 
+                                                               value="@Model.PageSize"
+                                                               form="personsPagingForm"
+                                                               type="text" name="pageSize" />
+                                                 <label>Table rows</label>
                                           </div>
                                    </div>
                             </div>
                      </div>
-                     <label class="col-sm-5 control-label text-start px-1 py-1 pt-4"> &#x1F878; Table Settings</label>
+                     <label class="col-sm-5 control-label text-start p-1 mt-4"> &#x1F878; Table Settings</label>
               </div>
 
               <div class="row col-sm-8 border border-2 mx-1">
-                     <label class="col-sm-2 control-label text-center px-1 py-1 pt-4">Filter &#x1F87A;</label>
+                     <label class="col-sm-2 control-label text-center px-1 py-1 mt-4">Filter &#x1F87A;</label>
                      <div class="col-sm-10 d-inline-block px-1 py-1">
                             <form asp-action="AllPersons" method="post">
                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>

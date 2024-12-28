@@ -16,11 +16,9 @@ namespace Payroll.Mapper.AutoMapper.MapperProfiles
                             .ForMember( m => m.FirstLastName, opt => opt.MapFrom( s => s.Employee.Person.FirstLastName ) )
                             .ForMember( m => m.FirstName, opt => opt.MapFrom( s => s.Employee.Person.FirstName ) )
                             .ForMember( m => m.LastName, opt => opt.MapFrom( s => s.Employee.Person.LastName ) )
-                            .ForMember( m => m.CompanyId, opt => opt.MapFrom( s => s.Employee.CompanyId ) )
-                     .ReverseMap()
-                            .ForPath( m => m.ContractType.Type, opt => opt.MapFrom( s => s.ContractType ) )
-                            .ForPath( m => m.LaborCodeArticle.Article, opt => opt.MapFrom( s => s.LaborCodeArticle ) )
-                            .ForPath( m => m.Department.Name, opt => opt.MapFrom( s => s.DepartmentName ) );
+                            .ForMember( m => m.CompanyId, opt => opt.MapFrom( s => s.Employee.CompanyId ) );
+
+                     CreateMap<LaborAgreementVM, EmploymentContract>();
 
                      CreateMap<ContractType, AgreementTypeVM>().ReverseMap();
 

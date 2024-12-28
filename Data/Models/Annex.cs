@@ -25,6 +25,7 @@ namespace Payroll.Models
               public DateTime CountedFromDate { get; set; }
 
               public int? LaborCodeArticleId { get; set; }
+              public LaborCodeArticle? LaborCodeArticle { get; set; }
 
               public int? DepartmentId { get; set; }
               public Department? Department { get; set; }

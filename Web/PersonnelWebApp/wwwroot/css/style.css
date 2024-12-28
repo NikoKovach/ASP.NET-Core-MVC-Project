@@ -1,7 +1,22 @@
-/*--------------------------------------------------------------------- File Name: style.css ---------------------------------------------------------------------*/
+/*---------------------------------------------------------- File Name: style.css ------------------------------------------------------*/
 
-/*--------------------------------------------------------------------- import Fonts ---------------------------------------------------------------------*/
+/*--------------------------------------------------------------------- import Files -----------------------------------------------------*/
 
+@import url(animate.min.css);
+@import url(normalize.css);
+@import url(icomoon.css);
+/*@import url(css/font-awesome.min.css);*/
+@import url(meanmenu.css);
+@import url(owl.carousel.min.css);
+/*@import url(swiper.min.css);*/
+@import url(slick.css);
+@import url(jquery.fancybox.min.css);
+@import url(jquery-ui.css);
+@import url(nice-select.css);
+
+/*-------------------------------------------------------------------------------------------------------------------------------------------*/
+
+/*----------------------------------------------------- import Fonts --------------------------------------------------------------------*/
 @import url('https://fonts.googleapis.com/css?family=Rajdhani:300,400,500,600,700');
 @import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
 @font-face {
@@ -13,20 +28,6 @@ src: url("../fonts/BalooChettan-Regular.ttf");
  2) font-family: 'Poppins', sans-serif;
  ----------------------------------------*****/
 
-
-/*--------------------------------------------------------------------- import Files ---------------------------------------------------------------------*/
-
-@import url(animate.min.css);
-@import url(normalize.css);
-@import url(icomoon.css);
-@import url(css/font-awesome.min.css);
-@import url(meanmenu.css);
-@import url(owl.carousel.min.css);
-@import url(swiper.min.css);
-@import url(slick.css);
-@import url(jquery.fancybox.min.css);
-@import url(jquery-ui.css);
-@import url(nice-select.css);
 
 /*--------------------------------------------------------------------- skeleton ---------------------------------------------------------------------*/
 
@@ -230,7 +231,7 @@ button {
     height: auto;
     background-size: 100%;
     padding: 0px 0px 20px 0px;
-    background-image: url(../images/For_Test/map-banner-bg.png);
+    /*background-image: url(../images/custom-img/map-banner-bg.png);*/
 }
 
 .bg-light {
@@ -366,9 +367,10 @@ button {
 /* banner section start */
 
 .banner_section {
-    width: 100%;
-    float: left;
-    padding-bottom: 90px;
+       width: 100%;
+       float: left;
+       padding-bottom: 90px;
+       background-image: url(../images/custom-img/map-banner-bg.png);
 }
 
 .banner_taital {

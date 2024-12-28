@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Payroll.Services.Services.ServiceContracts;
+using Payroll.Services.UtilitiesServices.EntityValidateServices;
+using Payroll.ViewModels;
 using Payroll.ViewModels.EmpContractViewModels;
 using Payroll.ViewModels.PagingViewModels;
 using PersonnelWebApp.Utilities;
@@ -14,11 +17,14 @@ namespace PersonnelWebApp.Areas.Contracts.Controllers
               private int _count;
 
               private readonly ILaborAgreementService service;
-              //private readonly IValidate<ValidateBaseModel> validateService;
+              private readonly IValidate<ValidateBaseModel> validateService;
 
-              public AgreementsController( ILaborAgreementService agreementService, IPrivateConfiguration configuration )
+              public AgreementsController( ILaborAgreementService agreementService, IPrivateConfiguration configuration,
+               [FromKeyedServices( "AgreementValidate" )] IValidate<ValidateBaseModel> validateService )
               {
                      this.service = agreementService;
+
+                     this.validateService = validateService;
 
                      configuration.SetPagingVariables( ref this._pageIndex, ref this._pageSize, ref this._count );
               }
@@ -34,13 +40,8 @@ namespace PersonnelWebApp.Areas.Contracts.Controllers
               }
 
               [HttpPost]
-              public ActionResult Create( LaborAgreementVM? agreementForEdit )
+              public IActionResult Create( LaborAgreementVM? agreementForEdit )
               {
-                     if ( agreementForEdit.Id > 0 && agreementForEdit.CompanyId > 0 )
-                     {
-                            return View( "CreateEditAgreement", agreementForEdit );
-                     }
-
                      if ( agreementForEdit.Id == null || agreementForEdit.Id < 1 )
                      {
                             ModelState.Clear();
@@ -65,11 +66,19 @@ namespace PersonnelWebApp.Areas.Contracts.Controllers
               }
 
               [HttpPost]
-              public ActionResult Edit( LaborAgreementVM? agreementForEdit )
+              public async Task<IActionResult> Edit( int? companyId, int? agreementId, string? viewTableRow )
               {
+                     LaborAgreementVM? agreementForEdit = await this.service
+                                                                                  .GetContract( agreementId, companyId )
+                                                                                  .FirstOrDefaultAsync();
+
+                     agreementForEdit.ViewTableRow = viewTableRow;
+
+                     this.validateService.Validate( ModelState, agreementForEdit );
+
                      if ( !ModelState.IsValid )
                      {
-                            return View( "CreateEditAgreement", agreementForEdit );
+                            return await ResultAsync( companyId, this._pageIndex, this._pageSize, default, default );
                      }
 
                      return View( "CreateEditAgreement", agreementForEdit );
@@ -110,7 +119,7 @@ namespace PersonnelWebApp.Areas.Contracts.Controllers
 
                      string? controllerName = this.RouteData.Values[ "controller" ].ToString();
 
-                     sortedList.RouteEdit = $"/{controllerName}/{nameof( Edit )}";
+                     sortedList.RouteEdit = $"/{controllerName}/{nameof( EditAgreement )}";
 
                      return View( "Index", sortedList );
               }
@@ -119,11 +128,13 @@ namespace PersonnelWebApp.Areas.Contracts.Controllers
                      GetAgreementListOfPagesAsync
                      ( int? companyId, int? pageIndex, int? pageSize, string? sortParam, FilterAgreementVM? filter )
               {
-                     var sortedAgreementsList = this.service.AllActive( companyId, sortParam, filter );
+                     var sortedAgreementsList = this.service.AllActive( companyId, sortParam, filter ?? DefaultFilter() );
 
                      var sortedList = await PagingListForContracts<LaborAgreementVM, FilterAgreementVM>
                                                            .CreateAgreementsCollectionAsync( sortedAgreementsList,
-                                                           pageIndex ?? this._pageIndex, pageSize ?? this._pageSize, sortParam, filter );
+                                                                                                                            pageIndex ?? this._pageIndex,
+                                                                                                                            pageSize ?? this._pageSize,
+                                                                                                                            sortParam, filter ?? DefaultFilter() );
 
 
                      sortedList.CompanyId = ( companyId == null || companyId <= 0 ) ? -1 : companyId;
@@ -134,22 +145,36 @@ namespace PersonnelWebApp.Areas.Contracts.Controllers
                      return sortedList;
               }
 
-              private PagingListForContracts<LaborAgreementVM, FilterAgreementVM>
-                     EmptyAgreementsSortedCollection()
+              private PagingListForContracts<LaborAgreementVM, FilterAgreementVM> EmptyAgreementsSortedCollection()
               {
                      List<LaborAgreementVM> defaultAgreementsList = new List<LaborAgreementVM>()
                      {
                             new LaborAgreementVM()
                      };
 
-                     FilterAgreementVM agreementsFilter = new FilterAgreementVM();
-
                      var emptyPaginatedList = new PagingListForContracts<LaborAgreementVM, FilterAgreementVM>
                                                                             ( defaultAgreementsList, this._count, this._pageIndex,
-                                                                            this._pageSize, string.Empty, agreementsFilter );
+                                                                            this._pageSize, string.Empty, DefaultFilter() );
 
                      return emptyPaginatedList;
               }
+
+              private FilterAgreementVM DefaultFilter() => new FilterAgreementVM();
        }
 }
 
+//[HttpPost]
+//public ActionResult Edit( LaborAgreementVM? agreementForEdit )
+//{
+//       if ( !ModelState.IsValid )
+//       {
+//              return View( "CreateEditAgreement", agreementForEdit );
+//       }
+
+//       return View( "CreateEditAgreement", agreementForEdit );
+//}
+
+//if ( !string.IsNullOrEmpty( viewTableRow ) )
+//{
+//       return Json( ModelState );
+//}

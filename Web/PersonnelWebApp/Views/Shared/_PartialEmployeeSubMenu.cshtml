@@ -1,0 +1,19 @@
+﻿
+
+<div class="dropdown dropright read_bt sunshine" >
+       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              Employees
+       </a>
+       <div class="dropdown-menu drop-menu">
+              <form asp-controller="Employees" asp-action="Create"
+                    method="post" id="PersonnelStaffCreateForm">
+                     <a class="dropdown-item" href="#"
+                        onclick="document.getElementById('PersonnelStaffCreateForm').submit()">
+                            Add Employee
+                     </a>
+              </form>
+              <a asp-controller="Employees" asp-action="Index">
+                     Files
+              </a>
+       </div>
+</div>

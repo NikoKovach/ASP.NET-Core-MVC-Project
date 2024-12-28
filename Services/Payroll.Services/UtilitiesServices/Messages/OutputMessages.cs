@@ -29,5 +29,9 @@
               public const string ErrorAddressType = "The type of address is not selected !";
 
               public const string ErrorIDIsNotZero = "The property value is invalid  !";
+
+              public const string ErrorContractCannotBeEdit = @"Contract with No :{0} cannot be edited directly.
+              To do this, use an annex or another type of document !";
+
        }
 }

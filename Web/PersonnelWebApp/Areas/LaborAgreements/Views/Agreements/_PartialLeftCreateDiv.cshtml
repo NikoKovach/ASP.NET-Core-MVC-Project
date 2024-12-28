@@ -3,6 +3,11 @@
 
 
 <div class="d-inline col-sm-6 px-1">
+       <partial name="_DialogCompanyId"></partial>
+       <partial name="_DialogEmployeeId"></partial>
+       <partial name="_DialogContractTypeId"></partial>
+       <partial name="_DialogLaborCode"></partial>
+       <partial name="_DialogDepartment"></partial>
 
        <div class="d-flex justify-content-start my-1 mx-1">
               <div class="form-group d-inline col-sm-3"></div>
@@ -19,6 +24,27 @@
                      </div>
               </div>
        </div>
+
+       <div class="d-flex justify-content-start my-1 mx-1">
+              <div class="form-group d-inline col-sm-3"></div>
+              <div class="form-group d-inline col-sm-1"></div>
+              <div class="form-group d-inline d-flex col-sm-8">
+                     <label asp-for="@Model.IsRegistered"
+                            class="d-inline col-sm-4 py-1 text-end">
+                     </label>
+                     <div class="d-inline col-sm-8 px-1">
+                            <input asp-for="@Model.IsRegistered" type="text" list="isRegistered-list"
+                                   form="create-edit-contract-form"
+                                   class="col-sm-11 rounded-pill border-1 px-2"
+                                   validate field-name="@nameof(Model.IsRegistered)" />
+                            <datalist id="isRegistered-list">
+                                   <option value="True"></option>
+                                   <option value="False"></option>
+                            </datalist>
+                     </div>
+              </div>
+       </div>
+
 
        <div class="d-flex justify-content-start my-1 mx-1">
               <div class="form-group d-inline col-sm-3"></div>
@@ -42,12 +68,14 @@
 
        <div class="d-flex justify-content-start my-1 mx-1">
               <div class="form-group d-inline col-sm-3">
-                     <partial name="_DialogCompanyId"></partial>
+                     @* <partial name="_DialogCompanyId"></partial> *@
                      <button id="btnOpenCompanyIdDialog"
-                            class="btn-primary px-0 border-0 stylish-btn">Company Id</button>
+                             class="btn-primary px-0 py-1 border-0 stylish-btn">
+                            Company Id
+                     </button>
               </div>
               <div class="form-group d-inline col-sm-1">
-                     <label class="col-sm-12 text-center fs-5">&#11176;</label>
+                     <label class="col-sm-12 text-center fs-5 h-75">&#11176;</label>
               </div>
               <div class="form-group d-inline d-flex col-sm-8">
                      <label asp-for="@Model.CompanyId"
@@ -58,16 +86,16 @@
                                    onmouseover="getCompanyNameFunction()"
                                    class="col-sm-11 rounded-pill border-1 px-2 sub-message"
                                    validate field-name="@nameof(Model.CompanyId)" />
-                            <span id="companyName-span"></span>
+                            <span id="companyName-span" class="sub-message-span"></span>
+                            
                      </div>
               </div>
        </div>
 
        <div class="d-flex justify-content-start my-1 mx-1">
               <div class="form-group d-inline col-sm-3">
-                     <partial name="_DialogEmployeeId"></partial>
                      <button id="btn-getEmpId" onclick="openEmployeeIdDialog()"
-                                    class="btn-primary px-0 border-0 stylish-btn">
+                                    class="btn-primary px-0 py-1 border-0 stylish-btn">
                             Employee Id
                      </button>
               </div>
@@ -83,19 +111,18 @@
                                    onmouseover="getEmployeeNameFunction()"
                                    class="col-sm-11 rounded-pill border-1 px-2 sub-message"
                                    validate field-name="@nameof(Model.EmployeeId)" />
-                            <span id="employeeName-span"></span>
+                            <span id="employeeName-span" class="sub-message-span"></span>
                      </div>
               </div>
        </div>
 
        <div class="d-flex justify-content-start my-1 mx-1">
               <div class="form-group d-inline col-sm-3">
-                     <partial name="_DialogContractTypeId"></partial>
-                     <button class="btn-primary px-0 border-0 stylish-btn openEnumDialog-btn"
+                     @* <partial name="_DialogContractTypeId"></partial> *@
+                     <button class="btn-primary px-0 py-1 border-0 stylish-btn openEnumDialog-btn"
                              enumdialog="selectAgreementTypeDialog" subaction="/AgreementTypes/GetTypes">
                                     Contract Type
                      </button>
-                     @* onclick="openContractTypeDialog()" *@
               </div>
               <div class="form-group d-inline col-sm-1">
                      <label class="col-sm-12 text-center fs-5">&#11176;</label>
@@ -106,11 +133,11 @@
                      </label>
                      <div class="d-inline col-sm-8 px-1">
                             <input asp-for="@Model.ContractTypeId" type="text"
-                                   form="create-edit-contract-form"
-                                   onmouseover="getAgreementTypeFunction()"
+                                   form="create-edit-contract-form" 
+                                   onmouseover="getAgreementTypeFunction()" 
                                    class="col-sm-11 rounded-pill border-1 px-2 sub-message"
                                    validate field-name="@nameof(Model.ContractTypeId)" />
-                            <span id="agreementType-span"></span>
+                            <span id="agreementType-span" class="sub-message-span"></span>
                      </div>
               </div>
        </div>
@@ -185,8 +212,7 @@
 
        <div class="d-flex justify-content-start my-1 mx-1">
               <div class="form-group d-inline col-sm-3">
-                     <partial name="_DialogLaborCode"></partial>
-                     <button class="btn-primary px-0 border-0 stylish-btn openEnumDialog-btn"
+                     <button class="btn-primary px-0 py-1 border-0 stylish-btn openEnumDialog-btn"
                              enumdialog="selectLaborCodeArticleDialog" subaction="/LaborCodeArticles/GetTypes">
                             Labor Code Id
                      </button>
@@ -205,10 +231,11 @@
                      <div class="d-inline col-sm-8 px-1">
                             <input asp-for="@Model.LaborCodeArticleId" type="text"
                                    form="create-edit-contract-form"
-                                   onmouseover="getLaborCodeArticle()"
+                                    onmouseover="getLaborCodeArticle()"
                                    class="col-sm-11 rounded-pill border-1 px-2 sub-message"
                                    validate field-name="@nameof(Model.LaborCodeArticleId)" />
-                            <span id="articleText-span"></span>
+                            <span id="articleText-span" class="sub-message-span"></span>
+                           
                      </div>
               </div>
        </div>
@@ -262,25 +289,24 @@
 
        <div class="d-flex justify-content-start my-1 mx-1">
               <div class="form-group d-inline col-sm-3">
-                     <partial name="_DialogDepartment"></partial>
-                     <button class="btn-primary px-0 border-0 stylish-btn openEnumDialog-btn"
+                     <button class="btn-primary px-0 py-1 border-0 stylish-btn openEnumDialog-btn"
                                     enumdialog="DepartmentsDialog" subaction="/Departments/GetTypes">
                             Department Id
                      </button>
               </div>
               <div class="form-group d-inline col-sm-1">
-                     <label class="col-sm-12 text-center fs-5">&#11176;</label>
+                     <label class="col-sm-12 text-center fs-5 h-75">&#11176;</label>
               </div>
               <div class="form-group d-inline d-flex col-sm-8">
-                     <label asp-for="@Model.DepartmentDepartmentID"
+                     <label asp-for="@Model.DepartmentID"
                             class="d-inline col-sm-4 py-1 text-end"></label>
                      <div class="d-inline col-sm-8 px-1">
-                            <input asp-for="@Model.DepartmentDepartmentID" type="text"
+                            <input asp-for="@Model.DepartmentID" type="text"
                                    form="create-edit-contract-form"
-                                   onmouseover="getDepartmentName()"
+                                    onmouseover="getDepartmentName()"
                                    class="col-sm-11 rounded-pill border-1 px-2 sub-message"
-                                   validate field-name="@nameof(Model.DepartmentDepartmentID)" />
-                            <span id="departmentText-span"></span>
+                                   validate field-name="@nameof(Model.DepartmentID)" />
+                            <span id="departmentText-span" class="sub-message-span"></span>
                      </div>
               </div>
        </div>

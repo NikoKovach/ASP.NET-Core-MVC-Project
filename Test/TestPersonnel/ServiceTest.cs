@@ -135,14 +135,55 @@ namespace TestPersonnel.Demo
 
               public static void AddressValidateTest( PayrollContext context, IMapper autoMapper )
               {
+                     var contractVM = new LaborAgreementVM
+                     {
+                            AdditionalPaidAnnualLeaveInDays = 5,
+                            CompanyId = 5,
+                            ContractDate = DateTime.Parse( "5.01.2025" ),
+                            ContractNumber = "5555555555",
+                            ContractTypeId = 1,
+                            DateOfReceipt = DateTime.Parse( "5.01.2025" ),
+                            DepartmentID = 3,
+                            EAC = "Something",
+                            EmployeeId = 13,
+                            FirstLastName = null,
+                            FirstName = null,
+                            HasBeenDeleted = null,
+                            Id = null,
+                            IsActive = true,
+                            IsNegotiatedInFavorOf = null,
+                            IsRegistered = true,
+                            JobTitle = "Accountant",
+                            LaborCodeArticle = null,
+                            LaborCodeArticleId = 1,
+                            LastName = null,
+                            NCOP = "7001-2325",
+                            NoticePeriodInDays = 30,
+                            PaidLeaveInDays = 25,
+                            PercentSWE = 0.06,
+                            PlaceId = 37,
+                            ProbationInMonths = 6,
+                            ReceivedAJobDescription = null,
+                            Salary = 4000,
+                            SalaryDayOfTheMonth = 20,
+                            SpecialtyWorkExperience = null,
+                            StartingWorkDate = DateTime.Parse( "5.01.2025" ),
+                            TrialPeriod = 30,
+                            WorkExperience = null,
+                            WorkPlaceId = 37,
+                            WorkTime = 8,
+                     };
 
-                     var addresses = context.Addresses.AsNoTracking();
+                     //var addresses = context.Addresses.AsNoTracking();
 
-                     IQueryable<AddressVM>? defaultCollection = autoMapper.ProjectTo<AddressVM>( addresses );
+                     var contract = autoMapper.Map<EmploymentContract>( contractVM );
 
-                     var stringList = defaultCollection.Select( x => x.ToString() ).ToList();
+                     context.EmploymentContracts.Add( contract );
+                     context.SaveChanges();
+                     //var stringList = defaultCollection.Select( x => x.ToString() ).ToList();
 
-                     Console.WriteLine();
+
+                     Console.WriteLine( contract.Id );
               }
 
               public static void AnyServiceTest( PayrollContext context, IMapper autoMapper )

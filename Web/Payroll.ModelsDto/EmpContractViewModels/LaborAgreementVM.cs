@@ -2,7 +2,7 @@
 
 namespace Payroll.ViewModels.EmpContractViewModels
 {
-       public class LaborAgreementVM
+       public class LaborAgreementVM : ValidateBaseModel
        {
               [Display( Name = "Contract Id" )]
               public int? Id { get; set; }
@@ -54,8 +54,8 @@ namespace Payroll.ViewModels.EmpContractViewModels
               [Display( Name = "Job Title" )]
               public string? JobTitle { get; set; }
 
-              [Required]
-              [StringLength( 100, MinimumLength = 3 )]
+              //[Required]
+              //[StringLength( 100, MinimumLength = 3 )]
               [Display( Name = "Department" )]
               public string? DepartmentName { get; set; }
 
@@ -170,7 +170,11 @@ namespace Payroll.ViewModels.EmpContractViewModels
               public int? LaborCodeArticleId { get; set; }
 
               [Display( Name = "Department Id" )]
-              public int? DepartmentDepartmentID { get; set; }
+              public int? DepartmentID { get; set; }
+
+              [Required]
+              [Display( Name = "Is Registered" )]
+              public bool? IsRegistered { get; set; }
 
        }
 }

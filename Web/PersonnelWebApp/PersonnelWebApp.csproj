@@ -8,10 +8,14 @@
 
   <ItemGroup>
     <Content Remove="Views\Shared\_MobileMenuPartial.cshtml" />
+    <Content Remove="Views\Shared\_PartialContractsAnnexesSubMenu.cshtml" />
+    <Content Remove="Views\Shared\_PartialEmployeeSubMenu.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="Views\Shared\_MobileMenuPartial.cshtml" />
+    <None Include="Views\Shared\_PartialContractsAnnexesSubMenu.cshtml" />
+    <None Include="Views\Shared\_PartialEmployeeSubMenu.cshtml" />
     <None Include="wwwroot\css\.DS_Store" />
     <None Include="wwwroot\css\bootstrap-grid.css.map" />
     <None Include="wwwroot\css\bootstrap-grid.min.css.map" />
@@ -28,10 +32,10 @@
     <None Include="wwwroot\js\bootstrap.js.map" />
     <None Include="wwwroot\js\bootstrap.min.js" />
     <None Include="wwwroot\js\bootstrap.min.js.map" />
-    <None Include="wwwroot\js\custom.js" />
+    <None Include="wwwroot\js\zzzcustom.js" />
     <None Include="wwwroot\js\jquery-3.0.0.min.js" />
     <None Include="wwwroot\js\jquery.mCustomScrollbar.concat.min.js" />
-    <None Include="wwwroot\js\jquery.min.js" />
+    <None Include="wwwroot\js\zzzjquery.min.js" />
     <None Include="wwwroot\js\jquery.validate.js" />
     <None Include="wwwroot\js\modernizer.js" />
     <None Include="wwwroot\js\plugin.js" />
@@ -52,6 +56,7 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Shared\_MobileMenuPartial.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\_PartialEmployeeSubMenu.cshtml" />
     <_ContentIncludedByDefault Remove="wwwroot\custom\js\Notes.txt" />
   </ItemGroup>
 
@@ -99,11 +104,15 @@
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 	  </Content>
+	  <Content Update="wwwroot\custom\js\privateTable_PartTwo_functions.js">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
 	  <Content Update="wwwroot\custom\js\dialog_address_functions.js">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 	  </Content>
-	  <Content Update="wwwroot\custom\js\zzzBackUp_privateTable_jquery_functions.js">
+	  <Content Update="wwwroot\custom\js\fetch_functions.js">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 	  </Content>
@@ -114,6 +123,10 @@
 	    <Generator>ResXFileCodeGenerator</Generator>
 	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Views\Shared\_PartialEmployeeSubMenu.cshtml" />
 	</ItemGroup>
 
 </Project>

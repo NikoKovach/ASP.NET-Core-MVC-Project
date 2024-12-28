@@ -71,12 +71,8 @@ namespace PersonnelWebApp.Controllers
 
                      await this.service.UpdateAsync( entitiesForEdit );
 
-                     if ( entitiesForEdit.Count > 0 )
-                     {
-                            return Json( ModelState );
-                     }
+                     return Json( ModelState );
 
-                     return await ResultAsync( personId, pageIndex, pageSize, sortParam );
               }
 
               [HttpPost]
@@ -158,3 +154,10 @@ namespace PersonnelWebApp.Controllers
               }
        }
 }
+
+//if ( entitiesForEdit.Count > 0 )
+//{
+//       return Json( ModelState );
+//}
+
+//return await ResultAsync( personId, pageIndex, pageSize, sortParam );

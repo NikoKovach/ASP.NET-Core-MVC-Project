@@ -1,7 +1,7 @@
-﻿var prevItemIndex = -1;
+﻿
+var prevItemIndex = -1;
 var prevItemBgColor = "";
 var indexMouseOver = -1;
-/*var actionEditEmployee = false;*/
 
 /* Company View */
 $('#tbody').on('click', 'tr', onRowClick);
@@ -36,11 +36,13 @@ $.fn.changeCurrentRowBgcolor = function () {
 $('#tbody tr:even').css("background-color", 'rgb(45, 45, 47 )');
 
 $("#companiesTable").css("background-color", "rgb(100, 101, 111 )");
-//"rgb(116, 116, 118)" "rgb(83, 83, 87)"
+
 $("#companiesTable").css("border-radius", "15px");
 
 $("#companiesTable tr:last td").last().css("border-end-end-radius", "15px");
 
-$("#companiesTable tr:last td").first().css("border-bottom-left-radius", "15px");
+$( "#companiesTable tr:last td" ).first().css( "border-bottom-left-radius", "15px" );
+
+//"rgb(116, 116, 118)" "rgb(83, 83, 87)"
 
 

@@ -200,6 +200,7 @@ namespace Payroll.Services.UtilitiesServices
 
               private bool HasData( FilterAgreementVM? filter )
               {
+                     // filter -> to be not null
                      PropertyInfo[]? propertiesList = filter.GetType().GetProperties();
 
                      List<object?>? propertyValues = propertiesList.Select( x => x.GetValue( filter ) ).ToList();

@@ -65,6 +65,16 @@ namespace Payroll.Services.Services
                      return fullAddress;
               }
 
+              public IQueryable<AddressVM>? GetEntity<AddressVM>( int? addressId )
+              {
+                     IQueryable<AddressVM>? addressVM =
+                            (IQueryable<AddressVM>?) this.addressesFactory
+                                                                                     .SortedCollection( string.Empty )
+                                                                                     .Where( x => x.Id == addressId );
+
+                     return addressVM;
+              }
+
               public async Task AttachAddressAsync( int? personId, int? addressId, string? addressType )
               {
                      Person? person = await this.personRepository.All()
@@ -194,6 +204,7 @@ namespace Payroll.Services.Services
                      int? modelNumber = address.Number;
 
                      List<Address>? addresses = this.personRepository.Context.Addresses
+                                                                           .AsNoTracking()
                                                                            .Where( x => x.Country.Equals( modelCountry )
                                                                                             && x.Region.Equals( modelRegion )
                                                                                             && x.City.Equals( modelCity )
@@ -239,9 +250,6 @@ namespace Payroll.Services.Services
        }
 }
 
-/*
-
-*/
 
 
 

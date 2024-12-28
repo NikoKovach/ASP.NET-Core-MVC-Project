@@ -41,5 +41,25 @@
                             _count = int.Parse( privateConfig[ "Paging:Count" ] );
                      }
               }
+
+              public void SetEmployeePagingVariables( ref int _pageIndex, ref int _pageSize, ref int _count )
+              {
+                     IConfigurationRoot? privateConfig = PrivateConfig();
+
+                     if ( !string.IsNullOrEmpty( privateConfig[ "EmployeePaging:PageSize" ] ) )
+                     {
+                            _pageSize = int.Parse( privateConfig[ "EmployeePaging:PageSize" ] );
+                     }
+
+                     if ( !string.IsNullOrEmpty( privateConfig[ "EmployeePaging:PageIndex" ] ) )
+                     {
+                            _pageIndex = int.Parse( privateConfig[ "EmployeePaging:PageIndex" ] );
+                     }
+
+                     if ( !string.IsNullOrEmpty( privateConfig[ "EmployeePaging:Count" ] ) )
+                     {
+                            _count = int.Parse( privateConfig[ "EmployeePaging:Count" ] );
+                     }
+              }
        }
 }

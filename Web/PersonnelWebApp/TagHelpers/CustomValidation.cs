@@ -44,12 +44,3 @@ namespace PersonnelWebApp.TagHelpers
               }
        }
 }
-
-//background-color: #f44336;
-
-/*
-//ModelStateEntry? element = mState.Where( x => x.Value.ValidationState == ModelValidationState.Invalid
-                     //                                                                                                         && x.Key.Contains( FieldName ) )
-                     //                                        .Select( x => x.Value )
-                     //                                        .FirstOrDefault();
-*/

@@ -1,7 +1,7 @@
 ﻿namespace Payroll.Services.Services.ServiceContracts
 {
-       public interface IBasicGetEntity<TEntityView>
+       public interface IBasicGetEntity
        {
-              Task<TEntityView?> GetEntityAsync( int? entityId );
+              IQueryable<TResult>? GetEntity<TResult>( int? entityId );
        }
 }

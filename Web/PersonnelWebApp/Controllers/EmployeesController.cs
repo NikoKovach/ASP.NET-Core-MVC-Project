@@ -5,14 +5,15 @@ using Payroll.Services.UtilitiesServices.EntityValidateServices;
 using Payroll.ViewModels;
 using Payroll.ViewModels.EmployeeViewModels;
 using Payroll.ViewModels.PagingViewModels;
+using PersonnelWebApp.Utilities;
 
 namespace PersonnelWebApp.Controllers
 {
        public class EmployeesController : Controller
        {
-              private const int PageSize = 1;
-              private const int PageIndex = 1;
-              private const int Count = 1;
+              private int _pageSize;
+              private int _pageIndex;
+              private int _count;
 
               private readonly IEmployeeService empService;
               private readonly IValidate<ValidateBaseModel> validateService;
@@ -21,9 +22,12 @@ namespace PersonnelWebApp.Controllers
 
               private static int companyIdNumber = 0;
 
-              public EmployeesController( IEmployeeService service,
+              public EmployeesController(
+                     IEmployeeService service,
                      [FromKeyedServices( "EmployeeValidate" )] IValidate<ValidateBaseModel> validateService,
-                      IWebHostEnvironment environment, IConfiguration configuration )
+                      IWebHostEnvironment environment,
+                      IConfiguration configuration,
+                      IPrivateConfiguration privateConfig )
               {
                      this.empService = service;
 
@@ -32,12 +36,14 @@ namespace PersonnelWebApp.Controllers
                      this.env = environment;
 
                      this.config = configuration;
+
+                     privateConfig.SetEmployeePagingVariables( ref this._pageIndex, ref this._pageSize, ref this._count );
               }
 
               public IActionResult Index()
               {
                      var emptyPaginatedList = new PagingBaseList<GetEmployeeVM>
-                            ( EmptyEmpoyeesCollection(), Count, PageIndex, PageSize );
+                            ( EmptyEmpoyeesCollection(), _count, _pageIndex, _pageSize );
 
                      return View( emptyPaginatedList );
               }
@@ -53,13 +59,14 @@ namespace PersonnelWebApp.Controllers
                      IQueryable<GetEmployeeVM>? empList = this.empService
                                                                                                        .AllActive_GetEmployeeVM( companyIdNumber );
 
-                     var paginatedList = await PagingBaseList<GetEmployeeVM>
-                                                 .CreateCollectionAsync( empList, pageNumber ?? 1, PageSize );
+                     PagingBaseList<GetEmployeeVM>? paginatedList =
+                            await PagingBaseList<GetEmployeeVM>
+                            .CreateCollectionAsync( empList, pageNumber ?? _pageIndex, _pageSize );
 
                      if ( paginatedList.ItemsCollection.Count == 0 )
                      {
-                            var emptyPaginatedList = new PagingBaseList<GetEmployeeVM>
-                                   ( EmptyEmpoyeesCollection(), Count, PageIndex, PageSize );
+                            PagingBaseList<GetEmployeeVM>? emptyPaginatedList =
+                                   new PagingBaseList<GetEmployeeVM>( EmptyEmpoyeesCollection(), _count, _pageIndex, _pageSize );
 
                             return Json( emptyPaginatedList );
                      }
@@ -121,11 +128,7 @@ namespace PersonnelWebApp.Controllers
                                                                                                                         relativeFolderName, appFolderName );
                      }
 
-                     List<AllEmployeeVM>? employeeList = await this.empService
-                                                                                          .AllActive_AllEmployeeVM( empViewModel.CompanyId )
-                                                                                          .ToListAsync();
-
-                     return View( nameof( AllPresent ), employeeList );
+                     return await AllPresentEmployeesAsync( empViewModel.CompanyId );
               }
 
               [HttpPost]
@@ -157,35 +160,23 @@ namespace PersonnelWebApp.Controllers
                             await this.empService.UpdatePersonAsync( empViewModel.PersonId, empImageFullPath,
                                                                                                                         relativeFolderName, appFolderName );
                      }
-                     //********************************************************************
-                     List<AllEmployeeVM>? employeeList = await this.empService
-                                                                                          .AllActive_AllEmployeeVM( empViewModel.CompanyId )
-                                                                                          .ToListAsync();
 
-                     return View( nameof( AllPresent ), employeeList );
+                     return await AllPresentEmployeesAsync( empViewModel.CompanyId );
               }
 
               [HttpPost]
-              public async Task<IActionResult> Delete( int? employeeId )
+              public async Task<IActionResult> Delete( int? id, int? companyId )
               {
                      if ( !ModelState.IsValid )
                      {
+                            //TODO : send message by TempDada or other ..Data ????
+                            //Message : Choose Company and employee to delete !
                             return View();
                      }
 
-                     EmployeeVM? empViewModel = await this.empService
-                                                                                                  .GetEntity( employeeId )
-                                                                                                  .FirstOrDefaultAsync();
+                     await this.empService.DeleteAsync( id, companyId );
 
-                     empViewModel.IsPresent = false;
-
-                     await this.empService.UpdateAsync( empViewModel );
-
-                     List<AllEmployeeVM>? employeeList = await this.empService
-                                                                                           .AllActive_AllEmployeeVM( empViewModel.CompanyId )
-                                                                                           .ToListAsync();
-
-                     return View( nameof( AllPresent ), employeeList );
+                     return await AllPresentEmployeesAsync( companyId );
               }
 
               [HttpPost]
@@ -198,12 +189,10 @@ namespace PersonnelWebApp.Controllers
 
                      int firmId = ( companyId > 0 ) ? companyId : 1;
 
-                     List<AllEmployeeVM>? employeeList = await this.empService
-                                                                                                            .AllActive_AllEmployeeVM( firmId )
-                                                                                                            .ToListAsync();
-                     return View( employeeList );
+                     return await AllPresentEmployeesAsync( firmId );
               }
 
+              //####################################################################
               [HttpGet]
               public async Task<IActionResult> GetEmloyeesByCompany( int? id )
               {
@@ -227,7 +216,7 @@ namespace PersonnelWebApp.Controllers
                      return Json( employeeFullName );
               }
 
-              //*******************************************************************
+              //####################################################################
 
               private List<GetEmployeeVM> EmptyEmpoyeesCollection()
               {
@@ -246,7 +235,53 @@ namespace PersonnelWebApp.Controllers
 
                      return items;
               }
+
+              private async Task<IActionResult> AllPresentEmployeesAsync( int? companyId )
+              {
+                     List<AllEmployeeVM>? employeeList = await this.empService
+                                                                                           .AllActive_AllEmployeeVM( companyId )
+                                                                                           .ToListAsync();
+
+                     return View( nameof( AllPresent ), employeeList );
+              }
        }
 }
+
+/*
+                     List<AllEmployeeVM>? employeeList = await this.empService
+                                                                                          .AllActive_AllEmployeeVM( empViewModel.CompanyId )
+                                                                                          .ToListAsync();
+
+                     return View( nameof( AllPresent ), employeeList );
+
+                      List<AllEmployeeVM>? employeeList = await this.empService
+                                                                                          .AllActive_AllEmployeeVM( empViewModel.CompanyId )
+                                                                                          .ToListAsync();
+
+                     return View( nameof( AllPresent ), employeeList );
+
+                     List<AllEmployeeVM>? employeeList = await this.empService
+                                                                                                            .AllActive_AllEmployeeVM( firmId )
+                                                                                                            .ToListAsync();
+                     return View( employeeList );
+
+                     List<AllEmployeeVM>? employeeList = await this.empService
+                                                                                           .AllActive_AllEmployeeVM( empViewModel.CompanyId )
+                                                                                           .ToListAsync();
+
+                     return View( nameof( AllPresent ), employeeList );
+
+*/
+//private const int PageSize = 1;
+//private const int PageIndex = 1;
+//private const int Count = 1;
+
+//EmployeeVM? empViewModel = await this.empService
+//                                                                             .GetEntity( employeeId )
+//                                                                             .FirstOrDefaultAsync();
+
+//empViewModel.IsPresent = false;
+
+//await this.empService.UpdateAsync( empViewModel );
 
 

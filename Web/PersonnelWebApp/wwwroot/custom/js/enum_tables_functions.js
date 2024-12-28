@@ -15,7 +15,7 @@ for (let btnOpenDialog of btnsListEnumDialog) {
               let enumDialogId = event.target.getAttribute("enumdialog");
               let subAction = event.target.getAttribute("subaction");
 
-              openEnumAgreementdialog(subAction, enumDialogId);     
+              openEnumAgreementDialog(subAction, enumDialogId);     
        });
 };
 
@@ -70,10 +70,6 @@ for (let checkBox of checkboxList) {
 const dialogGetCompanyId = document.getElementById("selectCompanyDialog");
 const dialogGetEmployeeId = document.getElementById("selectEmployeeDialog");
 
-const dialogGetAgreementTypeId = document.getElementById("selectAgreementTypeDialog");
-const dialogGetLaborCodeArticle = document.getElementById("selectLaborCodeArticleDialog");
-const dialogDepartments = document.getElementById("DepartmentsDialog");
-
 const btnOpenCompanyDialog = document.getElementById("btnOpenCompanyIdDialog");
 const btnGetCompanyId = document.getElementById("btnGetCompanyId");
 const btnAddEditPactType = document.getElementById("btnAddEditAgreementType");
@@ -90,7 +86,7 @@ const selectTagContractType = document.getElementById("agreementType-select");
 const selectLaborCodeArticle = document.getElementById("articleLaborCode-select");
 const selectDepartments = document.getElementById("department-select");
 
-const errorDiv = document.getElementById("error-alert-div");
+const errorDiv = document.getElementById("dialog-alert-div");
 
 // Event listener to open the dialog
 
@@ -103,7 +99,13 @@ btnOpenCompanyDialog.addEventListener('click', function () {
 btnGetCompanyId.addEventListener('click', function () {
        let companyIdVal = inputSelCompanyId.getAttribute("value");
 
-       document.getElementById("CompanyId").setAttribute("value", companyIdVal);
+       let parentInputTag = document.getElementById( "CompanyId" );
+       parentInputTag.setAttribute("value", companyIdVal);
+
+       if ( parentInputTag.getAttribute( "value" ) != "" ) {
+              removeSpanWithClassTextDanger( parentInputTag );
+              clearRedStyleFromInputTag( parentInputTag );
+       }
 
        dialogGetCompanyId.close();
 });
@@ -134,7 +136,9 @@ function getCompanyNameFunction() {
        if (companyIdValue != "") {
               let formAction = "/Companies/GetCompany";
 
-              let responseBody = fetchGetRequest(formAction, companyIdValue)
+              let urlParams = { "id": companyIdValue };
+
+              let responseBody = fetchGetRequest( formAction, urlParams )
 
               responseBody
                      .then((value) => {
@@ -160,8 +164,8 @@ function openEmployeeIdDialog() {
        }
 
        let formAction = "/Employees/GetEmloyeesByCompany";
-
-       let response = fetchGetRequest(formAction, valueCompanyId);
+       let urlParams = { id : valueCompanyId};
+       let response = fetchGetRequest(formAction, urlParams);
 
        response
               .then((value) => {
@@ -179,7 +183,13 @@ function openEmployeeIdDialog() {
 function getEmployeeIdFunction() {
        let empIdValue = inputSelEmployeeId.getAttribute("value");
 
-       document.getElementById("EmployeeId").setAttribute("value", empIdValue);
+       let parentInputTag = document.getElementById( "EmployeeId" ) ;
+       parentInputTag.setAttribute( "value", empIdValue );
+
+       if ( parentInputTag.getAttribute( "value" ) != "" ) {
+              removeSpanWithClassTextDanger( parentInputTag );
+              clearRedStyleFromInputTag( parentInputTag );
+       }
 
        dialogGetEmployeeId.close();
 };
@@ -203,8 +213,8 @@ function getEmployeeNameFunction() {
 
        if (employeeIdValue != "") {
               let formAction = "/Employees/GetEmployee";
-
-              let responseBody = fetchGetRequest(formAction, employeeIdValue)
+              let urlParams = { id: employeeIdValue };
+              let responseBody = fetchGetRequest( formAction, urlParams );
 
               responseBody
                      .then((value) => {
@@ -221,16 +231,16 @@ function getEmployeeNameFunction() {
 
 //#####################################################################
 
-function openEnumAgreementdialog(controllerAction,enumDialogId) {
+function openEnumAgreementDialog(controllerAction,enumDialogId) {
        let areaName = "LaborAgreements";
        let dialogId = String(enumDialogId);
 
        let formAction = `/${areaName}${String(controllerAction)}`;
 
        let enumDialog = document.getElementById(dialogId);
-       let selectTagInDialog = document.querySelector(`dialog#${dialogId} select`); // ?????????????
+       let selectTagInDialog = document.querySelector(`dialog#${dialogId} select`);
 
-       let responseBody = fetchGetRequest(formAction, ""); 
+       let responseBody = fetchGetRequest(formAction); 
 
        manageOpenEnumDialogResponseBody(responseBody,selectTagInDialog); 
 
@@ -264,14 +274,22 @@ function generateSelectDatalist(typesList,selectTag) {
 
 //################################################################3
 function chooseAgreementType() {
-       clearErrorAlertDiv(inputAgreementType);
+       clearErrorAlertDiv();
+       clearRedStyleFromInputTag( inputAgreementType );
+       clearSpanBeforeOrNextToInputTag( inputAgreementType );
        clearSuccsessDivFunction();
 
        let selValue = selectTagContractType.value;
 
-       document.getElementById("ContractTypeId").setAttribute("value",selValue);
+       let parentInputTag = document.getElementById( "ContractTypeId" );
+       parentInputTag.setAttribute( "value", selValue );
 
-       dialogGetAgreementTypeId.close();
+       if ( parentInputTag.getAttribute("value")  != "") {
+              removeSpanWithClassTextDanger( parentInputTag );
+              clearRedStyleFromInputTag( parentInputTag );
+       }
+      
+       document.getElementById( "selectAgreementTypeDialog" ).close();
 };
 
 function addAgreementType() {
@@ -305,45 +323,22 @@ function addAgreementType() {
 
               const request = generatePostRequest(url, token, agreementType);
 
-              let responseBody = fetchPost(request);
+              let responseBody = fetchPost( request );
 
-              responseBody
-                     .then((value) => {
-                            if (Array.isArray(value)) {
-                                   generateAgreementTypesDatalist(value);
-                                   clearErrorAlertDiv(inputAgreementType);
-                                   showSuccsessDivFunction(textBtnAddType);
-                            }
-                            else {
-                                   modelStateHandlerFunction(value, inputAgreementType);
-                            }
-                     })
-                     .catch((err) => {
-                            console.error(err);
+              let dataListKey = "AgreementTypes";
 
-                            alert(err);
-                     });
+              manageResponseBodyFetchPost( responseBody, inputAgreementType, textBtnAddType,dataListKey );
        } 
-};
-
-function generateAgreementTypesDatalist(typesList) {
-       let selectTagOptions = "";
-
-       typesList.forEach((element) => {
-              selectTagOptions += `<option value=${element.id}>${element.type}</option>`;
-       });
-
-       selectTagContractType.innerHTML = selectTagOptions;
 };
 
 function getAgreementTypeFunction() {
        let contractIdValue = document.getElementById("ContractTypeId").getAttribute("value");
-       let spanAgreementType = document.getElementById("agreementType-span");
+       let spanAgreementType = document.getElementById( "agreementType-span" );
 
        if (contractIdValue != "") {
               let formAction = "/LaborAgreements/AgreementTypes/GetAgreementType";
-
-              let responseBody = fetchGetRequest(formAction, contractIdValue);
+              let urlParams = {id : contractIdValue};
+              let responseBody = fetchGetRequest(formAction, urlParams);
 
               responseBody
                      .then((value) => {
@@ -353,23 +348,11 @@ function getAgreementTypeFunction() {
                      })
                      .catch((err) => {
                             console.error(err);
-                            //alert(err);
                      });
        }
 };
 
 //######################################################################
-
-function generateArticlesDatalist(articlesList) {
-       let selectTagOptions = "";
-
-       articlesList.forEach((element) => {
-              selectTagOptions += `<option value=${element.id}>${element.article}</option>`;
-       });
-
-       selectLaborCodeArticle.innerHTML = selectTagOptions;
-};
-
 function addArticleType() {
        let laborArticleString = String(inputLaborArticleType.value);
 
@@ -399,21 +382,9 @@ function addArticleType() {
 
               let responseBody = fetchPost(request);
 
-              responseBody
-                     .then((value) => {
-                            if (Array.isArray(value)) {
-                                   generateArticlesDatalist(value);
-                                   clearErrorAlertDiv(inputLaborArticleType);
-                                   showSuccsessDivFunction(textBtnAddArticle);
-                            }
-                            else {
-                                   modelStateHandlerFunction(value, inputLaborArticleType);
-                            }
-                     })
-                     .catch((err) => {
-                            console.error(err);
-                            alert(err);
-                     });
+              let dataListKey = "LaborArticles";
+
+              manageResponseBodyFetchPost( responseBody, inputLaborArticleType, textBtnAddArticle,dataListKey );
        } 
 };
 
@@ -423,8 +394,8 @@ function getLaborCodeArticle() {
 
        if (articleIdValue != "") {
               let formAction = "/LaborAgreements/LaborCodeArticles/GetLaborArticle";
-
-              let responseBody = fetchGetRequest(formAction, articleIdValue)
+              let urlParams = {id : articleIdValue};
+              let responseBody = fetchGetRequest( formAction, urlParams );
 
               responseBody
                      .then((value) => {
@@ -440,47 +411,52 @@ function getLaborCodeArticle() {
 };
 
 function chooseLaborCodeArticle() {
-       clearErrorAlertDiv(inputLaborArticleType);
+       clearErrorAlertDiv();
+       clearRedStyleFromInputTag( inputLaborArticleType );
+       clearSpanBeforeOrNextToInputTag( inputLaborArticleType );
        clearSuccsessDivFunction();
 
        let articleValue = selectLaborCodeArticle.value;
 
-       document.getElementById("LaborCodeArticleId").setAttribute("value", articleValue);
+       let parentInputTag = document.getElementById( "LaborCodeArticleId" );
+       parentInputTag.setAttribute( "value", articleValue );
 
-       dialogGetLaborCodeArticle.close();
+       if ( parentInputTag.getAttribute("value")  != "") {
+              removeSpanWithClassTextDanger( parentInputTag );
+              clearRedStyleFromInputTag( parentInputTag );
+       }
+
+       document.getElementById( "selectLaborCodeArticleDialog" ).close();
 };
 
 //#######################################################################
-
-function generateDepartmentsDatalist(departmetList) {
-       let selectTagOptions = "";
-
-       departmetList.forEach((element) => {
-              selectTagOptions += `<option value=${element.departmentId}>${element.name}</option>`;
-       });
-
-       selectDepartments.innerHTML = selectTagOptions;
-};
-
 function chooseDepartment() {
-       clearErrorAlertDiv(inputDepartmentName);
+       clearErrorAlertDiv();
+       clearRedStyleFromInputTag( inputDepartmentName );
+       clearSpanBeforeOrNextToInputTag( inputDepartmentName );
        clearSuccsessDivFunction();
 
        let departmentId = selectDepartments.value;
 
-       document.getElementById("DepartmentDepartmentID").setAttribute("value", departmentId);
+       let parentInputTag = document.getElementById( "DepartmentID" );
+       parentInputTag.setAttribute("value", departmentId);
 
-       dialogDepartments.close();
+       if ( parentInputTag.getAttribute( "value" ) != "" ) {
+              removeSpanWithClassTextDanger( parentInputTag );
+              clearRedStyleFromInputTag( parentInputTag );
+       }
+
+       document.getElementById( "DepartmentsDialog" ).close();
 };
 
 function getDepartmentName() {
-       let departmentId = document.getElementById("DepartmentDepartmentID").getAttribute("value");
+       let departmentId = document.getElementById("DepartmentID").getAttribute("value");
        let spanDepartmentName = document.getElementById("departmentText-span");
 
        if (departmentId != "") {
               let formAction = "/LaborAgreements/Departments/GetDepartment";
-
-              let responseBody = fetchGetRequest(formAction, departmentId)
+              let urlParams = { id: departmentId };
+              let responseBody = fetchGetRequest( formAction, urlParams )
 
               responseBody
                      .then((value) => {
@@ -523,282 +499,64 @@ function addDepartmentFunction() {
 
               const request = generatePostRequest(url, token, departmentVM);
 
-              let responseBody = fetchPost(request);
-              
-              responseBody
-                     .then((value) => {
-                            if (Array.isArray(value)) {
-                                   generateDepartmentsDatalist(value);
-                                   clearErrorAlertDiv(inputDepartmentName);
-                                   showSuccsessDivFunction(textBtnAddDepartment);
-                            }
-                            else {
-                                   modelStateHandlerFunction(value, inputDepartmentName);
-                            }
-                     })
-                     .catch((err) => {
-                            console.error(err);
-                            alert(err);
-                     });
+              let responseBody = fetchPost( request );
+
+              let dataListKey = "Departments";
+
+              manageResponseBodyFetchPost( responseBody, inputDepartmentName, textBtnAddDepartment, dataListKey );
        } 
 };
 
 //######################################################################
 
-//function chooseEnumType(inputTypeName) {
-//       let inputElement = HTMLInputElement(inputTypeName);
+function generatDataList ( dataListKey, value ) {
+       let dataListMap = new Map();
 
-//       clearErrorAlertDiv(inputDepartmentName);
-//       clearSuccsessDivFunction();
+       dataListMap.set( "AgreementTypes", generateAgreementTypesDatalist( value ) );
+       dataListMap.set( "LaborArticles", generateArticlesDatalist( value ) );
+       dataListMap.set( "Departments", generateDepartmentsDatalist( value ) );
+       dataListMap.set( "Addresses", generateSelectAddressesList( value ) );
 
-//       let departmentId = selectDepartments.value;
+       dataListMap.set( "Default", generateEmptyDataList() );
 
-//       document.getElementById("DepartmentDepartmentID").setAttribute("value", departmentId);
+       if ( isString(dataListKey)  && !stringIsNullOrEmpty(dataListKey) && dataListMap.has(dataListKey) )
+              return dataListMap.get(dataListKey);
 
-//       dialogDepartments.close();
-//};
-
-function showAgreementSpanText(spanText,spanElement) {
-       if (String(spanText) != "" && isDomElement(spanElement)) {
-              spanElement.innerHTML = String(spanText);
-       }
+       return dataListMap.get( "Default" );
 };
 
-async function fetchGetRequest(formAction,id ) {
-       let url = formAction + "/" + id;
+function generateAgreementTypesDatalist ( typesList ) {
+       let selectTagOptions = "";
 
-       if ((typeof id === 'string' || id instanceof String) && id == "" ) {
-              url = formAction;
-       }
+       typesList.forEach( ( element ) => {
+              selectTagOptions += `<option value=${element.id}>${element.type}</option>`;
+       } );
 
-       try {
-              const response = await fetch(url);
-
-              if (!response.ok) {
-                     throw new Error(`Response status: ${response.status}`);
-              }
-
-              const result = await response.json();
-
-              return result;
-       } catch (error) {
-              alert(error.message);
-       }
+       selectTagContractType.innerHTML = selectTagOptions;
 };
 
-async function fetchPost(request) {
-       try {
-              const response = await fetch(request);
+function generateArticlesDatalist ( articlesList ) {
+       let selectTagOptions = "";
 
-              const result = await response.json();
+       articlesList.forEach( ( element ) => {
+              selectTagOptions += `<option value=${element.id}>${element.article}</option>`;
+       } );
 
-              return result;
-
-       } catch (error) {
-              console.error("Error:", error);
-              alert(error.message);
-       }
+       selectLaborCodeArticle.innerHTML = selectTagOptions;
 };
 
-function generatePostRequest(url, antiForgeryToken,bodyObject) {
-       return new Request(url, {
-              method: "POST",
-              headers: {
-                     RequestVerificationToken: antiForgeryToken,
-                     "Content-Type": "application/json",
-              },
-              body: JSON.stringify(bodyObject),
-       });
+function generateDepartmentsDatalist ( departmetList ) {
+       let selectTagOptions = "";
+
+       departmetList.forEach( ( element ) => {
+              selectTagOptions += `<option value=${element.departmentId}>${element.name}</option>`;
+       } );
+
+       selectDepartments.innerHTML = selectTagOptions;
 };
 
-//###################################################################
-function isObjectLike(value) {
-       return value != null && typeof value == 'object' && !Array.isArray(value);
-}
-
-function isObjectLikeArray(value) {
-       return value != null && typeof value == 'object' && Array.isArray(value);
-}
-
-function stringIsNullOrEmpty(value) {
-       if (value == null) return true;
-
-       if (typeof value == "string" && value != null &&  value == "") return true;
-
-       return false;
-}
-
-function valueIsModelState(value) {
-       let valueIsObject= (value != null && typeof value == 'object' && !Array.isArray(value)) ? true : false ;
-
-       if (valueIsObject) {
-              for (let x in value) {
-                     let keysArr = Object.keys(value[x]);
-                     let errorExists = keysArr.some(x => x == "errors");
-
-                     if (errorExists) return true;
-              }
-       }
-
-       return false;
+function generateEmptyDataList () {
+      /* alert("Nothing happened !");*/
 };
 
-function isDomElement(element) {
-       return element instanceof Element;
-};
 //#####################################################################
-
-function modelStateHandlerFunction(modelState, activeInput) {
-       const validityValuesEnum = { isValid: 2, isNotValid: 1 };
-
-       let invalidItemsList = [];
-
-       for (let entityName in modelState) {
-              if (modelState[entityName].validationState != validityValuesEnum.isNotValid) {
-                     continue;
-              }
-
-              let keysArray = Object.keys(modelState[entityName]);
-
-              let errorMessages = [];
-
-              if (keysArray.includes("errors")) {
-                     let errorsList = modelState[entityName].errors;
-
-                     errorMessages = errorsList.map(function (item) {
-                                                               return String( item.errorMessage);
-                                                        });
-              }
-
-              invalidItemsList.push({key:entityName , errors : errorMessages});
-       }
-
-       if (invalidItemsList.length > 0) {
-              showErrorsAlertDiv(invalidItemsList, activeInput);
-       }
-};
-
-function showErrorsAlertDiv(invalidItemsList, activeInput) {
-       let errorsMsgString = "";
-       invalidItemsList.forEach(function (value, index, array) {
-              errorsMsgString = "<li><p>Property ' " + value.key + " ' :</p>";
-
-              value.errors.forEach(function (error) {
-                     errorsMsgString += "<p><span>-></span>" + error + "</p>";
-              });
-
-              errorsMsgString += "</li > ";
-
-              if (activeInput != undefined &&  String(activeInput.id).includes(value.key)) {
-                     changeInputStyleToRedAlert(activeInput);
-              }
-       });
-
-       let ulErrorDiv = errorDiv.querySelector("ul");
-
-       while (ulErrorDiv.hasChildNodes()) {
-              ulErrorDiv.removeChild(ulErrorDiv.firstChild);
-       }
-
-       ulErrorDiv.innerHTML = errorsMsgString;
-
-       errorDiv.style.display = "list-item";
-};
-
-function changeInputStyleToRedAlert(activeInput) {
-       let spanString = "<span  class='text-danger' style='color:#f44336;font-size: 12px;'> *</span>";
-
-       if (activeInput instanceof HTMLInputElement) {
-              removeSpanNextToInputTag(activeInput);
-              activeInput.insertAdjacentHTML("afterend", spanString);
-              activeInput.style.backgroundColor = "rgb(255, 179, 179)";
-       }
-};
-
-function removeSpanNextToInputTag(activeInput) {
-       let spanAfterInput = activeInput.parentNode.querySelector("span");
-
-       if (spanAfterInput != null) {
-              activeInput.parentNode.querySelector("span").remove();
-       }
-};
-
-function clearErrorAlertDiv(activeInput) {
-       let ulErrorDiv = errorDiv.querySelector("ul");
-
-       while (ulErrorDiv.hasChildNodes()) {
-              ulErrorDiv.removeChild(ulErrorDiv.firstChild);
-       }
-
-       errorDiv.style.display = "none";
-
-       if (activeInput instanceof HTMLInputElement) {
-              removeSpanNextToInputTag(activeInput);
-       }
-
-       activeInput.style.backgroundColor = "rgb(255, 255, 255)";
-};
-
-function showSuccsessDivFunction(buttonInnerText) {
-       let divInnerText = "";
-
-       if (typeof buttonInnerText == "string") {
-              if (buttonInnerText === "Add") {
-                     divInnerText = "' Create ' operation is successful !";
-              }
-              else {
-                     divInnerText = "' Edit ' operation is successful !";
-              }
-       }
-
-       let divSuccess = document.getElementById("edit-success");
-       let childParagraph = divSuccess.querySelector("p");
-
-       if (childParagraph != null) {
-              childParagraph.innerText = divInnerText;
-       }
-
-       divSuccess.style.display = "block";
-};
-
-function clearSuccsessDivFunction() {
-       let divSuccess = document.getElementById("edit-success");
-       let childParagraph = divSuccess.querySelector("p");
-
-       if (childParagraph != null && childParagraph.innerText !="") {
-              childParagraph.innerText = "";
-       }
-
-       divSuccess.style.display = "none";
-};
-
-//#######################################################################
-
-
-//Archive = fetch() post with Antiforgery token
-//async function post(request) {
-//       try {
-              //let url = "/AgreementTypes/CreateType";
-              //let token = document.querySelector('input[name="__RequestVerificationToken"]').getAttribute("value");
-
-              //const response = await fetch(url, {
-              //       method: "POST",
-              //       headers: {
-              //              RequestVerificationToken: token,
-              //              "Content-Type": "application/json",
-              //       },
-              //       body: JSON.stringify({ type: "example" }),
-              //});
-
-//              //const response = await fetch(request);
-
-//              //const result = await response.json();
-
-//              //return result;
-
-//       } catch (error) {
-//              /*console.error("Error:", error);*/
-//              alert(error.message);
-//       }
-//};
-

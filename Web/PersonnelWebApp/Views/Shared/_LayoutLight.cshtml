@@ -35,7 +35,10 @@
        <script src="~/simple/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
        <script src="~/simple/js/site.js" asp-append-version="true"></script>
 
-       <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+       <script src="https://code.jquery.com/jquery-3.7.1.js" 
+                    integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" 
+                   crossorigin="anonymous">
+       </script>
 
        <script>
               // Fallback to loading jQuery from a local path if the CDN is unavailable
@@ -43,9 +46,6 @@
                      '<script src="~/simple/lib/jquery/dist/jquery-3.7.1.js"><\/script>'));
        </script>
 
-	<script src="~/custom/js/my_jquery_functions.js" asp-append-version="true"></script>
-
 	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-

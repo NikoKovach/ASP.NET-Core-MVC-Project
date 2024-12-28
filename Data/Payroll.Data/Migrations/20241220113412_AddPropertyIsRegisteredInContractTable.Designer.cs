@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Payroll.Data;
 
@@ -11,9 +12,11 @@ using Payroll.Data;
 namespace Payroll.Data.Migrations
 {
     [DbContext(typeof(PayrollContext))]
-    partial class PayrollContextModelSnapshot : ModelSnapshot
+    [Migration("20241220113412_AddPropertyIsRegisteredInContractTable")]
+    partial class AddPropertyIsRegisteredInContractTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,8 +166,6 @@ namespace Payroll.Data.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.HasIndex("EmpContractId");
-
-                    b.HasIndex("LaborCodeArticleId");
 
                     b.ToTable("Annexes");
                 });
@@ -1354,18 +1355,11 @@ namespace Payroll.Data.Migrations
                         .HasForeignKey("EmpContractId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Payroll.Models.EnumTables.LaborCodeArticle", "LaborCodeArticle")
-                        .WithMany("Annexes")
-                        .HasForeignKey("LaborCodeArticleId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.Navigation("ContractType");
 
                     b.Navigation("Department");
 
                     b.Navigation("EmpContract");
-
-                    b.Navigation("LaborCodeArticle");
                 });
 
             modelBuilder.Entity("Payroll.Models.ContactInfo", b =>
@@ -1757,8 +1751,6 @@ namespace Payroll.Data.Migrations
 
             modelBuilder.Entity("Payroll.Models.EnumTables.LaborCodeArticle", b =>
                 {
-                    b.Navigation("Annexes");
-
                     b.Navigation("Contracts");
                 });
 

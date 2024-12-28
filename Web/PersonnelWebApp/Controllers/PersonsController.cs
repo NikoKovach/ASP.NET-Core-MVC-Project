@@ -31,8 +31,8 @@ namespace PersonnelWebApp.Controllers
               }
 
               [HttpPost]
-              public async Task<IActionResult> AllPersons( int? pageIndex, int? pageSize, string? sortParam,
-                                                                                               PersonFilterVM? filter )
+              public async Task<IActionResult> AllPersons( int? pageIndex, int? pageSize,
+                                                                                              string? sortParam, PersonFilterVM? filter )
               {
                      if ( !ModelState.IsValid )
                      {
@@ -76,17 +76,13 @@ namespace PersonnelWebApp.Controllers
 
                      await this.personService.UpdateAsync( entitiesForEdit );
 
-                     if ( entitiesForEdit.Count > 0 )
-                     {
-                            return Json( ModelState );
-                     }
-
-                     return await ResultAsync( pageIndex, pageSize, sortParam, filter );
+                     return Json( ModelState );
               }
 
               //##############################################################
 
-              private async Task<IActionResult> ResultAsync( int? pageIndex, int? pageSize, string? sortParam, PersonFilterVM? filter )
+              private async Task<IActionResult> ResultAsync( int? pageIndex, int? pageSize,
+                                                                                                   string? sortParam, PersonFilterVM? filter )
               {
                      PagingListSortedFiltered<PersonVM, PersonFilterVM>? sortedList =
                            await GetPersonsListOfPagesAsync( pageIndex, pageSize, sortParam, filter );
@@ -128,7 +124,12 @@ namespace PersonnelWebApp.Controllers
 
                      return sortedList;
               }
-
        }
 }
 
+//if ( entitiesForEdit.Count > 0 )
+//{
+//       return Json( ModelState );
+//}
+
+//return await ResultAsync( pageIndex, pageSize, sortParam, filter );

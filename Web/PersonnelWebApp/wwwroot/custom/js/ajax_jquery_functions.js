@@ -3,6 +3,10 @@ var selectedCompanyId;
 var pageNumber;
 var totalPages;
 
+$( ".emp-manage-btn" ).on( "click", function () {
+       $( this ).trigger( "blur" );
+} );
+
 $("#selectCompany").on("change", function () {
        selectedCompanyId = $(this).val();
 
@@ -100,8 +104,8 @@ function setNavigationButtons(data) {
 	var prevDisabled = !data["hasPreviousPage"] ? "disabled" : "";
 	var nextDisabled = !data["hasNextPage"] ? "disabled" : "";
 
-	var previousBtnBaseClass = "previous-page btn btn-outline-primary ";
-	var nextBtnBaseClass = "next-page btn btn-outline-primary ";
+       var previousBtnBaseClass = "previous-page btn btn-sm p-1 btn-outline-primary ";
+       var nextBtnBaseClass = "next-page btn btn-sm p-1 btn-outline-primary ";
 
 	$("#totalPages").text("/ " + data["totalPages"]);
 
@@ -171,4 +175,75 @@ function setContractFields(contract) {
        $("#contractDate").val(contract["contractDate"]);
 }
 /*************************************************************************/
-/*************************************************************************/
+
+const manageEmpForm = document.getElementById( "manage-employee-form" );
+
+const btnAllCompanyEmp = document.getElementById( "all-employees-submit" );
+const btnCreateEmp = document.getElementById( "create-employee-submit" );
+const btnEditEmp = document.getElementById( "edit-employee-submit" );
+const btnDelEmp = document.getElementById( "delete-employee-submit" );
+
+btnAllCompanyEmp.addEventListener( "click", e => {
+       e.preventDefault();
+       let formAction = "/Employees/AllPresent";
+
+       let companyId = document.getElementById( "show-all" ).getAttribute( "value" );
+
+       if ( !isNullOrEmptyString(companyId) && Number(companyId) > 0) {
+              manageEmpForm.setAttribute( "action", formAction );
+
+              manageEmpForm.submit();
+       }
+} );
+
+btnCreateEmp.addEventListener( "click", e => {
+       e.preventDefault();
+       let formAction = "/Employees/Create";
+
+       document.getElementById( "edit-entity-id" ).setAttribute("value","0");
+
+       manageEmpForm.setAttribute( "action", formAction );
+       manageEmpForm.submit();
+} );
+
+btnEditEmp.addEventListener( "click", e => {
+       e.preventDefault();
+       let formAction = "/Employees/Create";
+
+       let empId = document.getElementById( "edit-entity-id" ).getAttribute("value");
+
+       if ( !isNullOrEmptyString(empId) && Number( empId ) > 0 ) {
+              manageEmpForm.setAttribute( "action", formAction );
+
+              manageEmpForm.submit();
+       }
+} );
+
+btnDelEmp.addEventListener( "click", e => {
+       e.preventDefault();
+       let formAction = "/Employees/Delete";
+
+       let empId = document.getElementById( "edit-entity-id" ).getAttribute( "value" );
+       let companyId = document.getElementById( "show-all" ).getAttribute( "value" );
+
+       if ( !isNullOrEmptyString(empId)  && !isNullOrEmptyString(companyId)) {
+              manageEmpForm.setAttribute( "action", formAction );
+              manageEmpForm.submit();
+       }
+} );
+
+function isNullOrEmptyString ( value ) {
+       if ( value == null ) return true;
+
+       if ( value != null && typeof value == "string" && value == "" ) return true;
+
+       return false;
+}
+
+//*************************************************************************
+
+//if ( empId != null && empId != "" && Number( empId ) > 0 ) {
+//       manageEmpForm.setAttribute( "action", formAction );
+
+//       manageEmpForm.submit();
+//}

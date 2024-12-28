@@ -11,23 +11,7 @@
 			<div class="dropdown-content">
 				<ul>
 					<li>
-						<div class="dropdown dropright read_bt">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								Employees
-							</a>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<form asp-controller="Employees" asp-action="Create" 
-									method="post" id="PersonnelStaffCreateForm">
-									<a class="dropdown-item" href="#"
-									   onclick="document.getElementById('PersonnelStaffCreateForm').submit()">
-                                                                      Add Employee
-                                                               </a>
-								</form>
-                                                        <a  asp-controller="Employees" asp-action="Index">
-                                                               Files
-                                                        </a>
-							</div>
-						</div>
+                                          <partial name="_PartialEmployeeSubMenu"></partial>
 					</li>
 					<li>
 						<div class="read_bt">
@@ -39,23 +23,16 @@
 						</div>
 					</li>
                                    <li>
-                                          <div class="dropdown dropright read_bt">
+                                          <div class="dropdown dropright read_bt sunshine">
                                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                                         Employee Sections
                                                  </a>
-                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                        <form asp-area="LaborAgreements"
-                                                                    asp-controller="Agreements" asp-action="Index"
-                                                                    method="post" id="LaborContractsForm">
-                                                               <a class="dropdown-item" href="#"
-                                                                    onclick="document.getElementById('LaborContractsForm').submit()">
-                                                                      Contracts and Annexes
-                                                               </a>
-                                                        </form>
+                                                 <div class="dropdown-menu dropright drop-menu">
+                                                        <partial name="_PartialContractsAnnexesSubMenu"></partial>
 
                                                         <a asp-area="Vacations" asp-controller="Leave" asp-action="Index"
                                                            class="dropdown-item">
-                                                               Leave and Temporary Disability
+                                                               Leave & Temporary Disability
                                                         </a>
                                                  </div>
                                           </div>
@@ -72,20 +49,23 @@
 				<ul>
 					<li>
 						<div class="read_bt">
-							<a asp-area="" asp-controller="Companies"
-							   asp-action="AllActual">Active Companies</a>
+							<a asp-area="" asp-controller="Companies" asp-action="AllActual">
+                                                        Active Companies
+                                                 </a>
 						</div>
 					</li>
 					<li>
 						<div class="read_bt">
-							<a asp-area="" asp-controller="Companies"
-							   asp-action="Create">Create Company</a>
+							<a asp-area="" asp-controller="Companies"asp-action="Create">
+                                                        Create Company
+                                                 </a>
 						</div>
 					</li>
 					<li>
 						<div class="read_bt">
-							<a asp-area="" asp-controller="Companies"
-							   asp-action="About_Us">About Us</a>
+							<a asp-area="" asp-controller="Companies" asp-action="About_Us">
+                                                        About Us
+                                                 </a>
 						</div>
 					</li>
 				</ul>
@@ -96,3 +76,6 @@
 		</li>
 	</ul>
 </div>
+
+
+     

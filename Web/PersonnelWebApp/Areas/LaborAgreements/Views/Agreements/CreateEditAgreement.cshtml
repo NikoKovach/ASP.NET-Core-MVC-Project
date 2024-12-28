@@ -35,6 +35,13 @@
               id="error-alert-div">
               <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
        </div>
+
+       <div class="alert alert-danger alert-dismissible px-1 py-2 mb-2" style="display:none"
+            id="dialog-alert-div">
+              <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+              <ul></ul>
+       </div>
+
        <div id="edit-success" class="alert alert-success alert-dismissible px-1 py-2 mb-2" style="display:none">
               <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
               <p class="mx-4 my-2"></p>
@@ -50,7 +57,17 @@
               </legend>
 
               <div class="d-flex col-sm-11 justify-content-end mb-2">
-                     <div class="d-inline col-sm-8"></div>
+                     <div class="d-inline col-sm-8">
+                            <div class="d-inline col-sm-6 d-flex justify-content-end">
+                                   <div class="d-inline col-sm-12 px-2">
+                                          <button asp-action="AddAgreement"
+                                                  class="btn-success col-sm-12 px-0 border-0 save-btn stylish-btn larg-btn">
+                                                 Back to Contracts Section
+                                          </button>
+                                         @*  col-sm-12 btn-success px-0 border-0 stylish-btn save-btn *@
+                                   </div>
+                            </div>
+                     </div>
                      <div class="d-flex d-inline col-sm-4 justify-content-end">
                             <div class="d-inline col-sm-6 d-flex justify-content-end">
                                    <div class="d-inline col-sm-6">
@@ -84,6 +101,7 @@
 
 @section Scripts
 {
+       <script src="~/custom/js/fetch_functions.js" asp-append-version="true"></script>
        <script src="~/custom/js/enum_tables_functions.js" asp-append-version="true"></script>
        <script src="~/custom/js/dialog_address_functions.js" asp-append-version="true"></script>
 }

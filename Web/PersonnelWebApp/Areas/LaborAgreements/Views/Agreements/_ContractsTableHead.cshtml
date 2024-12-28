@@ -30,6 +30,10 @@
                      </button>
               </th>
               <th class="px-1 py-0 text-center">
+                     <label asp-for="@firstContract.IsRegistered" class="fw-bold column-lbl"
+                            value="@fieldsName[30].Name"></label>
+              </th>
+              <th class="px-1 py-0 text-center">
                      <label asp-for="@firstContract.IsActive" class="fw-bold column-lbl"
                             value="@fieldsName[2].Name"></label>
               </th>
@@ -189,6 +193,7 @@
                      <label asp-for="@firstContract.CompanyId" class="fw-bold column-lbl"
                             value="@fieldsName[29].Name"></label>
               </th>
+              
        </tr>
 </thead>
 

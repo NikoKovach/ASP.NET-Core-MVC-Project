@@ -57,8 +57,7 @@ namespace Payroll.Services.Services
                      IQueryable<Employee>? employees = this.AllActiveEntities( companyId );
 
                      IQueryable<AllEmployeeVM>? result =
-                            (IQueryable<AllEmployeeVM>) customProjections
-                                                                                           .EmployeeProjections[ "AllEmployees" ]( employees );
+                            (IQueryable<AllEmployeeVM>) customProjections.EmployeeProjections[ "AllEmployees" ]( employees );
 
                      return result;
               }
@@ -213,7 +212,28 @@ namespace Payroll.Services.Services
                      await repository.SaveChangesAsync();
               }
 
-              //**************************************************************************
+              public async Task DeleteAsync( int? employeeId, int? companyId = null )
+
+              {
+                     if ( employeeId == null || companyId == null )
+                            await Task.CompletedTask;
+
+                     Employee? employee = await repository
+                                                                             .All()
+                                                                             .Where( x => x.CompanyId == companyId && x.Id == employeeId )
+                                                                             .FirstOrDefaultAsync();
+                     if ( employee == null )
+                            await Task.CompletedTask;
+
+                     employee.IsPresent = false;
+
+                     EntityState personState = this.repository.Context.Entry( employee ).State;
+
+                     if ( personState == EntityState.Modified )
+                            await this.repository.SaveChangesAsync();
+              }
+
+              //####################################################################
 
               private IQueryable<Employee>? AllActiveEntities( int? companyId )
               {
@@ -262,12 +282,5 @@ namespace Payroll.Services.Services
 
                      return empFolderPath;
               }
-
-              //private async Task<Employee?> GetEmployeeAsync( int? empId )
-              //{
-              //       return await repository.AllAsNoTracking()
-              //                                                 .Where( x => x.IsPresent == true )
-              //                                                 .FirstOrDefaultAsync( x => x.Id == empId );
-              //}
        }
 }

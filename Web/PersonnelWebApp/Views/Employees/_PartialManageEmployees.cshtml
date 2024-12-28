@@ -1,40 +1,70 @@
 ﻿
 
-<li class="nav-item">
-       <form asp-controller="Employees" asp-action="Create">
-              <input id="create-id" type="hidden" name="id" />
-              <input id="create-employee-submit"
-                          class="nav-link btn emp-manage-btn"
-                          type="submit"
-                          value="Add Employee" />
+<ul class="navbar-nav col-sm-10">
+       <form id="manage-employee-form" method="post" action="">
+              <input id="show-all" type="hidden" name="companyId" value=""/>
+              <input id="edit-entity-id" type="hidden" name="id" value="" />
+              <input id="delete-entity-id" type="hidden" name="employeeId" value="" />
        </form>
-</li>
-<li class="nav-item">
-       <form asp-controller="Employees" asp-action="Create">
-              <input id="edit-entity-id" type="hidden" name="id" />
-              <input id="edit-employee-submit"
-                          class="nav-link btn emp-manage-btn"
-                          type="submit" 
-                          value="Edit Employee" />
-       </form>
-</li>
-<li class="nav-item">
-       <form asp-controller="Employees" asp-action="Delete">
-              <input id="delete-entity-id" type="hidden" name="employeeId" />
-              <input id="delete-employee-submit"
-                          class="nav-link btn emp-manage-btn"
-                          type="submit" 
-                          value="Delete Employee" />
-       </form>
-</li>
-<li class="nav-item">
-       <form asp-controller="Persons" asp-action="AllPersons">
-              <input id="add-person-submit"
-                          class="nav-link btn emp-manage-btn"
-                          type="submit" 
-                          value="Persons" />
-       </form>
-</li>
+       <li class="nav-item col-sm-2">
+              <input  form="manage-employee-form"
+                            id="all-employees-submit"
+                            class="nav-link btn col-sm-11 px-1 py-1 emp-manage-btn"
+                            value="All Employees" />
+       </li>
+       <li class="nav-item col-sm-2">
+              <input form="manage-employee-form"
+                            id="create-employee-submit"
+                            class="nav-link btn col-sm-11 px-1 py-1  emp-manage-btn"
+                            value="Add Employee" />
+       </li>
+       <li class="nav-item col-sm-2">
+              <input form="manage-employee-form"
+                            id="edit-employee-submit"
+                            class="nav-link btn col-sm-11 px-1 py-1  emp-manage-btn"
+                            value="Edit Employee" />
+       </li>
+       <li class="nav-item col-sm-2">
+              <input form="manage-employee-form"
+                            id="delete-employee-submit"
+                            class="nav-link btn col-sm-12 px-0 py-1 emp-manage-btn"
+                            value="Delete Employee" />
+       </li>
+       <li class="nav-item col-sm-2">
+              <form asp-controller="Persons" asp-action="AllPersons" id="personsForm">
+                     <input id="add-person-submit"
+                            class="nav-link btn col-sm-10 px-1 py-1 emp-manage-btn"
+                            onclick="document.getElementById('personsForm').submit();"
+                            value="Persons" />
+              </form>
+       </li>
+       <li class="nav-item col-sm-2">
+              <div class="dropdown col-sm-9" style="float:left;">
+                     <button class="nav-link btn col-sm-11 px-1 py-1 emp-manage-btn dropdown-toggle"
+                             data-bs-toggle="dropdown">
+                            Sections
+                     </button>
+                     <div class="dropdown-content my-0" style="right:0;">
+                            <form asp-area="LaborAgreements" 
+                                        asp-controller="Agreements" 
+                                        asp-action="Index"
+                                       method="post" id="AgreementForm">
+                                   <a class="dropdown-item" href="#"
+                                      onclick="document.getElementById('AgreementForm').submit()">
+                                          Contracts and Annexes
+                                   </a>
+                            </form>
+                            <a asp-area="Vacations" asp-controller="Leave" asp-action="Index"
+                               class="dropdown-item">
+                                   Leave and Temporary Disability
+                            </a>
+
+                     </div>
+                     
+              </div>
+       </li>
+</ul>
+
 
 
 

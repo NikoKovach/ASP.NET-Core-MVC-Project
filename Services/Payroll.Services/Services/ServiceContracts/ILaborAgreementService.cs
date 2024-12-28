@@ -9,5 +9,7 @@ namespace Payroll.Services.Services.ServiceContracts
               IQueryable<LaborAgreementVM>? AllActive( int? companyId );
 
               IQueryable<LaborAgreementVM>? AllActive( int? companyId, string? sortParam, FilterAgreementVM? filter );
+
+              IQueryable<LaborAgreementVM>? GetContract( int? contractId, int? companyId );
        }
 }

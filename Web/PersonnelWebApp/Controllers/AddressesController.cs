@@ -166,16 +166,71 @@ namespace PersonnelWebApp.Controllers
               }
 
               [HttpGet]
-              public async Task<IActionResult> GetFullAddress( int? id )
+              public async Task<IActionResult> GetFullAddress( int? id, string? returnType )
               {
                      if ( id == null || id < 1 )
                      {
                             return Json( string.Empty );
                      }
 
-                     string? fullAddress = await this.service.GetEntity( id ).FirstOrDefaultAsync();
+                     if ( !string.IsNullOrEmpty( returnType ) && returnType.Equals( "string" ) )
+                     {
+                            string? fullAddress = await this.service.GetEntity( id ).FirstOrDefaultAsync();
 
-                     return Json( fullAddress );
+                            return Json( fullAddress );
+                     }
+
+                     AddressVM? addressVMObject = await this.service.GetEntity<AddressVM>( id ).FirstOrDefaultAsync();
+
+                     return Json( addressVMObject );
+              }
+
+              [HttpPost]
+              public async Task<IActionResult> Add( [FromBody] AddressVM? addressVM )
+              {
+                     this.validateService.Validate( ModelState, addressVM, nameof( Add ) );
+
+                     if ( !ModelState.IsValid )
+                     {
+                            return Json( ModelState );
+                     }
+
+                     try
+                     {
+                            await this.service.AddAsync( addressVM );
+                     }
+                     catch ( Exception ex )
+                     {
+                            return Json( $"Error : {ex.Message} !" );
+                     }
+
+                     string operationIsSuccessful = "' Create ' operation was successful !";
+
+                     return Json( operationIsSuccessful );
+              }
+
+              [HttpPost]
+              public async Task<IActionResult> Update( [FromBody] AddressVM? addressVM )
+              {
+                     this.validateService.Validate( ModelState, addressVM, nameof( Update ) );
+
+                     if ( !ModelState.IsValid )
+                     {
+                            return Json( ModelState );
+                     }
+
+                     try
+                     {
+                            await this.service.UpdateAsync( addressVM );
+                     }
+                     catch ( Exception ex )
+                     {
+                            return Json( $"Error : {ex.Message} !" );
+                     }
+
+                     string operationIsSuccessful = "' Edit ' operation was successful !";
+
+                     return Json( operationIsSuccessful );
               }
 
               //################################################################
