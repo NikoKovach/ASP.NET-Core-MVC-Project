@@ -554,8 +554,38 @@ function submitAgreementBaseSearchForm() {
        document.getElementById("agreement-base-search-form").submit();
 };
 
-function getCompanyId() {
-       let selCompanyValue = document.getElementById("selectCompany").value;
+function getCompanyId () {
+       let selCompanyValue = document.getElementById( "selectCompany" ).value;
+
+       if ( selCompanyValue < 0 ) {
+              alert( "Please select a company from the 'Select Company' menu !" );
+              return;
+       }
+
+       document.getElementById( "inputCompanyId" ).setAttribute( "value", selCompanyValue );
+
+       document.getElementById( "openCreateEditView-form" ).submit();
+};
+
+function getEmployeeIdAndCompanyId () {
+       if ( currentRowIndex < 0) {
+              alert( "Please select a company and then a contract from the contracts table. !" );
+              return;
+       }
+
+       let selectedRow = document
+                                       .getElementById( "customTableBody" )
+                                       .getElementsByTagName( "tr" )
+                                       .item( currentRowIndex );
+
+       let selectedCheckBox = selectedRow.querySelector("input[type='checkbox']");
+       
+       if ( selectedCheckBox.checked ) {
+              let contractIdInput = selectedRow.querySelector( "input[id*='__Id']" );
+
+              document.getElementById( "agreementId" ).setAttribute( "value", contractIdInput.value );
+
+              getCompanyId();
 
        document.getElementById("inputCompanyId").setAttribute("value", selCompanyValue);
 };
