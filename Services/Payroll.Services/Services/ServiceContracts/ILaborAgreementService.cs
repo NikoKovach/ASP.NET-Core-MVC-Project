@@ -11,5 +11,14 @@ namespace Payroll.Services.Services.ServiceContracts
               IQueryable<LaborAgreementVM>? AllActive( int? companyId, string? sortParam, FilterAgreementVM? filter );
 
               IQueryable<LaborAgreementVM>? GetContract( int? contractId, int? companyId );
+
+              /// <summary>
+              /// Return relative file path.
+              /// </summary>
+              /// <param name="appFolderPath"></param>
+              /// <param name="relativeFolderName"></param>
+              /// <returns></returns>
+              Task<string?> CreateTempFileAsync( string appFolderPath, string? relativeFolderName,
+                                                                                int? companyId, int? agreementId, string? fileTypeVersion );
        }
 }

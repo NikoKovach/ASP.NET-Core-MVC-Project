@@ -5,9 +5,19 @@ namespace PersonnelWebApp.Filters
 {
        public class ExceptionFilter : IExceptionFilter
        {
+              private readonly IWebHostEnvironment currentEnvironment;
+
+              public ExceptionFilter( IWebHostEnvironment environment )
+              {
+                     this.currentEnvironment = environment;
+              }
+
               public void OnException( ExceptionContext context )
               {
-                     var viewResult = new ViewResult()
+                     if ( this.currentEnvironment.IsDevelopment() )
+                            return;
+
+                     ViewResult? viewResult = new ViewResult()
                      {
                             ViewName = "Error",
                      };

@@ -57,17 +57,3 @@ function pageIndexIsValid (pageIndex) {
        return true;
 };
 
-//const gotoEmpFilesBtn = document.getElementById( "gotoEmpFilesBtn" );
-
-//gotoEmpFilesBtn.addEventListener( "click", e => {
-//       document.location = "/Employees/Index";
-//});
-//document.location = "/Employees/Index";
-//if ( pageIndexIsValid( currentPageIndex - 1 ) ) {
-//       gotoPageInput.setAttribute( "value", currentPageIndex - 1 );
-
-//       personsPagingForm.submit();
-//}
-//else {
-//       console.log( "Invalid page index ! -> "  + e.target.innerText);
-//}

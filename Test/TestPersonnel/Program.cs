@@ -16,11 +16,16 @@ public class Program
               //ServiceTest.AutoMapperTest( context, mapper );
               //ServiceTest.TestCustomMapper( context );
               //ServiceTest.TestValidate( context, mapper );
-              ServiceTest.AddressValidateTest( context, mapper );
+              //ServiceTest.AddressValidateTest( context, mapper );
 
               //ServiceTest.ConfigurationTest();
               //ServiceTest.PersonPartTest( context, mapper );
               //ServiceTest.PerformanceTest( context, mapper );
+
+              //**************************************************************
+
+              DocGeneratorDemo.FirstPdf();
+
 
               Console.WriteLine();
        }

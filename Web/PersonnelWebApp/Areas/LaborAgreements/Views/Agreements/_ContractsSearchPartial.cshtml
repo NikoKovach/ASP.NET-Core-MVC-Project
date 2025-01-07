@@ -30,31 +30,53 @@
                                           <input hidden id="inputCompanyId" name="companyId" value="" />
                                           <input hidden id="inputAgreementId" name="agreementId" value="" /> 
                                           <input hidden id="inputViewTableRow" name="viewTableRow" value="" />
+                                          <input hidden id="inputFileType" name="fileTypeVersion" value="" />
                                    </form>
                             </div>
                             <div class="px-1">
-                                   <button onclick="createAgreementFunction()"
+                                   <button id="create-contract-btn"
                                                   class="btn btn-sm btn-primary border-0 final-btn">
                                           Create
                                    </button>
                             </div>
                             <div class="px-1">
-                                   <button onclick="editAgreementFunction ()"
-                                                  class="btn btn-sm btn-primary border-0 final-btn">
+                                   <button id="edit-contract-btn"
+                                          class="btn btn-sm btn-primary border-0 final-btn">
                                           Edit
                                    </button>
                             </div>
                             <div class="px-1">
-                                   <button class="btn btn-sm btn-primary border-0 final-btn" 
-                                                  type="submit">Details
-                                   </button>
+                                   <div class="dropdown">
+                                          <button class="btn btn-sm btn-primary dropdown-toggle border-0 final-btn"
+                                                  data-toggle="dropdown">
+                                                 Details
+                                                 <span class="caret"></span>
+                                          </button>
+                                          <ul class="list-group dropdown-content my-0" style="right:0;">
+                                                 <li class="dropdown-header py-0">-- Bul Version --</li>
+                                                 <li class="list-group-item list-group-item-action list-group-item-light py-0">
+                                                        <a class="fw-bold get-temp-file" href="#" value="bul-pdf">pdf</a>
+                                                 </li>
+                                                 <li class="list-group-item list-group-item-action list-group-item-light py-0">
+                                                        <a class="fw-bold get-temp-file" href="#" value="bul-rtf">rtf</a>
+                                                 </li>
+                                                 <li class="dropdown-header py-0">-- Eng Version --</li>
+                                                 <li class="list-group-item list-group-item-action list-group-item-light py-0">
+                                                        <a class="fw-bold get-temp-file" href="#" value="eng-pdf"> pdf</a>
+                                                 </li>
+                                                 <li class="list-group-item list-group-item-action list-group-item-light py-0">
+                                                        <a class="fw-bold get-temp-file" href="#" value="eng-rtf"> rtf </a>
+                                                 </li>
+                                          </ul>
+                                   </div>
+                                   @* <button id="contract-details-btn"
+                                                  class="btn btn-sm btn-primary border-0 final-btn" >
+                                          Details
+                                   </button> *@
                             </div>
                             <div class="px-1">
-                                   <button id="gotoEmpFilesBtn"
-                                          class="btn btn-sm btn-primary border-0 final-btn">
-                                          Employee Files
-                                   </button>
-                                  @*  type="submit" *@
+                                   <button id="goBackToEmpFilesBtn" 
+                                          class="btn btn-sm btn-primary border-0 final-btn">Employee Files</button>
                             </div>
                      </div>
               </div>

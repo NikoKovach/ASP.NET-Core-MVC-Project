@@ -18,15 +18,25 @@ namespace PersonnelWebApp.Areas.Contracts.Controllers
 
               private readonly ILaborAgreementService service;
               private readonly IValidate<ValidateBaseModel> validateService;
+              private readonly IWebHostEnvironment env;
+              private readonly IConfiguration config;
 
-              public AgreementsController( ILaborAgreementService agreementService, IPrivateConfiguration configuration,
-               [FromKeyedServices( "AgreementValidate" )] IValidate<ValidateBaseModel> validateService )
+              public AgreementsController(
+                     ILaborAgreementService agreementService,
+                     IPrivateConfiguration configuration,
+                     IConfiguration appConfiguration,
+                     IWebHostEnvironment environment,
+                     [FromKeyedServices( "AgreementValidate" )] IValidate<ValidateBaseModel> validateService )
               {
                      this.service = agreementService;
 
                      this.validateService = validateService;
 
                      configuration.SetPagingVariables( ref this._pageIndex, ref this._pageSize, ref this._count );
+
+                     this.env = environment;
+
+                     this.config = appConfiguration;
               }
 
               [HttpPost]
@@ -98,16 +108,21 @@ namespace PersonnelWebApp.Areas.Contracts.Controllers
               }
 
               [HttpPost]
-              public ActionResult Delete( int? companyId, int? employeeId )
+              public async Task<IActionResult> Details( int? companyId, int? agreementId, string? fileTypeVersion )
               {
-                     try
-                     {
-                            return RedirectToAction( nameof( Index ) );
-                     }
-                     catch
-                     {
-                            return View();
-                     }
+                     string? appFolderPath = Path.Combine( this.env.ContentRootPath,
+                                             this.config[ "PrimaryAppFolder:FolderName" ] );
+
+                     string? relativeFolderName = this.config[ "PrimaryAppFolder:RequestPath" ];
+
+                     string? contractFilePath =
+                                  await this.service.CreateTempFileAsync( appFolderPath, relativeFolderName,
+                                                                                                         companyId, agreementId, fileTypeVersion );
+
+                     //return LocalRedirect( contractFilePath );
+
+                     return LocalRedirect( "/app-folder/Temp/HelloWorldMigraDoc-WIN-CORE-6.0-5B93294859_temp.pdf" );
+                     //"/app-folder/Temp/HelloWorldMigraDoc-WIN-CORE-6.0-5B93294859_temp.pdf" 
               }
 
               //*********************************************************
@@ -177,4 +192,17 @@ namespace PersonnelWebApp.Areas.Contracts.Controllers
 //if ( !string.IsNullOrEmpty( viewTableRow ) )
 //{
 //       return Json( ModelState );
+//}
+
+//[HttpPost]
+//public ActionResult Delete( int? companyId, int? employeeId )
+//{
+//       try
+//       {
+//              return RedirectToAction( nameof( Index ) );
+//       }
+//       catch
+//       {
+//              return View();
+//       }
 //}

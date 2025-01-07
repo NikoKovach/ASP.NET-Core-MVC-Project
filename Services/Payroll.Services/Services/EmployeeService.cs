@@ -130,9 +130,7 @@ namespace Payroll.Services.Services
                      if ( string.IsNullOrEmpty( companyFolderName ) )
                             return false;
 
-                     bool companyDirExists = Directory.Exists( Path.Combine( appFolder, companyFolderName ) );
-
-                     if ( companyDirExists )
+                     if ( EnvironmentService.DirExists( appFolder, companyFolderName ) )
                      {
                             Directory.CreateDirectory( employeeFolderPath );
 
@@ -141,10 +139,8 @@ namespace Payroll.Services.Services
 
                      Directory.CreateDirectory( Path.Combine( appFolder, companyFolderName ) );
 
-                     if ( Directory.Exists( Path.Combine( appFolder, companyFolderName ) ) )
-                     {
+                     if ( EnvironmentService.DirExists( appFolder, companyFolderName ) )
                             Directory.CreateDirectory( employeeFolderPath );
-                     }
 
                      return true;
               }
@@ -196,7 +192,8 @@ namespace Payroll.Services.Services
 
                      string relativePath = EnvironmentService.CreateRelativePath( empImageFullPath,
                                                                                                    relativeFolderName, appFolderName );
-                     //******************************************
+                     //relativeFolderName, appFolderName
+                     //#######################################################################
                      Employee? employee = await repository
                                                                                  .All()
                                                                                  .Where( x => x.Person.Id == personId )

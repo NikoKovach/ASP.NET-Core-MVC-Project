@@ -3,6 +3,7 @@ using Payroll.Data.Common;
 using Payroll.Mapper.AutoMapper;
 using Payroll.Models;
 using Payroll.Services.Services.ServiceContracts;
+using Payroll.Services.Utilities;
 using Payroll.ViewModels.EmpContractViewModels;
 
 namespace Payroll.Services.Services
@@ -94,7 +95,36 @@ namespace Payroll.Services.Services
                             await repository.SaveChangesAsync();
                      }
               }
+
+              public async Task<string?> CreateTempFileAsync( string appFolderPath, string? relativeFolderName,
+                                                                                                       int? companyId, int? agreementId, string? fileTypeVersion )
+              {
+                     LaborAgreementVM? contractModel = await this.GetContract( agreementId, companyId )
+                                                                                                             .FirstOrDefaultAsync();
+
+                     string tempFolderName = "Temp";
+
+                     string tempDirPath = EnvironmentService.GetPath( appFolderPath, tempFolderName ) ?? string.Empty;
+
+                     if ( !string.IsNullOrEmpty( tempDirPath ) && !Directory.Exists( tempDirPath ) )
+                     {
+                            tempDirPath = EnvironmentService.CreateDir( appFolderPath, tempFolderName ) ?? string.Empty;
+                     }
+
+                     //string tempFileFullPath = CreateFile( tempDirPath, contractModel, fileTypeVersion);
+                     string tempFileFullPath = tempDirPath;
+
+                     string? filePath = EnvironmentService.CreateRelativePath
+                                                                                         ( tempFileFullPath, relativeFolderName, appFolderPath );
+
+                     return filePath;
+              }
+
+              //##############################################################
        }
 }
 
 
+//appFolderPath : "AppFolder",
+//relativeFolderName: "/app-folder"
+//Създаваме pdf file ,с данните от LaborAgreementVM параметъра на метода Details ,  в Temp папката 

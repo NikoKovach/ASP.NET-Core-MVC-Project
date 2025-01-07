@@ -14,22 +14,21 @@ const rightArrayError = "&#129170;";
 
 $( ".final-btn" ).on( "click", function () {
        $( this ).trigger( "blur" );
-} );
+} )
 
-$('#customTableBody').on('click', 'tr', onRowClick);
+$('#customTableBody').on('click', 'tr', onRowClick)
 
 $('#customTableBody').on("mouseover", 'tr', function () {
        indexMouseOver = $(this).index();
-});
+})
 
 $(document).on("keypress", function (event) {
        $("#customTableBody tr").eq(indexMouseOver).trigger("click");
-});
+})
 
 $(document).on("keydown", function (key) {
        arrowKeysPress(key);
-} );
-
+} )
 
 function arrowKeysPress ( key ) {
 
@@ -47,7 +46,7 @@ function arrowKeysPress ( key ) {
                      rightArrowPress();
                      break;
        }
-};
+}
 
 function upArrowPress () {
        if ( currentRowIndex > 0 ) {
@@ -57,7 +56,7 @@ function upArrowPress () {
               var rowTextFields = $( '#customTableBody tr' ).eq( currentRowIndex ).find( "input.table-field" );
               rowTextFields.eq( currentFieldIndex ).trigger( "focus" );
        }
-};
+}
 
 function downArrowPress () {
        var tableRowCount = $( '#customTableBody tr' ).length;
@@ -68,7 +67,7 @@ function downArrowPress () {
               var rowTextFields = $( '#customTableBody tr' ).eq( currentRowIndex ).find( "input.table-field" );
               rowTextFields.eq( currentFieldIndex ).trigger( "focus" );
        }
-};
+}
 
 function leftArrowPress () {
        var rowTextFields = $( '#customTableBody tr' ).eq( currentRowIndex ).find( "input.table-field" );
@@ -77,7 +76,7 @@ function leftArrowPress () {
               currentFieldIndex -= 1;
               rowTextFields.eq( currentFieldIndex ).trigger( "focus" );
        }
-};
+}
 
 function rightArrowPress () {
        var rowTextFields = $( '#customTableBody tr' ).eq( currentRowIndex ).find( "input.table-field" );
@@ -87,16 +86,14 @@ function rightArrowPress () {
               currentFieldIndex += 1;
               rowTextFields.eq( currentFieldIndex ).trigger( "focus" );
        }
-};
+}
 
 function changeCurrentRowBgColor ( currentRow ) {
        var rowInputs = currentRow.find( "input" );
 
        currentRow.css( "background-color", 'rgb(231, 255, 245 )' ); //231, 255, 245 <> 206, 254, 235
        rowInputs.css( "background-color", 'rgb(231, 255, 245 )' );
-};
-
-//#############################################################
+}
 
 function onRowClick() {
        if (prevItemIndex > -1) {
@@ -143,7 +140,7 @@ function onRowClick() {
        //       $('#delete-entity-id').val($(this).children(':nth-child(2)').text());
        //}
        //####################################################
-};
+}
 
 //#############################################################
 
@@ -169,7 +166,7 @@ $( "button.new-sort-btn" ).on( 'click', function () {
        console.log( "input  sort has value : " + $( "#new-input-sort" ).val() );
 
        $( this ).trigger( "blur" );
-} );
+} )
 
 $( function () {
        changeNewSortButtons();
@@ -178,7 +175,7 @@ $( function () {
 
               attachDetachBtnsAreDisabled( $( "input.checkAddressType" ) );
        }
-} );
+} )
 
 function changeNewSortButtons () {
        $( "button.new-sort-btn" ).each( function ( index ) {
@@ -201,12 +198,12 @@ function changeNewSortButtons () {
                      }
               }
        } );
-};
+}
 
 function addArraySymbolSpan ( button, arraySymbol ) {
        var spanText = "<span>" + arraySymbol + "</span>";
        $( button ).prepend( spanText );
-};
+}
 
 //#############################################################
 
@@ -221,7 +218,7 @@ function moveToNextPage () {
        let value = inputPageIndex.getAttribute( "value" );
 
        document.getElementById( "main-paging-form" ).submit();
-};
+}
 
 function moveToPreviousPage () {
 
@@ -234,7 +231,7 @@ function moveToPreviousPage () {
        let value = inputPageIndex.getAttribute( "value" );
 
        document.getElementById( "main-paging-form" ).submit();
-};
+}
 
 function clearSearchFilterSettings () {
 
@@ -246,60 +243,59 @@ function clearSearchFilterSettings () {
        }
 
        document.getElementById( "agreement-base-search-form" ).submit();
-};
+}
 
 //###############################################################
 
 function onCompanyChange () {
        document.getElementById( "changeCompanyForm" ).submit();
-};
+}
 
 function submitAgreementBaseSearchForm () {
        document.getElementById( "agreement-base-search-form" ).submit();
-};
+}
 
-function submitCreateEditForm ( formAction ) {
-       let formElement = document.getElementById( "openCreateEditView-form" );
-
-       formElement.setAttribute( "action", formAction );
-
-       formElement.submit();
-};
-
+//###################################################################
 function createAgreementFunction () {
-       if ( !getCompanyId()) {
-              return;
-       }
-       
+       getCompanyId();
+
        let actionAttrValue = "/LaborAgreements/Agreements/Create";
        submitCreateEditForm( actionAttrValue );
-};
+}
+
+let editContractAlert = "Please select a contract by checking the appropriate check box. !";
+
+function editAgreementFunction () {
+       if ( !companyAndContractWereChosen() ) return;
+
+       let actionAttrValue = "/LaborAgreements/Agreements/Edit";
+
+       submitCreateEditForm( actionAttrValue );
+}
 
 function getCompanyId () {
        let selCompanyValue = Number( document.getElementById( "selectCompany" ).value );
 
-       if ( selCompanyValue < 0 ) {
-              alert( "Please select a company from the 'Select Company' menu !" );
-              return false;
-       }
+       if ( selCompanyValue < 0 ) return false;
 
        let companyIdInput = document.getElementById( "inputCompanyId" );
 
        companyIdInput.setAttribute( "value", selCompanyValue );
 
        return true;
-};
+}
 
-function editAgreementFunction () {
+function companyAndContractWereChosen () {
+       if ( !getCompanyId() ) {
+              alert( "Please select a company from the 'Select Company' menu !" );
 
-       if ( !getCompanyId() ) return;
-
-       let editContractAlert = "Please select a contract by checking the appropriate check box. !"
+              return false;
+       }
 
        if ( currentRowIndex < 0 ) {
               alert( editContractAlert );
 
-              return ;
+              return false;
        }
 
        let selectedRow = document.getElementById( "customTableBody" )
@@ -310,37 +306,81 @@ function editAgreementFunction () {
 
        if ( selectedCheckBox.checked ) {
               let contractIdValue = selectedRow.querySelector( "input[id*='__Id']" ).getAttribute( "value" );
-              document.getElementById( "inputAgreementId" ).setAttribute("value" , contractIdValue);
+              document.getElementById( "inputAgreementId" ).setAttribute( "value", contractIdValue );
 
               let editTableRow = selectedRow.querySelector( "input[id*='__IsRegistered']" ).getAttribute( "name" );
               document.getElementById( "inputViewTableRow" ).setAttribute( "value", editTableRow );
-
-              let actionAttrValue = "/LaborAgreements/Agreements/Edit";
-              submitCreateEditForm( actionAttrValue );
        }
        else {
               alert( editContractAlert );
+
+              return false;
        }
-};
+
+       return true;
+}
+
+function submitCreateEditForm ( formAction ,formTarget) {
+       let formElement = document.getElementById( "openCreateEditView-form" );
+
+       formElement.target = ( !stringIsNullOrEmpty( formTarget ) ) ? formTarget : "_self" ;
+
+       formElement.setAttribute( "action", formAction );
+
+       formElement.submit();
+}
+
+//##############################################################
 
 const checkBoxesEdit = document.querySelectorAll( '.edit-checkbox' );
-checkBoxesEdit.forEach( function (btn,index) {
+
+checkBoxesEdit.forEach( function ( btn, index ) {
        btn.addEventListener( 'click', () => {
               if ( btn.checked ) {
-                     for ( var y = 0; y < checkBoxesEdit. length; y++ ) {
+                     for ( var y = 0; y < checkBoxesEdit.length; y++ ) {
                             if ( y != index ) {
                                    checkBoxesEdit[ y ].checked = false;
                             }
                      }
               }
        } );
-});
+} );
 
-//##############################################################
+document.getElementById( "create-contract-btn" ).addEventListener( "click", createAgreementFunction );
 
-const gotoEmpFilesBtn = document.getElementById( "gotoEmpFilesBtn" );
+document.getElementById( "edit-contract-btn" ).addEventListener( "click", editAgreementFunction );
 
-gotoEmpFilesBtn.addEventListener( "click", e => {
+document.getElementById( "goBackToEmpFilesBtn" ).addEventListener( "click", function () {
        document.location = "/Employees/Index";
-});
-//document.location = "/Employees/Index";
+} );
+
+const tempFileBtns = document.getElementsByClassName( "get-temp-file" );
+
+for ( let button of tempFileBtns ) {
+       button.addEventListener( "click", ( event ) => {
+              let btnValue = event.target.getAttribute( "value" );
+
+              if ( !companyAndContractWereChosen() ) return;
+
+              document.getElementById( "inputFileType" ).setAttribute( "value", btnValue );
+
+              let actionAttrValue = "/LaborAgreements/Agreements/Details";
+
+              let formTarget = "_blank";
+
+              submitCreateEditForm( actionAttrValue, formTarget );
+       } );
+};
+//document.getElementById( "contract-details-btn" ).addEventListener( "click", e => {
+//       if ( !companyAndContractWereChosen() ) return;
+
+//       let actionAttrValue = "/LaborAgreements/Agreements/Details";
+
+//       let formTarget = "_blank";
+
+//       submitCreateEditForm( actionAttrValue, formTarget );
+//} );
+
+
+
+

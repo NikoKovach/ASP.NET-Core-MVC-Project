@@ -170,7 +170,7 @@ namespace Payroll.ViewModels.EmpContractViewModels
               public int? LaborCodeArticleId { get; set; }
 
               [Display( Name = "Department Id" )]
-              public int? DepartmentID { get; set; }
+              public int? DepartmentId { get; set; }
 
               [Required]
               [Display( Name = "Is Registered" )]

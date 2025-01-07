@@ -143,7 +143,7 @@ namespace TestPersonnel.Demo
                             ContractNumber = "5555555555",
                             ContractTypeId = 1,
                             DateOfReceipt = DateTime.Parse( "5.01.2025" ),
-                            DepartmentID = 3,
+                            DepartmentId = 3,
                             EAC = "Something",
                             EmployeeId = 13,
                             FirstLastName = null,
@@ -275,7 +275,7 @@ namespace TestPersonnel.Demo
                      };
 
                      object[] checkDictionaryParams =
-                     { nameof( DepartmentVM ), nameof( departmentVM.Name ), departmentVM.Name };
+                     [ nameof( DepartmentVM ), nameof( departmentVM.Name ), departmentVM.Name ];
 
                      vslidateService.Validate( modelState, departmentVM, "", checkDictionaryParams );
 
@@ -286,99 +286,6 @@ namespace TestPersonnel.Demo
        }
 }
 
-
-/*
-
- //Cannot insert explicit value for identity column in table 'Persons' when IDENTITY_INSERT is set to OFF.
-
-                     //repository.Context.Addresses.Entry( address ).State = EntityState.Added;
-
-                     //person.PermanentAddress = address;
-
-                     //repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-
-                     //if ( repo.Context.Genders.Any( x => x.Type == person.Gender.Type ) )
-                     //{
-
-                     //       //person.GenderId = 1;
-                     //}
-                     //else
-                     //{
-                     //       repo.Context.Genders.Entry( person.Gender ).State = EntityState.Added;
-                     //}
-
-                     //var genderState = repo.Context.Genders.Entry( person.Gender ).State;
-
-
-//var person = repository.All()
-                     //       .Where( x => x.Id == 19 )
-                     //       .FirstOrDefault();
-
-                     //var personState = repository.DbSet.Entry( person ).State;
-
-                     //var addressVm = new AddressVM
-                     //{
-                     //       Country = "Bul",
-                     //       Region = "Tarnovo",
-                     //       City = "Tarrnovo",
-                     //       Street = "Green Meadow",
-                     //       Number = 8,
-                     //       Floor = 4,
-                     //       HasBeenDeleted = false,
-                     //       AddressType = "permanent",
-                     //       PersonId = 19
-                     //};
-
-                     //var address = mapper.Map<AddressVM, Address>( addressVm );
-
-                     //repository.Context.Addresses.Entry( address ).State = EntityState.Added;
-
-                     //person.PermanentAddress = address;
-
-                     //repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-*/
-
-/*
-                     //IRepository<Address> repository = new Repository<Address>( context );
-
-                     //var filter = new SearchAddressVM
-                     //{
-                     //       Region = "plov",
-                     //       City = "plov"
-                     //};
-
-                     //var result = repository.AllAsNoTracking();
-
-                     //if ( !string.IsNullOrEmpty( filter.Country ) )
-                     //{
-                     //       result = result.Where( x => x.Country.Contains( filter.Country ) );
-                     //}
-
-                     //if ( !string.IsNullOrEmpty( filter.Region ) )
-                     //{
-                     //       result = result.Where( x => x.Region.Contains( filter.Region ) );
-                     //}
-
-                     //if ( !string.IsNullOrEmpty( filter.City ) )
-                     //{
-                     //       result = result.Where( x => x.City.Contains( filter.City ) );
-                     //}
-
-                   
-                     //var mapper = new MapEntity( autoMapper );
-
-                     //var factory = new FactoryAddressesCollection( mapper, repository );
-
-
-                     //string sort = "Country_desc";
-
-
-                     //factory.SortedCollection( sort, filter );
-
-
-*/
 
 
 /*

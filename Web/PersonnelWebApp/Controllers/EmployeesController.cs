@@ -25,9 +25,9 @@ namespace PersonnelWebApp.Controllers
               public EmployeesController(
                      IEmployeeService service,
                      [FromKeyedServices( "EmployeeValidate" )] IValidate<ValidateBaseModel> validateService,
-                      IWebHostEnvironment environment,
-                      IConfiguration configuration,
-                      IPrivateConfiguration privateConfig )
+                     IWebHostEnvironment environment,
+                     IConfiguration configuration,
+                     IPrivateConfiguration privateConfig )
               {
                      this.empService = service;
 
