@@ -1,101 +1,109 @@
 namespace PersonnelWebApp
 {
-       using Microsoft.AspNetCore.Mvc;
-       using Microsoft.EntityFrameworkCore;
-       using Microsoft.Extensions.FileProviders;
-       using Payroll.Data;
+	using Microsoft.AspNetCore.Mvc;
+	using Microsoft.EntityFrameworkCore;
+	using Microsoft.Extensions.FileProviders;
 
-       public class Startup
-       {
-              public Startup( IConfiguration configuration )
-              {
-                     Configuration = configuration;
-              }
+	using Payroll.Data;
 
-              IConfiguration Configuration { get; }
+	using PersonnelWebApp.Filters;
 
-              // This method gets called by the runtime. Use this method to add services to the container.
-              public void ConfigureServices( IServiceCollection services )
-              {
-                     ServicesCollection.Collect( services, Configuration );
+	public class Startup
+	{
+		public Startup(IConfiguration configuration, IWebHostEnvironment env)
+		{
+			this.Configuration = configuration;
 
-                     services.AddControllersWithViews( options =>
-                     {
-                            options.Filters.Add( new AutoValidateAntiforgeryTokenAttribute() );
+			this.CurrentEnvironment = env;
+		}
 
-                            //Turn On in Production -> ENVIRONMENT
-                            //options.Filters.Add( new ExceptionFilter() );
-                     } ).AddRazorRuntimeCompilation();
-              }
+		private IConfiguration Configuration { get; }
 
-              // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		private IWebHostEnvironment CurrentEnvironment { get; set; }
 
-              public void Configure( IApplicationBuilder app, IWebHostEnvironment env )
-              {
-                     //  migrate any database changes on startup (includes initial db creation)
-                     using ( var scope = app.ApplicationServices.CreateScope() )
-                     {
-                            var dataContext = scope
-                                          .ServiceProvider
-                                          .GetRequiredService<PayrollContext>();
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			ServicesCollection.Collect(services, Configuration);
 
-                            dataContext.Database.Migrate();
-                     }
-                     // End migrate any database changes on startup (includes initial db creation)
+			services.AddControllersWithViews(options =>
+			{
+				options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
 
-                     if ( env.IsDevelopment() )
-                     {
-                            app.UseDeveloperExceptionPage();
-                     }
-                     else
-                     {
-                            app.UseExceptionHandler( "/Home/Error" );
-                            app.UseStatusCodePagesWithRedirects( "/Home/StatusCodeError?errorCode={0}" );
+				options.Filters.Add(new ExceptionFilter(this.CurrentEnvironment));
 
-                            app.UseHsts();
-                            // The default HSTS value is 30 days. You may want to change this for	production scenarios, see https://aka.ms/aspnetcore-   hsts.
-                     }
+			}).AddRazorRuntimeCompilation();
+		}
 
-                     app.UseHttpsRedirection();
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 
-                     // *********** Use files from multiple locations ***************
-                     app.UseStaticFiles();
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		{
+			//  migrate any database changes on startup (includes initial db creation)
+			using (var scope = app.ApplicationServices.CreateScope())
+			{
+				var dataContext = scope
+							  .ServiceProvider
+							  .GetRequiredService<PayrollContext>();
 
-                     app.UseStaticFiles( new StaticFileOptions
-                     {
-                            FileProvider = new PhysicalFileProvider(
-                                   Path.Combine( env.ContentRootPath,
-                                   Configuration[ "PrimaryAppFolder:FolderName" ] ) ),
-                            RequestPath = Configuration[ "PrimaryAppFolder:RequestPath" ]
-                     } );
+				dataContext.Database.Migrate();
+			}
+			// End migrate any database changes on startup (includes initial db creation)
 
-                     app.UseStaticFiles( new StaticFileOptions
-                     {
-                            FileProvider = new PhysicalFileProvider(
-                                   Path.Combine( env.ContentRootPath,
-                                   Configuration[ "SecondaryAppFolder:FolderName" ] ) ),
-                            RequestPath = Configuration[ "SecondaryAppFolder:RequestPath" ]
-                     } );
-                     // ******************************************************************
+			if (env.IsDevelopment())
+			{
+				app.UseDeveloperExceptionPage();
+			}
+			else
+			{
+				app.UseExceptionHandler("/Home/Error");
+				app.UseStatusCodePagesWithRedirects("/Home/StatusCodeError?errorCode={0}");
 
-                     app.UseRouting();
+				app.UseHsts();
+				// The default HSTS value is 30 days. You may want to change this for	
+				// production scenarios, see https://aka.ms/aspnetcore-   hsts.
+			}
 
-                     app.UseAuthorization();
+			app.UseHttpsRedirection();
 
-                     app.UseEndpoints( endpoints =>
-                     {
-                            endpoints.MapControllerRoute(
-                               name: "areas",
-                               pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-                             );
-                     } );
+			// *********** Use files from multiple locations ***************
+			app.UseStaticFiles();
 
-                     app.UseEndpoints( endpoints =>
-                     {
-                            endpoints.MapControllerRoute(
-                                        name: "default",
-                                        pattern: "{controller=Home}/{action=Index}/{id?}" );
-                     } );
-              }
-       }
+			app.UseStaticFiles(new StaticFileOptions
+			{
+				FileProvider = new PhysicalFileProvider(
+						  Path.Combine(env.ContentRootPath,
+						  Configuration["PrimaryAppFolder:FolderName"])),
+				RequestPath = Configuration["PrimaryAppFolder:RequestPath"]
+			});
+
+			app.UseStaticFiles(new StaticFileOptions
+			{
+				FileProvider = new PhysicalFileProvider(
+						  Path.Combine(env.ContentRootPath,
+						  Configuration["SecondaryAppFolder:FolderName"])),
+				RequestPath = Configuration["SecondaryAppFolder:RequestPath"]
+			});
+			// ******************************************************************
+
+			app.UseRouting();
+
+			app.UseAuthorization();
+
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllerRoute(
+							name: "areas",
+							pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+						  );
+			});
+
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllerRoute(
+									 name: "default",
+									 pattern: "{controller=Home}/{action=Index}/{id?}");
+			});
+		}
+	}
 }

@@ -4,96 +4,104 @@ using System.Text;
 
 namespace Payroll.Models
 {
-       public class Address
-       {
-              private const string Comma = ", ";
+	public class Address
+	{
+		private const string Comma = ", ";
 
-              [Key]
-              public int Id { get; set; }
+		[Key]
+		public int Id { get; set; }
 
-              [StringLength( 200, MinimumLength = 3 )]
-              [Required]
-              public string Country { get; set; }
+		[StringLength(200, MinimumLength = 3)]
+		[Required]
+		public string Country { get; set; }
 
-              [StringLength( 200, MinimumLength = 3 )]
-              [Required]
-              public string Region { get; set; }
+		[StringLength(200, MinimumLength = 3)]
+		[Required]
+		public string Region { get; set; }
 
-              [StringLength( 200, MinimumLength = 3 )]
-              public string? Municipality { get; set; }
+		[StringLength(200, MinimumLength = 3)]
+		public string? Municipality { get; set; }
 
-              [StringLength( 200, MinimumLength = 3 )]
-              [Required]
-              public string City { get; set; }
+		[StringLength(200, MinimumLength = 3)]
+		[Required]
+		public string City { get; set; }
 
-              [StringLength( 200, MinimumLength = 3 )]
-              [Required]
-              public string Street { get; set; }
+		[StringLength(200, MinimumLength = 3)]
+		[Required]
+		public string Street { get; set; }
 
-              [Required]
-              public int Number { get; set; }
+		[Required]
+		public int Number { get; set; }
 
-              public string? Entrance { get; set; }
+		public string? Entrance { get; set; }
 
-              public int? Floor { get; set; }
+		public int? Floor { get; set; }
 
-              public int? ApartmentNumber { get; set; }
+		public int? ApartmentNumber { get; set; }
 
-              [InverseProperty( "PermanentAddress" )]
-              public ICollection<Person> PersonPermanentAddresses { get; set; } = new List<Person>();
+		[InverseProperty("PermanentAddress")]
+		public ICollection<Person> PersonPermanentAddresses { get; set; } = new List<Person>();
 
-              [InverseProperty( "CurrentAddress" )]
-              public ICollection<Person> PersonCurrentAddresses { get; set; } = new List<Person>();
+		[InverseProperty("CurrentAddress")]
+		public ICollection<Person> PersonCurrentAddresses { get; set; } = new List<Person>();
 
 
-              [InverseProperty( "PlaceOfRegistration" )]
-              public ICollection<EmploymentContract> EmploymentContracts { get; set; } =
-                         new HashSet<EmploymentContract>();
+		[InverseProperty("PlaceOfRegistration")]
+		public ICollection<EmploymentContract> EmploymentContracts { get; set; } =
+				   new HashSet<EmploymentContract>();
 
-              [InverseProperty( "WorkPlace" )]
-              public ICollection<EmploymentContract> WorkPlaceEmploymentContracts { get; set; } =
-                         new HashSet<EmploymentContract>();
+		[InverseProperty("WorkPlace")]
+		public ICollection<EmploymentContract> WorkPlaceEmploymentContracts { get; set; } =
+				   new HashSet<EmploymentContract>();
 
-              public bool HasBeenDeleted { get; set; }
+		[InverseProperty("HeadquartersAddress")]
+		public ICollection<Company> CompaniesHeadquarters { get; set; } = new HashSet<Company>();
 
-              public DateTime? DeletionDate { get; set; }
+		[InverseProperty("ManagementAddress")]
+		public ICollection<Company> ManagementAddresses { get; set; } =
+				   new HashSet<Company>();
 
-              public string? GetAddress => this.FullAddress();
+		public bool HasBeenDeleted { get; set; }
 
-              private string FullAddress()
-              {
-                     if ( string.IsNullOrEmpty( this.Country ) || string.IsNullOrEmpty( this.City ) )
-                     {
-                            return string.Empty;
-                     }
+		public DateTime? DeletionDate { get; set; }
 
-                     StringBuilder sb = new StringBuilder();
+		public string? GetAddress => this.FullAddress();
 
-                     sb.Append( this.Street );
-                     sb.Append( Comma + "No." + this.Number );
+		//#############################################################
+		private string FullAddress()
+		{
+			if (string.IsNullOrEmpty(this.Country) || string.IsNullOrEmpty(this.City))
+			{
+				return string.Empty;
+			}
 
-                     if ( this.Entrance != null )
-                     {
-                            sb.Append( Comma + "Ent." + this.Entrance );
-                     }
+			StringBuilder sb = new StringBuilder();
 
-                     if ( this.Floor != null )
-                     {
-                            sb.Append( Comma + "Fl." + this.Floor );
-                     }
+			sb.Append(this.Street);
+			sb.Append(Comma + "No." + this.Number);
 
-                     if ( this.ApartmentNumber != null )
-                     {
-                            sb.Append( Comma + "Apt." + this.ApartmentNumber );
-                     }
+			if (this.Entrance != null)
+			{
+				sb.Append(Comma + "Ent." + this.Entrance);
+			}
 
-                     sb.Append( Comma + this.City + " City" );
-                     sb.Append( Comma + "Reg. " + this.Region );
-                     sb.Append( Comma + this.Country );
-                     //##################################################################
-                     return sb.ToString();
-              }
-       }
+			if (this.Floor != null)
+			{
+				sb.Append(Comma + "Fl." + this.Floor);
+			}
+
+			if (this.ApartmentNumber != null)
+			{
+				sb.Append(Comma + "Apt." + this.ApartmentNumber);
+			}
+
+			sb.Append(Comma + this.City + " City");
+			sb.Append(Comma + "Reg. " + this.Region);
+			sb.Append(Comma + this.Country);
+			//##################################################################
+			return sb.ToString();
+		}
+	}
 }
 
 

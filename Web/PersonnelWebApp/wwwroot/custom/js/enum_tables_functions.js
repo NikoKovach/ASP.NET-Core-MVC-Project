@@ -438,7 +438,7 @@ function chooseDepartment() {
 
        let departmentId = selectDepartments.value;
 
-       let parentInputTag = document.getElementById( "DepartmentID" );
+       let parentInputTag = document.getElementById( "DepartmentId" );
        parentInputTag.setAttribute("value", departmentId);
 
        if ( parentInputTag.getAttribute( "value" ) != "" ) {
@@ -450,7 +450,7 @@ function chooseDepartment() {
 };
 
 function getDepartmentName() {
-       let departmentId = document.getElementById("DepartmentID").getAttribute("value");
+       let departmentId = document.getElementById("DepartmentId").getAttribute("value");
        let spanDepartmentName = document.getElementById("departmentText-span");
 
        if (departmentId != "") {

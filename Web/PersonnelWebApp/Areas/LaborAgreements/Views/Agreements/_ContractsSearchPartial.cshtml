@@ -7,8 +7,8 @@
 }
 
 <div>
-       <div class="d-flex form-control justify-content-start p-1 m-0 h-50"> 
-              <div class="col-sm-8 d-inline-block px-1 py-1">
+    <div class="d-flex form-control justify-content-start p-1 m-0 h-50"> 
+        <div class="col-sm-8 d-inline-block px-1 py-1">
                       <form  asp-action="Index" method="post" id="changeCompanyForm">
                             <div class="d-flex justify-content-start">
                                     <div class="row mx-0 w-100">
@@ -23,124 +23,148 @@
                              </div>
                       </form>
               </div>
-              <div class="col-sm-4 d-inline-block px-1 py-1">
-                     <div class="btn-toolbar justify-content-md-center" role="toolbar">
-                            <div hidden>
-                                   <form id="openCreateEditView-form" method="post" action="">
-                                          <input hidden id="inputCompanyId" name="companyId" value="" />
-                                          <input hidden id="inputAgreementId" name="agreementId" value="" /> 
-                                          <input hidden id="inputViewTableRow" name="viewTableRow" value="" />
-                                   </form>
-                            </div>
-                            <div class="px-1">
-                                   <button onclick="createAgreementFunction()"
+        <div class="col-sm-4 d-inline-block px-1 py-1">
+            <div class="btn-toolbar justify-content-md-center" role="toolbar">
+                <div hidden>
+                    <form id="openCreateEditView-form" method="post" action="">
+                        <input hidden id="inputCompanyId" name="companyId" value="" />
+                        <input hidden id="inputAgreementId" name="agreementId" value="" /> 
+                        <input hidden id="inputViewTableRow" name="viewTableRow" value="" />
+                        <input hidden id="inputFileType" name="fileTypeVersion" value="" />
+                    </form>
+                </div>
+                <div class="px-1">
+                                   <button id="create-contract-btn"
                                                   class="btn btn-sm btn-primary border-0 final-btn">
                                           Create
                                    </button>
                             </div>
-                            <div class="px-1">
-                                   <button onclick="editAgreementFunction ()"
-                                                  class="btn btn-sm btn-primary border-0 final-btn">
+                <div class="px-1">
+                                   <button id="edit-contract-btn"
+                                          class="btn btn-sm btn-primary border-0 final-btn">
                                           Edit
                                    </button>
                             </div>
-                            <div class="px-1">
-                                   <button class="btn btn-sm btn-primary border-0 final-btn" 
-                                                  type="submit">Details
-                                   </button>
-                            </div>
-                            <div class="px-1">
-                                   <button id="gotoEmpFilesBtn"
-                                          class="btn btn-sm btn-primary border-0 final-btn">
-                                          Employee Files
-                                   </button>
-                                  @*  type="submit" *@
-                            </div>
-                     </div>
-              </div>
-       </div>
+                <div class="px-1">
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-primary dropdown-toggle border-0 final-btn"
+                                data-toggle="dropdown">
+                            Details
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="list-group dropdown-content my-0" style="right:0;">
+                            <li class="dropdown-header py-0">-- Bul Version --</li>
+                            <li class="list-group-item list-group-item-action list-group-item-light py-0">
+                                <a class="fw-bold get-temp-file" href="#" value="bul-pdf">pdf</a>
+                            </li>
+                            <li class="list-group-item list-group-item-action list-group-item-light py-0">
+                                <a class="fw-bold get-temp-file" href="#" value="bul-rtf">rtf</a>
+                            </li>
+                            <li class="dropdown-header py-0">-- Eng Version --</li>
+                            <li class="list-group-item list-group-item-action list-group-item-light py-0">
+                                <a class="fw-bold get-temp-file" href="#" value="eng-pdf">pdf</a>
+                            </li>
+                            <li class="list-group-item list-group-item-action list-group-item-light py-0">
+                                <a class="fw-bold get-temp-file" href="#" value="eng-rtf">rtf</a>
+                            </li>
+                        </ul>
+                    </div>
+                    @* <button id="contract-details-btn"
+                                   class="btn btn-sm btn-primary border-0 final-btn" >
+                           Details
+                    </button> *@
+                </div>
+                <div class="px-1">
+                    <button id="goBackToEmpFilesBtn" 
+                            class="btn btn-sm btn-primary border-0 final-btn">
+                        Employee Files
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <hr class="my-1" />
+    
+    <div class="d-flex form-control d-inline-block px-1 py-1">
+        <div class="d-flex d-inline justify-content-start p-1 mt-3">
+            <div class="d-inline mx-1">
+                <input class="final-btn btn btn-success border-0 px-1 py-0" 
+                       type="submit"
+                       value="..." onclick="clearSearchFilterSettings()" />
+            </div>
+            <div class="d-inline mx-1">
+                <input value="@Model.PageSize" type="text" name="pageSize"
+                       class="rounded-pill input-baseSearchForm border-1 col-sm-3 px-1 py-0"
+                       form="agreement-base-search-form"/>
+                <label>Table rows</label>
+            </div>
+        </div>
 
-        <hr class="my-1" />
+        <div class="d-inline p-0 mx-1">
+            <div class="d-flex col-sm-11">
+                <div class="d-inline col-sm-2 p-0 mx-1">
+                    <label asp-for="@filter.SearchName" class="col-sm-12 px-2 filter-label"></label>
+                    <input asp-for="@filter.SearchName"
+                           form="agreement-base-search-form"
+                           class="rounded-pill col-sm-11 border-1 px-1 py-0 input-baseSearchForm"
+                           validate field-name="@nameof(filter.SearchName)" />
+                </div>
+                <div class="d-inline col-sm-2 p-0 mx-1">
+                    <label asp-for="@filter.ContractNumber" class="col-sm-12 px-2 filter-label"></label>
+                    <input asp-for="@filter.ContractNumber"
+                           form="agreement-base-search-form"
+                           class="rounded-pill col-sm-11 border-1 px-1 py-0 input-baseSearchForm"
+                           validate field-name="@nameof(filter.ContractNumber)" />
+                </div>
+                <div class="d-inline col-sm-2 p-0 mx-1">
+                     <label asp-for="@filter.JobTitle" class="col-sm-12 px-2 filter-label"></label>
+                     <input asp-for="@filter.JobTitle"
+                            form="agreement-base-search-form"
+                            class="rounded-pill col-sm-11 border-1 px-1 py-0 input-baseSearchForm"
+                            validate field-name="@nameof(filter.JobTitle)" />
+                </div>
+                <div class="d-inline col-sm-2 p-0 mx-1">
+                    <label asp-for="@filter.Department" class="col-sm-12 px-2 filter-label"></label>
+                    <input asp-for="@filter.Department"
+                    form="agreement-base-search-form"
+                    class="rounded-pill col-sm-11 border-1 px-1 py-0 input-baseSearchForm"
+                    validate field-name="@nameof(filter.Department)" />
+                </div>
+                <div class="d-inline col-sm-1 p-0 mx-1">
+                    <label asp-for="@filter.StartContractDate" class="col-sm-12 px-2 filter-label"></label>
+                    <input asp-for="@filter.StartContractDate" 
+                           form="agreement-base-search-form" type="text"
+                           class="rounded-pill col-sm-11 border-1 px-1 py-0 input-baseSearchForm"
+                           validate field-name="@nameof(filter.StartContractDate)" />
+                </div>
+                <div class="d-inline col-sm-1 p-0 mx-1">
+                    <label asp-for="@filter.EndContractDate" class="col-sm-12 px-2 filter-label"></label>
+                    <input asp-for="@filter.EndContractDate"
+                           form="agreement-base-search-form" type="text"
+                           class="rounded-pill col-sm-11 border-1 px-1 py-0 input-baseSearchForm"
+                           validate field-name="@nameof(filter.EndContractDate)" />
+                </div>
+                <div class="d-inline col-sm-1 p-0">
+                     <input type="submit" value="Search"
+                            class="btn btn-success h-50 border-0 col-sm-12 p-0 mt-4" 
+                            onclick="submitAgreementBaseSearchForm()"/>
+                </div>
+            </div>
+        </div>
 
-       <div class="d-flex form-control d-inline-block px-1 py-1">
-              <div class="d-flex d-inline justify-content-start p-1 mt-3">
-                     <div class="d-inline mx-1">
-                            <input class="final-btn btn btn-success border-0 px-1 py-0" 
-                                          type="submit"
-                                          value="..." onclick="clearSearchFilterSettings()" />
-                     </div>
-                     <div class="d-inline mx-1">
-                            <input value="@Model.PageSize" type="text" name="pageSize"
-                                        class="rounded-pill input-baseSearchForm border-1 col-sm-3 px-1 py-0"
-                                        form="agreement-base-search-form"/>
-                            <label>Table rows</label>
-                     </div>
-              </div>
-
-              <div class="d-inline p-0 mx-1">
-                     <div class="d-flex col-sm-11">
-                            <div class="d-inline col-sm-2 p-0 mx-1">
-                                   <label asp-for="@filter.SearchName" class="col-sm-12 px-2 filter-label"></label>
-                                   <input asp-for="@filter.SearchName"
-                                          form="agreement-base-search-form"
-                                          class="rounded-pill col-sm-11 border-1 px-1 py-0 input-baseSearchForm"
-                                          validate field-name="@nameof(filter.SearchName)" />
-                            </div>
-                            <div class="d-inline col-sm-2 p-0 mx-1">
-                                   <label asp-for="@filter.ContractNumber" class="col-sm-12 px-2 filter-label"></label>
-                                   <input asp-for="@filter.ContractNumber"
-                                          form="agreement-base-search-form"
-                                          class="rounded-pill col-sm-11 border-1 px-1 py-0 input-baseSearchForm"
-                                          validate field-name="@nameof(filter.ContractNumber)" />
-                            </div>
-                            <div class="d-inline col-sm-2 p-0 mx-1">
-                                   <label asp-for="@filter.JobTitle" class="col-sm-12 px-2 filter-label"></label>
-                                   <input asp-for="@filter.JobTitle"
-                                          form="agreement-base-search-form"
-                                          class="rounded-pill col-sm-11 border-1 px-1 py-0 input-baseSearchForm"
-                                          validate field-name="@nameof(filter.JobTitle)" />
-                            </div>
-                            <div class="d-inline col-sm-2 p-0 mx-1">
-                                   <label asp-for="@filter.Department" class="col-sm-12 px-2 filter-label"></label>
-                                   <input asp-for="@filter.Department"
-                                          form="agreement-base-search-form"
-                                          class="rounded-pill col-sm-11 border-1 px-1 py-0 input-baseSearchForm"
-                                          validate field-name="@nameof(filter.Department)" />
-                            </div>
-                            <div class="d-inline col-sm-1 p-0 mx-1">
-                                   <label asp-for="@filter.StartContractDate" class="col-sm-12 px-2 filter-label"></label>
-                                   <input asp-for="@filter.StartContractDate" 
-                                          form="agreement-base-search-form" type="text"
-                                          class="rounded-pill col-sm-11 border-1 px-1 py-0 input-baseSearchForm"
-                                          validate field-name="@nameof(filter.StartContractDate)" />
-                            </div>
-                            <div class="d-inline col-sm-1 p-0 mx-1">
-                                   <label asp-for="@filter.EndContractDate" class="col-sm-12 px-2 filter-label"></label>
-                                   <input asp-for="@filter.EndContractDate"
-                                          form="agreement-base-search-form" type="text"
-                                          class="rounded-pill col-sm-11 border-1 px-1 py-0 input-baseSearchForm"
-                                          validate field-name="@nameof(filter.EndContractDate)" />
-                            </div>
-                            <div class="d-inline col-sm-1 p-0">
-                                   <input type="submit" value="Search"
-                                                 class="btn btn-success h-50 border-0 col-sm-12 p-0 mt-4" 
-                                                 onclick="submitAgreementBaseSearchForm()"/>
-                            </div>
-                     </div>
-              </div>
-
-              <div hidden>
-                     <form asp-action="Index" method="post" id="agreement-base-search-form">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <input hidden asp-for="@Model.PageIndex"
-                                   class="input-baseSearchForm" name="pageIndex" />
-                            <input hidden asp-for=@Model.SortValue
-                                   class="input-baseSearchForm" name="sortParam" />
-                            <input hidden value="@Model.CompanyId" name="companyId" />
-                            <input hidden type="submit" class="btn btn-success" />
-                     </form>
-              </div>
-       </div>
+        <div hidden>
+            <form asp-action="Index" method="post" id="agreement-base-search-form">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input hidden asp-for="@Model.PageIndex"
+                       class="input-baseSearchForm" name="pageIndex" />
+                <input hidden asp-for=@Model.SortValue
+                       class="input-baseSearchForm" name="sortParam" />
+                <input hidden value="@Model.CompanyId" name="companyId" />
+                <input hidden type="submit" class="btn btn-success" />
+            </form>
+        </div>
+    </div>
 </div>
 
 

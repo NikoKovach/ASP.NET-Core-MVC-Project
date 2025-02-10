@@ -46,7 +46,7 @@ namespace Payroll.Models
               public string JobTitle { get; set; }
 
               [ForeignKey( "Department" )]
-              public int? DeparmentId { get; set; }
+              public int? DepartmentId { get; set; }
               public Department? Department { get; set; }
 
               /// <summary>

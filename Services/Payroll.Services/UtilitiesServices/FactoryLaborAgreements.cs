@@ -64,16 +64,16 @@ namespace Payroll.Services.UtilitiesServices
 
               private IQueryable<LaborAgreementVM> EmpNameDesc( IQueryable<LaborAgreementVM>? contracts )
               {
-                     var contractsCollection = contracts.OrderByDescending( x => x.LastName )
-                                                                                  .ThenByDescending( x => x.FirstName );
+                     var contractsCollection = contracts.OrderBy( x => x.LastName )
+                                                                                  .ThenBy( x => x.FirstName );
 
                      return contractsCollection;
               }
 
               private IQueryable<LaborAgreementVM> EmpNameAsc( IQueryable<LaborAgreementVM>? contracts )
               {
-                     var contractsCollection = contracts.OrderBy( x => x.LastName )
-                                                                                   .ThenBy( x => x.FirstName );
+                     var contractsCollection = contracts.OrderBy( x => x.FirstName )
+                                                                                   .ThenBy( x => x.LastName );
 
                      return contractsCollection;
               }

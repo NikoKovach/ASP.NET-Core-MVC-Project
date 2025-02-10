@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payroll.Data.Common", "Data
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LegalFramework.Services", "Services\CommonServices\LegalFramework.Services.csproj", "{389D235F-7EA1-46E1-BA42-F6C1E12DC6EA}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "VBDemo", "VBDemo\VBDemo.vbproj", "{59D841AF-7C15-49AF-B263-4D9F5B3B553C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{389D235F-7EA1-46E1-BA42-F6C1E12DC6EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{389D235F-7EA1-46E1-BA42-F6C1E12DC6EA}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{389D235F-7EA1-46E1-BA42-F6C1E12DC6EA}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{59D841AF-7C15-49AF-B263-4D9F5B3B553C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59D841AF-7C15-49AF-B263-4D9F5B3B553C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59D841AF-7C15-49AF-B263-4D9F5B3B553C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59D841AF-7C15-49AF-B263-4D9F5B3B553C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,6 +105,7 @@ Global
 		{36B590E6-0450-4812-B2D1-8A30AD5BA249} = {DD76B406-354F-44DC-B103-09F29D077D74}
 		{503666E3-A5CD-4F6C-97E7-F78182F7DF42} = {A7A9567C-5237-4E1F-829C-ACFF4ACEF61A}
 		{389D235F-7EA1-46E1-BA42-F6C1E12DC6EA} = {2883F93E-4B9B-4AAD-A3E2-628CDA63A73D}
+		{59D841AF-7C15-49AF-B263-4D9F5B3B553C} = {DD76B406-354F-44DC-B103-09F29D077D74}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A17C597E-AD05-40C6-86C2-C0D8FFBD6552}

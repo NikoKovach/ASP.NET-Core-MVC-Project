@@ -196,6 +196,12 @@ namespace Payroll.Data.Migrations
                     b.Property<bool>("HasBeenDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("HeadquartersAddressId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ManagementAddressId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -220,6 +226,10 @@ namespace Payroll.Data.Migrations
                         .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("HeadquartersAddressId");
+
+                    b.HasIndex("ManagementAddressId");
 
                     b.ToTable("Companies");
                 });
@@ -478,7 +488,7 @@ namespace Payroll.Data.Migrations
                     b.Property<DateTime?>("DeletionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DeparmentId")
+                    b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("EAC")
@@ -563,7 +573,7 @@ namespace Payroll.Data.Migrations
 
                     b.HasIndex("ContractTypeId");
 
-                    b.HasIndex("DeparmentId");
+                    b.HasIndex("DepartmentId");
 
                     b.HasIndex("EmployeeId")
                         .IsUnique()
@@ -1368,6 +1378,23 @@ namespace Payroll.Data.Migrations
                     b.Navigation("LaborCodeArticle");
                 });
 
+            modelBuilder.Entity("Payroll.Models.Company", b =>
+                {
+                    b.HasOne("Payroll.Models.Address", "HeadquartersAddress")
+                        .WithMany("CompaniesHeadquarters")
+                        .HasForeignKey("HeadquartersAddressId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Payroll.Models.Address", "ManagementAddress")
+                        .WithMany("ManagementAddresses")
+                        .HasForeignKey("ManagementAddressId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("HeadquartersAddress");
+
+                    b.Navigation("ManagementAddress");
+                });
+
             modelBuilder.Entity("Payroll.Models.ContactInfo", b =>
                 {
                     b.HasOne("Payroll.Models.Person", "Person")
@@ -1450,7 +1477,7 @@ namespace Payroll.Data.Migrations
 
                     b.HasOne("Payroll.Models.Department", "Department")
                         .WithMany("EmploymentContracts")
-                        .HasForeignKey("DeparmentId")
+                        .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Payroll.Models.Employee", "Employee")
@@ -1680,7 +1707,11 @@ namespace Payroll.Data.Migrations
 
             modelBuilder.Entity("Payroll.Models.Address", b =>
                 {
+                    b.Navigation("CompaniesHeadquarters");
+
                     b.Navigation("EmploymentContracts");
+
+                    b.Navigation("ManagementAddresses");
 
                     b.Navigation("PersonCurrentAddresses");
 

@@ -1,0 +1,11 @@
+{
+    "DefaultFilePath": {
+        "FilePath": "D:\\SoftwareCourses\\A Exercises\\AA Git Projects\\ASP.NET-Core-MVC-Payroll Web Project\\Web\\PersonnelWebApp\\AppFolder\\Temp"
+    },
+
+    "TemplateDedaultSettings": {
+        "Font": "Ariel",
+        "FontSize": 10,
+        "TempNameDateFormat": "yyyyMMdd-Hmmss"
+    }
+}
