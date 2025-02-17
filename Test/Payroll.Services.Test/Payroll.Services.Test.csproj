@@ -27,6 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Payroll.Data.Common\Payroll.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\Payroll.Data\Payroll.Data.csproj" />
+    <ProjectReference Include="..\..\Services\CommonServices\LegalFramework.Services.csproj" />
     <ProjectReference Include="..\..\Services\Payroll.Mapper\Payroll.Mapper.csproj" />
     <ProjectReference Include="..\..\Web\Payroll.ModelsDto\Payroll.ViewModels.csproj" />
   </ItemGroup>

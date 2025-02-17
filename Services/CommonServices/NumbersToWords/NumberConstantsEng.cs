@@ -1,14 +1,14 @@
-﻿namespace LegalFramework.Services.Utilities.NumbersToWords
+﻿namespace LegalFramework.Services.NumbersToWords
 {
 	public class NumberConstantsEng
 	{
-		//public const string PostfixOnTen = "teen";
+		public const string Point = "point";
 		public const string PostfixTens = "ty";
 		public const string Hundreds = "hundred";
 		public const string Thousands = "thousand";
 		public const string Million = "million";
 		public const string Billion = "billion";
-
+		public const string ZeroNought = "nought";
 
 		public const string Zero = "zero";
 		public const string One = "one";
@@ -41,14 +41,5 @@
 		public const string Eighty = "eigh" + PostfixTens;
 		public const string Ninety = "nine" + PostfixTens;
 
-		//public const string OneHundred = One + Hundreds;
-		//public const string TwoHundred = Two + Hundreds;
-		//public const string ThreeHundred = Three + Hundreds;
-		//public const string FourHundred = Four + Hundreds;
-		//public const string FiveHundred = Five + Hundreds;
-		//public const string SixHundred = Six + Hundreds;
-		//public const string SevenHundred = Seven + Hundreds;
-		//public const string EightHundred = Eight + Hundreds;
-		//public const string NineHundred = Nine + Hundreds;
 	}
 }

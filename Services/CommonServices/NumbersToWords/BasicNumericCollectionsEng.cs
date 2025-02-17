@@ -1,17 +1,16 @@
-﻿
-namespace LegalFramework.Services.Utilities.NumbersToWords
+﻿namespace LegalFramework.Services.NumbersToWords
 {
-	public class BasicNumericCollectionsEng : IBasicNumericCollectionsEng
+	public class BasicNumericCollectionsEng : IBasicNumericCollections
 	{
-		public BasicNumericCollectionsEng()
+		public BasicNumericCollectionsEng( )
 		{
-			this.ZeroToNineDic = this.SetZeroToNineDictionary();
+			ZeroToNineDic = SetZeroToNineDictionary( );
 
-			this.TenToNineteenDic = this.SetTenToNineteenDic();
+			TenToNineteenDic = SetTenToNineteenDic( );
 
-			this.TensDic = this.SetTensDictionary();
+			TensDic = SetTensDictionary( );
 
-			this.TripleDegrees = this.SetTripleDegreesDictionary();
+			TripleDegrees = SetTripleDegreesDictionary( );
 		}
 
 		public IDictionary<int, string> ZeroToNineDic { get; set; }
@@ -26,7 +25,7 @@ namespace LegalFramework.Services.Utilities.NumbersToWords
 
 		//#############################################################
 
-		private IDictionary<int, string>? SetZeroToNineDictionary()
+		private IDictionary<int, string>? SetZeroToNineDictionary( )
 		{
 			return new Dictionary<int, string>
 			{
@@ -43,7 +42,7 @@ namespace LegalFramework.Services.Utilities.NumbersToWords
 			};
 		}
 
-		private IDictionary<int, string>? SetTenToNineteenDic()
+		private IDictionary<int, string>? SetTenToNineteenDic( )
 		{
 			return new Dictionary<int, string>
 			{
@@ -60,7 +59,7 @@ namespace LegalFramework.Services.Utilities.NumbersToWords
 			};
 		}
 
-		private IDictionary<int, string>? SetTensDictionary()
+		private IDictionary<int, string>? SetTensDictionary( )
 		{
 			return new Dictionary<int, string>
 			{
@@ -75,10 +74,11 @@ namespace LegalFramework.Services.Utilities.NumbersToWords
 			};
 		}
 
-		private IDictionary<int, string>? SetTripleDegreesDictionary()
+		private IDictionary<int, string>? SetTripleDegreesDictionary( )
 		{
 			return new Dictionary<int, string>
 			{
+				{1,NumberConstantsEng.Hundreds},
 				{2,NumberConstantsEng.Thousands},
 				{3,NumberConstantsEng.Million},
 				{4,NumberConstantsEng.Billion},

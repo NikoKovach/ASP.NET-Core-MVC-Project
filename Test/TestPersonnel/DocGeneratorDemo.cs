@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 
 using LegalFramework.Services.DocumentGenerator;
-using LegalFramework.Services.Utilities.NumbersToWords;
+using LegalFramework.Services.NumbersToWords;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -17,27 +17,27 @@ namespace TestPersonnel.Demo
 {
 	public static class DocGeneratorDemo
 	{
-		public static void FirstPdf(PayrollContext context, IMapper autoMapper)
+		public static void FirstPdf( PayrollContext context, IMapper autoMapper )
 		{
-			NumbersInWordsDemo();
+			NumbersInWordsDemo( );
 
-			var tempDoc = new TempDocument();
+			var tempDoc = new TempDocument( );
 			string path = @"D:\SoftwareCourses\A Exercises\AA Git Projects\ASP.NET-Core-MVC-Payroll Web Project\Web\PersonnelWebApp\AppFolder\Temp";
 
 			//int? companyId, int? agreementId
 			int companyId = 5;
 			int agreementId = 2;
 
-			LaborAgreementVM contractModel = GetContractVM(context, autoMapper, companyId, agreementId);
+			LaborAgreementVM contractModel = GetContractVM( context, autoMapper, companyId, agreementId );
 
-			AddressEmpVM? conclusionAddressVM = GetAddressOfRegistration(context, autoMapper,
-																		 companyId, agreementId);
+			AddressEmpVM? conclusionAddressVM = GetAddressOfRegistration( context, autoMapper,
+																		 companyId, agreementId );
 
-			CompanyVM? company = CompanyViewModel(context, autoMapper, companyId);
+			CompanyVM? company = CompanyViewModel( context, autoMapper, companyId );
 
-			AddressEmpVM? companyHeadquartersVM = GetCompanyHeadquarters(context, autoMapper, companyId);
+			AddressEmpVM? companyHeadquartersVM = GetCompanyHeadquarters( context, autoMapper, companyId );
 
-			PersonInfoContractVM employee = EmployeeViewModel(context);
+			PersonInfoContractVM employee = EmployeeViewModel( context );
 
 			object[] docModels =
 			[
@@ -48,82 +48,88 @@ namespace TestPersonnel.Demo
 				employee
 			];
 
-			var filePath = tempDoc.CreateFile(path, "laborContract", docModels);
+			var filePath = tempDoc.CreateFile( path, "laborContract", docModels );
 
 			//PdfGenerator.Create();
 
-			Console.WriteLine();
+			Console.WriteLine( );
 		}
 
-		private static void NumbersInWordsDemo()
+		private static void NumbersInWordsDemo( )
 		{
-			IConvertingNumberToWords convertor = new ConvertingNumberToWordsBG();
+			//IConvertingNumberToWords bgConvertor = new ConvertingNumberToWordsBG();
+			//var result = bgConvertor.WriteNumberInWords(15302.1000482478m);
 
-			var result = convertor.WriteNumberInWords(20.25m);
+			IConvertingNumberToWords engConvertor = new ConvertingNumberToWords( );
+			var engResult = engConvertor.WriteNumberInWords( 10031.99444444m, "number" );
 
-			Console.WriteLine(result);
+			//Console.WriteLine(result);
+			Console.WriteLine( engResult );
+
+			//wholePart = 10301;
+			//resultType = "currency";
 		}
 
-		private static LaborAgreementVM GetContractVM(PayrollContext context, IMapper mapper,
-													  int companyId, int agreementId)
+		private static LaborAgreementVM GetContractVM( PayrollContext context, IMapper mapper,
+													  int companyId, int agreementId )
 		{
 			var contract = context.EmploymentContracts
-												  .AsNoTracking()
-												  .Where(x => x.Id == agreementId);
+												  .AsNoTracking( )
+												  .Where( x => x.Id == agreementId );
 
 			//LaborAgreementVM? contractVM = mapper.Map<EmploymentContract, LaborAgreementVM>(contract);
 
-			var contractVM = mapper.ProjectTo<LaborAgreementVM>(contract).FirstOrDefault();
+			var contractVM = mapper.ProjectTo<LaborAgreementVM>( contract ).FirstOrDefault( );
 
 			return contractVM;
 		}
 
-		private static AddressEmpVM? GetAddressOfRegistration(PayrollContext context, IMapper mapper,
-																	int companyId, int agreementId)
+		private static AddressEmpVM? GetAddressOfRegistration( PayrollContext context, IMapper mapper,
+																	int companyId, int agreementId )
 		{
 			Address? address = context.EmploymentContracts
-												.AsNoTracking()
-												.Where(x => x.Id == agreementId)
-												.Select(x => x.PlaceOfRegistration)
-												.FirstOrDefault();
+												.AsNoTracking( )
+												.Where( x => x.Id == agreementId )
+												.Select( x => x.PlaceOfRegistration )
+												.FirstOrDefault( );
 
-			AddressEmpVM? conclusionAddressVM = mapper.Map<Address, AddressEmpVM>(address);
+			AddressEmpVM? conclusionAddressVM = mapper.Map<Address, AddressEmpVM>( address );
 
 			return conclusionAddressVM;
 		}
 
-		private static CompanyVM? CompanyViewModel(PayrollContext context, IMapper autoMapper, int companyId)
+		private static CompanyVM? CompanyViewModel( PayrollContext context, IMapper autoMapper, int companyId )
 		{
-			Company? company = context.Companies.FirstOrDefault(x => x.Id == companyId);
+			Company? company = context.Companies.FirstOrDefault( x => x.Id == companyId );
 
-			var viewModel = autoMapper.Map<CompanyVM>(company);
+			var viewModel = autoMapper.Map<CompanyVM>( company );
 
 			return viewModel;
 		}
 
-		private static AddressEmpVM? GetCompanyHeadquarters(PayrollContext context, IMapper mapper,
-																					int companyId)
+		private static AddressEmpVM? GetCompanyHeadquarters( PayrollContext context, IMapper mapper,
+																					int companyId )
 		{
 			Address? address = context.Companies
-									  .AsNoTracking()
-									  .Where(x => x.Id == companyId)
-									  .Select(x => x.HeadquartersAddress)
-									  .FirstOrDefault();
+									  .AsNoTracking( )
+									  .Where( x => x.Id == companyId )
+									  .Select( x => x.HeadquartersAddress )
+									  .FirstOrDefault( );
 
-			AddressEmpVM? headquartersVM = mapper.Map<Address, AddressEmpVM>(address);
+			AddressEmpVM? headquartersVM = mapper.Map<Address, AddressEmpVM>( address );
 
 			return headquartersVM;
 		}
 
-		private static PersonInfoContractVM EmployeeViewModel(PayrollContext context)
+		private static PersonInfoContractVM EmployeeViewModel( PayrollContext context )
 		{
-			var customMap = new ProfilePersonInfoContractVM();
+			var customMap = new ProfilePersonInfoContractVM( );
 
 			var employees = context.Employees
-								   .Where(x => x.CompanyId == 5 && x.Id == 1)
-								   .AsNoTracking();
+								   .Where( x => x.CompanyId == 5 && x.Id == 1 )
+								   .AsNoTracking( );
 
-			var empVM = customMap.Projection(employees).FirstOrDefault();
+			var empVM = customMap.Projection( employees ).FirstOrDefault( );
 
 			return empVM;
 

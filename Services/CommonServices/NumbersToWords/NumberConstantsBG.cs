@@ -1,4 +1,4 @@
-﻿namespace LegalFramework.Services.Utilities.NumbersToWords
+﻿namespace LegalFramework.Services.NumbersToWords
 {
 	public class NumberConstantsBG
 	{
@@ -15,6 +15,7 @@
 		public const string OneBillion = "един милиард";
 
 		public const string OneMaleKind = "един";
+		public const string OneFemaleForm = "една";
 		public const string TwoMaleKind = "два";
 
 		public const string Zero = "нула";
@@ -39,7 +40,7 @@
 		public const string Eighteen = "осемнадесет";
 		public const string Nineteen = "деветнадесет";
 
-		public const string Twenty = Two + PostfixTens;
+		public const string Twenty = TwoMaleKind + PostfixTens;
 		public const string Thirty = Three + PostfixTens;
 		public const string Fourty = Four + PostfixTens;
 		public const string Fifty = Five + PostfixTens;
@@ -57,5 +58,15 @@
 		public const string SevenHundred = Seven + PostfixHundreds;
 		public const string EightHundred = Eight + PostfixHundreds;
 		public const string NineHundred = Nine + PostfixHundreds;
+
+		public const string OneTenth = "десета";
+		public const string ManyTenths = "десети";
+		public const string OneHundredth = "стотна";
+		public const string ManyHundredths = "стотни";
+		public const string OneThousandth = "хилядна";
+		public const string ManyThousandths = "хилядни";
+		public const string OneTenThousandth = "десетохилядна";
+		public const string ManyTenThousandths = "десетохилядни";
+
 	}
 }

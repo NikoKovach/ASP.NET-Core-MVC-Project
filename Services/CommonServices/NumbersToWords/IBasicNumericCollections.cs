@@ -1,6 +1,6 @@
-﻿namespace LegalFramework.Services.Utilities.NumbersToWords
+﻿namespace LegalFramework.Services.NumbersToWords
 {
-	public interface IBasicNumericCollectionsBG
+	public interface IBasicNumericCollections
 	{
 		IDictionary<int, string> ZeroToNineDic { get; set; }
 
@@ -11,6 +11,5 @@
 		IDictionary<int, string> HundredsDic { get; set; }
 
 		IDictionary<int, string> TripleDegrees { get; set; }
-
 	}
 }
