@@ -9,11 +9,18 @@
 		public ConvertingNumberToWordsBG( IBasicNumericCollections numericCollections )
 		: base( numericCollections )
 		{
-			FractionalPostfixDic = SetFractionalPostfixDic( );
+			this.FractionalPostfixDic = SetFractionalPostfixDic( );
+
+			this.OnlyOneFromMillionAndUp = SetOnlyOneFromMillionAndUp( );
+
+			this.OneTwoMaleKind = SetOneTwoMaleKind( );
 		}
 
 		protected IDictionary<int, string> FractionalPostfixDic { get; set; }
 
+		protected IDictionary<int, string> OnlyOneFromMillionAndUp { get; set; }
+
+		public IDictionary<int, string> OneTwoMaleKind { get; private set; }
 
 		protected override string ParseWholePart( long wholePart, string resultType )
 		{
@@ -64,6 +71,9 @@
 
 			decimal fractionalValue = fractionalPart / SupportConstants.OneDecimal;
 
+			if (fractionalValue == 0)
+				return string.Empty;
+
 			int digitsCount = GetFractionalLength( fractionalValue );
 
 			double tenToPowerOf = Math.Pow( SupportConstants.Ten, digitsCount );
@@ -79,26 +89,31 @@
 
 		protected override string JoinNumberInWords( string resultType, string cultureName )
 		{
-			if (string.IsNullOrEmpty( FractionalPartStr ))
+			if (resultType.Equals( SupportConstants.Currency ))
 			{
-				if (resultType.Equals( SupportConstants.Currency ))
-					return WholePartStr + " лв.";
+				string? currencySymbol = GetCurrencySymbol( cultureName );
 
-				return $"{WholePartStr}";
+				int fractionalPart = int.Parse( FractionalPartStr );
+
+				if (string.IsNullOrEmpty( FractionalPartStr ) || fractionalPart == SupportConstants.Zero)
+				{
+					return $"{WholePartStr} {currencySymbol}";
+				}
+
+				return $"{WholePartStr} {currencySymbol} и " +
+					   $"{FractionalPartStr} {SupportConstants.BgCoinSymbol}";
 			}
 
-			string middleText = resultType.Equals( SupportConstants.Number ) ? " цяло и " : " лв. и ";
+			if (string.IsNullOrEmpty( FractionalPartStr ))
+				return $"{WholePartStr}";
 
-			if (resultType.Equals( SupportConstants.Currency ))
-				FractionalPartStr += " ст.";
-
-			return $"{WholePartStr}{middleText}{FractionalPartStr}";
+			return $"{WholePartStr}{SupportConstants.BgNumberSeparator}{FractionalPartStr}";
 		}
 
 		//##########################################################################
 
 		protected override string ConvertNumberInWords( Dictionary<int, int> listOfNumbers,
-													string resultType, int numberOfTriples )
+														string resultType, int numberOfTriples )
 		{
 			TextBuilder.Clear( );
 
@@ -186,20 +201,18 @@
 		}
 
 		protected override void AddPostfixOfTheTripleDegree( int numberOfTriples,
-															int firstDigit = default,
-															int theTen = default,
-															int hundreds = default )
+															 int firstDigit = default,
+															 int theTen = default,
+															 int hundreds = default )
 		{
 			if (numberOfTriples == SupportConstants.One) return;
 
 			string tripleDegreeStr = NumericCollections.TripleDegrees[numberOfTriples];
 
 
-			if (firstDigit <= SupportConstants.Two &&
-				theTen == SupportConstants.Zero &&
-				hundreds == SupportConstants.Zero)
+			if (numberOfTriples == SupportConstants.Two && firstDigit == SupportConstants.One)
 			{
-				if (firstDigit == SupportConstants.One && numberOfTriples == SupportConstants.Two)
+				if (theTen == SupportConstants.Zero && hundreds == SupportConstants.Zero)
 				{
 					TextBuilder.Clear( );
 
@@ -207,40 +220,29 @@
 
 					return;
 				}
+			}
 
-				if (firstDigit == SupportConstants.Two && numberOfTriples == SupportConstants.Two)
+			if (numberOfTriples >= SupportConstants.Three && firstDigit == SupportConstants.One &&
+				theTen == SupportConstants.Zero && hundreds == SupportConstants.Zero)
+			{
+				TextBuilder.Clear( );
+
+				TextBuilder.Append( $"{NumberConstantsBG.OneMaleKind} " +
+									$"{this.OnlyOneFromMillionAndUp[numberOfTriples]}" );
+
+				return;
+			}
+
+			if (numberOfTriples >= SupportConstants.Three &&
+				(firstDigit == SupportConstants.One || firstDigit == SupportConstants.Two))
+			{
+				if (theTen != SupportConstants.Ten)
 				{
-					TextBuilder.Clear( );
+					string oldValue = this.NumericCollections.ZeroToNineDic[firstDigit];
 
-					TextBuilder.Append( $"{NumberConstantsBG.Two} {NumberConstantsBG.PostfixThousands}" );
+					string newValue = this.OneTwoMaleKind[firstDigit];
 
-					return;
-				}
-
-				if (numberOfTriples == SupportConstants.Three)
-				{
-					string newValue = firstDigit == SupportConstants.One
-									  ? NumberConstantsBG.OneMillion
-									  : $"{NumberConstantsBG.TwoMaleKind} {NumberConstantsBG.PostfixMillion}";
-
-					TextBuilder.Clear( );
-
-					TextBuilder.Append( newValue );
-
-					return;
-				}
-
-				if (numberOfTriples == SupportConstants.Four)
-				{
-					string newValue = firstDigit == SupportConstants.One
-									  ? NumberConstantsBG.OneBillion
-									  : $"{NumberConstantsBG.TwoMaleKind} {NumberConstantsBG.PostfixBillion}";
-
-					TextBuilder.Clear( );
-
-					TextBuilder.Append( newValue );
-
-					return;
+					this.TextBuilder.Replace( oldValue, newValue );
 				}
 			}
 
@@ -267,56 +269,82 @@
 			return NumericCollections.ZeroToNineDic[firstDigit];
 		}
 
+		//###################################################################
 		private string SetLastAnd( long remainingValue, int i, Dictionary<int, int> degreeDictionary )
 		{
 			if (i > SupportConstants.One)
 			{
 				string lastAnd = SetLastAndThousandthsAreNull( remainingValue, i );
 
-				if (string.IsNullOrEmpty( lastAnd )) return " ";
-
-				return lastAnd;
+				return string.IsNullOrEmpty( lastAnd ) ? SupportConstants.Interval : lastAnd;
 			}
 
-			if (degreeDictionary.Count == SupportConstants.One) return " и ";
+			if (degreeDictionary.Count == SupportConstants.One)
+				return SupportConstants.BgAndLeftRightInterval;
 
 			int firstDigit = degreeDictionary.Values.ElementAt( SupportConstants.Zero );
 
 			int theTen = degreeDictionary.Values.ElementAt( SupportConstants.One );
 
-			if (degreeDictionary.Count == SupportConstants.Two &&
-							firstDigit == SupportConstants.Zero) return " и ";
+			if (degreeDictionary.Count == SupportConstants.Two && firstDigit == SupportConstants.Zero)
+				return SupportConstants.BgAndLeftRightInterval;
 
 			if (degreeDictionary.Count == SupportConstants.Two &&
-				firstDigit > SupportConstants.Zero && theTen < SupportConstants.Twenty) return " и ";
+				firstDigit > SupportConstants.Zero && theTen < SupportConstants.Twenty)
+				return SupportConstants.BgAndLeftRightInterval;
 
 			if (degreeDictionary.Count == SupportConstants.Three)
 			{
-				if (firstDigit == SupportConstants.Zero && theTen == SupportConstants.Zero) return " и ";
+				if (firstDigit == SupportConstants.Zero && theTen == SupportConstants.Zero)
+					return SupportConstants.BgAndLeftRightInterval;
 			}
 
-			return " ";
+			return SupportConstants.Interval;
 		}
 
 		private string SetLastAndThousandthsAreNull( long remainingValue, int index )
 		{
 			List<int> threesomeList = new List<int>( );
 
-			for (int i = SupportConstants.One; i < index; i++)
+			for (int i = SupportConstants.One; i <= index; i++)
 			{
 				long value = SetRemainingValue( remainingValue, i );
 
 				int threesome = SetThreesome( value, i );
 
+				if (i == index)
+				{
+					Dictionary<int, int> degreeDictionary = SetDegreeDictionary( threesome );
+					int firstDigit = degreeDictionary.Values.ElementAt( SupportConstants.Zero );
+
+					if (degreeDictionary.Count > SupportConstants.One)
+					{
+						int theTens = degreeDictionary.Values.ElementAt( SupportConstants.One );
+
+						if (firstDigit == SupportConstants.Zero ||
+							theTens + firstDigit < SupportConstants.Twenty)
+						{
+							threesomeList.Add( SupportConstants.Zero );
+						}
+						else
+						{
+							threesomeList.Add( threesome );
+						}
+					}
+
+					continue;
+				}
+
 				threesomeList.Add( threesome );
 			}
 
-			if (threesomeList.All( x => x == SupportConstants.Zero )) return " и ";
-
-			return string.Empty;
+			return threesomeList.All( x => x == SupportConstants.Zero )
+				   ? SupportConstants.BgAndLeftRightInterval
+				   : string.Empty;
 		}
 
-		private IDictionary<int, string>? SetFractionalPostfixDic( )
+		//###################################################################
+		private IDictionary<int, string> SetFractionalPostfixDic( )
 		{
 			return new Dictionary<int, string>
 			{
@@ -328,6 +356,24 @@
 				{22,NumberConstantsBG.OneHundredth},
 				{23,NumberConstantsBG.OneThousandth},
 				{24,NumberConstantsBG.OneTenThousandth},
+			};
+		}
+
+		private IDictionary<int, string> SetOnlyOneFromMillionAndUp( )
+		{
+			return new Dictionary<int, string>
+			{
+				{3,NumberConstantsBG.AMillion},
+				{4,NumberConstantsBG.ABillion},
+			};
+		}
+
+		private IDictionary<int, string> SetOneTwoMaleKind( )
+		{
+			return new Dictionary<int, string>
+			{
+				{1,NumberConstantsBG.OneMaleKind},
+				{2,NumberConstantsBG.TwoMaleKind},
 			};
 		}
 
@@ -357,10 +403,3 @@
 		}
 	}
 }
-
-/*
-//int lastIndex = result.LastIndexOf(NumberConstantsBG.One);
-
-//this.TextBuilder.Append(result.Replace(NumberConstantsBG.One, NumberConstantsBG.OneFemaleForm));
-
- */

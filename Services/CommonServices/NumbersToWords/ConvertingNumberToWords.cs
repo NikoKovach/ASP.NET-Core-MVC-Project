@@ -308,6 +308,30 @@ namespace LegalFramework.Services.NumbersToWords
 			return (int)threesome;
 		}
 
+		protected string? GetCurrencySymbol( string cultureName )
+		{
+			CultureInfo? countryCulture = GetCultureInfo( cultureName );
+
+			if (countryCulture == null)
+				return default;
+
+			return countryCulture.NumberFormat.CurrencySymbol;
+		}
+
+		protected string? GetCurrencySeparator( string cultureName )
+		{
+			CultureInfo? countryCulture = GetCultureInfo( cultureName );
+
+			return countryCulture.NumberFormat.CurrencyDecimalSeparator;
+		}
+
+		protected CultureInfo? GetCultureInfo( string cultureName )
+		{
+			return CultureInfo.GetCultures( CultureTypes.SpecificCultures )
+							  .Where( x => x.Name == cultureName )
+							  .FirstOrDefault( );
+		}
+
 		//########################################################################
 
 		private void ConvertTheNumbersLessThenHundred( int firstDigit, int theTens,
@@ -325,30 +349,6 @@ namespace LegalFramework.Services.NumbersToWords
 				TextBuilder.Append( $"-{NumericCollections.ZeroToNineDic[firstDigit]}" );
 			}
 
-		}
-
-		private string? GetCurrencySymbol( string cultureName )
-		{
-			CultureInfo? countryCulture = GetCultureInfo( cultureName );
-
-			if (countryCulture == null)
-				return default;
-
-			return countryCulture.NumberFormat.CurrencySymbol;
-		}
-
-		private string? GetCurrencySeparator( string cultureName )
-		{
-			CultureInfo? countryCulture = GetCultureInfo( cultureName );
-
-			return countryCulture.NumberFormat.CurrencyDecimalSeparator;
-		}
-
-		private CultureInfo? GetCultureInfo( string cultureName )
-		{
-			return CultureInfo.GetCultures( CultureTypes.SpecificCultures )
-							  .Where( x => x.Name == cultureName )
-							  .FirstOrDefault( );
 		}
 
 		private void Set_FractionalPartStr( decimal number, string resultType )
@@ -381,27 +381,3 @@ namespace LegalFramework.Services.NumbersToWords
 }
 
 
-/*
- 
-//number = 101_001.9999555554444m;
-				//number = 101_001.99988888888m;
- 
- private void CaseResultTypeIsCurrencyAndFractionalPartIsOne( decimal number, string resultType )
-		{
-			if (!resultType.Equals( SupportConstants.Currency ))
-				return;
-
-			if (!decimal.TryParse( this.FractionalPartStr, out decimal parseValue ))
-				return;
-
-			if (parseValue != 1)
-				return;
-
-			var result = ParseWholePart( GetWholePart( number + parseValue ), resultType );
-			//var value = decimal.TryParse(this.FractionalPartStr,out decimal parseValue);
-		}
- 
-					//if (resultType.Equals( SupportConstants.Currency ))
-			//	return Math.Round( fractionalPart, SupportConstants.Two )
-			//			   .ToString( SupportConstants.CurrencyFormat );
- */

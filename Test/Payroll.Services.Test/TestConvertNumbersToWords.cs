@@ -388,39 +388,3 @@ namespace Payroll.Services.Test
 		};
 	}
 }
-
-
-//TestConvertor? convertor;
-
-//[SetUp]
-//public void MappingSetUp( )
-//{ }
-
-//[TearDown]
-//public void MappingCleanup( )
-//{ }
-
-//this.WholePartStr = wholePart;
-
-//this.FractionalPartStr = fractionalPart;
-
-//string resultType = "number";
-
-//string cultureName = "fr-FR";
-
-//new object[] {10000m,"fr-FR", ""},
-//new object[] {10_001,"fr-FR", ""},
-//new object[] {100_000,"fr-FR", ""},
-//new object[] {100_001,"fr-FR", ""},
-//new object[] {100_010,"fr-FR", ""},
-//new object[] {111_001,"fr-FR", ",10 €"},
-//new object[] {111_111,"fr-FR", ",10 €"},
-//new object[] {111_199,"fr-FR", ""},
-//new object[] {1_000_000,"fr-FR", ""},
-//new object[] {100_000_000,"fr-FR", ""},
-//new object[] {1_000_000_000,"fr-FR", ""},
-//new object[] { 1_000_000_001, "fr-FR", ""},
-//new object[] { 1_100_000_000, "fr-FR", ""},
-//new object[] { 1_100_100_000, "fr-FR", ""},
-//new object[] { 1_100_001_000, "fr-FR", ""},
-//new object[] { 55_444_333_111,"fr-FR", ""},

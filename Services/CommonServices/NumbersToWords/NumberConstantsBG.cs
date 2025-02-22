@@ -9,10 +9,10 @@
 		public const string PostfixThousands = "хиляди";
 
 		public const string PostfixMillion = "милиона";
-		public const string OneMillion = "един милион";
+		public const string AMillion = "милион";
 
 		public const string PostfixBillion = "милиарда";
-		public const string OneBillion = "един милиард";
+		public const string ABillion = "милиард";
 
 		public const string OneMaleKind = "един";
 		public const string OneFemaleForm = "една";

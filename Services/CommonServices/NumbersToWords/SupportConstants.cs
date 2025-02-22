@@ -33,5 +33,11 @@
 		public const string CurrencyFormat = "0.00";
 
 		public const string ZeroFractionalPartCurency = "00";
+
+		public const string BgAndLeftRightInterval = " и ";
+
+		public const string BgNumberSeparator = " цяло и ";
+
+		public const string BgCoinSymbol = "ст.";
 	}
 }

@@ -100,7 +100,6 @@
 				{3,NumberConstantsBG.PostfixMillion},
 				{4,NumberConstantsBG.PostfixBillion},
 			};
-
 		}
 	}
 }
