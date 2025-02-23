@@ -3,11 +3,13 @@
 
 @section Styles
 {
-       <link rel="stylesheet" type="text/css" href="~/custom/css/privateTable_css.css" asp-append-version="true" />
-       <link rel="stylesheet" type="text/css" href="~/custom/css/alertMessage.css" asp-append-version="true" />
-       <link rel="stylesheet" type="text/css" href="~/custom/css/3d-button.css" asp-append-version="true"/>
-       <link rel="stylesheet" type="text/css" href="~/custom/css/dialog-box-style.css" asp-append-version="true" />
-       <link rel="stylesheet" type="text/css" href="~/custom/css/fieldset_css.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/custom/css/privateTable_css.css" 
+        asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/custom/css/alertMessage.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/custom/css/3d-button.css" asp-append-version="true"/>
+    <link rel="stylesheet" type="text/css" href="~/custom/css/dialog-box-style.css" 
+        asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/custom/css/fieldset_css.css" asp-append-version="true" />
 }
 
 @{
@@ -30,17 +32,17 @@
 
 
 <div>
-       <div asp-validation-summary="All" 
-              class="alert alert-danger alert-dismissible px-1 py-2 mb-2" style="@divStyle"
-              id="error-alert-div">
-              <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-       </div>
+    <div asp-validation-summary="All" 
+        class="alert alert-danger alert-dismissible px-1 py-2 mb-2" style="@divStyle"
+        id="error-alert-div">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    </div>
 
-       <div class="alert alert-danger alert-dismissible px-1 py-2 mb-2" style="display:none"
-            id="dialog-alert-div">
-              <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-              <ul></ul>
-       </div>
+    <div class="alert alert-danger alert-dismissible px-1 py-2 mb-2" style="display:none"
+         id="dialog-alert-div">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        <ul></ul>
+    </div>
 
        <div id="edit-success" class="alert alert-success alert-dismissible px-1 py-2 mb-2" style="display:none">
               <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>

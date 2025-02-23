@@ -1,12 +1,10 @@
-﻿using MigraDoc.DocumentObjectModel;
-
-namespace LegalFramework.Services.DocumentGenerator.FillWayTemplates
+﻿namespace LegalFramework.Services.DocumentGenerator.FillWayTemplates
 {
-       public class FillLaborContract : IFill
-       {
-              public bool Fill( Document document, object? documentModel )
-              {
-                     throw new NotImplementedException();
-              }
-       }
+    public class FillLaborContract : IFill
+    {
+        public bool Fill( ITemplate? document, object[]? documentModels )
+        {
+            throw new NotImplementedException( );
+        }
+    }
 }

@@ -1,26 +1,26 @@
 ﻿
 <div class="dialog-create-edit-form">
-       <dialog id="selectCompanyDialog" class="pt-2 agreement-dialod">
-              <div>
-                     <span class="closebtn btnCloseDialog" onclick="closeDialogBox()">&times;</span>
-              </div>
-              <br />
-              <div>
-                      <h5 class="text-center">Select Company Id</h5>
-                      <div >
-                             <label class="col-sm-5 text-end"> Company Id</label>
-                             <input id="selCompanyId-input" type="text" value=""
-                                         list="company-list"
-                                   class="col-sm-5 rounded-pill border-1 px-2 py-0 h-75" />
-                             <vc:select-company parent-view=""></vc:select-company>
-                      </div>
-               </div>
+    <dialog id="selectCompanyDialog" class="pt-2 agreement-dialod">
+        <div>
+            <span class="closebtn btnCloseDialog" onclick="closeDialogBox()">&times;</span>
+        </div>
+        <br />
+        <div>
+            <h5 class="text-center">Select Company Id</h5>
+            <div >
+                <label class="col-sm-5 text-end"> Company Id</label>
+                <input id="selCompanyId-input" type="text" value=""
+                       list="company-list"
+                       class="col-sm-5 rounded-pill border-1 px-2 py-0 h-75" />
+                <vc:select-company parent-view=""></vc:select-company>
+            </div>
+        </div>
 
-              <div class="mt-4 mb-1 d-flex justify-content-center">
-                     <button id="btnGetCompanyId"
-                             class="btn-primary px-0 border-0 stylish-btn justify-content-center">
-                            Get Id
-                     </button>
-              </div>
-       </dialog>
+        <div class="mt-4 mb-1 d-flex justify-content-center">
+            <button id="btnGetCompanyId"
+                    class="btn-primary px-0 border-0 stylish-btn justify-content-center">
+                Get Id
+            </button>
+        </div>
+    </dialog>
 </div>
