@@ -15,10 +15,10 @@ using Payroll.ViewModels.PersonViewModels;
 
 namespace TestPersonnel.Demo
 {
-	public static class DocGeneratorDemo
-	{
+       public static class DocGeneratorDemo
+       {
 		public static void FirstPdf( PayrollContext context, IMapper autoMapper )
-		{
+              {
 			NumbersInWordsDemo( );
 
 			var tempDoc = new TempDocument( );
@@ -50,7 +50,7 @@ namespace TestPersonnel.Demo
 
 			var filePath = tempDoc.CreateFile( path, "laborContract", docModels );
 
-			//PdfGenerator.Create();
+                     //PdfGenerator.Create();
 
 			Console.WriteLine( );
 		}
@@ -133,8 +133,8 @@ namespace TestPersonnel.Demo
 
 			return empVM;
 
-		}
-	}
+              }
+       }
 }
 
 //LaborAgreementVM contractModel = new LaborAgreementVM

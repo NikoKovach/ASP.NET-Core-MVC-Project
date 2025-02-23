@@ -1,7 +1,9 @@
-﻿namespace LegalFramework.Services.DocumentGenerator
+﻿using MigraDoc.DocumentObjectModel;
+
+namespace LegalFramework.Services.DocumentGenerator
 {
-	public interface ITemplatesFactory
-	{
+       public interface ITemplatesFactory
+       {
 		IDictionary<string, ITemplate> Documents { get; set; }
-	}
+       }
 }

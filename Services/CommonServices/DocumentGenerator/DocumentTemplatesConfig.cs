@@ -1,18 +1,18 @@
 ﻿using LegalFramework.Services.DocumentGenerator.Templates;
+using MigraDoc.DocumentObjectModel;
 
 namespace LegalFramework.Services.DocumentGenerator
 {
-	public class DocumentTemplatesConfig : ITemplatesFactory
-	{
-		public DocumentTemplatesConfig()
-		{
+       public class DocumentTemplatesConfig : ITemplatesFactory
+       {
+              public DocumentTemplatesConfig()
+              {
 			this.Documents = new Dictionary<string, ITemplate>
-			{
-				{ "laborContract-bul-pdf",new LaborContractBulPdfTemplate() },
-				{"laborContract-eng-pdf", new LaborContractEngPdfTemplate()},
-			};
-		}
+                     {
+                     };
+              }
 
-		public IDictionary<string, ITemplate> Documents { get; set; }
-	}
+       }
+
+
 }
