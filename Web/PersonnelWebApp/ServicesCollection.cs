@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-using LegalFramework.Services;
+using LegalFramework.Services.CalculationOfWorkExperience;
 using LegalFramework.Services.DocumentGenerator;
 
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +21,7 @@ using PersonnelWebApp.Utilities;
 
 namespace PersonnelWebApp
 {
-	public static class ServicesCollection
+    public static class ServicesCollection
 	{
 		public static void Collect(IServiceCollection services, IConfiguration Configuration)
 		{

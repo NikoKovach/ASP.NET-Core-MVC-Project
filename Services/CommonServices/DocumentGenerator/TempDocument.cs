@@ -1,11 +1,9 @@
 ﻿using LegalFramework.Services.Utilities;
 
 using MigraDoc.DocumentObjectModel;
-using MigraDoc.DocumentObjectModel.Fields;
 using MigraDoc.Rendering;
 
 using PdfSharp.Pdf;
-using PdfSharp.Quality;
 
 namespace LegalFramework.Services.DocumentGenerator
 {
@@ -29,26 +27,29 @@ namespace LegalFramework.Services.DocumentGenerator
         }
 
         public string? CreateFile( string? path, string? documentType,
-                                  object[]? documentModels = default,
-                                  string fileType = "pdf",
-                                  string language = "bul" )
+                                   object[]? documentModels = default,
+                                   string fileType = "pdf",
+                                   string language = "bul" )
         {
+            string nullReferenceText = string.Format( ExceptionStrings.NullOrEmptyParameter,
+                                                                  nameof( documentModels ) );
+
+            if (documentModels == null || documentModels.Length == 0)
+                throw new NullReferenceException( nullReferenceText );
+
             string filePath = (!string.IsNullOrEmpty( path )) ? path : DefaultFilePath;
 
-            string fileName = (!string.IsNullOrEmpty( path )) ? this.NewName( documentType ) : this.NewName( );
+            string fileName = (!string.IsNullOrEmpty( path ))
+                              ? this.NewName( documentType ?? "DefaultPdfDocument" )
+                              : this.NewName( );
 
             string tempFilePath = @$"{filePath}\{fileName}.{fileType}";
 
-            string templateType = $@"{documentType}-{language}-{fileType}";//"laborContract-bul-pdf"
+            string templateType = (!string.IsNullOrEmpty( documentType ))
+                                  ? $@"{documentType}-{language}-{fileType}"
+                                  : "DefaultPdfDocument";
 
-            if (string.IsNullOrEmpty( path ) || string.IsNullOrEmpty( documentType ))
-            {
-                this.CreateDefaultFile( tempFilePath );
-            }
-            else
-            {
-                this.CreateNewFile( tempFilePath, templateType, documentModels );
-            }
+            this.CreateNewFile( tempFilePath, templateType, documentModels );
 
             if (!File.Exists( tempFilePath ))
             {
@@ -75,60 +76,12 @@ namespace LegalFramework.Services.DocumentGenerator
             ITemplate document = this.documentTemplates[templateType] ??
                    throw new InvalidOperationException( invalidTemplateStr );
 
-            string nullReferenceText = string.Format( ExceptionStrings.NullOrEmptyParameter,
-                                                                    nameof( documentModels ) );
-
-            if (NullOrEmptyDocModelsReference( documentModels ))
-                throw new NullReferenceException( nullReferenceText );
-
             bool fillingIsSuccessful = this.fillWayStore[templateType].Fill( document, documentModels );
 
             if (!fillingIsSuccessful)
                 throw new InvalidOperationException( ExceptionStrings.UnsuccessFillOperation );
 
             SaveDocument( tempFilePath, document.Document );
-        }
-
-        private void CreateDefaultFile( string filePath = DefaultFilePath )
-        {
-            Document? document = CreateDefaultDocument( );
-
-            Style? style = document.Styles[StyleNames.Normal]!;
-            style.Font.Name = "Arial";
-
-            SaveDocument( filePath, document );
-        }
-
-        private static Document CreateDefaultDocument( )
-        {
-            // Create a new MigraDoc document.
-            var document = new Document( );
-
-            // Add a section to the document.
-            var section = document.AddSection( );
-
-            // Add a paragraph to the section.
-            var paragraph = section.AddParagraph( );
-
-            // Set font color.
-            paragraph.Format.Font.Color = Colors.DarkBlue;
-
-            // Add some text to the paragraph.
-            paragraph.AddFormattedText( "Hello, World!", TextFormat.Bold );
-
-            // Create the primary footer.
-            var footer = section.Footers.Primary;
-
-            // Add content to footer.
-            paragraph = footer.AddParagraph( );
-            paragraph.Add( new DateField { Format = "yyyy/MM/dd HH:mm:ss" } );
-            paragraph.Format.Alignment = ParagraphAlignment.Center;
-
-            // Add MigraDoc logo.
-            string imagePath = IOUtility.GetAssetsPath( @"migradoc/images/MigraDoc-128x128.png" )!;
-            document.LastSection.AddImage( imagePath );
-
-            return document;
         }
 
         private void SaveDocument( string filePath, Document? document )
@@ -156,7 +109,7 @@ namespace LegalFramework.Services.DocumentGenerator
             pdfRenderer.PdfDocument.Save( filePath );
         }
 
-        private string NewName( string documentType = "Document" )
+        private string NewName( string documentType = "DefaultPdfDocument" )
         {
             string dateFormat = "yyyyMMdd-Hmmss";
 
@@ -166,17 +119,6 @@ namespace LegalFramework.Services.DocumentGenerator
         private static ITemplatesFactory DefaultTemplates( ) => new DocumentTemplatesConfig( );
 
         private static IFillWayStore DefaultFillWays( ) => new FillWayFactory( );
-
-        private bool NullOrEmptyDocModelsReference( object[]? documentModels )
-        {
-            if (documentModels != null) return false;
-
-            if (documentModels.Length > 0) return false;
-
-            return true;
-        }
     }
 }
 
-//Style? style = document.Styles[ StyleNames.Normal ]!;
-//style.Font.Name = "Arial";

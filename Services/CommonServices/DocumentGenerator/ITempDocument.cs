@@ -11,7 +11,7 @@
         /// <param name="language"></param>
         /// <returns>Relative temp file path.</returns>
         public string? CreateFile( string? path, string? documentType,
-                                                 object[]? documentModel = default,
+                                                 object[]? documentModels = default,
                                                  string fileType = "pdf",
                                                  string language = "eng" );
     }

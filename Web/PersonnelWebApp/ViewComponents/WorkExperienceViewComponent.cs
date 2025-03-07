@@ -1,10 +1,12 @@
-﻿using LegalFramework.Services;
+﻿using LegalFramework.Services.CalculationOfWorkExperience;
+
 using Microsoft.AspNetCore.Mvc;
+
 using Payroll.ViewModels.EmployeeViewModels;
 
 namespace PersonnelWebApp.ViewComponents
 {
-	[ViewComponent( Name = "WorkExperience" )]
+    [ViewComponent( Name = "WorkExperience" )]
 	public class WorkExperienceViewComponent : ViewComponent
 	{
 		private readonly ICalculateExperience service;

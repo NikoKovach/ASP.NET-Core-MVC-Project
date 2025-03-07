@@ -9,6 +9,7 @@ namespace LegalFramework.Services.DocumentGenerator
         {
             this.Documents = new Dictionary<string, ITemplate>
             {
+                { "DefaultPdfDocument", new DefaultPdfTemplate() },
                 { "laborContract-bul-pdf", new LaborContractBulPdfTemplate() },
                 { "laborContract-eng-pdf", new LaborContractEngPdfTemplate() },
             };

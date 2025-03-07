@@ -9,6 +9,7 @@ namespace LegalFramework.Services.DocumentGenerator
         {
             this.FillWayStore = new Dictionary<string, IFill>( )
                                 {
+                                    { "DefaultPdfDocument" , new FillDefaultPdf()},
                                     { "laborContract-bul-pdf" , new FillLaborContractBulPdf()},
                                 };
         }

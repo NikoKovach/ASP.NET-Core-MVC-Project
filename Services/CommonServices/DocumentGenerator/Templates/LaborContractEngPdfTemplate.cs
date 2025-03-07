@@ -2,23 +2,22 @@
 
 namespace LegalFramework.Services.DocumentGenerator.Templates
 {
-	public class LaborContractEngPdfTemplate : ITemplate
-	{
-		public LaborContractEngPdfTemplate()
-		{
-			BuildTemplate();
-		}
+    public class LaborContractEngPdfTemplate : ITemplate
+    {
+        public LaborContractEngPdfTemplate( )
+        {
+            BuildTemplate( );
+        }
 
-		public Document Document { get; }
+        public Document Document { get; }
+        public IDictionary<string, Dictionary<string, Paragraph>> SectionsDictionary { get; set; }
 
-		IDictionary<string, Dictionary<string, Paragraph>> ITemplate.SectionsDic { get; set; }
+        //###################################################################
 
-		//###################################################################
+        private void BuildTemplate( )
+        {
+            //TODO :
+        }
 
-		private void BuildTemplate()
-		{
-			//TODO :
-		}
-
-	}
+    }
 }

@@ -99,8 +99,26 @@ namespace Payroll.Services.Test
         }
 
         [TestCaseSource( nameof( TestParameters_WriteNumberInWords_ResultTypeNumber ) )]
-        public void Method_WriteNumberInWords_ReturnRegularNumberInWords
+        public void Method_WriteNumberInWords_ReturnRegularNumberInWords_InputDecimal
                                                 ( decimal number, string result )
+        {
+            string? numberInWords = this.WriteNumberInWords( number );
+
+            Assert.That( numberInWords, Is.EqualTo( result ) );
+        }
+
+        [TestCaseSource( nameof( TestParameters_WriteNumberInWords_InputDoubleOutputNumber ) )]
+        public void Method_WriteNumberInWords_ReturnRegularNumberInWords_InputDouble
+                                                ( double number, string result )
+        {
+            string? numberInWords = this.WriteNumberInWords( number );
+
+            Assert.That( numberInWords, Is.EqualTo( result ) );
+        }
+
+        [TestCaseSource( nameof( TestParameters_WriteNumberInWords_InputIntegerNumber ) )]
+        public void Method_WriteNumberInWords_ReturnRegularNumberInWords_InputInteger
+                                                ( int number, string result )
         {
             string? numberInWords = this.WriteNumberInWords( number );
 
@@ -111,12 +129,45 @@ namespace Payroll.Services.Test
         public void Method_WriteNumberInWords_ReturnCurrency
                                                 ( decimal number, string cultureName, string result )
         {
-            string? numberInWords = this.WriteNumberInWords( number, SupportConstants.Currency, cultureName );
+            string? numberInWords = this.WriteNumberInWords
+                                    ( number, SupportConstants.Currency, cultureName );
 
             Assert.That( numberInWords, Is.EqualTo( result ) );
         }
 
-        //##########################################################
+        [TestCaseSource( nameof( TestParameters_WriteNumberInWords_ReturnCurrency_InputDouble ) )]
+        public void Method_WriteNumberInWords_ReturnCurrency_InputDouble
+                                                ( double number, string cultureName, string result )
+        {
+            string? numberInWords = this.WriteNumberInWords
+                                    ( number, SupportConstants.Currency, cultureName );
+
+            Assert.That( numberInWords, Is.EqualTo( result ) );
+        }
+
+        [Test]
+        public void GetCurrencySymbol( )
+        {
+            string germanSwiss = "de-CH";
+            //string frenchSwiss = "fr-CH";
+            //string italianSwiss = "it-CH";
+            //string usCultureName = "en-US";
+            //string japanCultureName = "ja-JP";
+
+            string germanResult = "CHF";
+            //string frenchResult = "CHF";
+            //string italianResult = "CHF";
+
+            var currencySymbol = this.GetCurrencySymbol( germanSwiss );
+
+            var currentCulture = this.GetCultureInfo( germanSwiss );
+
+            //var currency = currentCulture.
+
+            Assert.That( currencySymbol, Is.EqualTo( germanResult ) );
+        }
+
+        //###############################################################################
 
         public static object[] WholeNumbersList =
         {
@@ -369,22 +420,88 @@ namespace Payroll.Services.Test
                                               + "point nought nine nine nine"},
         };
 
+        public static object[] TestParameters_WriteNumberInWords_InputDoubleOutputNumber =
+        {
+            new object[] {0.1,"point one"},
+            new object[] {1.1,"one point one"},
+            new object[] {9.01,"nine point nought one"},
+            new object[] {10.001,"ten point nought nought one"},
+            new object[] {11.0001,"eleven point nought nought nought one"},
+            new object[] {19.1000,"nineteen point one"},
+            new object[] {20.0100,"twenty point nought one"},
+            new object[] {90.0010,"ninety point nought nought one"},
+            new object[] {99.12,"ninety-nine point one two"},
+            new object[] {100.19,"one hundred point one nine"},
+            new object[] {101.22,"one hundred one point two two"},
+            new object[] {112.101,"one hundred twelve point one nought one"},
+            new object[] {999.110,"nine hundred ninety-nine point one one"},
+            new object[] {1000.199,"one thousand point one nine nine"},
+            new object[] {10_000.1001,"ten thousand point one nought nought one"},
+            new object[] {10_001.1010,"ten thousand one point one nought one"},
+            new object[] {19_100.1101,"nineteen thousand one hundred point one one nought one"},
+            new object[] {101_001.9999555554444,"one hundred one thousand two"},
+            new object[] {9_888_100.09994444,"nine million eight hundred eighty-eight thousand one hundred "
+                                           + "point nought nine nine nine"},
+        };
+
+        public static object[] TestParameters_WriteNumberInWords_InputIntegerNumber =
+        {
+            new object[] {1,"one"},
+            new object[] {9,"nine"},
+            new object[] {10,"ten"},
+            new object[] {11,"eleven"},
+            new object[] {19,"nineteen"},
+            new object[] {20,"twenty"},
+            new object[] {90,"ninety"},
+            new object[] {99,"ninety-nine"},
+            new object[] {100,"one hundred"},
+            new object[] {101,"one hundred one"},
+            new object[] {112,"one hundred twelve"},
+            new object[] {999,"nine hundred ninety-nine"},
+            new object[] {1000,"one thousand"},
+            new object[] {10_000,"ten thousand"},
+            new object[] {10_001,"ten thousand one"},
+            new object[] {19_100,"nineteen thousand one hundred"},
+            new object[] {101_001,"one hundred one thousand one"},
+            new object[] {9_888_100,"nine million eight hundred eighty-eight thousand one hundred"},
+        };
+
         public static object[] TestParameters_WriteNumberInWords_ResultTypeCurrency =
         {
-            new object[] {1.89999999999m,  "fr-FR", "one,90 €"},
-            new object[] {9.99999555555m,  "fr-FR", "ten,00 €"},
-            new object[] {10m, "fr-FR", "ten,00 €"},
-            new object[] {11.010008888m, "fr-FR", "eleven,01 €" },
-            new object[] {19.109999999m, "fr-FR", "nineteen,11 €" },
-            new object[] {20.99999998888m, "fr-FR", "twenty-one,00 €"},
-            new object[] {99.999999994447m, "fr-FR", "one hundred,00 €"},
-            new object[] {41.009999999m, "fr-FR", "fourty-one,01 €"},
-            new object[] {999.999888888m,"fr-FR", "one thousand,00 €"},
-            new object[] {9999.9995555555m,"fr-FR", "ten thousand,00 €"},
+            new object[] {1.89999999999m,  "es-ES", "one € and 90 cents"},
+            new object[] {9.99999555555m,  "es-ES", "ten €"},
+            new object[] {10m, "fr-FR", "ten €"},
+            new object[] {11.010008888m, "fr-FR", "eleven € and 01 cent" },
+            new object[] {19.109999999m, "fr-FR", "nineteen € and 11 cents" },
+            new object[] {20.99999998888m, "fr-FR", "twenty-one €"},
+            new object[] {99.999999994447m, "fr-FR", "one hundred €"},
+            new object[] {41.009999999m, "fr-FR", "fourty-one € and 01 cent"},
+            new object[] {999.999888888m,"fr-FR", "one thousand €"},
+            new object[] {9999.9995555555m,"fr-FR", "ten thousand €"},
+            new object[] {100_100.09678m,"fr-FR", "one hundred thousand one hundred € and 10 cents"},
+            new object[] {110_000.9997777m,"fr-FR", "one hundred ten thousand one €"},
+            new object[] {111_000.774444m,"fr-FR", "one hundred eleven thousand € and 77 cents"},
+        };
 
-            new object[] {100_100.09678m,"fr-FR", "one hundred thousand one hundred,10 €"},
-            new object[] {110_000.9997777m,"fr-FR", "one hundred ten thousand one,00 €"},
-            new object[] {111_000.774444m,"fr-FR", "one hundred eleven thousand,77 €"},
+        public static object[] TestParameters_WriteNumberInWords_ReturnCurrency_InputDouble =
+        {
+            new object[] {1.89999999999,  "es-ES", "one € and 90 cents"},
+            new object[] {9.99999555555,  "es-ES", "ten €"},
+            new object[] {10, "fr-FR", "ten €"},
+            new object[] {11.010008888, "fr-FR", "eleven € and 01 cent" },
+            new object[] {19.109999999, "fr-FR", "nineteen € and 11 cents" },
+            new object[] {20.99999998888, "fr-FR", "twenty-one €"},
+            new object[] {99.999999994447, "fr-FR", "one hundred €"},
+            new object[] {41.009999999, "fr-FR", "fourty-one € and 01 cent"},
+            new object[] {999.999888888,"fr-FR", "one thousand €"},
+            new object[] {9999.9995555555,"fr-FR", "ten thousand €"},
+            new object[] {100_100.09678,"fr-FR", "one hundred thousand one hundred € and 10 cents"},
+            new object[] {110_000.9997777,"fr-FR", "one hundred ten thousand one €"},
+            new object[] {111_000.774444,"fr-FR", "one hundred eleven thousand € and 77 cents"},
+
+            new object[] {111_000.774444,"en-US", "one hundred eleven thousand $ and 77 cents"},
+            new object[] {111_000.00001234,"en-US", "one hundred eleven thousand $"},
+            new object[] {111_000.051345, "ja-JP", "one hundred eleven thousand ￥ and 05 subunits"},
         };
     }
 }
